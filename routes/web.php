@@ -129,6 +129,7 @@ Route::controller(QuestionsController::class)->group(function(){
     Route::delete('/admin/panel/question-delete/{question}', 'delete')->name('question.delete');
     Route::get('/admin/panel/question-add', 'create')->name('question.add');
     Route::post('/admin/panel/question-store', 'store')->name('question.store');
+    Route::get('/admin/panel/question-edit/{id}', 'edit')->name('question.edit');
 });
 
 Route::controller(ExaminationManagementSystem::class)->middleware(['auth', 'verified'])->group(function(){

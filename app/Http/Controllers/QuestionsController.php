@@ -70,14 +70,25 @@ class QuestionsController extends Controller
         
         // Save the option to the options table
         $option->save();
-        //aries
-        return redirect()->route('admin.showAllUsers')->with('success', 'Successfully Added new User!');
+        
+        return redirect()->route('question.all')->with('success', 'Successfully Added new User!');
 
+    }
+
+    public function edit($id){
+
+        //$question = Question::with('subjects')->findOrFail($id);
+
+        //dd($question);
+        return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuestionsManagement/QuestionUpdate', [
+            'question' => Question::with('subjects')->findOrFail($id),
+        ]);
     }
 
     public function update(){
 
     }
+
 
 
     public function delete(Question $question){
