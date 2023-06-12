@@ -70,7 +70,7 @@ class QuestionsController extends Controller
         
         // Save the option to the options table
         $option->save();
-        
+        //aries
         return redirect()->route('admin.showAllUsers')->with('success', 'Successfully Added new User!');
 
     }
