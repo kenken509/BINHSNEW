@@ -13,4 +13,8 @@ class Question extends Model
     public function choices(){
         return $this->hasOne(Choice::class);
     }
+
+    public function subjects(){
+        return $this->belongsTo(Subject::class, 'subject_id');
+    }
 }

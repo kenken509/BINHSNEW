@@ -126,6 +126,9 @@ Route::controller(UserManagementController::class)->middleware(['auth','verified
 
 Route::controller(QuestionsController::class)->group(function(){
     Route::get('admin/panel/exam-management/question-all', 'questionsShow' )->name('question.all');
+    Route::delete('/admin/panel/question-delete/{question}', 'delete')->name('question.delete');
+    Route::get('/admin/panel/question-add', 'create')->name('question.add');
+    Route::post('/admin/panel/question-store', 'store')->name('question.store');
 });
 
 Route::controller(ExaminationManagementSystem::class)->middleware(['auth', 'verified'])->group(function(){

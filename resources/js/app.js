@@ -30,6 +30,7 @@ import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';   // optional
 import Row from 'primevue/row'; 
 import Password from 'primevue/password';
+import Textarea from 'primevue/textarea';
 
 //flowbite
 // import { 
@@ -70,6 +71,7 @@ createInertiaApp({
       .use(initFlowbite)
       .use(PrimeVue, {ripple: true})
       .use(ToastService)
+      .component('Textarea',Textarea)
       .component('Dialog',Dialog)
       .component('Column',Column)
       .component('ColumnGroup',ColumnGroup)

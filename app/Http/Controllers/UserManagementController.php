@@ -554,7 +554,7 @@ class UserManagementController extends Controller
 
 
     public function userDelete(User $user){
-
+        
         //delete image if there's one
         if($user->image){
             Storage::disk('public')->delete($user->image);

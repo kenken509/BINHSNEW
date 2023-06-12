@@ -15,4 +15,7 @@ class Subject extends Model
         return $this->hasMany(User::class,'subject_id', 'id');
     }
 
+    public function question(){
+        return $this->hasMany(Question::class,'subject_id','id');
+    }
 }
