@@ -6,6 +6,16 @@
         <div>
             <form @submit.prevent="submit">
                 <div>
+                    
+                   
+                    <div class="grid grid-cols-12">
+                        <div v-if="user.role === 'admin'" class="w-full mb-4 col-span-12 md:col-span-4 " >
+                            <div class="mb-5">Subject: </div>
+                            <Dropdown  v-model="selectedSubject" :options="props.subjects" optionLabel="name" placeholder="Select a Subject" class="w-full md:w-14rem " />
+                            <InputError :error="form.errors.subject_id"/>
+                        </div>
+                    </div>
+                   
                     <div class="w-full mb-4 col-span-12 md:col-span-4 ">
                         <div class="mb-5">Question: </div>
                         <span class="p-float-label">
@@ -73,13 +83,17 @@
 <script setup>
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
 import { usePage, Link, useForm  } from '@inertiajs/vue3';
+import { ref, watch } from 'vue'
 import InputError from '../../../../GlobalComponent/InputError.vue';
 
+
 const user = usePage().props.user;
+const selectedSubject = ref("");
 
 const form = useForm({
     question: null,
     correct_answer:null,
+    subject_id:user.subject_id,
     option_a:null,
     option_b:null,
     option_c:null,
@@ -90,4 +104,14 @@ const submit = ()=> form.post(route('question.store'),{
     preserveScroll: true,
     // onSuccess: () => form.reset('images'), // if sucessfull reset image input
 })
+
+const props = defineProps({
+    subjects:Array
+})
+
+watch(selectedSubject, (val) =>{
+    //console.log(val.id)
+    form.subject_id = val.id
+})
+
 </script>

@@ -48,6 +48,7 @@ class HandleInertiaRequests extends Middleware
                 'email' => $request->user()->email,
                 'role' => $request->user()->role,
                 'image' => $request->user()->image,
+                'subject_id' => $request->user()->subject_id,
             ] : null,
         ]);
     }

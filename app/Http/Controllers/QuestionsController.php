@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Models\Question;
 use App\Models\Choice;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -19,7 +20,9 @@ class QuestionsController extends Controller
     }
 
     public function create(){
-        return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuestionsManagement/QuestionAdd');
+        return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuestionsManagement/QuestionAdd', [
+            'subjects' => Subject::all(),
+        ]);
     }
 
     // question: null,
@@ -30,25 +33,26 @@ class QuestionsController extends Controller
     // option_d:null,
     public function store(Request $request){
 
-        
+        //dd($request->subject_id);
         $data = $request->validate([
-            'question' => 'required|min:11|max:500',
-            'correct_answer' => 'required',
-            'option_a' => 'required',
-            'option_b' => 'required',
-            'option_c' => 'required',
-            'option_d' => 'required',
+            'subject_id'        => 'required',
+            'question'          => 'required|min:11|max:500',
+            'correct_answer'    => 'required',
+            'option_a'          => 'required',
+            'option_b'          => 'required',
+            'option_c'          => 'required',
+            'option_d'          => 'required',
         ]);
 
         if($data){
                 //if role == admin do this
-                
+
                 //if role == instructor do this
                 $newQuestion = new Question();
 
                 $newQuestion->question          = $request->question;
                 $newQuestion->correct_answer    = $request->correct_answer;
-                $newQuestion->subject_id        = Auth::user()->subject_id;
+                $newQuestion->subject_id        = $request->subject_id;
                 $newQuestion->created_by        = Auth::user()->id;
                 $newQuestion->created_at        = Carbon::now();
                 $newQuestion->save();
