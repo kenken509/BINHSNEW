@@ -140,4 +140,5 @@ Route::controller(ExaminationManagementSystem::class)->middleware(['auth', 'veri
 
 Route::controller(QuizManagementController::class)->group(function(){
     Route::get('admin/panel/quiz/show', 'show')->name('quiz.show');
+    Route::get('admin/panel/quiz/add', 'create')->name('quiz.add');
 });

@@ -13,5 +13,10 @@ class QuizManagementController extends Controller
         return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/QuizAll', [
             'quizzes' => Quiz::with(['question','subject'])->latest()->get(),
         ]);
+
+    }
+
+    public function create(){
+        return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/QuizAdd');
     }
 }
