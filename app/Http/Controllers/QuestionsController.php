@@ -71,7 +71,7 @@ class QuestionsController extends Controller
         // Save the option to the options table
         $option->save();
         
-        return redirect()->route('question.all')->with('success', 'Successfully Added new User!');
+        return redirect()->route('question.all')->with('success', 'Successfully Updated!');
 
     }
 
@@ -80,13 +80,53 @@ class QuestionsController extends Controller
         //$question = Question::with('subjects')->findOrFail($id);
 
         //dd($question);
-        return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuestionsManagement/QuestionUpdate', [
-            'question' => Question::with('subjects')->findOrFail($id),
+        return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuestionsManagement/QuestionEdit', [
+            'question' => Question::with(['subjects','choices'])->findOrFail($id),
+            'subjects' => Subject::all(),
         ]);
     }
 
-    public function update(){
+    /* 
+        "subject_id" => 2
+        "question" => "this is a question posted by an admin for ict subject"
+        "correct_answer" => "test answer"
+        "option_a" => "a"
+        "option_b" => "b"
+        "option_c" => "c"
+        "option_d" => "d"
+    */
+    public function update(Request $request){
+        
+        $data = $request->validate([
+            'subject_id'        => 'required',
+            'question'          => 'required|min:11|max:500',
+            'correct_answer'    => 'required',
+            'option_a'          => 'required',
+            'option_b'          => 'required',
+            'option_c'          => 'required',
+            'option_d'          => 'required',
+        ]);
 
+        if($data){
+            
+            $updateQuestion = Question::with(['choices'])->findOrFail($request->questionId);
+            
+            $updateQuestion->subject_id         = $request->subject_id;
+            $updateQuestion->question           = $request->question;
+            $updateQuestion->correct_answer     = $request->correct_answer;
+            $updateQuestion->updated_by         = Auth::user()->id;
+            $updateQuestion->updated_at         = Carbon::now();
+            $updateQuestion->save();
+            $choices                            = $updateQuestion->choices;
+            $choices->a                         = $request->option_a;
+            $choices->b                         = $request->option_b;
+            $choices->c                         = $request->option_c;
+            $choices->d                         = $request->option_d;
+            $choices->save();     
+
+        }
+
+        return redirect()->route('question.all')->with('success', 'Successfully Updated!');
     }
 
 

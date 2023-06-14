@@ -12,45 +12,47 @@
                             ID#
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Question
+                            Title
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Subject
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Answer
+                            Grading Period
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Type
+                            Duration
                         </th>
+
                         <th scope="col" class="px-6 py-3">
                             Action
                         </th>
                         
                     </tr>
                 </thead>
-                <tbody v-for="question in questions.questions" :key="question.id" >
+                <tbody v-for="quiz in quizzes.quizzes" :key="quiz.id" >
                     <tr class="bg-white border-b ">
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
-                        {{ question.id }}
+                        {{ quiz.id }}
                         </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
-                        {{ question.question }}
+                        {{ quiz.title }}
                         </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
-                            {{ question.subjects.name }}
+                            {{ quiz.subject.name}}
                         </td>
-                        <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
-                        <span class="text-red-600">{{ question.correct_answer }}</span>
+                
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
+                            {{ quiz.grading_period }}
                         </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
-                            {{ question.question_type }}
+                            {{ quiz.duration }} mins
                         </td>
                         <td>
                             <div class=" space-x-4">
-                                <Link :href="route('question.delete', {question: question.id})" class="cursor-pointer" v-tooltip.left="'Delete Question'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
-                                <Link :href="route('question.edit', {id: question.id})" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit User'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
-                                <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'View full info'" @click="openModal(question.id)" ></span>
+                                <Link href="#" class="cursor-pointer" v-tooltip.left="'Delete Question'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
+                                <Link href="#" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit User'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
+                                <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'View full info'" @click="openModal(quiz.id)" ></span>
                             </div>    
                         </td>
                     </tr>
@@ -59,11 +61,14 @@
             </table>
             <!--MODAL-->
             <Dialog v-model:visible="visible" modal header="Question Info"  :style="{ width: '50vw' }" :breakpoints="{ '960px': '75vw', '641px': '100vw' }">
-                <div v-for="question in questions.questions">
+                <div v-for="quiz in quizzes.quizzes" :key="quiz.id">
                     <div v-if="question.id === questionId"> 
-                    <div><span class="text-xl">Question : {{ question.question }}</span></div> 
+                    <div><span class="text-xl">Title : {{ quiz.title }}</span></div> 
+                    <div><span class="text-xl">Subject : {{ quiz.subject.name }}</span></div> 
+                    <div><span class="text-xl">Grading Period : {{ quiz.grading_period }}</span></div> 
+                    <div><span class="text-xl">Duration : {{ quiz.duration }}</span></div> 
                     <hr>
-                    <div>Correct answer : <span class="text-green-500">{{ question.correct_answer }}</span> </div> 
+                    <div>Correct answer : <span class="text-green-500">{{ quiz.question. }}</span> </div> 
                     <div class="ml-10">
                             
                             <div>Option a : {{ question.choices.a }}</div> 
@@ -95,8 +100,8 @@
  
  const user = usePage().props.user;
  
- const questions = defineProps({
-    questions: Array,
+ const quizzes = defineProps({
+    quizzes: Array,
  })
 
  const visible = ref(false);

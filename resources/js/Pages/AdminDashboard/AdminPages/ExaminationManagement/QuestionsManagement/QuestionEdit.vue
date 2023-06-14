@@ -25,7 +25,7 @@
                         <InputError :error="form.errors.question"/>
                     </div>
                     <div class="w-full mb-4 col-span-12 md:col-span-4 ">
-                        <div class="mb-5">Correct Answer: </div>
+                        <div class="mb-5">Correct Answer: {{ form.correct_answer }} </div>
                         <span class="p-float-label">
                             <InputText id="lastName" v-model="form.correct_answer" class="w-full"/>
                             <label for="lastName">Enter correct answer</label>
@@ -83,24 +83,44 @@
 <script setup>
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
 import { usePage, Link, useForm  } from '@inertiajs/vue3';
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import InputError from '../../../../GlobalComponent/InputError.vue';
 
 const user = usePage().props.user;
 
 const props = defineProps({
-    question:Object
+    question:Object,
+    subjects:Array
 });
 
-const selectedSubject = ref("");
+//************ 
+const questionSubject = props.subjects.filter((subject)=> subject.name === props.question.subjects.name)
+const selectedSubject = ref(null)
+onMounted(()=>{
+    selectedSubject.value = questionSubject[0]
+})
+//************
+
 
 const form = useForm({
-    question: null,
-    correct_answer:null,
-    subject_id:user.subject_id,
-    option_a:null,
-    option_b:null,
-    option_c:null,
-    option_d:null,
+    questionId: props.question.id,
+    subject_id:props.question.subjects.id,
+    question: props.question.question,
+    correct_answer:props.question.correct_answer,
+    option_a:props.question.choices.a,
+    option_b:props.question.choices.b,
+    option_c:props.question.choices.c,
+    option_d:props.question.choices.d,
+})
+
+watch(selectedSubject,(val)=>{
+    //console.log(val.id)
+    form.subject_id = val.id
+    
+})
+
+const submit = ()=> form.post(route('question.update'),{
+    preserveScroll: true,
+    // onSuccess: () => form.reset('images'), // if sucessfull reset image input
 })
 </script>

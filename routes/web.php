@@ -130,9 +130,14 @@ Route::controller(QuestionsController::class)->group(function(){
     Route::get('/admin/panel/question-add', 'create')->name('question.add');
     Route::post('/admin/panel/question-store', 'store')->name('question.store');
     Route::get('/admin/panel/question-edit/{id}', 'edit')->name('question.edit');
+    Route::post('/admin/panel/question-update', 'update')->name('question.update');
 });
 
 Route::controller(ExaminationManagementSystem::class)->middleware(['auth', 'verified'])->group(function(){
     Route::get('student-examination/home', 'showExamSystem')->name('studentExamination.show');
 });
 
+
+Route::controller(QuizManagementController::class)->group(function(){
+    Route::get('admin/panel/quiz/show', 'show')->name('quiz.show');
+});

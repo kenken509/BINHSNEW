@@ -10,8 +10,10 @@ class Question extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function choices(){
-        return $this->hasOne(Choice::class);
+        return $this->hasOne(Choice::class,'question_id','id');
     }
 
     public function subjects(){
