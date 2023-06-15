@@ -22,4 +22,8 @@ class Subject extends Model
     public function quiz(){
         return $this->hasMany(Quiz::class,'subject_id','id');
     }
+
+    public function subject(){
+        return $this->hasMany(Section::class,'subject_id', 'id');
+    }
 }
