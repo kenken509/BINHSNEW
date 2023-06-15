@@ -14,9 +14,9 @@
                         <div class="grid grid-cols-12">
                         <div v-if="user.role === 'admin'" class="w-full mb-4 col-span-12 md:col-span-4 " >
                             <div class="mb-5">Subject: </div>
-                            <Dropdown  v-model="selectedSubject" :options="props.subjects" optionLabel="name" placeholder="Select a Subject" class="w-full md:w-14rem " />
-                            <InputError :error="form.errors.subject_id"/>
-                        </div>
+                                <Dropdown  v-model="selectedSubject" :options="props.subjects" optionLabel="name" placeholder="Select a Subject" class="w-full md:w-14rem " />
+                                <InputError :error="form.errors.subject_id"/>
+                            </div>
                         </div>
                         <div class="w-full mb-4 ">
                             <div class="mb-5">Title: </div>

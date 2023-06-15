@@ -145,4 +145,9 @@ Route::controller(QuizManagementController::class)->group(function(){
 
 Route::controller(SectionController::class)->group(function(){
     Route::get('admin/panel/section/show', 'show')->name('section.show');
+    Route::get('admin/panel/section/section-add', 'create')->name('section.add');
+    Route::post('admin/panel/section/section-store', 'store')->name('section.store');
+    Route::delete('admin/panel/section/section-delete/{section}', 'delete')->name('section.delete');
+    Route::get('admin/panel/section/section-edit/{id}', 'edit')->name('section.edit');
+    Route::post('admin/panel/section/section-update', 'update')->name('section.update');
 });
