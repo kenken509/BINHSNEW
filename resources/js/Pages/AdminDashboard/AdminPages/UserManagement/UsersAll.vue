@@ -6,7 +6,7 @@
                     <div class="col-span-6 md:col-span-5">
                         <span class="text-[20px] font-bold text-gray-500">All Users Page</span>
                     </div>
-                    <div class="col-span-6 md:col-span-1 item-center">
+                    <div v-if="user.role === 'admin'" class="col-span-6 md:col-span-1 item-center">
                         <form @submit.prevent="submit">
                             <Dropdown  v-model="selectedRole" :options="filter" optionLabel="role" placeholder="Sort by role" class="w-full md:w-14rem " />
                         </form> 

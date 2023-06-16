@@ -21,16 +21,25 @@ class UserManagementController extends Controller
         //dd(User::orderByDesc('created_at')->paginate(10));
         
         $filters = $request->role;
-        //$test = Subject::findOrFail(1)->user();
-        //$test->all();
+        
+        $userRole = Auth::user()->role;
+        $userSubjectId = Auth::user()->subject_id;
         
         $query = User::with(['subject','section'])->latest();
-        //dd($query);
-        //dd($query);
-        
-        return inertia('AdminDashboard/AdminPages/UserManagement/UsersAll',[
-            'users' =>$query->filteredData($filters)->paginate(10),
-        ]);
+    
+        if($userRole == 'admin'){
+            return inertia('AdminDashboard/AdminPages/UserManagement/UsersAll',[
+                'users' =>$query->filteredData($filters)->paginate(10),
+            ]);
+        }
+
+        if($userRole == 'instructor'){
+            $query = User::with(['subject','section'])->where('subject_id','=', $userSubjectId)->latest();
+            return inertia('AdminDashboard/AdminPages/UserManagement/UsersAll',[
+                'users' =>$query->paginate(10),
+            ]);
+        }
+       
     }
 
     public function showAddUser(){
@@ -41,7 +50,7 @@ class UserManagementController extends Controller
     }
 
     public function userStore(Request $request){
-        dd(Auth::user()->role);
+        //dd(Auth::user()->role);
         //if currently logged in user role is admin ***********************************************
         $date = date_create($request->birthDate);
         $age = Carbon::parse($request->birthDate)->age;
@@ -552,11 +561,10 @@ class UserManagementController extends Controller
 
 
     public function showEditUser($id){
-
         return inertia('AdminDashboard/AdminPages/UserManagement/UserEdit',[
             'user' => User::findOrFail($id),
-            'userSubject' => User::findOrFail($id)->subject,
-            'subjects' => Subject::all()
+            'userSubject' => User::with('section')->findOrFail($id),
+            'subjects' => Subject::with('section')->get(),
         ]);
     }
 
