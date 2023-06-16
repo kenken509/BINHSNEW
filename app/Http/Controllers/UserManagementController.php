@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Section;
 use App\Models\Subject;
 use App\Models\TestModel;
 use App\Models\TestSubject;
@@ -23,7 +24,7 @@ class UserManagementController extends Controller
         //$test = Subject::findOrFail(1)->user();
         //$test->all();
         
-        $query = User::latest();
+        $query = User::with(['subject','section'])->latest();
         //dd($query);
         //dd($query);
         
@@ -33,13 +34,15 @@ class UserManagementController extends Controller
     }
 
     public function showAddUser(){
+        //dd(Subject::with('section')->get());
         return inertia('AdminDashboard/AdminPages/UserManagement/UserAdd', [
-            'subjects' => Subject::all()
+            'subjects' => Subject::with('section')->get(),
         ]);
     }
 
     public function userStore(Request $request){
-    
+        dd(Auth::user()->role);
+        //if currently logged in user role is admin ***********************************************
         $date = date_create($request->birthDate);
         $age = Carbon::parse($request->birthDate)->age;
     
@@ -139,6 +142,7 @@ class UserManagementController extends Controller
                     'barangay'      => 'required',
                     'role'          => 'required',
                     'subject_id'    => 'required',
+                    'section_id'    => 'required',
                     'fatherName'    => 'required',
                     'motherName'    => 'required',
                     'age'           => 'nullable',
@@ -156,6 +160,7 @@ class UserManagementController extends Controller
                     'barangay.required'         => 'Baranggay is required',
                     'role'                      => 'Role is required',
                     'subject_id'                => 'Subject is required',
+                    'section_id'                => 'Section is required',
                     'fatherName'                => "The father's name field is required",
                     'motherName'                => "The mother's name field is required",
                     
@@ -280,6 +285,7 @@ class UserManagementController extends Controller
                     'barangay'      => 'required',
                     'role'          => 'required',
                     'subject_id'    => 'required',
+                    'section_id'    => 'required',
                     'fatherName'    => 'required',
                     'motherName'    => 'required',
                     'age'           => 'nullable',
@@ -295,6 +301,8 @@ class UserManagementController extends Controller
                     'province.required'         => 'Province is required',
                     'city.required'             => 'City is required',
                     'barangay.required'         => 'Baranggay is required',
+                    'subject_id'                => 'Subject is required',
+                    'section_id'                => 'Section is required',
                     'role'                      => 'Role is required',
                     'subject_id'                => 'Subject is required',
                 ]));
@@ -349,7 +357,7 @@ class UserManagementController extends Controller
                 return redirect()->route('admin.showAllUsers')->with('success', 'Successfully Added new User!');
             }
         }
-       
+       //if currently logged in user role is admin ***********************************************
     }
 
 

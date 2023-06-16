@@ -84,5 +84,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Subject::class, 'subject_id', 'id'); //fist param model , second is the foreignkey in the model table, 3rd is the local key in the user's table)
     }
 
+    public function section(){
+        return $this->belongsTo(Section::class, 'section_id', 'id');
+    }
+
     
 }

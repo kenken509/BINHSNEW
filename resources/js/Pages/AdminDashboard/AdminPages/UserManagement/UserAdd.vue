@@ -7,15 +7,49 @@
         <form @submit.prevent="submit">
             <div class="grid grid-cols-12   gap-4 w-full mt-12 ">
                 <!--role-->
-                <div class="w-full mb-4 col-span-12 border-bot-only px-2 ">Role</div>
-                <div class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
+                <div v-if="user.role === 'admin'" class="w-full mb-4 col-span-12 border-bot-only px-2 ">Role</div>
+                <div v-if="user.role === 'admin'" class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
                     <Dropdown  v-model="selectedRole" :options="roleList" optionLabel="role" placeholder="Select a Role" class="w-full md:w-14rem " />
                     <InputError :error="form.errors.role"/>
                 </div>
-                <div v-if="isTeacher || isStudent" class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
+                <!--Adding teacher-->
+                <div v-if="isTeacher" class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
                     <Dropdown  v-model="selectedSubject" :options="props.subjects" optionLabel="name" placeholder="Select a Subject" class="w-full md:w-14rem " />
                     <InputError :error="form.errors.subject_id"/>
+                    
                 </div>
+                <!--Adding teacher-->
+
+                <!--adding student-->   
+                <div v-if="isStudent" class=" w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
+                    <div class="flex  flex-col md:flex-row">
+                        <div class="w-full mr-4 mb-4">
+                            <Dropdown  v-model="selectedSubject" :options="props.subjects" optionLabel="name" placeholder="Select a Subject" class="w-full md:w-14rem " />
+                            <InputError :error="form.errors.subject_id"/>
+                        </div>
+                        
+                        <div v-for="subject in props.subjects" :key="subject.id" class="w-full">
+                            <div v-if="subject.id === selectedSubject.id">
+                                <Dropdown  v-model="selectedSection" :options="subject.section" optionLabel="name" placeholder="Select a section" class="w-full md:w-14rem " />
+                                <InputError :error="form.errors.section_id"/>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!--adding student--> 
+                
+                
+                
+                <!--SECTIONS-->
+                <!-- <div v-if="isStudent" class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
+                    <div v-for="sections in props.subjects.section">
+                        {{ section.name }}
+                    </div>
+                    <Dropdown  v-model="selectedSection" :options="props.sections" optionLabel="name" placeholder="Select a Section" class="w-full md:w-14rem " />
+                    <InputError :error="form.errors.sections"/>
+                </div> -->
+                <!--SECTIONS-->
 
                 <div class="col-span-12 mb-3 border-bot-only px-2">Personal Info</div>
                 <div class="w-full col-span-12 md:col-span-4 ">
@@ -172,7 +206,8 @@ import InputError from '../../../GlobalComponent/InputError.vue';
 
 
 const props = defineProps({
-    subjects:Array
+    subjects:Array,
+    sections:Array
 })
 
 
@@ -223,16 +258,17 @@ regions().then((region)=> regionList.value = region)
 
 
 //selected values
-const selectedRegion = ref({})
-const selectedProvince = ref({})
-const selectedCity = ref({})
-const selectedBrgy = ref({})
-const selectedRole = ref({})
-const selectedSubject = ref({})
-const selectedGender = ref({})
-const selectedCivilStatus = ref('')
-const isTeacher = ref(false)
-const isStudent = ref(false)
+const selectedRegion        = ref({})
+const selectedProvince      = ref({})
+const selectedCity          = ref({})
+const selectedBrgy          = ref({})
+const selectedRole          = ref({})
+const selectedSubject       = ref({})
+const selectedGender        = ref({})
+const selectedSection       = ref({})
+const selectedCivilStatus   = ref('')
+const isTeacher             = ref(false)
+const isStudent             = ref(false)
 
 
 watch([selectedGender, selectedCivilStatus, isStudent], ([newSelectedGender, newSelectedCivilStatus])=>{
@@ -294,6 +330,12 @@ watch(selectedBrgy, (val) =>{
     form.barangay = val.brgy_code
 })
 
+watch(selectedSection,(val)=>{
+    //console.log(val)
+    form.section_id = val.id;
+    
+})
+
 const form = useForm({
     fName: null,
     mName: null,
@@ -310,6 +352,7 @@ const form = useForm({
     barangay: null,
     role: null,
     subject_id: null,
+    section_id: null,
     password: null,
     fatherName:null,
     motherName:null,

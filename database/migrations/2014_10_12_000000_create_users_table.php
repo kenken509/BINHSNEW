@@ -35,12 +35,14 @@ return new class extends Migration
             $table->String('barangay')->nullable();
             $table->enum('role', ['admin','instructor','student','guest'])->nullable();
             $table->unsignedBigInteger('subject_id')->nullable();
+            $table->unsignedBigInteger('section_id')->nullable();
             $table->rememberToken();
             // accountability
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
 
             $table->foreign('subject_id')->references('id')->on('subjects')->restrictOnDelete()->restrictOnUpdate();
+            $table->foreign('section_id')->references('id')->on('sections')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamps();
         });
 

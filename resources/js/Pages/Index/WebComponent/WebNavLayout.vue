@@ -164,7 +164,7 @@
                     
                         <div v-if="currentUser" class="lg:pr-2" data-te-nav-item-ref>
                             <a
-                                v-if="currentUser.role==='admin'"
+                                v-if="currentUser.role==='admin' || currentUser.role==='instructor' "
                                 class="primary-text-black  hover:text-gray-600  focus:text-gray-400 focus:border-bot-only-focus"
                                 :href="route('admin.showAdminPanel')"
                                 data-te-nav-link-ref
