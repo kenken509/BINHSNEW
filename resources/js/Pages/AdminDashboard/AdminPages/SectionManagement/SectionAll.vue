@@ -18,6 +18,9 @@
                             Subject
                         </th>
                         <th scope="col" class="px-6 py-3">
+                            Instructor
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                             Action
                         </th>
                         
@@ -33,6 +36,9 @@
                         </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                             {{ section.subject.name}}
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
+                            {{ section.instructor.fName+', '+ section.instructor.lName }}
                         </td>
                 
                         

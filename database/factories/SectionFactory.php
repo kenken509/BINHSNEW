@@ -17,8 +17,9 @@ class SectionFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => '32A1',
-            'subject_id' => 2,
+            'name'          => '32A1',
+            'subject_id'    => 2,
+            'instructor_id' => 2,
         ];
     }
 }

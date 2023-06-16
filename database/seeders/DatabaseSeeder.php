@@ -33,14 +33,14 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'SMAW'
         // ]);
 
-        \App\Models\User::factory(1)->create([
-            'fName' => 'aries',
-            'email' => 'kenortz@gmail.com',
-            'phoneNumber' => '639191234567',
-        ]);
+        // \App\Models\User::factory(1)->create([
+        //     'fName' => 'aries',
+        //     'email' => 'kenortz@gmail.com',
+        //     'phoneNumber' => '639191234567',
+        // ]);
 
 
         //section factory
-        //\App\Models\Section::factory(1)->create();
+        \App\Models\Section::factory(1)->create();
     }
 }

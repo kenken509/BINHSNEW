@@ -27,5 +27,8 @@ class Subject extends Model
         return $this->hasMany(Section::class,'subject_id', 'id');
     }
 
+    public function instructor(){
+        return $this->hasMany(User::class, 'subject_id', 'id');
+    }
     
 }

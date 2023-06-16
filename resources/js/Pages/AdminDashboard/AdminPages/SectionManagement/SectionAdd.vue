@@ -18,10 +18,21 @@
                 </div>
             </div>
                    
-            <div class="mb-5">Subject: </div>
+            <div class="mb-5">Strand: </div>
             <div>
                 <Dropdown  v-model="selectedSubject" :options="props.subjects" optionLabel="name" placeholder="Select a Subject" class="w-full md:w-14rem "  />
-                <!-- <InputError :error="form.errors.subject_id"/> -->
+                <InputError :error="form.errors.subject_id"/>
+            </div>
+            
+            <div class="mb-5">Instructor: </div>
+            <div v-for="subject in props.subjects">
+                <div v-if="subject === selectedSubject">
+                    <div>
+                        <Dropdown  v-model="selectedInstructor" :options="subject.instructor" optionLabel="lName" placeholder="Select a Instructor" class="w-full md:w-14rem "  />
+                        
+                    </div>
+                    <InputError :error="form.errors.instructor_id"/>
+                </div>
             </div>
             <div class="w-full mt-6 ">
                 <Button label="Add" class="w-full" type="submit"/>
@@ -49,16 +60,20 @@ const props = defineProps({
 
 
 const selectedSubject = ref(null);
+const selectedInstructor = ref(null);
 
 const form = useForm({
     name:null,
     subject_id:null,
+    instructor_id:null,
 })
 
 watch(selectedSubject,(val)=>{
     //console.log(val.id);
     form.subject_id = val.id;
-    
+})
+watch(selectedInstructor,(val)=>{
+    form.instructor_id = val.id;
 })
 
 const submit = () => form.post(route('section.store',{

@@ -6,15 +6,16 @@
         
         <form @submit.prevent="submit">
             <div class="grid grid-cols-12   gap-4 w-full mt-12 ">
-                    
+                
                  <!--role-->
                 <div class="w-full mb-4 col-span-12 border-bot-only px-2 ">Role</div>
                 <div class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
                     <Dropdown  v-model="selectedRole" :options="roleList" optionLabel="role" placeholder="Select a Role" class="w-full md:w-14rem " />
                     <InputError :error="form.errors.role"/>
                 </div>
-                <div v-if="isTeacher || isStudent" class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
-                    <Dropdown  v-model="selectedSubject" :options="subjects" optionLabel="name" placeholder="Select a Subject" class="w-full md:w-14rem " />
+                  
+                <div v-if="isTeacher" class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
+                    <Dropdown  v-model="selectedSubject" :options="user.instructorSubjects" optionLabel="name" placeholder="Select a Subject" class="w-full md:w-14rem " />
                     <InputError :error="form.errors.subject_id"/>
                     
                 </div>
@@ -155,9 +156,10 @@ import { useForm, usePage } from '@inertiajs/vue3'
 import InputError from '../../../GlobalComponent/InputError.vue';
 
 const user = defineProps({
-    subjects:Array,
     user: Object,
     userSubject: Object,
+    instructorSubjects:Array,
+    studentSubjects:Array,
     
 })
 
@@ -198,7 +200,7 @@ onMounted(()=>{
             });
         });
     });
-
+    console.log(selectedSubject)
     if(user.user.role === 'instructor'){
         isTeacher.value = true
         isStudent.value = false
@@ -214,7 +216,8 @@ onMounted(()=>{
         isStudent.value = false
         form.role       = user.user.role
     }
-    selectedSubject.value       = user.userSubject
+    selectedSubject.value       =  user.user.subject
+
     selectedGender.value        = user.user.gender
     selectedCivilStatus.value   = user.user.civilStatus
 

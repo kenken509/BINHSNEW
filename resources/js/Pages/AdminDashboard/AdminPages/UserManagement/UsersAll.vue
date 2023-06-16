@@ -117,6 +117,14 @@
                                 <p>Contact #: {{ user.phoneNumber }}</p>
                                 <p>Subject: {{ user.subject.name }}</p>
                                 <p v-if="user.role === 'student'">Section: {{ user.section.name }}</p>
+                                <div v-if="user.role === 'instructor'">
+                                    Handled Sections:
+                                    <div v-for="(section, index) in user.instructor_section" :key="index" >
+                                        <p> {{ section.name }} </p>
+                                    </div>
+                                </div>
+                                
+                                
 
                             </div>
                             

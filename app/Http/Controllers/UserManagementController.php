@@ -19,13 +19,13 @@ class UserManagementController extends Controller
 {
     public function showAllUsers(Request $request){
         //dd(User::orderByDesc('created_at')->paginate(10));
-        
+        //dd(User::with(['subject','section','instructorSection'])->latest()->get());    
         $filters = $request->role;
         
         $userRole = Auth::user()->role;
         $userSubjectId = Auth::user()->subject_id;
         
-        $query = User::with(['subject','section'])->latest();
+        $query = User::with(['subject','section','instructorSection'])->latest();
     
         if($userRole == 'admin'){
             return inertia('AdminDashboard/AdminPages/UserManagement/UsersAll',[
@@ -561,10 +561,12 @@ class UserManagementController extends Controller
 
 
     public function showEditUser($id){
+        //dd(Subject::all());
         return inertia('AdminDashboard/AdminPages/UserManagement/UserEdit',[
-            'user' => User::findOrFail($id),
+            'user' => User::with(['subject','section'])->findOrFail($id),
             'userSubject' => User::with('section')->findOrFail($id),
-            'subjects' => Subject::with('section')->get(),
+            'studentSubjects' => Subject::with('section')->latest()->get(),
+            'instructorSubjects' => Subject::all(),
         ]);
     }
 

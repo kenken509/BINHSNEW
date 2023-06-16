@@ -18,4 +18,8 @@ class Section extends Model
     public function user(){
         return $this->hasMany(User::class, 'section_id', 'id');
     }
+
+    public function instructor(){
+        return $this->belongsTo(User::class, 'instructor_id', 'id');
+    }
 }

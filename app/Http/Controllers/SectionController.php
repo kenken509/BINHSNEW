@@ -13,25 +13,29 @@ class SectionController extends Controller
     public function show(){
         
         //dd(Section::with('subject')->latest()->get());
+        //dd(Section::with(['subject', 'instructor'])->latest()->get());
         return inertia('AdminDashboard/AdminPages/SectionManagement/SectionAll', [
-            'sections' => Section::with('subject')->latest()->get(),
+            'sections' => Section::with(['subject', 'instructor'])->latest()->get(),
         ]);
     }
 
     public function create(){
+        
         return inertia('AdminDashboard/AdminPages/SectionManagement/SectionAdd', [
-            'subjects' => Subject::latest()->get(),
+            'subjects' => Subject::with('instructor')->get(),
         ]);
     }
 
     public function store(Request $request){
-
+        
         //{"name":"32A1","subject_id":1}
         $section = Section::make($request->validate([
             'name'          => 'required',
             'subject_id'    => 'required',
+            'instructor_id'   => 'required',
         ],[
             'name.unique' => 'Please enter non-existing section',
+
         ]));
 
         $section->save();
