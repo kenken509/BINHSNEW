@@ -44,17 +44,31 @@ class UserManagementController extends Controller
 
     public function showAddUser(){
         //dd(Subject::with('section')->get());
-        return inertia('AdminDashboard/AdminPages/UserManagement/UserAdd', [
-            'subjects' => Subject::with('section')->get(),
-        ]);
+        $currentlyLoggedUser = Auth::user()->role;
+
+
+        if($currentlyLoggedUser == 'admin'){
+            return inertia('AdminDashboard/AdminPages/UserManagement/UserAdd', [
+                'subjects' => Subject::with('section')->get(),
+            ]);
+        }
+
+        if($currentlyLoggedUser == 'instructor'){
+            return inertia('AdminDashboard/AdminPages/UserManagement/InstructorRolePages/UserAdd', [
+                'subjects' => Subject::with('section')->get(),
+            ]);
+        }
+        
     }
 
     public function userStore(Request $request){
+        
         //dd(Auth::user()->role);
         //if currently logged in user role is admin ***********************************************
         $date = date_create($request->birthDate);
         $age = Carbon::parse($request->birthDate)->age;
-    
+        
+
         //$defaultPassword = $request->lName;
         //$request->password = $defaultPassword;
         
@@ -124,6 +138,7 @@ class UserManagementController extends Controller
                 return redirect()->route('admin.showAllUsers')->with('success', 'Successfully Added new User!');
             }
             elseif($request->role == 'student'){ //student with image
+                // ITO LANG ANG GAGALAWIN MO NGAYON >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 $file               = $request->file('image')[0];
                 $originalName       = $file->getClientOriginalName();
                 $email              = $request->email;
@@ -279,6 +294,7 @@ class UserManagementController extends Controller
                 return redirect()->route('admin.showAllUsers')->with('success', 'Successfully Added new User!');
             }
             elseif($request->role == 'student'){ // student without image
+                // ITO LANG ANG GAGALAWIN MO NGAYON >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 $user = User::make($request->validate([ //  "make" function creates a new instance of the model but not stored yet
                     'fName'         => 'required',
                     'mName'         => 'required',

@@ -7,11 +7,37 @@
         <form @submit.prevent="submit">
             <div class="grid grid-cols-12   gap-4 w-full mt-12 ">
                 <!--role-->
-                <div v-if="user.role === 'admin'" class="w-full mb-4 col-span-12 border-bot-only px-2 ">Role</div>
+                <div v-if="user.role === 'admin'"  class="w-full mb-4 col-span-12 border-bot-only px-2 ">Role</div>
+
                 <div v-if="user.role === 'admin'" class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
                     <Dropdown  v-model="selectedRole" :options="roleList" optionLabel="role" placeholder="Select a Role" class="w-full md:w-14rem " />
                     <InputError :error="form.errors.role"/>
                 </div>
+                
+                <!--CURRENTLY LOGGED USER: INSTRUCTOR -->
+                <div v-if="user.role === 'instructor'" class="col-span-4">
+                    <div>Role: Student</div>
+                    <div v-for="subject in subjects" :key="subject.id" class="mt-2">
+                        
+                        <div v-if="subject.id === user.subject_id" class="flex inline-flex items-center" >Strand: 
+                            <InputText v-model="selectedSubject" type="text" :placeholder="subject.name" class="placeholder-gray-900 " disabled/>
+                        </div>
+                    </div>  
+                   
+                    <div v-for="subject in subjects" class="mt-2">
+                        <div v-if="subject.id === user.subject_id" class="flex inline-flex items-center" >
+                            <div >Section:  </div>
+                            <div class="p-2">
+                                <Dropdown  v-model="selectedSection" :options="subject.section" optionLabel="name" placeholder="Select a Section" class="w-full md:w-14rem " />
+                                <InputError :error="form.errors.section_id"/>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <!--CURRENTLY LOGGED USER: INSTRUCTOR -->
+
+
                 <!--Adding teacher-->
                 <div v-if="isTeacher" class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
                     <Dropdown  v-model="selectedSubject" :options="props.subjects" optionLabel="name" placeholder="Select a Subject" class="w-full md:w-14rem " />
@@ -101,15 +127,15 @@
                 </div>
 
                 <!-- parents name -->
-                <div  v-if="isStudent" class="w-full mb-4 col-span-12 md:col-span-6 ">
-                    <span v-if="isStudent" class="p-float-label">
+                <div   class="w-full mb-4 col-span-12 md:col-span-6 ">
+                    <span  class="p-float-label">
                         <InputText id="fatherName" v-model="form.fatherName" class="w-full" />
                         <label for="fatherName">Father's name</label>
                     </span>
                     <InputError :error="form.errors.fatherName"/>
                 </div>
 
-                <div v-if="isStudent" class="w-full mb-4 col-span-12 md:col-span-6 " >
+                <div  class="w-full mb-4 col-span-12 md:col-span-6 " >
                     <span class="p-float-label">
                         <InputText id="motherName" v-model="form.motherName" class="w-full" />
                         <label for="motherName">Mother's name</label>
@@ -198,11 +224,11 @@
 </template>
 
 <script setup>
-import DashboardLayout from '../../Layout/DashboardLayout.vue';
+import DashboardLayout from '../../../Layout/DashboardLayout.vue';
 import {ref, onMounted, watch, computed, onBeforeUnmount, reactive} from 'vue'
 import {regions,provinces,cities,barangays,} from "select-philippines-address";
 import { useForm, usePage } from '@inertiajs/vue3'
-import InputError from '../../../GlobalComponent/InputError.vue';
+import InputError from '../../../../GlobalComponent/InputError.vue';
 
 
 const props = defineProps({
@@ -263,9 +289,9 @@ const selectedProvince      = ref({})
 const selectedCity          = ref({})
 const selectedBrgy          = ref({})
 const selectedRole          = ref({})
-const selectedSubject       = ref({})
+const selectedSubject       = ref(null)
 const selectedGender        = ref({})
-const selectedSection       = ref({})
+const selectedSection       = ref(null)
 const selectedCivilStatus   = ref('')
 const isTeacher             = ref(false)
 const isStudent             = ref(false)
@@ -331,9 +357,14 @@ watch(selectedBrgy, (val) =>{
 })
 
 watch(selectedSection,(val)=>{
-    //console.log(val)
     form.section_id = val.id;
+    form.subject_id = val.subject_id;
+    form.role = 'student'
+    // console.log("subject_id: "+form.subject_id)
+    // console.log("section_id: "+form.section_id)
     
+    
+   
 })
 
 const form = useForm({
@@ -376,3 +407,4 @@ const submit = ()=> form.post(route('admin.userStore'),{
     onSuccess: () => form.reset('images'), // if sucessfull reset image input
 })
 </script>
+
