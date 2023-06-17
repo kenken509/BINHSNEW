@@ -453,7 +453,8 @@ class UserManagementController extends Controller
            
             
             return redirect()->route('admin.showAllUsers')->with('success', 'Updated Successfully!');
-        }elseif($request->role == 'student'){
+        }elseif($request->role == 'student'){ // ito lang gagalawin ko ngayon
+            dd('validate mo');
             $user = $request->validate([
                 'fName'         => 'required',
                 'mName'         => 'required',
@@ -578,12 +579,28 @@ class UserManagementController extends Controller
 
     public function showEditUser($id){
         //dd(Subject::all());
-        return inertia('AdminDashboard/AdminPages/UserManagement/UserEdit',[
-            'user' => User::with(['subject','section'])->findOrFail($id),
-            'userSubject' => User::with('section')->findOrFail($id),
-            'studentSubjects' => Subject::with('section')->latest()->get(),
-            'instructorSubjects' => Subject::all(),
-        ]);
+       
+        $currentlyLoggedUser = Auth::user()->role;
+
+        if($currentlyLoggedUser == 'admin'){
+            return inertia('AdminDashboard/AdminPages/UserManagement/UserEdit',[
+                'user' => User::with(['subject','section'])->findOrFail($id),
+                'userSubject' => User::with('section')->findOrFail($id),
+                'studentSubjects' => Subject::with('section')->latest()->get(),
+                'instructorSubjects' => Subject::all(),
+            ]);
+        }
+
+        if($currentlyLoggedUser == 'instructor'){
+            
+            return inertia('AdminDashboard/AdminPages/UserManagement/InstructorRolePages/UserEdit',[
+                'user' => User::with(['subject','section'])->findOrFail($id),
+                'subjects' => User::with('section')->findOrFail($id),
+                'studentSubjects' => Subject::with('section')->latest()->get(),
+                'instructorSubjects' => Subject::all(),
+            ]);
+        }
+        
     }
 
 
