@@ -6,13 +6,6 @@
         
         <form @submit.prevent="submit">
             <div class="grid grid-cols-12   gap-4 w-full mt-12 ">
-                <!--role-->
-                <div v-if="user.role === 'admin'"  class="w-full mb-4 col-span-12 border-bot-only px-2 ">Role</div>
-
-                <div v-if="user.role === 'admin'" class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
-                    <Dropdown  v-model="selectedRole" :options="roleList" optionLabel="role" placeholder="Select a Role" class="w-full md:w-14rem " />
-                    <InputError :error="form.errors.role"/>
-                </div>
                 
                 <!--CURRENTLY LOGGED USER: INSTRUCTOR -->
                 <div v-if="user.role === 'instructor'" class="col-span-4">

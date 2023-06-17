@@ -2,23 +2,42 @@
     <DashboardLayout :user="loggedUser" >
         <div class="border-bot-only border-gray-600 shadow-md">
             <span class="text-[20px] font-bold text-gray-500">Edit User</span>  
-            aries
+            
         </div>
-        
         <form @submit.prevent="submit">
             <div class="grid grid-cols-12   gap-4 w-full mt-12 ">
-                 
-                 <!--role-->
-                <div class="w-full mb-4 col-span-12 border-bot-only px-2 ">Role</div>
-                <div class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
-                    <Dropdown  v-model="selectedRole" :options="roleList" optionLabel="role" placeholder="Select a Role" class="w-full md:w-14rem " />
-                    <InputError :error="form.errors.role"/>
+                <!--CURRENTLY LOGGED USER: INSTRUCTOR -->
+                <div v-if="loggedUser.role === 'instructor'" class="col-span-4">
+                    <div>Role: Student</div>
+                    <div v-for="subject in user.studentSubjects" :key="subject.id" class="w-full mt-2">
+                        
+                        <div v-if="subject.id === form.subject_id" class="flex inline-flex items-center" >Strand: 
+                            <div class="mx-3">
+                                <InputText  :placeholder="subject.name" class="w-full placeholder-black" disabled/>
+                            </div>
+                            
+                        </div>
+                    </div>  
+                   
+                    <div v-for="subject in user.studentSubjects" class=" mt-2">
+                        <div v-if="subject.id === userToEdit.subject.id" class="flex inline-flex items-center" >
+                            <div >Section:  </div>
+                            <div class="p-2">
+                                <Dropdown  v-model="selectedSection" :options="subject.section" optionLabel="name" placeholder="Select a Section" class="w-full md:w-14rem " />
+                                <InputError :error="form.errors.section_id"/>
+                            </div>
+                            
+                        </div>
+                    </div>
                 </div>
-                  
+                <!--CURRENTLY LOGGED USER: INSTRUCTOR -->
+
+
                 <div v-if="isTeacher" class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
                     <Dropdown  v-model="selectedSubject" :options="user.instructorSubjects" optionLabel="name" placeholder="Select a Subject" class="w-full md:w-14rem " />
                     <InputError :error="form.errors.subject_id"/>
-                    
+                
+                <!--PERSONAL INFORMATION-->
                 </div>
                 <div class="col-span-12 mb-3 border-bot-only px-2">Personal Info</div>
                 <div class="w-full col-span-12 md:col-span-4 ">
@@ -170,45 +189,43 @@ const user = defineProps({
 regions().then((region)=> regionList.value = region)
 
 
-const currentUser = computed(() => usePage().props.user);
+
 const loggedUser = computed(() => usePage().props.user);
 
 
 
 
-const handleSubjectChange = ()=>{
-    console.log('selected subject: '+selectedSubject);
-}
+
 
 // show selected
 onMounted(()=>{
-    // regionByCode(user.userToEdit.region).then((region) => {
+    regionByCode(user.userToEdit.region).then((region) => {
         
-    //     selectedRegion.value = region
+        selectedRegion.value = region
         
-    //     provincesByCode(selectedRegion.value.region_code).then((province) => {
-    //         const tempProvince = province.filter((prov)=> prov.province_code === user.userToEdit.province)
-    //         selectedProvince.value = tempProvince[0];
+        provincesByCode(selectedRegion.value.region_code).then((province) => {
+            const tempProvince = province.filter((prov)=> prov.province_code === user.userToEdit.province)
+            selectedProvince.value = tempProvince[0];
            
-    //         cities(selectedProvince.value.province_code).then((city) => {
-    //             const tempCity = city.filter((town)=> town.city_code === user.userToEdit.city)
-    //             selectedCity.value = tempCity[0];
+            cities(selectedProvince.value.province_code).then((city) => {
+                const tempCity = city.filter((town)=> town.city_code === user.userToEdit.city)
+                selectedCity.value = tempCity[0];
                 
-    //             barangays(selectedCity.value.city_code).then((barangays) => {
-    //                 const tempBarangay = barangays.filter((barangay) => barangay.brgy_code === user.userToEdit.barangay)
-    //                 selectedBrgy.value = tempBarangay[0]
+                barangays(selectedCity.value.city_code).then((barangays) => {
+                    const tempBarangay = barangays.filter((barangay) => barangay.brgy_code === user.userToEdit.barangay)
+                    selectedBrgy.value = tempBarangay[0]
                    
-    //             });
-    //         });
-    //     });
-    // });
-    console.log(selectedSubject)
-    if(user.user.role === 'instructor'){
+                });
+            });
+        });
+    });
+   
+    if(user.userToEdit.role === 'instructor'){
         isTeacher.value = true
         isStudent.value = false
         form.role = user.userToEdit.role
     }
-    else if(user.user.role === 'student'){
+    else if(user.userToEdit.role === 'student'){
         isStudent.value = true;
         isTeacher.value = false;
         form.role       = user.userToEdit.role
@@ -268,14 +285,15 @@ const roleList = ref([
 
 
 //selected values
-
+console.log(user.userToEdit.subject.name)
 const selectedRegion = ref({})
 
 const selectedProvince = ref({})
 const selectedCity = ref({})
 const selectedBrgy = ref({})
-const selectedRole = ref({'role': user.user.role})
+const selectedRole = ref({'role': user.userToEdit.role})
 const selectedSubject = ref({})
+const selectedSection = ref(user.userToEdit.section)
 const selectedGender = ref('')
 const selectedCivilStatus = ref('')
 const isTeacher = ref(false)
@@ -349,23 +367,28 @@ watch(selectedBrgy, (val) =>{
     //console.log(val.brgy_code)
     form.barangay = val.brgy_code
 })
+watch(selectedSection,(val)=>{
+    //console.log(val.id)
+    form.section_id = val.id;
+})
 
 const form = useForm({
     id:null,
-    fName: user.user.fName,
-    mName: user.user.mName,
-    lName: user.user.lName,
+    fName: user.userToEdit.fName,
+    mName: user.userToEdit.mName,
+    lName: user.userToEdit.lName,
     gender: null,
     civilStatus: null,
-    phoneNumber: parseInt(user.user.phoneNumber),
-    birthDate: user.user.birthDate,
+    phoneNumber: parseInt(user.userToEdit.phoneNumber),
+    birthDate: user.userToEdit.birthDate,
     image:null,
     region: null,
     province: null,
     city: null,
     barangay: null,
     role: null,
-    subject_id: null,
+    subject_id: user.userToEdit.subject_id,
+    section_id:user.userToEdit.section_id,
     email:null,
     fatherName:null,
     motherName:null,

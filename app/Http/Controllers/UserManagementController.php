@@ -34,7 +34,7 @@ class UserManagementController extends Controller
         }
 
         if($userRole == 'instructor'){
-            $query = User::with(['subject','section'])->where('subject_id','=', $userSubjectId)->latest();
+            $query = User::with(['subject','section'])->where('subject_id','=', $userSubjectId)->where('role','=','student')->latest();
             return inertia('AdminDashboard/AdminPages/UserManagement/UsersAll',[
                 'users' =>$query->paginate(10),
             ]);
@@ -454,7 +454,7 @@ class UserManagementController extends Controller
             
             return redirect()->route('admin.showAllUsers')->with('success', 'Updated Successfully!');
         }elseif($request->role == 'student'){ // ito lang gagalawin ko ngayon
-            dd('validate mo');
+            
             $user = $request->validate([
                 'fName'         => 'required',
                 'mName'         => 'required',
@@ -470,6 +470,7 @@ class UserManagementController extends Controller
                 'barangay'      => 'required',
                 'role'          => 'required',
                 'subject_id'    => 'required',
+                'section_id'    => 'required',
                 'fatherName'    => 'required',
                 'motherName'    => 'required',
 
@@ -487,6 +488,7 @@ class UserManagementController extends Controller
                 'barangay.required'         => 'Baranggay is required',
                 'role'                      => 'Role is required',
                 'subject_id'                => 'Subject is required',
+                'section_id'                => 'Section is required',
            ]);
 
             if($user){
@@ -503,13 +505,14 @@ class UserManagementController extends Controller
                     'age'                   => $age,
                     'password'              => strtolower($request->lName),
                     'fatherName'            => $request->fatherName,
-                    'motherName'            => $request->mb_output_handler,
+                    'motherName'            => $request->motherName,
                     'region'                => $request->region,
                     'province'              => $request->province,
                     'city'                  => $request->city,
                     'barangay'              => $request->barangay,
                     'role'                  => $request->role,
                     'subject_id'            => $request->subject_id,
+                    'section_id'            => $request->section_id,
                     'updated_by'            => Auth::user()->id,
 
                 ]);
@@ -592,9 +595,9 @@ class UserManagementController extends Controller
         }
 
         if($currentlyLoggedUser == 'instructor'){
-            
+            //dd(User::with(['subject','section'])->findOrFail($id));
             return inertia('AdminDashboard/AdminPages/UserManagement/InstructorRolePages/UserEdit',[
-                'user' => User::with(['subject','section'])->findOrFail($id),
+                'userToEdit' => User::with(['subject','section'])->findOrFail($id),
                 'subjects' => User::with('section')->findOrFail($id),
                 'studentSubjects' => Subject::with('section')->latest()->get(),
                 'instructorSubjects' => Subject::all(),

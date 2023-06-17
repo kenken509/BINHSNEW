@@ -143,7 +143,7 @@ Route::controller(QuizManagementController::class)->middleware(['auth','verified
     Route::get('admin/panel/quiz/add', 'create')->name('quiz.add');
 });
 
-Route::controller(SectionController::class)->middleware(['auth','verified','isAdmin'])->group(function(){
+Route::controller(SectionController::class)->middleware(['auth','verified','isSuperAdmin'])->group(function(){
     Route::get('admin/panel/section/show', 'show')->name('section.show');
     Route::get('admin/panel/section/section-add', 'create')->name('section.add');
     Route::post('admin/panel/section/section-store', 'store')->name('section.store');
