@@ -156,7 +156,7 @@ import { useForm, usePage } from '@inertiajs/vue3'
 import InputError from '../../../GlobalComponent/InputError.vue';
 
 const user = defineProps({
-    user: Object,
+    userToEdit: Object,
     userSubject: Object,
     instructorSubjects:Array,
     studentSubjects:Array,
@@ -181,51 +181,51 @@ const handleSubjectChange = ()=>{
 
 // show selected
 onMounted(()=>{
-    regionByCode(user.user.region).then((region) => {
+    regionByCode(user.userToEdit.region).then((region) => {
         selectedRegion.value = region
         
         provincesByCode(selectedRegion.value.region_code).then((province) => {
-            const tempProvince = province.filter((prov)=> prov.province_code === user.user.province)
+            const tempProvince = province.filter((prov)=> prov.province_code === user.userToEdit.province)
             selectedProvince.value = tempProvince[0];
            
             cities(selectedProvince.value.province_code).then((city) => {
-                const tempCity = city.filter((town)=> town.city_code === user.user.city)
+                const tempCity = city.filter((town)=> town.city_code === user.userToEdit.city)
                 selectedCity.value = tempCity[0];
                 
                 barangays(selectedCity.value.city_code).then((barangays) => {
-                    const tempBarangay = barangays.filter((barangay) => barangay.brgy_code === user.user.barangay)
+                    const tempBarangay = barangays.filter((barangay) => barangay.brgy_code === user.userToEdit.barangay)
                     selectedBrgy.value = tempBarangay[0]
                    
                 });
             });
         });
     });
-    console.log(selectedSubject)
-    if(user.user.role === 'instructor'){
+    
+    if(user.userToEdit.role === 'instructor'){
         isTeacher.value = true
         isStudent.value = false
-        form.role = user.user.role
+        form.role = user.userToEdit.role
     }
-    else if(user.user.role === 'student'){
+    else if(user.userToEdit.role === 'student'){
         isStudent.value = true;
         isTeacher.value = false;
-        form.role       = user.user.role
+        form.role       = user.userToEdit.role
     }
     else{
         isTeacher.value = false
         isStudent.value = false
-        form.role       = user.user.role
+        form.role       = user.userToEdit.role
     }
-    selectedSubject.value       =  user.user.subject
+    selectedSubject.value       =  user.userToEdit.subject
 
-    selectedGender.value        = user.user.gender
-    selectedCivilStatus.value   = user.user.civilStatus
+    selectedGender.value        = user.userToEdit.gender
+    selectedCivilStatus.value   = user.userToEdit.civilStatus
 
-    form.email  = user.user.email
-    form.id     = user.user.id
-    form.image = user.user.image
-    form.fatherName = user.user.fatherName
-    form.motherName = user.user.motherName
+    form.email  = user.userToEdit.email
+    form.id     = user.userToEdit.id
+    form.image = user.userToEdit.image
+    form.fatherName = user.userToEdit.fatherName
+    form.motherName = user.userToEdit.motherName
     
 })
 
@@ -272,7 +272,7 @@ const selectedRegion = ref({})
 const selectedProvince = ref({})
 const selectedCity = ref({})
 const selectedBrgy = ref({})
-const selectedRole = ref({'role': user.user.role})
+const selectedRole = ref({'role': user.userToEdit.role})
 const selectedSubject = ref({})
 const selectedGender = ref('')
 const selectedCivilStatus = ref('')
@@ -350,13 +350,13 @@ watch(selectedBrgy, (val) =>{
 
 const form = useForm({
     id:null,
-    fName: user.user.fName,
-    mName: user.user.mName,
-    lName: user.user.lName,
+    fName: user.userToEdit.fName,
+    mName: user.userToEdit.mName,
+    lName: user.userToEdit.lName,
     gender: null,
     civilStatus: null,
-    phoneNumber: parseInt(user.user.phoneNumber),
-    birthDate: user.user.birthDate,
+    phoneNumber: parseInt(user.userToEdit.phoneNumber),
+    birthDate: user.userToEdit.birthDate,
     image:null,
     region: null,
     province: null,

@@ -2,11 +2,12 @@
     <DashboardLayout :user="loggedUser" >
         <div class="border-bot-only border-gray-600 shadow-md">
             <span class="text-[20px] font-bold text-gray-500">Edit User</span>  
+            aries
         </div>
         
         <form @submit.prevent="submit">
             <div class="grid grid-cols-12   gap-4 w-full mt-12 ">
-                 {{ currentUser }}
+                 
                  <!--role-->
                 <div class="w-full mb-4 col-span-12 border-bot-only px-2 ">Role</div>
                 <div class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
@@ -156,7 +157,7 @@ import { useForm, usePage } from '@inertiajs/vue3'
 import InputError from '../../../../GlobalComponent/InputError.vue';
 
 const user = defineProps({
-    user: Object,
+    userToEdit: Object,
     userSubject: Object,
     instructorSubjects:Array,
     studentSubjects:Array,
@@ -181,51 +182,52 @@ const handleSubjectChange = ()=>{
 
 // show selected
 onMounted(()=>{
-    regionByCode(user.user.region).then((region) => {
-        selectedRegion.value = region
+    // regionByCode(user.userToEdit.region).then((region) => {
         
-        provincesByCode(selectedRegion.value.region_code).then((province) => {
-            const tempProvince = province.filter((prov)=> prov.province_code === user.user.province)
-            selectedProvince.value = tempProvince[0];
+    //     selectedRegion.value = region
+        
+    //     provincesByCode(selectedRegion.value.region_code).then((province) => {
+    //         const tempProvince = province.filter((prov)=> prov.province_code === user.userToEdit.province)
+    //         selectedProvince.value = tempProvince[0];
            
-            cities(selectedProvince.value.province_code).then((city) => {
-                const tempCity = city.filter((town)=> town.city_code === user.user.city)
-                selectedCity.value = tempCity[0];
+    //         cities(selectedProvince.value.province_code).then((city) => {
+    //             const tempCity = city.filter((town)=> town.city_code === user.userToEdit.city)
+    //             selectedCity.value = tempCity[0];
                 
-                barangays(selectedCity.value.city_code).then((barangays) => {
-                    const tempBarangay = barangays.filter((barangay) => barangay.brgy_code === user.user.barangay)
-                    selectedBrgy.value = tempBarangay[0]
+    //             barangays(selectedCity.value.city_code).then((barangays) => {
+    //                 const tempBarangay = barangays.filter((barangay) => barangay.brgy_code === user.userToEdit.barangay)
+    //                 selectedBrgy.value = tempBarangay[0]
                    
-                });
-            });
-        });
-    });
+    //             });
+    //         });
+    //     });
+    // });
     console.log(selectedSubject)
     if(user.user.role === 'instructor'){
         isTeacher.value = true
         isStudent.value = false
-        form.role = user.user.role
+        form.role = user.userToEdit.role
     }
     else if(user.user.role === 'student'){
         isStudent.value = true;
         isTeacher.value = false;
-        form.role       = user.user.role
+        form.role       = user.userToEdit.role
     }
     else{
         isTeacher.value = false
         isStudent.value = false
-        form.role       = user.user.role
+        form.role       = user.userToEdit.role
     }
-    selectedSubject.value       =  user.user.subject
+    selectedSubject.value       =  user.userToEdit.subject
 
-    selectedGender.value        = user.user.gender
-    selectedCivilStatus.value   = user.user.civilStatus
+    selectedGender.value        = user.userToEdit.gender
+    selectedCivilStatus.value   = user.userToEdit.civilStatus
 
-    form.email  = user.user.email
-    form.id     = user.user.id
-    form.image = user.user.image
-    form.fatherName = user.user.fatherName
-    form.motherName = user.user.motherName
+    form.email  = user.userToEdit.email
+    form.id     = user.userToEdit.id
+    form.image = user.userToEdit.image
+    form.fatherName = user.userToEdit.fatherName
+    form.motherName = user.userToEdit.motherName
     
 })
 

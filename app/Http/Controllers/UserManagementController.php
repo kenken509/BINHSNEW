@@ -581,10 +581,10 @@ class UserManagementController extends Controller
         //dd(Subject::all());
        
         $currentlyLoggedUser = Auth::user()->role;
-
+        
         if($currentlyLoggedUser == 'admin'){
             return inertia('AdminDashboard/AdminPages/UserManagement/UserEdit',[
-                'user' => User::with(['subject','section'])->findOrFail($id),
+                'userToEdit' => User::with(['subject','section'])->findOrFail($id),
                 'userSubject' => User::with('section')->findOrFail($id),
                 'studentSubjects' => Subject::with('section')->latest()->get(),
                 'instructorSubjects' => Subject::all(),
