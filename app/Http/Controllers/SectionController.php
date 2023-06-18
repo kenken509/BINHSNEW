@@ -50,9 +50,10 @@ class SectionController extends Controller
     public function edit($id){
         //dd(Section::with('subject')->findOrFail($id));
         //dd(Subject::all());
+        
         return inertia('AdminDashboard/AdminPages/SectionManagement/SectionEdit', [
-            'section' => Section::with('subject')->findOrFail($id),
-            'subjects' => Subject::all(),
+            'section' => Section::with(['subject','instructor'])->findOrFail($id),
+            'subjects' => Subject::with('instructor')->get(),
         ]);
     }
 

@@ -68,15 +68,19 @@
                     <div><span class="text-xl">Grading Period : {{ quiz.grading_period }}</span></div> 
                     <div><span class="text-xl">Duration : {{ quiz.duration }} mins</span></div> 
                     <hr>
-                    <div>Correct answer : <span >{{ quiz.question[0].question }}</span> </div> 
-                    <div>Correct answer : <span class="text-green-500">{{ quiz.question[0].correct_answer }}</span> </div> 
-                    <div class="ml-10">
-                            
-                            <div>Option a : {{ quiz.question[0].a }}</div> 
-                            <div>Option b : {{ quiz.question[0].b }}</div> 
-                            <div>Option c : {{ quiz.question[0].c }}</div> 
-                            
+                    <div v-for="question in quiz.question">
+                        <div>Question : <span >{{ question.question }}</span> </div>
+                        <div>Correct Answer : <span >{{ question.correct_answer }}</span> </div> 
+                        <div class="ml-10">
+                            <div>Option a : {{ question.a }}</div> 
+                            <div>Option b : {{ question.b }}</div> 
+                            <div>Option c : {{ question.c }}</div> 
+                            <div>Option d : {{ question.correct_answer }}</div>
+                        </div>
                     </div>
+                    
+                    
+                    
                     
                     </div>
                 </div>

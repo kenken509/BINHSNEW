@@ -5,7 +5,7 @@
         </div>
         <!-- <div v-if="$page.props.flash.success" class="bg-green-300 mb-2 p-1 rounded-md text-gray-600">{{ $page.props.flash.success  }} </div> -->
 
-        {{ section.section.subject.id }}
+        
 
         <form @submit.prevent="submit">
             <div class="w-full mb-4 ">
@@ -18,11 +18,24 @@
                     <InputError :error="form.errors.name"/>
                 </div>
             </div>
-                   {{ selectedSubject }}
-            <div class="mb-5">Subject: </div>
+                  
+            <div class="mb-5">Strand: </div>
             <div>
                 <Dropdown  v-model="selectedSubject" :options="section.subjects" optionLabel="name" placeholder="Select a Subject" class="w-full md:w-14rem "  />
                 <InputError :error="form.errors.subject_id"/>
+            </div>
+            <div class="mb-5">Instructor: </div>
+            <div v-for="subject in section.subjects">
+               
+                <div v-if="subject === selectedSubject">
+                    <div v-for="instructor in subject.instructor">
+                        
+                        <div>
+                            <Dropdown  v-model="selectedInstructor" :options="subject.instructor" optionLabel="lName" placeholder="Select a Instructor" class="w-full md:w-14rem "  />
+                        </div>
+                    </div>
+                    <InputError :error="form.errors.instructor_id"/>
+                </div>
             </div>
             <div class="w-full mt-6 ">
                 <Button label="Add" class="w-full" type="submit"/>
@@ -46,6 +59,7 @@ const section = defineProps({
 })
 const sectionSubject = section.subjects.filter((subject)=> subject.id === section.section.subject.id)
 const selectedSubject = ref(sectionSubject[0]);
+const selectedInstructor = ref(section.section.instructor)
 
 const form = useForm({
     section_id:section.section.id,

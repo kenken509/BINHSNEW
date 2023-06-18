@@ -17,7 +17,7 @@
                         <th scope="col" class="px-6 py-3">
                             Subject
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th v-if="sections.sections" scope="col" class="px-6 py-3">
                             Instructor
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -37,7 +37,7 @@
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                             {{ section.subject.name}}
                         </td>
-                        <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
+                        <td v-if="section.instructor" scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                             {{ section.instructor.fName+', '+ section.instructor.lName }}
                         </td>
                 
