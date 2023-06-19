@@ -67,7 +67,7 @@
                                         <th scope="col" class="px-6 py-3">
                                             Question
                                         </th>
-                                        <th scope="col" class="flex justify-center px-6 py-3 ">
+                                        <th scope="col" class="px-6 py-3">
                                             Action
                                         </th>
                                     </tr>
@@ -76,7 +76,7 @@
                                 <div v-else class="text-red-500">WALANG LAMAN</div> -->
                                     
                                     <tbody v-for="(question,index ) in getQuestionsFromLocalStorage()" :key="index" >
-                                        <tr class="bg-white border-b hover:bg-gray-200 cursor-pointer">
+                                        <tr class="bg-white border-b hover:bg-red-200 cursor-pointer">
                                             <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                                                 <div>{{ index+1 }}.  {{ question.question }}</div>
                                                 <div>Answer: {{ question.correct_answer }}</div>
@@ -86,10 +86,10 @@
                                             </td>
                                             
                                             <td>
-                                                <div class="flex flex-col p-2  items-center ">
-                                                   
-                                                    <button type="button" class=" bg-red-600 p-2 rounded-md hover:bg-red-700 text-gray-100 hover:text-white my-2 w-20" @click="handleEditQuestionButton(index)">Edit </button>
-                                                    <button type="button" class=" bg-indigo-500 p-2 rounded-md hover:bg-indigo-700 text-gray-100 hover:text-white my-2 w-20">delete</button>
+                                                <div class=" space-x-4">
+                                                    <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span>
+                                                    <Link href="#" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit User'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
+                                                    <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'Preview'" @click="openModal(quiz.id)" ></span>
                                                 </div>    
                                             </td>
                                         </tr>
@@ -100,13 +100,13 @@
                             </table>
                             <div v-if="getQuestionsFromLocalStorage().length === 0" class="flex justify-center text-gray-500">
                                 Empty List
-                               
+                               {{ quiz.quizToEdit }}
                             </div>
                             <div v-if="form.errors.questions" class="flex justify-center text-gray-500">
                                 <InputError :error="form.errors.questions"/>
                             </div>
                             
-                <!--ADD QUESTION MODAL-->
+                <!--MODAL-->
                 <Dialog v-model:visible="addQuestion" modal header="Add new question"  :style="{ width: '50vw' }" :breakpoints="{ '960px': '75vw', '641px': '100vw' }">
                     <div class="border p-2 rounded-md">
                         <form @submit.prevent="handleAddModalQuestion">
@@ -172,79 +172,13 @@
                     
                     
                 </Dialog>
-                <!--ADD QUESTION MODAL---->
+                <!--MODAL---->
                         </div>
                         <!--QUESTIONS TABLE-->
                     </div>
                      <!--QUIZ QUESTIONS-->
                 </div>
                 
-                <!--EDIT QUESTION MODAL-->
-                <Dialog v-model:visible="editQuestion" modal header="Add new question"  :style="{ width: '50vw' }" :breakpoints="{ '960px': '75vw', '641px': '100vw' }">
-                    {{  getQuestionsFromLocalStorage()[questionIndex]  }}
-                    <div class="border p-2 rounded-md">
-                        <form @submit.prevent="handleEditModalQuestion">
-                            <div>Question:</div>
-                            <div>
-                                <Textarea v-model="preQuestionEdit" rows="3"  class="w-full" placeholder="Enter question" required/>
-                               
-                            </div>
-
-                            <div>
-                                Input Options
-                            </div>
-
-                            <div class="">
-                                Option A: 
-                            </div>
-
-                            <div>
-                                <span class="">
-                                    <InputText v-model="preOptionAEdit" id="choice_a"  class="w-full" placeholder="Enter option" required/>
-                                
-                                </span>
-                                <!-- <InputError :error="form.errors.correct_answer"/> -->
-                            </div>
-                            <div class="">
-                                Option B: 
-                            </div>
-
-                            <div>
-                                <span class="">
-                                    <InputText v-model="preOptionBEdit" id="choice_b"  class="w-full" placeholder="Enter option" required/>
-                                
-                                </span>
-                                <!-- <InputError :error="form.errors.correct_answer"/> -->
-                            </div>
-                            <div class="">
-                                Option C: 
-                            </div>
-
-                            <div>
-                                <span class="">
-                                    <InputText v-model="preOptionCEdit" id="choice_c"  class="w-full" placeholder="Enter option" required/>
-                                
-                                </span>
-                                <!-- <InputError :error="form.errors.correct_answer"/> -->
-                            </div>
-                            <div class="">
-                                Correct Answer: 
-                            </div>
-
-                            <div>
-                                <span class="">
-                                    <InputText v-model="preCorrectAnswerEdit" id="correct_answer"  class="w-full" placeholder="Enter option" required/>
-                                
-                                </span>
-                                <!-- <InputError :error="form.errors.correct_answer"/> -->
-                            </div>
-                            <div class="w-full mt-6 ">
-                                <Button label="Add" class="w-full" type="submit"/>
-                            </div>
-                        </form>
-                    </div>
-                </Dialog>
-                <!--EDIT QUESTION MODAL-->
             </form>
         </div>
     </DashboardLayout>
@@ -260,6 +194,7 @@ const user = usePage().props.user;
 
 const quiz = defineProps({
     strands:Array,
+    quizToEdit:Object,
 });
 
 
@@ -280,15 +215,11 @@ const preOptionC        = ref(null);
 const preCorrectAnswer  = ref(null);
 
 
-
 const addQuestion = ref(false)
-function handleAddQuestionClick(){
+const handleAddQuestionClick = ()=> {
     addQuestion.value = !addQuestion.value;
+    
 }
-
-const editQuestion = ref(false)
-
-
 const preQuestionObject = {
         'question'      :null,
         'correct_answer':null,
@@ -322,7 +253,6 @@ const handleAddModalQuestion = () => {
 
     addQuestion.value = !addQuestion.value;
 };
-
 
 
 
@@ -372,50 +302,4 @@ const submit = () => {
     form.post(route('quiz.store'))
     
 };
-
-//edit question codes **********************************************
-
-
- const   preQuestionEdit        = ref(null) 
- const   preOptionAEdit         = ref(null) 
- const   preOptionBEdit         = ref(null) 
- const   preOptionCEdit         = ref(null) 
- const   preCorrectAnswerEdit   = ref(null) 
- const   questionIndex          = ref(null);
- const handleEditQuestionButton = (index) => {
-    const selectedQuestion = getQuestionsFromLocalStorage()[index];
-    
-    questionIndex.value = index;
-
-    preQuestionEdit.value = selectedQuestion.question;
-    preOptionAEdit.value = selectedQuestion.option_a;
-    preOptionBEdit.value = selectedQuestion.option_b;
-    preOptionCEdit.value = selectedQuestion.option_c;
-    preCorrectAnswerEdit.value = selectedQuestion.correct_answer;
-
-    editQuestion.value = !editQuestion.value;
-};
-const handleEditModalQuestion = () => {
-  // Get the questions array from localStorage
-  const questions = getQuestionsFromLocalStorage();
-
-  // Get the question at the selected index
-  const selectedQuestion = questions[questionIndex.value];
-
-  // Update the properties of the selected question
-  selectedQuestion.question         = preQuestionEdit.value;
-  selectedQuestion.option_a         = preOptionAEdit.value;
-  selectedQuestion.option_b         = preOptionBEdit.value;
-  selectedQuestion.option_c         = preOptionCEdit.value;
-  selectedQuestion.correct_answer   = preCorrectAnswerEdit.value;
-
-  // Save the updated array back to localStorage
-  saveQuestionsToLocalStorage(questions);
-
-  // Close the edit modal
-  editQuestion.value = false;
-};
-
-
-//edit question codes **********************************************
 </script>

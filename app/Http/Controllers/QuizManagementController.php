@@ -45,7 +45,7 @@ class QuizManagementController extends Controller
             "duration"          => 'required',
             "questions"         => 'required|array|min:1',
         ],[
-            'questions'     => 'Please add at least 1 question!'
+            'questions'     => 'Must have at least 1 question!'
         ]);
 
         if($validate)
@@ -109,5 +109,12 @@ class QuizManagementController extends Controller
         $quiz->delete();
 
         return redirect()->back()->with('success', 'Successfully Deleted');
+    }
+
+    public function editQuiz($id)
+    {
+        $quizToEdit = Quiz::with(['question.choices', 'subject'])->findOrFail($id);
+        $strand = Subject::all();
+        dd($quizToEdit);
     }
 }
