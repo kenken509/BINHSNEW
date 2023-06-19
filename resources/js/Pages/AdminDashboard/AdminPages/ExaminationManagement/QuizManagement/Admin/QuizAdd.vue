@@ -297,6 +297,8 @@ watch(selectedGradingPeriod,(val)=>{
 })
 const submit = () => {
     form.questions = getQuestionsFromLocalStorage()
+    deleteDataFromLocalStorage()
     form.post(route('quiz.store'))
+    
 };
 </script>

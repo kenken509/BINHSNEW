@@ -56,7 +56,7 @@
                         </td>
                         <td>
                             <div class=" space-x-4">
-                                <Link href="#" class="cursor-pointer" v-tooltip.left="'Delete Question'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
+                                <Link :href="route('quiz.delete', {id: quiz.id})" class="cursor-pointer" v-tooltip.left="'Delete Question'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
                                 <Link href="#" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit User'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
                                 <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'View full info'" @click="openModal(quiz.id)" ></span>
                             </div>    
@@ -75,8 +75,8 @@
                     <div><span class="text-xl">Duration : {{ quiz.duration }} mins</span></div> 
                     <div><span class="text-xl">Items : {{ quiz.question_count }} </span></div> 
                     <hr>
-                    <div v-for="question in quiz.question">
-                        <div>Question : <span >{{ question.question }}</span> </div>
+                    <div v-for="(question,index) in quiz.question" :key="question.id" class="my-2">
+                        <div>Question # {{ index+1 }} : <span >{{ question.question }}</span> </div>
                         <div>Correct Answer : <span class="text-green-500">{{ question.correct_answer }}</span> </div> 
                         <div class="ml-10">
                             <div>Option a : {{ question.choices.option_a }}</div> 
@@ -84,6 +84,7 @@
                             <div>Option c : {{ question.choices.option_c }}</div> 
                             <div>Option d : {{ question.choices.option_d }}</div>
                         </div>
+                        <hr>
                     </div>
                     
                     

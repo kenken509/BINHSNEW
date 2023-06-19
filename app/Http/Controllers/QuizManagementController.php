@@ -48,7 +48,8 @@ class QuizManagementController extends Controller
             'questions'     => 'Please add at least 1 question!'
         ]);
 
-        if($validate){
+        if($validate)
+        {
            
             $quiz                   = new Quiz();
             $quiz->subject_id       = $request->subject_id;
@@ -57,41 +58,56 @@ class QuizManagementController extends Controller
             $quiz->duration         = $request->duration;
             $quiz->save();
 
-            $latestQuiz = Quiz::latest()->get();
-            $quizId = $latestQuiz->id;
-
-            foreach ($questionsArray as $questionData) {
-                $question = new QuizQuestion();
-                $question->question = $questionData->question;
-                $question->quiz_id = $quizId;
-                $question->correct_answer = $questionData->correct_answer;
-                $question->save();
+            $quizId = $quiz->id;
             
+            // $latestQuiz = Quiz::latest()->limit(1)->get();
+            
+            // $quizId = $latestQuiz[0]->id;
+            
+            foreach ($questionsArray as $questionData) 
+            {
+                $question = new QuizQuestion();
+                $question->question = $questionData['question'];
+                $question->quiz_id = $quizId;
+                $question->correct_answer = $questionData['correct_answer'];
+                $question->save();
+                
+                $questionId = $question->id;
                 // Retrieve the saved question to obtain the correct question_id
-                $savedQuestion = Question::latest()->first();
-                $questionId = $savedQuestion->id;
+                // $savedQuestion = QuizQuestion::latest()->limit(1)->first();
+                
+                // $questionId = $savedQuestion->id;
                
                 $choice = new QuizChoices();
-                $choice->question_id = $questionId; // Assign the question_id foreign key
-                $choice->choice_text = $choiceData['choice_text'];
+                $choice->quiz_question_id  = $questionId; // Assign the question_id foreign key
+                $choice->option_a = $questionData['option_a'];
+                $choice->option_b = $questionData['option_b'];
+                $choice->option_c = $questionData['option_c'];
+                $choice->option_d = $questionData['correct_answer'];
                 $choice->save();
                 
             }
-            // 'question'      :null,
-            // 'correct_answer':null,
-            // 'option_a'      :null,
-            // 'option_b'      :null,
-            // 'option_c'      :null,
         }
-        // foreach($questionsArray as $question){
-            
-        //     $data = new QuizQuestion();
 
-        //     $data->question = $question['question'];
-        //     $data->quiz_id  = 1;
-        //     $data->correct_answer = $question['correct_answer'];
-           
-        //     $data->save();
-        // }
+        return redirect()->route('quiz.show')->with('success', 'Successfully Added New Quiz');
+    }
+
+    public function delete($id)
+    {
+        $quiz = Quiz::findOrFail($id);
+
+        $quizQuestions = $quiz->question;
+        
+        foreach ($quizQuestions as $question) {
+            // Delete the related QuizChoices manually
+            $question->choices()->delete(); // Assuming 'choices' is the relationship method in QuizQuestion model
+    
+            // Delete the QuizQuestion
+            $question->delete();
+        }
+
+        $quiz->delete();
+
+        return redirect()->back()->with('success', 'Successfully Deleted');
     }
 }
