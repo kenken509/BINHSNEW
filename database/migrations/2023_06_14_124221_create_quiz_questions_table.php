@@ -16,11 +16,10 @@ return new class extends Migration
             $table->text('question');
             $table->unsignedBigInteger('quiz_id');
             $table->string('correct_answer');
-            $table->unsignedBigInteger('choice_id');
             $table->timestamps();
 
             $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('restrict')->unUpdate('restrict');
-            $table->foreign('choice_id')->references('id')->on('choices')->onDelete('restrict')->unUpdate('restrict');
+            
         });
     }
 

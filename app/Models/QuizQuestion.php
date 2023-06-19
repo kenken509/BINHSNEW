@@ -14,4 +14,8 @@ class QuizQuestion extends Model
     public function quiz(){
         return $this->belongsTo(Quiz::class,'quiz_id','id');
     }
+
+    public function choices(){
+        return $this->hasOne(QuizChoices::class,'quiz_question_id', 'id'); 
+    }
 }

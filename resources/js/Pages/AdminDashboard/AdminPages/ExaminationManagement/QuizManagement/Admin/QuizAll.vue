@@ -6,6 +6,7 @@
         <div v-if="$page.props.flash.success" class="bg-green-300 mb-2 p-1 rounded-md text-gray-600">{{ $page.props.flash.success  }} </div>
         <div class=" overflow-x-auto shadow-md sm:rounded-lg">
             <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+               
                 <thead class="text-xs text-gray-200 uppercase bg-green-700  ">
                     <tr>
                         <th scope="col" class="px-6 py-3">
@@ -23,7 +24,9 @@
                         <th scope="col" class="px-6 py-3">
                             Duration
                         </th>
-
+                        <th scope="col" class="px-6 py-3">
+                            Items
+                        </th>
                         <th scope="col" class="px-6 py-3">
                             Action
                         </th>
@@ -48,6 +51,9 @@
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
                             {{ quiz.duration }} mins
                         </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
+                            {{ quiz.question_count }} 
+                        </td>
                         <td>
                             <div class=" space-x-4">
                                 <Link href="#" class="cursor-pointer" v-tooltip.left="'Delete Question'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
@@ -67,15 +73,16 @@
                     <div><span class="text-xl">Subject : {{ quiz.subject.name }}</span></div> 
                     <div><span class="text-xl">Grading Period : {{ quiz.grading_period }}</span></div> 
                     <div><span class="text-xl">Duration : {{ quiz.duration }} mins</span></div> 
+                    <div><span class="text-xl">Items : {{ quiz.question_count }} </span></div> 
                     <hr>
                     <div v-for="question in quiz.question">
                         <div>Question : <span >{{ question.question }}</span> </div>
-                        <div>Correct Answer : <span >{{ question.correct_answer }}</span> </div> 
+                        <div>Correct Answer : <span class="text-green-500">{{ question.correct_answer }}</span> </div> 
                         <div class="ml-10">
-                            <div>Option a : {{ question.a }}</div> 
-                            <div>Option b : {{ question.b }}</div> 
-                            <div>Option c : {{ question.c }}</div> 
-                            <div>Option d : {{ question.correct_answer }}</div>
+                            <div>Option a : {{ question.choices.option_a }}</div> 
+                            <div>Option b : {{ question.choices.option_b }}</div> 
+                            <div>Option c : {{ question.choices.option_c }}</div> 
+                            <div>Option d : {{ question.choices.option_d }}</div>
                         </div>
                     </div>
                     
@@ -100,7 +107,7 @@
  <script setup>
  
  import { usePage, Link } from '@inertiajs/vue3';
- import DashboardLayout from '../../../Layout/DashboardLayout.vue';
+ import DashboardLayout from '../../../../Layout/DashboardLayout.vue';
  import { ref } from 'vue';
  
  const user = usePage().props.user;

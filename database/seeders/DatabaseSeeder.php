@@ -41,6 +41,6 @@ class DatabaseSeeder extends Seeder
 
 
         //section factory
-        \App\Models\Section::factory(1)->create();
+        //\App\Models\Section::factory(1)->create();
     }
 }

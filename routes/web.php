@@ -141,6 +141,7 @@ Route::controller(ExaminationManagementSystem::class)->middleware(['auth', 'veri
 Route::controller(QuizManagementController::class)->middleware(['auth','verified','isAdmin'])->group(function(){
     Route::get('admin/panel/quiz/show', 'show')->name('quiz.show');
     Route::get('admin/panel/quiz/add', 'create')->name('quiz.add');
+    Route::post('admin/panel/quiz/store', 'store')->name('quiz.store');
 });
 
 Route::controller(SectionController::class)->middleware(['auth','verified','isSuperAdmin'])->group(function(){
