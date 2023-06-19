@@ -114,7 +114,16 @@ class QuizManagementController extends Controller
     public function editQuiz($id)
     {
         $quizToEdit = Quiz::with(['question.choices', 'subject'])->findOrFail($id);
-        $strand = Subject::all();
-        dd($quizToEdit);
+        $strands = Subject::all();
+        
+        return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Admin/QuizEdit',[
+            'quizToEdit'    => $quizToEdit,
+            'strands'       => $strands,
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        dd($request);
     }
 }

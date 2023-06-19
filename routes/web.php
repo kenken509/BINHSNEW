@@ -144,6 +144,7 @@ Route::controller(QuizManagementController::class)->middleware(['auth','verified
     Route::post('admin/panel/quiz/store', 'store')->name('quiz.store');
     Route::delete('admin/panel/quiz/delete/{id}', 'delete')->name('quiz.delete');
     Route::get('admin/panel/quiz/edit/{id}', 'editQuiz')->name('quiz.edit');
+    Route::post('admin/panel/quiz/update', 'update')->name('quiz.update');
 });
 
 Route::controller(SectionController::class)->middleware(['auth','verified','isSuperAdmin'])->group(function(){
