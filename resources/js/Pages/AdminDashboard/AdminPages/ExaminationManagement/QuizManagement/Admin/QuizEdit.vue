@@ -1,7 +1,7 @@
 <template>
     <DashboardLayout :user="user">
         <div class="border-bot-only border-gray-600 shadow-md mb-4">
-            <span class="text-[20px] font-bold text-gray-500">Add Quiz Page</span>  
+            <span class="text-[20px] font-bold text-gray-500">Edit Quiz Page</span>  
         </div>
         <div v-if="$page.props.flash.success" class="bg-green-300 mb-2 p-1 rounded-md text-gray-600">{{ $page.props.flash.success  }} </div>
 
@@ -81,15 +81,15 @@
                                                 <div>{{ index+1 }}.  {{ question.question }}</div>
                                                 <div>Answer: {{ question.correct_answer }}</div>
                                                 <div>Option A: {{ question.choices.option_a }}</div>
-                                                <div>Option B: {{ question.option_b }}</div>
-                                                <div>Option C: {{ question.option_c }}</div>
+                                                <div>Option B: {{ question.choices.option_b }}</div>
+                                                <div>Option C: {{ question.choices.option_c }}</div>
                                             </td>
                                             
                                             <td>
                                                 <div class="flex flex-col p-2  items-center ">
                                                    
                                                     <button type="button" class=" bg-red-600 p-2 rounded-md hover:bg-red-700 text-gray-100 hover:text-white my-2 w-20" @click="handleEditQuestionButton(index)">Edit </button>
-                                                    <button type="button" class=" bg-indigo-500 p-2 rounded-md hover:bg-indigo-700 text-gray-100 hover:text-white my-2 w-20">delete</button>
+                                                    <button type="button" class=" bg-indigo-500 p-2 rounded-md hover:bg-indigo-700 text-gray-100 hover:text-white my-2 w-20" @click="handleDeleteQuestionButton(index)">delete</button>
                                                 </div>    
                                             </td>
                                         </tr>
@@ -284,6 +284,7 @@ const preCorrectAnswer  = ref(null);
 
 const addQuestion = ref(false)
 function handleAddQuestionClick(){
+
     addQuestion.value = !addQuestion.value;
 }
 
@@ -301,15 +302,20 @@ const preQuestionsArray = []; //<<<<<<<< dto kelangan mailagay
 
 
 const handleAddModalQuestion = () => {
+    
     const newQuestion = {
         question: preQuestion.value,
         correct_answer: preCorrectAnswer.value,
-        option_a: preOptionA.value,
-        option_b: preOptionB.value,
-        option_c: preOptionC.value,
+        choices: {
+            option_a: preOptionA.value,
+            option_b: preOptionB.value,
+            option_c: preOptionC.value,
+        }
     };
 
-    preQuestionsArray.push(newQuestion);
+    
+    
+    existingQuestion.value.push(newQuestion);
 
     preQuestion.value = null;
     preOptionA.value = null;
@@ -317,9 +323,9 @@ const handleAddModalQuestion = () => {
     preOptionC.value = null;
     preCorrectAnswer.value = null;
 
-    console.log(preQuestionsArray);
-    saveQuestionsToLocalStorage(preQuestionsArray);
-    console.log(preQuestionsArray);
+    console.log(existingQuestion.value);
+    saveQuestionsToLocalStorage(existingQuestion.value);
+    console.log(existingQuestion.value);
 
     addQuestion.value = !addQuestion.value;
 };
@@ -409,13 +415,15 @@ const submit = () => {
     questionIndex.value = index;
 
     preQuestionEdit.value = selectedQuestion.question;
-    preOptionAEdit.value = selectedQuestion.option_a;
-    preOptionBEdit.value = selectedQuestion.option_b;
-    preOptionCEdit.value = selectedQuestion.option_c;
+    preOptionAEdit.value = selectedQuestion.choices.option_a;
+    preOptionBEdit.value = selectedQuestion.choices.option_b;
+    preOptionCEdit.value = selectedQuestion.choices.option_c;
     preCorrectAnswerEdit.value = selectedQuestion.correct_answer;
 
     editQuestion.value = !editQuestion.value;
 };
+
+
 const handleEditModalQuestion = () => {
   // Get the questions array from localStorage
   const questions = getQuestionsFromLocalStorage();
@@ -425,18 +433,38 @@ const handleEditModalQuestion = () => {
 
   // Update the properties of the selected question
   selectedQuestion.question         = preQuestionEdit.value;
-  selectedQuestion.option_a         = preOptionAEdit.value;
-  selectedQuestion.option_b         = preOptionBEdit.value;
-  selectedQuestion.option_c         = preOptionCEdit.value;
+  selectedQuestion.choices.option_a         = preOptionAEdit.value;
+  selectedQuestion.choices.option_b         = preOptionBEdit.value;
+  selectedQuestion.choices.option_c         = preOptionCEdit.value;
   selectedQuestion.correct_answer   = preCorrectAnswerEdit.value;
 
   // Save the updated array back to localStorage
   saveQuestionsToLocalStorage(questions);
-
+  existingQuestion.value = getQuestionsFromLocalStorage()
   // Close the edit modal
   editQuestion.value = false;
 };
 
 
 //edit question codes **********************************************
+
+//delete question codes ************************************************
+
+const handleDeleteQuestionButton = (index)=> {
+    //get the currently saved question
+    const currentQuestion = getQuestionsFromLocalStorage()
+
+    //filter the existing question 
+    const newQuestionArray = currentQuestion.filter((question, i) => i !== index );
+
+    
+    saveQuestionsToLocalStorage(newQuestionArray);
+
+    existingQuestion.value = getQuestionsFromLocalStorage();
+
+}
+
+//delete question codes ************************************************
+
+
 </script>
