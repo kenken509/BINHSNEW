@@ -122,8 +122,119 @@ class QuizManagementController extends Controller
         ]);
     }
 
+    // +request: Symfony\Component\HttpFoundation\ParameterBag {#36 ▼
+    //     #parameters: array:5 [▼
+    //       "subject_id" => 2
+    //       "title" => "Quiz 1"
+    //       "grading_period" => "1st"
+    //       "duration" => 20
+    //       "questions" => array:2 [▼
+    //         0 => array:3 [▼
+    //           "question" => "What does RAM stands for?"
+    //           "correct_answer" => "Random Access Memory"
+    //           "choices" => array:3 [▶]
+    //         ]
+    //         1 => array:3 [▼
+    //           "question" => "Who is the current president of the Philippines"
+    //           "correct_answer" => "Ferdinan Marcos Jr."
+    //           "choices" => array:3 [▶]
+    //         ]
+    //       ]
+    //     ]
+    //   }
     public function update(Request $request)
     {
-        dd($request);
+        //dd($request);
+        $validate = $request->validate([
+            'subject_id' => 'required',
+            'title' => 'required',
+            'grading_period' => 'required',
+            "duration"          => 'required',
+            "questions"         => 'required|array|min:1',
+        ],[
+            'questions'     => 'Must have at least 1 question!'
+        ]);
+
+        $quizId = $request->id;
+        $quiz = Quiz::with('question.choices')->findOrFail($quizId);
+
+        //try block here <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,
+        if($quiz)
+        {
+            $quiz->subject_id       = $request['subject_id'];
+            $quiz->title            = $request['title'];
+            $quiz->grading_period   = $request['grading_period'];
+            $quiz->duration         = $request['duration'];
+            $quiz->save();
+
+            $deletedQuestion = $request->deleted_question_id;
+            if($deletedQuestion)
+            {
+                foreach ($deletedQuestion as $questId) {
+
+                $questionToDelete = QuizQuestion::findOrFail($questId);
+                
+                 //Delete the related QuizChoices manually
+                $questionToDelete->choices()->delete(); // Assuming 'choices' is the relationship method in QuizQuestion model
+        
+                // Delete the QuizQuestion
+                $questionToDelete->delete();
+            }
+            }
+            
+
+            $requestQuestion = $request->questions;
+            foreach($requestQuestion as $questionData)
+            {
+                if($questionData['id'])
+                {
+                    
+                    $questionId = $questionData['id'];
+                    $question = QuizQuestion::findOrFail($questionId);
+                    
+                    
+                    {
+                        $question->question         = $questionData['question'];
+                        $question->quiz_id          = $quizId;
+                        $question->correct_answer   = $questionData['correct_answer'];
+                        $question->save();
+    
+                        $choices = QuizChoices::where('quiz_question_id', '=', $questionId)->get();
+    
+                        
+                        $choices[0]->quiz_question_id   = $questionId;
+                        $choices[0]->option_a           = $questionData['choices']['option_a'];
+                        $choices[0]->option_b           = $questionData['choices']['option_b'];
+                        $choices[0]->option_c           = $questionData['choices']['option_c'];
+                        $choices[0]->option_d           = $questionData['correct_answer'];
+                        $choices[0]->save();
+                    }
+                }
+                else
+                {
+                    
+                        $newQuestion = new QuizQuestion(); 
+                        $newQuestion->question         = $questionData['question'];
+                        $newQuestion->quiz_id          = $quizId;
+                        $newQuestion->correct_answer   = $questionData['correct_answer'];
+                        $newQuestion->save();
+
+                        $newQuestionId = $newQuestion->id;
+
+                        $newChoices = new QuizChoices();
+
+                        $newChoices->quiz_question_id   = $newQuestionId;
+                        $newChoices->option_a           = $questionData['choices']['option_a'];
+                        $newChoices->option_b           = $questionData['choices']['option_a'];
+                        $newChoices->option_c           = $questionData['choices']['option_a'];
+                        $newChoices->option_d           = $questionData['correct_answer'];
+                        $newChoices->save();
+                }
+            }
+        }
+
+        return redirect()->route('quiz.show')->with('success', 'Updated Successfully');
     }
+
+    
 }

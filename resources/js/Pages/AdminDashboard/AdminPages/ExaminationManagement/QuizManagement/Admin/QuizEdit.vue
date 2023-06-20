@@ -52,6 +52,7 @@
                     <!--QUIZ QUESTIONS-->
                     <div class="col-span-2 md:col-span-1 w-full border border-blue-500 rounded-md">
                         <div class="flex justify-between items-center p-2 border-b-2 border-gray-500 ">
+                            
                             <h1 >Quiz Questions <button v-if="getQuestionsFromLocalStorage().length > 0" class="bg-red-500 rounded px-2 text-gray-200 " disabled>{{ getQuestionsFromLocalStorage().length }}</button></h1>
                             <div>
                                 <button type="button" class=" bg-indigo-500 p-2 rounded-md hover:bg-indigo-400 text-gray-100" @click="handleAddQuestionClick">Add Question</button>
@@ -89,7 +90,7 @@
                                                 <div class="flex flex-col p-2  items-center ">
                                                    
                                                     <button type="button" class=" bg-red-600 p-2 rounded-md hover:bg-red-700 text-gray-100 hover:text-white my-2 w-20" @click="handleEditQuestionButton(index)">Edit </button>
-                                                    <button type="button" class=" bg-indigo-500 p-2 rounded-md hover:bg-indigo-700 text-gray-100 hover:text-white my-2 w-20" @click="handleDeleteQuestionButton(index)">delete</button>
+                                                    <button type="button" class=" bg-indigo-500 p-2 rounded-md hover:bg-indigo-700 text-gray-100 hover:text-white my-2 w-20" @click="handleDeleteQuestionButton(index,question.id)">delete</button>
                                                 </div>    
                                             </td>
                                         </tr>
@@ -98,6 +99,7 @@
                                     
                                     
                             </table>
+                            
                             <div v-if="getQuestionsFromLocalStorage().length === 0" class="flex justify-center text-gray-500">
                                 Empty List
                                
@@ -239,7 +241,7 @@
                                 <!-- <InputError :error="form.errors.correct_answer"/> -->
                             </div>
                             <div class="w-full mt-6 ">
-                                <Button label="Add" class="w-full" type="submit"/>
+                                <Button label="Save" class="w-full" type="submit"/>
                             </div>
                         </form>
                     </div>
@@ -304,6 +306,7 @@ const preQuestionsArray = []; //<<<<<<<< dto kelangan mailagay
 const handleAddModalQuestion = () => {
     
     const newQuestion = {
+        id:null,
         question: preQuestion.value,
         correct_answer: preCorrectAnswer.value,
         choices: {
@@ -357,6 +360,7 @@ onMounted(() => {
   const questionsArray = quiz.quizToEdit.question.map((question) => {
     // Create an object with the necessary properties from the question object
     const questionObject = {
+      id:question.id,
       question: question.question,
       correct_answer: question.correct_answer,
       choices: {
@@ -379,6 +383,8 @@ onBeforeUnmount(() => {
 });
 
 const form = useForm({
+    id:quiz.quizToEdit.id,
+    deleted_question_id:[],
     subject_id:quiz.quizToEdit.subject_id,
     title:quiz.quizToEdit.title,
     grading_period : quiz.quizToEdit.grading_period,
@@ -395,8 +401,8 @@ watch(selectedGradingPeriod,(val)=>{
 })
 const submit = () => {
     form.questions = getQuestionsFromLocalStorage()
-    deleteDataFromLocalStorage()
-    form.post(route('quiz.update'))
+    // deleteDataFromLocalStorage()   // if submit has errors do not delete <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    form.post(route('quiz.update'),{preserveScroll:true})
     
 };
 
@@ -413,7 +419,7 @@ const submit = () => {
     const selectedQuestion = getQuestionsFromLocalStorage()[index];
     
     questionIndex.value = index;
-
+    
     preQuestionEdit.value = selectedQuestion.question;
     preOptionAEdit.value = selectedQuestion.choices.option_a;
     preOptionBEdit.value = selectedQuestion.choices.option_b;
@@ -449,11 +455,12 @@ const handleEditModalQuestion = () => {
 //edit question codes **********************************************
 
 //delete question codes ************************************************
-
-const handleDeleteQuestionButton = (index)=> {
+const deletedQuestionsId = ref([]);
+const handleDeleteQuestionButton = (index,question_id)=> {
     //get the currently saved question
     const currentQuestion = getQuestionsFromLocalStorage()
-
+    deletedQuestionsId.value.push(question_id);
+    form.deleted_question_id = deletedQuestionsId.value;
     //filter the existing question 
     const newQuestionArray = currentQuestion.filter((question, i) => i !== index );
 

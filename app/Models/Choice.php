@@ -9,5 +9,5 @@ class Choice extends Model
 {
     use HasFactory;
 
-    
+    protected $guarded = [];
 }
