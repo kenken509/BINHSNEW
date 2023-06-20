@@ -7,27 +7,50 @@ use App\Models\Subject;
 use App\Models\QuizChoices;
 use App\Models\QuizQuestion;
 use Illuminate\Http\Request;
+use Auth;
 
 class QuizManagementController extends Controller
 {
     public function show(){
+        $loggedUser = Auth::user()->role;
 
-        //dd(Quiz::with(['question','subject'])->latest()->get());
-        return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Admin/QuizAll', [
-            'quizzes' => Quiz::with(['question.choices','subject'])->withCount('question')->latest()->get(),
-            // 'quizzes' => Quiz::with(['questions.choices' => function ($query) {  this gives a random choices
-            //     $query->inRandomOrder();
-            // }, 'subject'])->latest()->get(),
-        ]);
+
+        if($loggedUser == 'admin')
+        {
+            return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Admin/QuizAll', [
+                'quizzes' => Quiz::with(['question.choices','subject'])->withCount('question')->latest()->get(),
+            ]);
+        }
+
+        if($loggedUser == 'instructor')
+        {
+            $insturctorSubject = Auth::user()->subject_id;
+            return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Instructor/InstructorQuizAll', [
+                'quizzes' => Quiz::where('subject_id', '=', $insturctorSubject)->with(['question.choices','subject'])->withCount('question')->latest()->get(),
+            ]);
+        }
+        
 
     }
 
     public function create(){
 
-        
-        return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Admin/QuizAdd',[
-            'strands' => Subject::all(),
-        ]);
+        $loggedUser = Auth::user()->role;
+
+        if($loggedUser == 'admin')
+        {
+            return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Admin/QuizAdd',[
+                'strands' => Subject::all(),
+            ]);
+        }
+
+        if($loggedUser == 'instructor')
+        {
+            return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Instructor/InstructorQuizAdd',[
+                'strands' => Subject::all(),
+            ]);
+        }
+       
     }
 
    
@@ -116,10 +139,25 @@ class QuizManagementController extends Controller
         $quizToEdit = Quiz::with(['question.choices', 'subject'])->findOrFail($id);
         $strands = Subject::all();
         
-        return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Admin/QuizEdit',[
-            'quizToEdit'    => $quizToEdit,
-            'strands'       => $strands,
-        ]);
+        $loggedUser = Auth::user()->role;
+
+
+        if($loggedUser == 'admin')
+        {
+            return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Admin/QuizEdit',[
+                'quizToEdit'    => $quizToEdit,
+                'strands'       => $strands,
+            ]);
+        }
+
+        if($loggedUser == 'instructor')
+        {
+            return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Instructor/InstructorQuizEdit',[
+                'quizToEdit'    => $quizToEdit,
+                'strands'       => $strands,
+            ]);
+        }
+        
     }
 
     // +request: Symfony\Component\HttpFoundation\ParameterBag {#36 ▼
@@ -170,22 +208,25 @@ class QuizManagementController extends Controller
             $deletedQuestion = $request->deleted_question_id;
             if($deletedQuestion)
             {
-                foreach ($deletedQuestion as $questId) {
+                foreach ($deletedQuestion as $questId) 
+                {
+                    if($questId)
+                    {
+                        $questionToDelete = QuizQuestion::findOrFail($questId);
 
-                $questionToDelete = QuizQuestion::findOrFail($questId);
+                        $questionToDelete->choices()->delete(); // Assuming 'choices' is the relationship method in QuizQuestion model
                 
-                 //Delete the related QuizChoices manually
-                $questionToDelete->choices()->delete(); // Assuming 'choices' is the relationship method in QuizQuestion model
-        
-                // Delete the QuizQuestion
-                $questionToDelete->delete();
-            }
+                        // Delete the QuizQuestion
+                        $questionToDelete->delete();
+                    }
+                }
             }
             
 
             $requestQuestion = $request->questions;
             foreach($requestQuestion as $questionData)
             {
+
                 if($questionData['id'])
                 {
                     

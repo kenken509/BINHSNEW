@@ -9,25 +9,25 @@
                
                 <thead class="text-xs text-gray-200 uppercase bg-green-700  ">
                     <tr>
-                        <th scope="col" class="text-center px-6 py-3">
+                        <th scope="col" class="px-6 py-3">
                             ID#
                         </th>
-                        <th scope="col" class="text-center px-6 py-3">
+                        <th scope="col" class="px-6 py-3">
                             Title
                         </th>
-                        <th scope="col" class="text-center px-6 py-3">
+                        <th scope="col" class="px-6 py-3">
                             Subject
                         </th>
-                        <th scope="col" class="text-center px-6 py-3">
+                        <th scope="col" class="px-6 py-3">
                             Grading Period
                         </th>
-                        <th scope="col" class="text-center px-6 py-3">
+                        <th scope="col" class="px-6 py-3">
                             Duration
                         </th>
-                        <th scope="col" class="text-center px-6 py-3">
+                        <th scope="col" class="px-6 py-3">
                             Items
                         </th>
-                        <th scope="col" class="text-center px-6 py-3">
+                        <th scope="col" class="px-6 py-3">
                             Action
                         </th>
                         
@@ -35,34 +35,32 @@
                 </thead>
                 <tbody v-for="quiz in quizzes.quizzes" :key="quiz.id" >
                     <tr class="bg-white border-b ">
-                        <td scope="row" class="text-center px-6 py-4 font-medium text-gray-900 ">
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                         {{ quiz.id }}
                         </td>
-                        <td scope="row" class=" text-center px-6 py-4 font-medium text-gray-900  ">
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                         {{ quiz.title }}
                         </td>
-                        <td scope="row" class="text-center px-6 py-4 font-medium text-gray-900  ">
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                             {{ quiz.subject.name}}
                         </td>
                 
-                        <td scope="row" class="text-center px-6 py-4 font-medium text-gray-900 ">
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
                             {{ quiz.grading_period }}
                         </td>
-                        <td scope="row" class="text-center px-6 py-4 font-medium text-gray-900 ">
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
                             {{ quiz.duration }} mins
                         </td>
-                        <td scope="row" class="text-center px-6 py-4 font-medium text-gray-900 ">
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
                             {{ quiz.question_count }} 
                         </td>
-                        <td scope="row" class=" text-center px-6 py-4 font-medium text-gray-900 ">
-                            <div class=" space-x-6 text-center   items-center">
+                        <td>
+                            <div class=" space-x-4">
                                 <Link :href="route('quiz.delete', {id: quiz.id})" class="cursor-pointer" v-tooltip.left="'Delete Question'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
                                 <Link :href="route('quiz.edit', {id:quiz.id})" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
                                 <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'Preview'" @click="openModal(quiz.id)" ></span>
-                                <span class="pi pi-send cursor-pointer hover:scale-150" style="color: slateblue" v-tooltip.right="'Activate'" @click="showQuizModal(quiz.id)"></span>
-                            </div>   
+                            </div>    
                         </td>
-                        
                     </tr>
                     
                 </tbody>
@@ -99,19 +97,6 @@
                 
             </Dialog>
             <!--MODAL---->
-
-            <!--ACTIVATE QUIZ MODAL-->
-            <Dialog v-model:visible="activateQuizModal" modal header="Activate Quiz"  :style="{ width: '60vw' }" :breakpoints="{ '960px': '75vw', '641px': '100vw' }">
-                <hr class="bg-gray-400 h-[2px] mb-2">
-                <div>TO DO:</div>
-                <div>1. IF CURRENTLY LOGGED USER IS ADMIN LET HIM CHOOSE TO WHICH SECTION THE QUIZ WILL BE GIVEN</div>
-                <div>2. PROVIDE A DATE INPUT THAT WILL LET THE USER CHOOSE THE START AND END DATE</div>
-                <div>3. PROVIDE A BUTTON THAT WILL ACTIVATE THE QUIZ</div>
-                
-               
-                
-            </Dialog>
-            <!--ACTIVATE QUIZ MODAL-->
         </div>
         
 
@@ -140,10 +125,5 @@
     quizId.value = id;
 }
 
-const activateQuizModal = ref(false);
-const activateQuizId = ref(null);
-const showQuizModal = (id) => {
-    activateQuizId.value = id;
-    activateQuizModal.value = !activateQuizModal.value;
-}
+
  </script>
