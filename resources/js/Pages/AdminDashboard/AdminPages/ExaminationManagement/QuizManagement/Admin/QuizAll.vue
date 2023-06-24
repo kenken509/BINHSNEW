@@ -104,7 +104,7 @@
             <Dialog v-model:visible="activateQuizModal" modal header="Activate Quiz"  :style="{ width: '60vw' }" :breakpoints="{ '960px': '75vw', '641px': '100vw' }">
                 <hr class="bg-gray-400 h-[2px] mb-2">
                 <div>TO DO:</div>
-                <div>1. IF CURRENTLY LOGGED USER IS ADMIN LET HIM CHOOSE TO WHICH SECTION THE QUIZ WILL BE GIVEN</div>
+                <div>1. If the currently logged-in user is an admin, allow them to choose the section to which the quiz will be given.</div>
                 <div>2. PROVIDE A DATE INPUT THAT WILL LET THE USER CHOOSE THE START AND END DATE</div>
                 <div>3. PROVIDE A BUTTON THAT WILL ACTIVATE THE QUIZ</div>
                 

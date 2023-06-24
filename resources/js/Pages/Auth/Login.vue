@@ -21,22 +21,22 @@ const login = ()=> form.post(route('login.store'))
 
 <template >
     <div class="w-screen h-screen flex items-center justify-center">
-        <div class="grid grid-cols-2  border border-black rounded  w-2/3 h-2/3">
-            <div class="flex items-center justify-center ">
-                <img src="images/webPage/loginBG.png" class="bg-red-500">
+        <div class=" border border-gray-300 shadow-md rounded  w-[450px] h-2/3">
+            <div class="flex items-center justify-center mt-2 ">
+                <img src="images/webPage/logo1.png" class=" w-[150px] h-[150px]">
             </div>
 
             <!--login form-->
             <div class="">
                 <form  @submit.prevent="login">
-                    <div class="w-full mx-auto p-5">
-                        <div class=" mt-4  ">
+                    <div class="w-full mx-auto p-5 ">
+                        <div class=" mt-2  ">
                             <label class="label" for="email">E-mail</label>
                             
                             
                             <div class="w-full relative flex items-center">
                                 <i class="fa-solid fa-user absolute p-3 text-blue-400 pointer-events-none"></i>
-                                <input type="text" id="email" name="email" class="input pl-8"  v-model="form.email" autocomplete="false">
+                                <input type="text" id="email" name="email" placeholder="email" class="input pl-8"  v-model="form.email" autocomplete="false">
                             </div>
                             
                             
@@ -56,9 +56,10 @@ const login = ()=> form.post(route('login.store'))
                             </div>
                             
                         </div >
-                        <button class="btn-primary w-full mt-4 text-center" type="submit">Login</button>
+                        <button class="btn-primary w-full mt-4 text-center" type="submit">Sign-in</button>
                         <div class="flex justify-between mt-2">
                             <span>Don't have and account? <Link :href="route('register.guest')" class="text-blue-500"> register</Link></span>
+                            <Link :href="route('forgot.password')" class="text-blue-500"> Forgot password?</Link>
                         </div>
                     </div>
                 </form>

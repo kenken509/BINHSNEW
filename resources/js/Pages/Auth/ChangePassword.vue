@@ -8,24 +8,25 @@
                 <img src="../../../../public/images/webPage/logo1.png" alt="error"  class="w-[150px] h-[150px]" /> 
             </div>
             <div class="flex justify-center">
-                <span class=" font-bold text-xl">Account Registration</span>
+                <span class=" font-bold text-xl">Change Password</span>
             </div>
             <!--input group-->
             <div>
                 <form class="px-8" @submit.prevent="submit">
-                    <div class="w-full col-span-12 md:col-span-4 mt-14 ">
+                    <div class="w-full col-span-12 md:col-span-4 mt-16 ">
                         <span class="p-float-label">
                             <InputText id="email"  class="w-full" v-model="form.email" />
-                            <label for="email">email</label>
+                            <label for="email">Email</label>
                         </span>
                         <InputError :error="form.errors.email"/>
                     </div>
+                    
                     <div class="w-full my-8 ">
                         <span class="p-float-label ">
                             <div class="w-full bg-red-300">
                             </div>
                             <InputText id="password" type="password" class="w-full" v-model="form.password" />
-                            <label for="password">Password</label>
+                            <label for="password">New password</label>
                         </span>
                         <InputError :error="form.errors.password"/>
                     </div>
@@ -36,14 +37,12 @@
                             </div>
                             <InputText id="password_confirmation" type="password" class="w-full" v-model="form.password_confirmation" />
                             <label for="password_confirmation">Confirm password</label>
+                            
                         </span>
                     </div>
                     <div class="w-full my-8">
                         <Button label="Submit" class="w-full" type="submit"/>
                     </div>
-                    
-                    
-                    
                 </form>
             </div>
         </div>
@@ -62,8 +61,8 @@ const form = useForm({
     email: null,
     password:null,
     password_confirmation:null,
-    role: 'guest',
+    // role: 'guest',
 })
 
-const submit = () => form.post(route('register.guestStore'),{preserveScroll:true});
+const submit = () => form.post(route('reset.password'),{preserveScroll:true});
 </script>

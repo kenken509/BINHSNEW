@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Hash;
 
 
 class AuthController extends Controller
@@ -46,7 +47,7 @@ class AuthController extends Controller
         
         $request->session()->regenerate(); // to avoid session fixation
 
-        return redirect()->intended('/'); // redirect to intended page
+        return redirect()->intended('/')->with('success', 'Logged in successfully'); // redirect to intended page
     }
 
     public function showRegistration(){
@@ -62,8 +63,7 @@ class AuthController extends Controller
                 Password::min(8)
                     ->mixedCase()
                     ->numbers()
-                    ->symbols()
-                    ->uncompromised(),
+                    ->symbols(),
                 'confirmed'
             ]
         ];
@@ -80,12 +80,54 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Registered Successfully');
     }
 
+    public function changePassword(Request $request)
+    {
+        // dd($request);
+        $request->validate([
+            'email' => 'required|email',
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
+            ],
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        
+        if(!$user)
+        {
+            return redirect()->back()->with('error', 'Authentication Failed');
+        }
+        
+        $user->password = $request->password;
+        $user->save();
+
+        return redirect()->route('index')->with('success', 'Successfully changed password');
+
+        
+    }
+
     public function destroy(Request $request){ // destroy the current user session (log out)
         Auth::logout();
 
         $request->session()->invalidate(); //invalidate the session
         $request->session()->regenerateToken(); // regenerate csrf token
 
-        return redirect()->route('index')->with('message', 'this is the message!');
+        return redirect()->route('index')->with('success', 'Logged out successfully');
     }
+
+    public function showChangePassword()
+    {
+        return inertia('Auth/ChangePassword');
+    }
+
+    public function showForgotPassword()
+    {
+        return inertia('Auth/ForgotPassword');
+    }
+
+    
 }

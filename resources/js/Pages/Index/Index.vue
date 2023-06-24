@@ -17,9 +17,13 @@
     
     <!--divider-->
     <div class=" h-[40px] border shadow-md "></div>
-
+    <div class="flex  justify-center  ">
+        <div v-if="$page.props.flash.success" class="j bg-green-300 mb-2 p-2 rounded-md text-gray-600 w-[68%] border mt-2 mb-4">{{ $page.props.flash.success  }} </div>
+    </div>
+    
     <!--you are here-->
-    <div class="flex justify-center">
+    <div class="flex  justify-center  ">
+        
         <div class="w-[68%] border mt-2 mb-4">You are here: {{ currentUrl }}</div>
     </div>
     <div class="flex justify-center">

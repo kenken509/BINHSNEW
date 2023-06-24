@@ -86,6 +86,9 @@ Route::controller(AuthController::class)->group(function(){
     Route::delete('/logout', 'destroy')->name('logout');
     Route::get('/guest-registration', 'showRegistration')->name('register.guest');
     Route::post('/guest-register', 'storeGuest')->name('register.guestStore');
+    Route::get('/change-password', 'showChangePassword')->name('change.password');
+    Route::post('/change-password/store', 'changePassword')->name('reset.password');
+    Route::get('/forgot-password', 'showForgotPassword')->name('forgot.password');
     
 });
 
@@ -154,4 +157,10 @@ Route::controller(SectionController::class)->middleware(['auth','verified','isSu
     Route::delete('admin/panel/section/section-delete/{section}', 'delete')->name('section.delete');
     Route::get('admin/panel/section/section-edit/{id}', 'edit')->name('section.edit');
     Route::post('admin/panel/section/section-update', 'update')->name('section.update');
+});
+
+
+Route::controller(SimulatorAuthController::class)->group(function(){
+    Route::post('/simulator/login','simLogin')->name('simulator.login');
+    Route::get('/simulator/test-api','handlePostRequest')->name('simulator.login');
 });
