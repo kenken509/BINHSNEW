@@ -199,6 +199,9 @@ const loggedUser = computed(() => usePage().props.user);
 
 // show selected
 onMounted(()=>{
+    
+    
+
     regionByCode(user.userToEdit.region).then((region) => {
         
         selectedRegion.value = region

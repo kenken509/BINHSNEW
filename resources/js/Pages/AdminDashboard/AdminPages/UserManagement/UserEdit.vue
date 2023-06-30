@@ -48,7 +48,7 @@
 
                 <div class="w-full mb-4 col-span-12 md:col-span-4 " >
                     <span class="p-float-label">
-                        <InputNumber v-model="form.phoneNumber" inputId="withoutgrouping" :useGrouping="false"  id="phoneNumber" class="w-full"/>
+                        <InputNumber v-model="form.phoneNumber"  :useGrouping="false"  inputId="phoneNumber" class="w-full"/>
                         <label for="phoneNumber">Phone Number ( <span class="text-red-300">639191112222</span> )</label>
                     </span>
                     <InputError :error="form.errors.phoneNumber"/>
@@ -56,7 +56,7 @@
 
                 <div class="w-full mb-4 col-span-12 md:col-span-4 " >
                     <span class="p-float-label">
-                        <Calendar v-model="form.birthDate" id="birthDate" class="w-full" />
+                        <Calendar v-model="form.birthDate" inputId="birthDate" class="w-full" />
                         <label for="birthDate">Birthday</label>                       
                     </span>
                     <InputError :error="form.errors.birthDate"/>
@@ -86,10 +86,10 @@
                     <h1 class="text-gray-600 text-[16px]">Gender :</h1>
                     <div class="w-full mb-4 col-span-12 md:col-span-4 flex align-items-center space-x-4 items-center">
                         <RadioButton v-model="selectedGender" inputId="male" name="male" value="male" />
-                        <label for="ingredient1" class="ml-2">Male</label>
+                        <label for="male" class="ml-2">Male</label>
                         
                         <RadioButton v-model="selectedGender" inputId="female" name="female" value="female" />
-                        <label for="ingredient1" class="ml-2">Female</label>
+                        <label for="female" class="ml-2">Female</label>
                         <InputError :error="form.errors.gender"/>
                     </div>
                     
@@ -99,10 +99,10 @@
                     <h1 class="text-gray-600 text-[16px]">Civil Status :</h1>
                     <div class="w-full mb-4 col-span-12 md:col-span-4 flex align-items-center space-x-4 items-center">
                         <RadioButton v-model="selectedCivilStatus" inputId="single" name="single" value="single" />
-                        <label for="ingredient1" class="ml-2">Single</label>
+                        <label for="single" class="ml-2">Single</label>
 
                         <RadioButton v-model="selectedCivilStatus" inputId="married" name="married" value="married" />
-                        <label for="ingredient1" class="ml-2">Married</label>
+                        <label for="married" class="ml-2">Married</label>
                         <InputError :error="form.errors.civilStatus"/>
                     </div>
                 </div>
@@ -178,9 +178,20 @@ const loggedUser = computed(() => usePage().props.user);
 const handleSubjectChange = ()=>{
     console.log('selected subject: '+selectedSubject);
 }
+ 
+
+const hasReloaded = localStorage.getItem('hasReloaded');
 
 // show selected
 onMounted(()=>{
+    
+    if (!hasReloaded) {
+        localStorage.setItem('hasReloaded', true);
+        location.reload();
+    } else {
+        localStorage.removeItem('hasReloaded');
+    }
+    
     regionByCode(user.userToEdit.region).then((region) => {
         selectedRegion.value = region
         

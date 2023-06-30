@@ -1,9 +1,9 @@
 <template>
 
    
-    <div class="grid grid-cols-3 bg-gray-200 h-screen items-center py-10">
+    <div class="flex justify-center items-center bg-gray-200 h-screen items-center py-10 ">
         <div></div>
-        <div class="border border-gray-300 shadow-md col-span-3 md:col-span-1 h-full   mx-4 md:mx-0 pt-8 rounded-md" >
+        <div class="border border-gray-300 shadow-xl col-span-3 md:col-span-1 w-full md:w-1/4 h-auto   mx-4 md:mx-0 pt-8 rounded-md " >
             <div class="flex justify-center items-center w-full mt-4">
                 <img src="../../../../public/images/webPage/logo1.png" alt="error"  class="w-[150px] h-[150px]" /> 
             </div>
@@ -16,7 +16,7 @@
                     <div class="w-full col-span-12 md:col-span-4 mt-14 ">
                         <span class="p-float-label">
                             <InputText id="email"  class="w-full" v-model="form.email" />
-                            <label for="email">email</label>
+                            <label for="email">Email</label>
                         </span>
                         <InputError :error="form.errors.email"/>
                     </div>
@@ -41,8 +41,6 @@
                     <div class="w-full my-8">
                         <Button label="Submit" class="w-full" type="submit"/>
                     </div>
-                    
-                    
                     
                 </form>
             </div>

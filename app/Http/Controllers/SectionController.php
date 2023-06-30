@@ -20,7 +20,7 @@ class SectionController extends Controller
     }
 
     public function create(){
-        
+        //dd(Subject::with('instructor')->get());
         return inertia('AdminDashboard/AdminPages/SectionManagement/SectionAdd', [
             'subjects' => Subject::with('instructor')->get(),
         ]);

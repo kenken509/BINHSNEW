@@ -27,6 +27,7 @@
             <div class="mb-5">Instructor: </div>
             <div v-for="subject in props.subjects">
                 <div v-if="subject === selectedSubject">
+                    
                     <div>
                         <Dropdown  v-model="selectedInstructor" :options="subject.instructor" optionLabel="lName" placeholder="Select a Instructor" class="w-full md:w-14rem "  />
                         
