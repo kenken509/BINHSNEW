@@ -3,7 +3,7 @@
    
     <div class="flex justify-center items-center bg-gray-200 h-screen items-center py-10">
         <div></div>
-        <div class="border border-gray-300 shadow-md col-span-3 md:col-span-1 h-full bg-red-300  mx-4 md:mx-0 pt-8 rounded-md" >
+        <div class="border border-gray-300 shadow-md col-span-3 md:col-span-1 h-auto w-full md:w-1/4  mx-4 md:mx-0 pt-8 rounded-md" >
             <div class="flex justify-center items-center w-full mt-4">
                 <img src="../../../../public/images/webPage/logo1.png" alt="error"  class="w-[150px] h-[150px]" /> 
             </div>
