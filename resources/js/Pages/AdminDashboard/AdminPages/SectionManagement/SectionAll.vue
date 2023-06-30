@@ -4,7 +4,7 @@
             <span class="text-[20px] font-bold text-gray-500">All Sections Page</span>  
         </div>
         <div v-if="$page.props.flash.success" class="bg-green-300 mb-2 p-1 rounded-md text-gray-600">{{ $page.props.flash.success  }} </div>
-        <div class=" overflow-x-auto shadow-md sm:rounded-lg">
+        <div class=" overflow-x-auto shadow-md rounded-lg ">
             <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-200 uppercase bg-green-700  ">
                     <tr>
