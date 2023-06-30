@@ -63,7 +63,7 @@
                         </div>
                        
                         <!--QUESTIONS TABLE-->
-                        <div class=" overflow-x-auto mt-4 p-2">
+                        <div class="overflow-x-auto shadow-md sm:rounded-lg mt-4">
                             <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
                            
                                 <thead class="text-xs text-gray-200 uppercase bg-green-700 ">
@@ -185,7 +185,7 @@
                 
                 <!--EDIT QUESTION MODAL-->
                 <Dialog v-model:visible="editQuestion" modal header="Add new question"  :style="{ width: '50vw' }" :breakpoints="{ '960px': '75vw', '641px': '100vw' }">
-                    {{  getQuestionsFromLocalStorage()[questionIndex]  }}
+                    
                     <div class="border p-2 rounded-md">
                         <form @submit.prevent="handleEditModalQuestion">
                             <div>Question:</div>

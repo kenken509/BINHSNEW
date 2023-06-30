@@ -1,20 +1,26 @@
 <template>
     <DashboardLayout :user="user">
-        <div class="border-bot-only border-gray-600 shadow-md mb-4">
+        <div class="flex justify-between border-bot-only border-gray-600  mb-4 p-2">
             <span class="text-[20px] font-bold text-gray-500">Add Quiz Page</span>  
+            <div>
+                <button type="button" class=" bg-indigo-500 p-2 rounded-md hover:bg-indigo-400 text-gray-100" @click="handleAddQuestionClick(index)">Add Question</button>
+            </div>
         </div>
         <div v-if="$page.props.flash.success" class="bg-green-300 mb-2 p-1 rounded-md text-gray-600">{{ $page.props.flash.success  }} </div>
 
         <div>
             <form @submit.prevent="submit">
                 
-                <div class="grid grid-cols-2 gap-2 w-full h-full border ">
+                <div class="grid grid-cols-2 gap-4 w-full h-full ">
                     <!--QUIZ DETAILS-->
-                    <div class="col-span-2 md:col-span-1 w-full border border-red-500 px-2 ">
-                        <h1 >Quiz Information</h1>
+                    <div class="col-span-2 md:col-span-1 w-full border shadow-xl rounded-md px-4 border-gray-300 ">
+                        <div class="flex justify-between items-center py-2 border-b-2 border-gray-600 ">
+                            <h1 class="text-[18px] text-gray-600" >Quiz Information</h1>
+                            
+                        </div>
                         <hr>
                         <div class="w-full mb-4 ">
-                            <div class="mb-5">Title: </div>
+                            <div class="my-5">Title: </div>
                                 <span class="p-float-label">
                                     <InputText v-model="form.title" id="title"  class="w-full" />
                                     <label for="title">Enter quiz title</label>
@@ -37,19 +43,17 @@
                                 </span>
                                 <InputError :error="form.errors.duration"/>
                         </div>
-                        <div class="w-full col-span-2 bg-red-200">
+                        <div class="w-full col-span-2 mb-4">
                             <Button label="Submit" type="submit" class="w-full"/>
                         </div>
                     </div>
                     <!--QUIZ DETAILS-->
                     
                     <!--QUIZ QUESTIONS-->
-                    <div class="col-span-2 md:col-span-1 w-full border border-blue-500 rounded-md">
-                        <div class="flex justify-between items-center p-2 border-b-2 border-gray-500 ">
-                            <h1 >Quiz Questions <button v-if="getQuestionsFromLocalStorage().length > 0" class="bg-red-500 rounded px-2 text-gray-200 " disabled>{{ getQuestionsFromLocalStorage().length }}</button></h1>
-                            <div>
-                                <button type="button" class=" bg-indigo-500 p-2 rounded-md hover:bg-indigo-400 text-gray-100" @click="handleAddQuestionClick">Add Question</button>
-                            </div>
+                    <div class="col-span-2 md:col-span-1 w-full border shadow-md rounded-md px-2 border-gray-300">
+                        <div class="flex justify-between items-center p-2 border-b-2 border-gray-600 ">
+                            <h1 class="text-[18px] text-gray-600" >Quiz Questions <button v-if="getQuestionsFromLocalStorage().length > 0" class="bg-red-500 rounded px-2 text-gray-200 " disabled>{{ getQuestionsFromLocalStorage().length }}</button></h1>
+                            
                         </div>
                        
                         <!--QUESTIONS TABLE-->
@@ -92,7 +96,7 @@
                                     
                                     
                             </table>
-                            <div v-if="getQuestionsFromLocalStorage().length === 0" class="flex justify-center text-gray-500">
+                            <div v-if="getQuestionsFromLocalStorage().length === 0" class="flex justify-center text-red-300 p-2">
                                 Empty List
                                
                             </div>
