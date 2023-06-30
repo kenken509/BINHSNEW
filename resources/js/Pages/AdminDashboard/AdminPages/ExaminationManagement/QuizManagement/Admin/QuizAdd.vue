@@ -54,7 +54,7 @@
                         <div class="flex justify-between items-center p-2 border-b-2 border-gray-500 ">
                             <h1 >Quiz Questions <button v-if="getQuestionsFromLocalStorage().length > 0" class="bg-red-500 rounded px-2 text-gray-200 " disabled>{{ getQuestionsFromLocalStorage().length }}</button></h1>
                             <div>
-                                <button type="button" class=" bg-indigo-500 p-2 rounded-md hover:bg-indigo-400 text-gray-100" @click="handleAddQuestionClick">Add Question</button>
+                                <button type="button" class=" bg-indigo-500 p-2 rounded-md hover:bg-indigo-400 text-gray-100" @click="handleAddQuestionClick(index)">Add Question</button>
                             </div>
                         </div>
                        
@@ -75,7 +75,7 @@
                                 <!-- <div v-if="retrievedQuestions" class="text-red-500">MERONG LAMAN</div>
                                 <div v-else class="text-red-500">WALANG LAMAN</div> -->
                                     
-                                    <tbody v-for="(question,index ) in getQuestionsFromLocalStorage()" :key="index" >
+                                    <tbody v-for="(question,index ) in existingQuestion" :key="index" >
                                         <tr class="bg-white border-b hover:bg-gray-200 cursor-pointer">
                                             <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                                                 <div>{{ index+1 }}.  {{ question.question }}</div>
@@ -89,7 +89,7 @@
                                                 <div class="flex flex-col p-2  items-center ">
                                                    
                                                     <button type="button" class=" bg-red-600 p-2 rounded-md hover:bg-red-700 text-gray-100 hover:text-white my-2 w-20" @click="handleEditQuestionButton(index)">Edit </button>
-                                                    <button type="button" class=" bg-indigo-500 p-2 rounded-md hover:bg-indigo-700 text-gray-100 hover:text-white my-2 w-20">delete</button>
+                                                    <button type="button" class=" bg-indigo-500 p-2 rounded-md hover:bg-indigo-700 text-gray-100 hover:text-white my-2 w-20" @click="handleDeleteQuestionButton(index)">delete</button>
                                                 </div>    
                                             </td>
                                         </tr>
@@ -257,7 +257,7 @@ import InputError from '../../../../../GlobalComponent/InputError.vue';
 import {onBeforeMount, onBeforeUnmount, onMounted, ref, watch} from 'vue'
 import { usePage, Link, useForm } from '@inertiajs/vue3';
 const user = usePage().props.user;
-
+const existingQuestion = ref([]);
 const quiz = defineProps({
     strands:Array,
 });
@@ -308,7 +308,7 @@ const handleAddModalQuestion = () => {
         option_c: preOptionC.value,
     };
 
-    preQuestionsArray.push(newQuestion);
+    existingQuestion.value.push(newQuestion);
 
     preQuestion.value = null;
     preOptionA.value = null;
@@ -316,9 +316,9 @@ const handleAddModalQuestion = () => {
     preOptionC.value = null;
     preCorrectAnswer.value = null;
 
-    console.log(preQuestionsArray);
-    saveQuestionsToLocalStorage(preQuestionsArray);
-    console.log(preQuestionsArray);
+    //console.log(preQuestionsArray);
+    saveQuestionsToLocalStorage(existingQuestion.value);
+    //console.log(preQuestionsArray);
 
     addQuestion.value = !addQuestion.value;
 };
@@ -411,11 +411,29 @@ const handleEditModalQuestion = () => {
 
   // Save the updated array back to localStorage
   saveQuestionsToLocalStorage(questions);
-
+  existingQuestion.value = getQuestionsFromLocalStorage();
   // Close the edit modal
   editQuestion.value = false;
 };
 
 
 //edit question codes **********************************************
+
+//delete question codes ************************************************
+
+const handleDeleteQuestionButton = (index)=> {
+    //get the currently saved question
+    const currentQuestion = getQuestionsFromLocalStorage()
+   
+    //filter the existing question 
+    const newQuestionArray = currentQuestion.filter((question, i) => i !== index );
+
+    
+    saveQuestionsToLocalStorage(newQuestionArray);
+
+    existingQuestion.value = getQuestionsFromLocalStorage();
+
+}
+
+//delete question codes ************************************************
 </script>

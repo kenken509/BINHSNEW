@@ -19,7 +19,7 @@ class SimulatorAuthController extends Controller
     //         'password' => 'required | string'
     //    ])
 
-        $exist = User::where('email', $request->email)->first();
+        $exist = User::where('email', $request->email)->with('subject')->first();
         
         if ($exist && Hash::check($request->password, $exist->password) ) {
             // Authentication successful
