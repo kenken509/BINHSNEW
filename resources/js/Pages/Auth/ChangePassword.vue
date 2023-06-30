@@ -1,25 +1,19 @@
 <template>
 
    
-    <div class="grid grid-cols-3 bg-gray-200 h-screen items-center py-10">
+    <div class="flex justify-center items-center bg-gray-200 h-screen items-center py-10 ">
         <div></div>
-        <div class="border border-gray-300 shadow-md col-span-3 md:col-span-1 h-full   mx-4 md:mx-0 pt-8 rounded-md" >
+        <div class="border border-gray-300 shadow-md  h-auto mx-4 w-full md:w-1/4  pt-8 rounded-md " >
             <div class="flex justify-center items-center w-full mt-4">
                 <img src="../../../../public/images/webPage/logo1.png" alt="error"  class="w-[150px] h-[150px]" /> 
             </div>
             <div class="flex justify-center">
-                <span class=" font-bold text-xl">Change Password</span>
+                <span class=" font-bold text-xl mb-4">Change Password</span>
             </div>
             <!--input group-->
             <div>
                 <form class="px-8" @submit.prevent="submit">
-                    <div class="w-full col-span-12 md:col-span-4 mt-16 ">
-                        <span class="p-float-label">
-                            <InputText id="email"  class="w-full" v-model="form.email" />
-                            <label for="email">Email</label>
-                        </span>
-                        <InputError :error="form.errors.email"/>
-                    </div>
+                    
                     
                     <div class="w-full my-8 ">
                         <span class="p-float-label ">
@@ -58,7 +52,6 @@ import InputError from '../GlobalComponent/InputError.vue';
 const user = computed(() => usePage().props.user);
 
 const form = useForm({
-    email: null,
     password:null,
     password_confirmation:null,
     // role: 'guest',

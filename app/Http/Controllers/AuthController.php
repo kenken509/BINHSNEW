@@ -82,9 +82,8 @@ class AuthController extends Controller
 
     public function changePassword(Request $request)
     {
-        // dd($request);
+        $userEmail = Auth::user()->email;
         $request->validate([
-            'email' => 'required|email',
             'password' => [
                 'required',
                 'confirmed',
@@ -95,11 +94,11 @@ class AuthController extends Controller
             ],
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $userEmail)->first();
         
         if(!$user)
         {
-            return redirect()->back()->with('error', 'Authentication Failed');
+            return redirect()->back()->with('error', 'Failed to change password');
         }
         
         $user->password = $request->password;
