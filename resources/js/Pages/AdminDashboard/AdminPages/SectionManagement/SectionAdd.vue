@@ -27,9 +27,9 @@
             <div class="mb-5">Instructor: </div>
             <div v-for="subject in props.subjects">
                 <div v-if="subject === selectedSubject">
-                    
-                    <div>
-                        <Dropdown  v-model="selectedInstructor" :options="subject.instructor" optionLabel="lName" placeholder="Select a Instructor" class="w-full md:w-14rem "  />
+                     
+                    <div >
+                        <Dropdown  v-model="selectedInstructor" :options="testInstructors" optionLabel="lName" placeholder="Select a Instructor" class="w-full md:w-14rem "  />
                         
                     </div>
                     <InputError :error="form.errors.instructor_id"/>
@@ -62,7 +62,7 @@ const props = defineProps({
 
 const selectedSubject = ref(null);
 const selectedInstructor = ref(null);
-
+const testInstructors = ref([]);
 const form = useForm({
     name:null,
     subject_id:null,
@@ -72,6 +72,15 @@ const form = useForm({
 watch(selectedSubject,(val)=>{
     //console.log(val.id);
     form.subject_id = val.id;
+    
+    props.subjects.forEach(element => {
+        if(element.id === val.id){
+           testInstructors.value = element.instructor.filter((val)=>{
+               return val.role === 'instructor'
+            })
+        }
+    });
+    console.log(testInstructors.value)
 })
 watch(selectedInstructor,(val)=>{
     form.instructor_id = val.id;

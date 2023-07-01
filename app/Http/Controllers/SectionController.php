@@ -20,13 +20,19 @@ class SectionController extends Controller
     }
 
     public function create(){
-        //dd(Subject::with('instructor')->get());
+       
+        // $test =  Subject::with('instructor')->whereHas('instructor', function($query){
+        //     $query->where('fName','Journey');
+        // })->get();
+
+        // dd($test);
         return inertia('AdminDashboard/AdminPages/SectionManagement/SectionAdd', [
             'subjects' => Subject::with('instructor')->get(),
         ]);
     }
 
     public function store(Request $request){
+        
         
         //{"name":"32A1","subject_id":1}
         $section = Section::make($request->validate([
