@@ -351,7 +351,16 @@ function deleteDataFromLocalStorage() {
 }
 
 const existingQuestion = ref([]);
+const hasReloaded = localStorage.getItem('hasReloaded');
 onMounted(() => {
+    //reload
+if (!hasReloaded) {
+    localStorage.setItem('hasReloaded', true);
+    location.reload();
+} else {
+    localStorage.removeItem('hasReloaded');
+}
+
   window.addEventListener('beforeunload', deleteDataFromLocalStorage);
 
   const questionsArray = quiz.quizToEdit.question.map((question) => {

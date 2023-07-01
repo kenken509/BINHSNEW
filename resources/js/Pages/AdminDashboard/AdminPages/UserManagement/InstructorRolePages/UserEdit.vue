@@ -196,11 +196,16 @@ const loggedUser = computed(() => usePage().props.user);
 
 
 
-
+const hasReloaded = localStorage.getItem('hasReloaded');
 // show selected
 onMounted(()=>{
     
-    
+    if (!hasReloaded) {
+        localStorage.setItem('hasReloaded', true);
+        location.reload();
+    } else {
+        localStorage.removeItem('hasReloaded');
+    }
 
     regionByCode(user.userToEdit.region).then((region) => {
         

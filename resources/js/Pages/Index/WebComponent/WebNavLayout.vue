@@ -172,13 +172,27 @@
                             >
                         </div>
                         <p   v-if="currentUser" class="primary-text-black">Welcome Back {{ currentUser.role }} {{ currentUser.fName }} <span class="primary-text-black text-lg">{{ currentUser.name }}</span> </p>
-                        <a
-                        v-else
-                            class="primary-text-black  hover:text-gray-600  focus:text-gray-400 hover:scale-110 "
-                            :href="route('login')"
-                            data-te-nav-link-ref
-                            >Sign In</a
-                        > 
+                        <div v-else class=" flex flex-row gap-5 ">
+                            <div>
+                                <a
+                                class="text-indigo-700  hover:text-indigo-400  focus:text-gray-400 hover:scale-110 "
+                                :href="route('login')"
+                                data-te-nav-link-ref
+                                >
+                                    Sign In
+                                </a> 
+                            </div>
+                           <div>
+                                <a
+                                class="text-indigo-700  hover:text-indigo-400  focus:text-gray-400 hover:scale-110 "
+                                :href="route('register.guest')"
+                                data-te-nav-link-ref
+                                >
+                                    Register
+                                </a> 
+                            </div>
+                        </div>
+                        
                     
                             
                         <!--bell icon-->

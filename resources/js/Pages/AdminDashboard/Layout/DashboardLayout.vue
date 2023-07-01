@@ -19,7 +19,7 @@
           </div>
           <div class="flex items-center">
               <div class="flex items-center ml-3">
-                <div class="text-gray-100">{{ user.role }}</div>
+                <div class="text-gray-100 mx-2">{{ toUpperFirst(user.role) }}</div>
                 
                 <div>
                   <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
@@ -194,6 +194,22 @@ import {Link} from '@inertiajs/vue3'
 const appUrl = 'http://127.0.0.1:8000/storage/'
 const defaultImage = 'images/default.png'
 
+const toUpperFirst = (word)=>{
+  if(!word){
+    return '';
+  }
+  else{
+    //console.log("this: "+word[0].toUpperCase() + word.slice(1));
+    return word[0].toUpperCase() + word.slice(1);
+  }
+  // if(word === 0){
+  //   return ''
+  // }
+  // else
+  // {
+  //   return word.chartAt(0).toUpperCase()+word.slice(1);
+  // }
+}
 
 defineProps({
   user:Object,

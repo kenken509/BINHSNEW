@@ -24,15 +24,12 @@
                 <Dropdown  v-model="selectedSubject" :options="section.subjects" optionLabel="name" placeholder="Select a Subject" class="w-full md:w-14rem "  />
                 <InputError :error="form.errors.subject_id"/>
             </div>
-            <div class="mb-5">Instructor: </div>
+            <hr>
+            <div class="my-5">Instructor: </div>
             <div v-for="subject in section.subjects">
-               
                 <div v-if="subject === selectedSubject">
-                    <div v-for="instructor in subject.instructor">
-                        
-                        <div>
-                            <Dropdown  v-model="selectedInstructor" :options="subject.instructor" optionLabel="lName" placeholder="Select a Instructor" class="w-full md:w-14rem "  />
-                        </div>
+                    <div>
+                        <Dropdown  v-model="selectedInstructor" :options="existingInstructors" optionLabel="lName" placeholder="Select a Instructor" class="w-full md:w-14rem "  />
                     </div>
                     <InputError :error="form.errors.instructor_id"/>
                 </div>
@@ -60,18 +57,59 @@ const section = defineProps({
 const sectionSubject = section.subjects.filter((subject)=> subject.id === section.section.subject.id)
 const selectedSubject = ref(sectionSubject[0]);
 const selectedInstructor = ref(section.section.instructor)
+const existingInstructors = ref([]);
+
+
 
 const form = useForm({
     section_id:section.section.id,
     name:section.section.name,
     subject_id:section.section.subject.id,
+    instructor_id:section.section.instructor.id,
 })
 
+const hasReloaded = localStorage.getItem('hasReloaded');
+onMounted(()=>{
+    //reload
+    if (!hasReloaded) {
+        localStorage.setItem('hasReloaded', true);
+        location.reload();
+    } else {
+        localStorage.removeItem('hasReloaded');
+    }
+
+
+    section.subjects.forEach(element => {
+        
+        if(element.id === selectedSubject.value.id){
+            existingInstructors.value = element.instructor.filter((val)=>{
+               return val.role === 'instructor'
+            })
+        }
+    });
+
+    //console.log(existingInstructors)
+})
+console.log("current instructor id: "+form.instructor_id)
 watch(selectedSubject,(val)=>{
-    //console.log(val.id)
+    form.instructor_id = null;
     form.subject_id = val.id;
+
+    section.subjects.forEach(element => {
+        if(element.id === val.id){
+            existingInstructors.value = element.instructor.filter((val)=>{
+               return val.role === 'instructor'
+            })
+        }
+    });
+    console.log(existingInstructors.value)
 })
 
+
+watch(selectedInstructor, (val)=>{
+    console.log(val.id);
+    form.instructor_id = val.id;
+})
 const submit = ()=> form.post(route('section.update',{
     preserveScroll:true,
 }))

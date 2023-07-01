@@ -55,7 +55,7 @@ class SectionController extends Controller
 
     public function edit($id){
         //dd(Section::with('subject')->findOrFail($id));
-        //dd(Subject::all());
+        //dd(Subject::with('instructor')->get());
         
         return inertia('AdminDashboard/AdminPages/SectionManagement/SectionEdit', [
             'section' => Section::with(['subject','instructor'])->findOrFail($id),
@@ -65,10 +65,12 @@ class SectionController extends Controller
 
     public function update(Request $request){
 
+        
         // {"section_id":6,"name":"32A1","subject_id":2}
         $data = $request->validate([
             'name'          => 'required',
             'subject_id'    => 'required',
+            'instructor_id' => 'required',
         ]);
 
         if($data){
@@ -76,6 +78,7 @@ class SectionController extends Controller
 
             $section->name          = $request->name;
             $section->subject_id    = $request->subject_id;
+            $section->instructor_id = $request->instructor_id;
             $section->updated_by    = Auth::user()->id;
             $section->updated_at    = Carbon::now();
             $section->save();
