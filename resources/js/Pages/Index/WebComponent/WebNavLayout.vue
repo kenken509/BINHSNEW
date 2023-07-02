@@ -84,7 +84,7 @@
                         role="button"
                         data-te-dropdown-toggle-ref
                         aria-expanded="false">
-                            <a class="nav">Strands</a>
+                            <a class="nav">TLE Track</a>
                             <span class="ml-2 w-2 primary-text-black  hover:text-gray-600  focus:text-gray-500">
                                 <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +132,7 @@
                             class="block w-full whitespace-nowrap bg-transparent py-2 px-4 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
                             :href="route('strand.showSMAW')"
                             data-te-dropdown-item-ref
-                            >SMAW</a
+                            >Agri-Fishery Arts</a
                             >
                         </li>
                         </ul>

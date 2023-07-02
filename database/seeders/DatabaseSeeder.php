@@ -13,31 +13,22 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         //\App\Models\TestModel::factory(2)->create();
+        // \App\Models\User::factory(15)->create();
 
-      
-
-        //\App\Models\User::factory(15)->create();
-        // \App\Models\Subject::factory(1)->create([
-        //     'name' => 'HOME ECONOMICS'
-        // ]);
-
-        // \App\Models\Subject::factory(1)->create([
-        //     'name' => 'ICT'
-        // ]);
-
-        // \App\Models\Subject::factory(1)->create([
-        //     'name' => 'INDUSTRIAL ARTS'
-        // ]);
-
-        // \App\Models\Subject::factory(1)->create([
-        //     'name' => 'SMAW'
-        // ]);
-
-        // \App\Models\User::factory(1)->create([
-        //     'fName' => 'aries',
-        //     'email' => 'kenortz@gmail.com',
-        //     'phoneNumber' => '639191234567',
-        // ]);
+        $this->call([
+            SubjectSeeder::class,
+            AdminSeeder::class,
+            InstructorSeeder::class,
+            SectionSeeder::class,
+            StudentSeeder::class,
+            QuizSeeder::class,
+            QuizQuestionSeeder::class,
+            QuizChoicesSeeder::class,
+        ]);
+        
+        
+        
+        
 
 
         //section factory

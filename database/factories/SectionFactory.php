@@ -18,8 +18,8 @@ class SectionFactory extends Factory
     {
         return [
             'name'          => '32A1',
-            'subject_id'    => 2,
-            'instructor_id' => 2,
+            'subject_id'    => 1,
+            
         ];
     }
 }

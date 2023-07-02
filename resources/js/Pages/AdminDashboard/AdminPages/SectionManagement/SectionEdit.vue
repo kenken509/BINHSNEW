@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="w-full mt-6 ">
-                <Button label="Add" class="w-full" type="submit"/>
+                <Button label="Update" class="w-full" type="submit"/>
             </div>
         </form>              
     </DashboardLayout>

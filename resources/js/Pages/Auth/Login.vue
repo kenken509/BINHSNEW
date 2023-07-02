@@ -33,7 +33,7 @@ const login = ()=> form.post(route('login.store'))
                 <form  @submit.prevent="login">
                     <div class="w-full mx-auto p-5 ">
                         <div class="flex justify-center mb-8">
-                            <span class=" font-bold text-xl">Account Login</span>
+                            <span class=" font-bold text-xl">Account Sign-in</span>
                         </div>
                         <div class=" mt-2  ">
                             <label class="label" for="email">E-mail</label>

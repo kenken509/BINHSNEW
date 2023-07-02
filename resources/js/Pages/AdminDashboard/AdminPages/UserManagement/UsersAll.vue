@@ -115,7 +115,7 @@
                                 <p>Birthday: {{ user.birthDate }}</p>
                                 <p>Age: {{ user.age }}</p>
                                 <p>Contact #: {{ user.phoneNumber }}</p>
-                                <p>Subject: {{ user.subject.name }}</p>
+                                <p>Subject: <div v-if="user"><div v-if="user.subject"><div v-if="user.subject.name">{{ user.subject.name }}</div></div></div></p>
                                 <p v-if="user.role === 'student'">Section: {{ user.section.name }}</p>
                                 <div v-if="user.role === 'instructor'">
                                     Handled Sections:
