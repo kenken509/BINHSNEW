@@ -18,7 +18,7 @@ class StrandsController extends Controller
         return inertia('Index/WebPages/Strands/IndustrialArts');
     }
 
-    public function showSMAW(){
-        return inertia('Index/WebPages/Strands/SMAW');
+    public function showAgriFisheryArts(){
+        return inertia('Index/WebPages/Strands/AgriFisheryArts');
     }
 }

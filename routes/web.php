@@ -113,7 +113,7 @@ Route::controller(StrandsController::class)->middleware('auth','verified')->grou
     Route::get('/strand/he', 'showHE')->name('strand.showHE');
     Route::get('/strand/ict', 'showICT')->name('strand.showICT');
     Route::get('/strand/ia', 'showIA')->name('strand.showIA');
-    Route::get('/strand/smaw', 'showSMAW')->name('strand.showSMAW');
+    Route::get('/strand/smaw', 'showAgriFisheryArts')->name('strand.showAgriFisheryArts');
     
 });
 

@@ -4,7 +4,7 @@
         </div>
 
     <div class="flex justify-center items-center h-screen text-xl">
-        <div>You need to be verified first to see this page! </div>
+        <div>You need to verify your email first to see this page! </div>
         <div>
             <Link :href="route('verification.send')" 
             method="post" 

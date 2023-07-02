@@ -94,7 +94,7 @@
             <div class="">
                 <h6
                 class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
-                Strands
+                TLE Track:
                 </h6>
                 <p class="mb-4">
                 <a href="#!" class="text-neutral-600 dark:text-neutral-200"
