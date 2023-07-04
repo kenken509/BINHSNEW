@@ -387,7 +387,7 @@ class UserManagementController extends Controller
 
 
     public function userUpdate(Request $request){
-        dd($request);
+        //dd($request);
         //$user = User::findOrFail($request->id);
         $date = date_create($request->birthDate);
         $age = Carbon::parse($request->birthDate)->age;
@@ -608,13 +608,20 @@ class UserManagementController extends Controller
 
 
     public function userDelete(User $user){
-        
+        //dd(Auth::user()->id);
         //delete image if there's one
-        if($user->image){
-            Storage::disk('public')->delete($user->image);
+        //dd($user->id);
+        if($user->id == Auth::user()->id){
+            return redirect()->back()->with('error', 'Deletion Failed!');
+        }else{
+            if($user->image){
+                Storage::disk('public')->delete($user->image);
+            }
+                
+            $user->delete();
+            return redirect()->back()->with('success', 'Deleted Successfully');
         }
-            
-        $user->delete();
-        return redirect()->back()->with('success', 'Deleted Successfully');
+        
+        
     }
 }
