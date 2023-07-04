@@ -8,17 +8,30 @@
             <div class="grid grid-cols-12   gap-4 w-full mt-12 ">
                 
                  <!--role-->
-                <div class="w-full mb-4 col-span-12 border-bot-only px-2 ">Role</div>
-                <div class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
-                    <Dropdown  v-model="selectedRole" :options="roleList" optionLabel="role" placeholder="Select a Role" class="w-full md:w-14rem " />
-                    <InputError :error="form.errors.role"/>
-                </div>
-                  
-                <div v-if="isTeacher" class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
-                    <Dropdown  v-model="selectedSubject" :options="user.instructorSubjects" optionLabel="name" placeholder="Select a Subject" class="w-full md:w-14rem " />
-                    <InputError :error="form.errors.subject_id"/>
-                    
-                </div>
+                    <div class="w-full mb-4 col-span-12 border-bot-only px-2 ">Role</div>
+                
+                    <div class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3 items-center" >
+                        <Dropdown  v-model="selectedRole" :options="roleList" optionLabel="role" placeholder="Select a Role" class="w-full md:w-14rem " />
+                        <InputError :error="form.errors.role"/>
+                    </div>
+                    <!--subject-->
+                    <div v-if="isTeacher || isStudent" class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
+                        <Dropdown  v-model="selectedSubject" :options="user.instructorSubjects" optionLabel="name" placeholder="Select a Subject" class="w-full md:w-14rem " />
+                        <InputError :error="form.errors.subject_id"/>
+                        
+                    </div>
+                    <!--section-->
+                    <div class="w-full col-span-12 md:col-span-4 lg:col-span-3" >
+                        <div v-if="isStudent" v-for="subject in user.studentSubjects" >
+                            <div v-if="subject.id === selectedSubject.id" >
+                                <div >
+                                    <Dropdown  v-model="selectedSection" :options="subject.section" optionLabel="name" placeholder="Select a Section" class="w-full md:w-14rem " />
+                                    <InputError :error="form.errors.section_id"/>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
                 <div class="col-span-12 mb-3 border-bot-only px-2">Personal Info</div>
                 <div class="w-full col-span-12 md:col-span-4 ">
                     <span class="p-float-label">
@@ -141,7 +154,7 @@
             
             
             <div class="w-full mt-6 ">
-                <Button label="Submit" class="w-full" type="submit"/>
+                <Button label="Update" class="w-full" type="submit"/>
             </div>
             
         </form>
@@ -285,6 +298,7 @@ const selectedCity = ref({})
 const selectedBrgy = ref({})
 const selectedRole = ref({'role': user.userToEdit.role})
 const selectedSubject = ref({})
+const selectedSection = ref(user.userToEdit.section)
 const selectedGender = ref('')
 const selectedCivilStatus = ref('')
 const isTeacher = ref(false)
@@ -359,6 +373,11 @@ watch(selectedBrgy, (val) =>{
     form.barangay = val.brgy_code
 })
 
+watch(selectedSection,(val)=>{
+    //console.log(val.id)
+    form.section_id = val.id;
+})
+
 const form = useForm({
     id:null,
     fName: user.userToEdit.fName,
@@ -375,6 +394,7 @@ const form = useForm({
     barangay: null,
     role: null,
     subject_id: null,
+    section_id: user.userToEdit.section_id,
     email:null,
     fatherName:null,
     motherName:null,

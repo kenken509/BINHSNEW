@@ -387,7 +387,7 @@ class UserManagementController extends Controller
 
 
     public function userUpdate(Request $request){
-        //dd($request);
+        dd($request);
         //$user = User::findOrFail($request->id);
         $date = date_create($request->birthDate);
         $age = Carbon::parse($request->birthDate)->age;
