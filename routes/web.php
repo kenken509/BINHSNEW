@@ -110,10 +110,10 @@ Route::controller(AdminDashboardController::class)->middleware('isAdmin')->group
 });
 
 Route::controller(StrandsController::class)->middleware('auth','verified')->group(function(){
-    Route::get('/strand/he', 'showHE')->name('strand.showHE');
-    Route::get('/strand/ict', 'showICT')->name('strand.showICT');
-    Route::get('/strand/ia', 'showIA')->name('strand.showIA');
-    Route::get('/strand/smaw', 'showAgriFisheryArts')->name('strand.showAgriFisheryArts');
+    Route::get('/track/he', 'showHE')->name('strand.showHE');
+    Route::get('/track/ict', 'showICT')->name('strand.showICT');
+    Route::get('/track/ia', 'showIA')->name('strand.showIA');
+    Route::get('/track/smaw', 'showAgriFisheryArts')->name('strand.showAgriFisheryArts');
     
 });
 
@@ -163,4 +163,8 @@ Route::controller(SectionController::class)->middleware(['auth','verified','isSu
 Route::controller(SimulatorAuthController::class)->group(function(){
     Route::post('/simulator/login','simLogin')->name('simulator.login');
     Route::get('/simulator/test-api','handlePostRequest')->name('simulator.login');
+});
+
+Route::controller(WebContentsController::class)->group(function(){
+   Route::get('admin/web-content/display', 'show')->name('webPosts.all');
 });
