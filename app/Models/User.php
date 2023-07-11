@@ -91,4 +91,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function instructorSection(){
         return $this->hasMany(Section::class, 'instructor_id', 'id');
     }
+
+    public function posts(){
+        return $this->belongsTo(WebPost::class,'author_id', 'id');
+    }
 }

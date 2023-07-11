@@ -9,5 +9,20 @@
         return result;
     }
 
-export { toUpperFirst };
+    const truncateText = (text, wordLimit)=>
+    {
+        const word = text.split(' ');
+        const truncatedWords = word.slice(0, wordLimit);
+        const truncatedText = truncatedWords.join(' ');
+
+        if (word.length > wordLimit) 
+        {
+            return truncatedText + '...';
+        } 
+        else 
+        {
+            return truncatedText;
+        }
+    }
+export { toUpperFirst, truncateText };
 </script>
