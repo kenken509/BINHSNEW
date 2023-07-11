@@ -13,6 +13,7 @@ use App\Http\Controllers\StrandsController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\CommentsController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -167,4 +168,8 @@ Route::controller(SimulatorAuthController::class)->group(function(){
 
 Route::controller(WebContentsController::class)->group(function(){
    Route::get('admin/web-content/display', 'show')->name('webPosts.all');
+});
+
+Route::controller(CommentsController::class)->group(function(){
+    Route::post('admin/comment/approve', 'approveComment')->name('comment.approve');
 });

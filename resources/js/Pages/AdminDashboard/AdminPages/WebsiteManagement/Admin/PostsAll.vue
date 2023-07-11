@@ -75,6 +75,8 @@
             <Dialog v-model:visible="visible" modal header="Post Info"  :style="{ width: '75vw' }" :breakpoints="{ '960px': '75vw', '641px': '100vw' }">
                 <div>
                     this is the preview modal with post id : {{ postId }}
+                    <div v-if="$page.props.flash.success" class="flex items-center rounded-md bg-[#28a745] my-4 h-8 "><span class="p-3 text-gray-200">{{ $page.props.flash.success }}</span></div>
+                <div v-if="$page.props.flash.error" class="flex items-center rounded-md bg-red-600 my-4 h-8 "><span class="p-3 text-gray-200">{{ $page.props.flash.error }}</span></div>
                     <hr>
                     <div v-for="selectedPost in allPost.posts">
                         <div v-if="selectedPost.id === postId">
@@ -92,12 +94,71 @@
                                     {{ truncateText(selectedPost.content, 5) }} <button class="text-blue-300 hover:text-blue-500" @click="allowRead">read more</button>
                                 </div>
                             </p>
+                            <!--pending comments-->
                             <div>
-                                Comments:
-                                <div v-for="comments in selectedPost.comments">
-                                    {{ comments.content }} {{ comments.status }} {{ comments.user_id }}
-                                </div>
+                                <h1>Pending Comments:</h1>
+                                <form @submit.prevent="approveComment">
+                                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                        <thead class="text-xs text-gray-200 uppercase bg-green-700  ">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Comment
+                                                </th>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Action
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody v-for="comments in selectedPost.comments">
+                                            <tr v-if="comments.status === 'private'" class="bg-white border-b ">
+                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 border-x-2">
+                                                    {{ comments.content }} {{ comments.status }} {{ comments.user_id }}
+                                                </td>
+                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
+                                                    <div class="flex space-x-2">
+                                                        <button type="submit" class="bg-indigo-600 rounded-md p-2 hover:bg-indigo-400 shadow-lg border text-gray-200" @click="setJob('approve',comments.id)">Approve</button>
+                                                        <button type="submit" class="bg-indigo-600 rounded-md p-2 hover:bg-indigo-400 shadow-lg border text-gray-200" @click="setJob('delete', comments.id)">Delete</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
                             </div>
+                            <!--pending comments-->
+
+                            <!--Approved comments-->
+                            <div >
+                                <h1>Approved Comments:</h1>
+                                <form @submit.prevent="" >
+                                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                        <thead class="text-xs text-gray-200 uppercase bg-green-700  ">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Comment
+                                                </th>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Action
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody  v-for="comments in selectedPost.comments">
+                                            <tr v-if="comments.status === 'public'" class="bg-white border-b ">
+                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 border-x-2">
+                                                    {{ comments.content }} {{ comments.status }} {{ comments.user_id }}
+                                                </td>
+                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
+                                                    <div class="flex space-x-2">
+                                                        <button type="submit" class="bg-red-600 rounded-md p-2 hover:bg-red-400 shadow-lg border text-gray-200">Disapprove</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                            <!--Approved comments-->
                         </div>
                     </div>
                 </div>
@@ -114,6 +175,7 @@ import { usePage, Link } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
 import { toUpperFirst,truncateText } from '../../../../Functions/Methods.vue'
 import {ref} from 'vue'
+import { useForm } from '@inertiajs/vue3';
 
 const user = usePage().props.user;
 
@@ -135,4 +197,18 @@ const openModal = (id)=>{
 const allPost = defineProps({
     posts: Array,
 })
+
+
+const setJob = (buttonClicked , id) =>{
+    approvePendingCommentForm.job = buttonClicked;
+    approvePendingCommentForm.comment_id = id;
+    
+    
+}
+const approvePendingCommentForm = useForm({
+    comment_id:null,
+    job:null,
+})
+
+ const approveComment = () => approvePendingCommentForm.post(route('comment.approve'));
 </script>

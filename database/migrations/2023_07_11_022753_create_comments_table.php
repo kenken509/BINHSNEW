@@ -17,7 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->text('content');
             $table->enum('status', ['public', 'private']);
+            $table->time('approved_at')->nullable();
             $table->timestamps();
+            
 
             $table->foreign('web_post_id')->references('id')->on('web_posts')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

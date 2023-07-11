@@ -32,5 +32,23 @@ class CommentSeeder extends Seeder
             'content'     => $faker->realText(200,2),
             'status'      => 'private',
         ]);
+        \App\Models\Comment::factory(1)->create([
+            'web_post_id' => 1,
+            'user_id'     => 1,
+            'content'     => $faker->realText(200,2),
+            'status'      => 'public',
+        ]);
+        \App\Models\Comment::factory(1)->create([
+            'web_post_id' => 1,
+            'user_id'     => 1,
+            'content'     => $faker->realText(200,2),
+            'status'      => 'public',
+        ]);
+        \App\Models\Comment::factory(1)->create([
+            'web_post_id' => 1,
+            'user_id'     => 1,
+            'content'     => $faker->realText(200,2),
+            'status'      => 'public',
+        ]);
     }
 }
