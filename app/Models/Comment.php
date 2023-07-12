@@ -15,5 +15,7 @@ class Comment extends Model
         return $this->belongsTo(WebPost::class, 'web_post_id', 'id');
     }
 
-    
+    public function commenter(){
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

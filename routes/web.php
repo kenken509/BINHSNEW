@@ -172,4 +172,5 @@ Route::controller(WebContentsController::class)->group(function(){
 
 Route::controller(CommentsController::class)->group(function(){
     Route::post('admin/comment/approve', 'approveComment')->name('comment.approve');
+    
 });
