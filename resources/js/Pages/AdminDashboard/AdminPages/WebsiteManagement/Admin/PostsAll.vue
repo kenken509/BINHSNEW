@@ -74,7 +74,7 @@
             <!--PREVIEW MODAL-->
             <Dialog v-model:visible="visible" modal header="Post Info"  :style="{ width: '75vw' }" :breakpoints="{ '960px': '75vw', '641px': '100vw' }" @update:visible="handleDialogClose">
                 <div>
-                    this is the preview modal with post id : {{ postId }}
+                    this is the preview modal with post id : {{ postId }} 
                     
                     <div v-if="$page.props.flash.success" class="flex items-center rounded-md bg-[#28a745] my-4 h-8 "><span class="p-3 text-gray-200">{{ $page.props.flash.success }}</span></div>
                 <div v-if="$page.props.flash.error" class="flex items-center rounded-md bg-red-600 my-4 h-8 "><span class="p-3 text-gray-200">{{ $page.props.flash.error }}</span></div>
@@ -112,10 +112,11 @@
                                         </thead>
                                         
                                         <tbody v-for="comments in selectedPost.comments">
-                                            
+                                            <div v-if="comments.status === null">sdfsdf</div>
                                             <tr v-if="comments.status === 'private'" class="bg-white border-b ">
+                                          
                                                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 border-x-2">
-                                                    {{ comments.content }} {{ comments.status }} {{ comments.user_id }} id: {{ comments.id }}
+                                                    {{ comments.content }} {{ comments.status }} {{ comments.user_id }} id: {{ comments.id }} 
                                                 </td>
                                                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
                                                     <div class="flex space-x-2">
@@ -124,7 +125,19 @@
                                                     </div>
                                                 </td>
                                             </tr>
+                                            
                                         </tbody>
+                                        
+                                        <tfoot v-if="postsWithPrivateComments.length === 0">
+                                            <tr>
+                                            <td scope="row" colspan="7" class="px-6 py-4 text-gray-900 text-center">
+                                                <div class="text-gray-400" >-- No pending comments --</div>
+                                            </td>
+                                            </tr>
+                                        </tfoot>
+                                        
+                                        
+                                        
                                     </table>
                                 </form>
                             </div>
@@ -182,7 +195,7 @@ import { usePage, Link, useForm } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
 import { toUpperFirst,truncateText } from '../../../../Functions/Methods.vue'
 import {ref, computed} from 'vue'
-import { inject } from 'vue';
+
 
 
 
@@ -212,11 +225,11 @@ const allowRead = ()=>{
 
 
 
-
+const selectedPostId = ref(null);
 const openModal = (id)=>{
     visible.value = !visible.value
     postId.value = id;
-   
+    selectedPostId.value = id;
     
     
 }
@@ -237,6 +250,13 @@ const approvePendingCommentForm = useForm({
     job:null,
 })
 
+
+const postsWithPrivateComments = computed(() => { 
+    
+  return allPost.posts.filter((post) => {
+    return post.id === selectedPostId.value && post.comments.some((comment) => comment.status === 'private');
+  });
+});
 
  const approveComment = () => approvePendingCommentForm.post(route('comment.approve'));
 </script>
