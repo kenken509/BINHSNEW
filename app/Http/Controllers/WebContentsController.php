@@ -55,6 +55,6 @@ class WebContentsController extends Controller
 
     public function storePost(Request $request)
     {
-        dd('submit triggered');
+        dd($request);
     }
 }

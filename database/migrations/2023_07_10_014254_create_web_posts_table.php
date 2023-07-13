@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('title');
             $table->mediumText('content'); //16,777,215 characters - 16 MB
             $table->enum('status',['active','pending'])->nullable();
-            $table->string('attachments')->nullable(); // image or video
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps(); 
