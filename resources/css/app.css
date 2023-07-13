@@ -122,6 +122,10 @@
     .testing{
         @apply bg-orange-300;
     }
+
+    .custom-file-upload .p-fileupload-buttons {
+        display: none;
+      }
 }
 
 

@@ -52,4 +52,9 @@ class WebContentsController extends Controller
     {
         return inertia('AdminDashboard/AdminPages/WebsiteManagement/Instructor/PostAdd');
     }
+
+    public function storePost(Request $request)
+    {
+        dd('submit triggered');
+    }
 }
