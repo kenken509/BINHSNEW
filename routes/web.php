@@ -166,8 +166,10 @@ Route::controller(SimulatorAuthController::class)->group(function(){
     Route::get('/simulator/test-api','handlePostRequest')->name('simulator.login');
 });
 
+//website controller *********************************************************8
 Route::controller(WebContentsController::class)->group(function(){
    Route::get('admin/web-content/display', 'show')->name('webPosts.all');
+   Route::get('admin/web-content/add-post', 'showAddPost')->name('webPost.add');
 });
 
 Route::controller(CommentsController::class)->group(function(){
