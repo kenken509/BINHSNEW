@@ -104,7 +104,6 @@
                       <li>
                          <a :href="route('section.add')" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><span class="pi pi-user-plus  scale-150 pr-3 text-gray-200" ></span> Add</a>
                       </li>
-                     
                 </ul>
              </li>
 
@@ -172,7 +171,12 @@
                           <a  :href="route('webPosts.all')" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 "  ><span class="pi pi-list  scale-150 pr-3 text-gray-200" ></span>Display</a>
                         
                       </li>
-                      <li>
+                      <li v-if="user.role === 'instructor'">
+                        
+                        <a  :href="route('instructorWebPost.add')" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 "  ><span class="pi pi-list  scale-150 pr-3 text-gray-200" ></span>Add</a>
+                      
+                      </li>
+                      <li v-if="user.role === 'admin'">
                         
                         <a  :href="route('webPost.add')" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 "  ><span class="pi pi-list  scale-150 pr-3 text-gray-200" ></span>Add</a>
                       

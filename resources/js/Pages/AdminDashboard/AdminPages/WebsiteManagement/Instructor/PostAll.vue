@@ -1,7 +1,10 @@
 <template>
     <DashboardLayout :user="user">
         
-        <div class=" overflow-x-auto shadow-md sm:rounded-lg">
+        <div class="border-bot-only border-gray-600 shadow-md">
+            <span class="text-[20px] font-bold text-gray-500">All Posts Page</span>  
+        </div>
+        <div class=" overflow-x-auto shadow-md sm:rounded-lg mt-12">
         
             <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                

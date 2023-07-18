@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post_videos', function (Blueprint $table) {
+        Schema::create('web_post_attachments', function(Blueprint $table){
             $table->id();
-            $table->unsignedBigInteger('web_post_id')->nullable();
-            $table->string('video')->nullable();
-            $table->timestamps();
-
+            $table->enum('type',['Image','Video']);
+            $table->unsignedBigInteger('web_post_id');
             $table->foreign('web_post_id')->references('id')->on('web_posts')->onDelete('cascade');
+            $table->string('address');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('post_videos');
+        Schema::dropIfExists('web_post_attachments');
     }
 };

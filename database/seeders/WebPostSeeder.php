@@ -19,7 +19,7 @@ class WebPostSeeder extends Seeder
             'subject_id' => 3,
             'title'     => 'Latest Post',
             'content'   => $faker->realText(200,2),
-            'status'    => 'pending', //experimental
+            'status'    => 'active', //experimental
         ]);
 
         \App\Models\WebPost::factory(1)->create([
@@ -27,7 +27,7 @@ class WebPostSeeder extends Seeder
             'subject_id' => 3,
             'title'     => 'Latest Post',
             'content'   => $faker->realText(200,2),
-            'status'    => 'pending', //experimental
+            'status'    => 'active', //experimental
         ]);
     }
 }
