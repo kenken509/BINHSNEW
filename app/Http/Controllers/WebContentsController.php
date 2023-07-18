@@ -55,6 +55,25 @@ class WebContentsController extends Controller
 
     public function storePost(Request $request)
     {
-        dd($request);
+        if ($request->hasFile('images') || $request->hasFile('video')) {
+            // At least one file is present
+            if ($request->hasFile('images')) {
+                
+                if ($request->hasFile('video')) {
+                    dd('may picture at video');
+                    
+                }
+                dd('may picture walang video');
+                
+            }
+        
+            if ($request->hasFile('video')) {
+                dd('may video pero walang picture');
+                
+            }
+        } else {
+            dd('Walang picture at walang video');
+            
+        }
     }
 }

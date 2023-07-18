@@ -26,19 +26,21 @@
                     <!-- <InputError :error="form.errors.fName"/> -->
                 </div>
 
+                <!--ATTACHMENTS CONTAINER-->
+                
                 <!--IMAGE UPLOAD-->
-                <div class="pb-5 text-[18px]">Image:</div>
-                <div class="border border-red-300 border-2  col-span-12 p-2">
-                    <div class="w-full bg-red-200 my-1">
-                        <input id="test-id" type="file" multiple @input="addImage" accept="image/jpeg" placeholder="lskdjfsdf"/>
-                        
+                <div class="pb-2 text-[18px] ">Image:</div>
+                <div class="border border-gray-300 border border-2 rounded-md border-gray-400 col-span-12 px-2 py-2">
+                    <div class="w-full  my-1 border-b-2 border-gray-300  py-2">
+                        <input id="test-id" type="file" multiple @input="addImage" accept="image/jpeg" />
+                        <!-- <FileUpload mode="basic" multiple name="imageUpload" @input="addImage" accept="image/jpeg" :maxFileSize="1000000" /> -->
                         <!-- <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                             {{ form.progress.percentage }}%
                         </progress> -->
                         <!-- <div v-if="imageErrors.includes('this image')"><InputError :error="'Image file type must be in jpg,png format. Maximum size: 3mb'" /></div> -->
                     </div>
-                    <div class="flex gap-3">
-                        <div v-for="(image,index) in form.images" :key="image.name" class="flex flex-row my-2">
+                    <div class="flex gap-3 flex-wrap ">
+                        <div v-for="(image,index) in form.images" :key="image.name" class="py-2" >
                             <div>
                                 <img :src="imageUrl[index]" alt="Image" class="w-[100px] h-[100px] rounded-md"/>
                             </div>
@@ -46,17 +48,18 @@
                     </div>
                 </div>
                 <!--VIDEO UPLOAD-->
-                <div class="pb-5 text-[18px]">Video:</div>
-                <div class="flex flex-col col-span-12 border border-red-300">
-                    <div class="w-full bg-red-200 my-1">
-                        <!-- <input id="test-id" type="file"  @input="addVideo" accept="video/mp4"  /> -->
-                        <FileUpload mode="basic" name="demo[]" url="./upload.php" accept="video/*" :maxFileSize="35000000" @input="addVideo" />
+                <div class="pb-2 text-[18px]">Video:</div>
+                <div class="flex flex-col col-span-12  border-gray-300 border border-2 rounded-md border-gray-400 px-2 py-2">
+                    <div class="w-full  my-1 py-2  border-b-2 border-gray-300">
+                        <input id="test-id" type="file" multiple @input="addVideo" accept="video/mp4" />
+                        <!-- <FileUpload mode="basic"  name="imageUpload" @input="addVideo" accept="video/mp4" :maxFileSize="40000000" /> -->
+                    
                         <!-- <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                             {{ form.progress.percentage }}%
                         </progress> -->
                         <!-- <div v-if="imageErrors.includes('this image')"><InputError :error="'Image file type must be in jpg,png format. Maximum size: 3mb'" /></div> -->
                     </div>
-                    <div class="flex justify-center items-center">
+                    <div class="flex justify-center items-center   p-2">
                         
                         <div v-if="videoUrl" id="video-container">
                             <video :src="videoUrl" controls class="w-[500px] h-full"  ></video>
@@ -65,7 +68,9 @@
                         
                     </div>
                 </div>
-                <div class="w-full col-span-12">
+                
+                <!--ATTACHMENTS CONTAINER-->    
+                <div class="w-full col-span-12 mt-4">
                     <Button label="Reset" class="w-full " type="reset" @click="reset"/>
                 </div>
                 <div class="w-full col-span-12">
