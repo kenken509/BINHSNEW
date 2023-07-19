@@ -16,7 +16,7 @@ return new class extends Migration
             $table->enum('type',['Image','Video']);
             $table->unsignedBigInteger('web_post_id');
             $table->foreign('web_post_id')->references('id')->on('web_posts')->onDelete('cascade');
-            $table->string('address');
+            $table->string('filename');
             $table->timestamps();
         });
     }

@@ -40,19 +40,25 @@
                     
                     <div class="border border-gray-300 border border-2 rounded-md border-gray-400 col-span-12 px-2 py-2">
                         <div class="w-full  my-1 border-b-2 border-gray-300  py-2">
-                            <input id="test-id" type="file" multiple @input="addImage" accept="image/jpeg" />
+                            <input id="test-id" type="file"  multiple @input="addImage" accept="image/*" required />
                             <!-- <FileUpload mode="basic" multiple name="imageUpload" @input="addImage" accept="image/jpeg" :maxFileSize="1000000" /> -->
                             <!-- <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                                 {{ form.progress.percentage }}%
                             </progress> -->
-                            <!-- <div v-if="imageErrors.includes('this image')"><InputError :error="'Image file type must be in jpg,png format. Maximum size: 3mb'" /></div> -->
+                            
+                           
+                            
                         </div>
+
                         <div class="flex gap-3 flex-wrap ">
                             <div v-for="(image,index) in form.images" :key="image.name" class="py-2" >
                                 <div>
                                     <img :src="imageUrl[index]" alt="Image" class="w-[100px] h-[100px] rounded-md"/>
                                 </div>
                             </div>
+                        </div>
+                        <div v-if="fileError(errorsArray, 'images.0').length">
+                           <InputError :error="'The image file must ba a file of type: jpg, jpeg, png, with a max size of 3mb'"/>
                         </div>
                     </div>
                 </div>
@@ -62,7 +68,7 @@
                    
                     <div class="flex flex-col col-span-12  border-gray-300 border border-2 rounded-md border-gray-400 px-2 py-2">
                         <div class="w-full  my-1 py-2  border-b-2 border-gray-300">
-                            <input id="test-id" type="file" multiple @input="addVideo" accept="video/mp4" />
+                            <input id="test-id" type="file" multiple @input="addVideo" accept="video/mp4" required />
                             <!-- <FileUpload mode="basic"  name="imageUpload" @input="addVideo" accept="video/mp4" :maxFileSize="40000000" /> -->
                         
                             <!-- <progress v-if="form.progress" :value="form.progress.percentage" max="100">
@@ -97,7 +103,7 @@
 <script setup>
 import { useForm, usePage } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
-import {ref} from 'vue'
+import {ref, computed} from 'vue'
 import InputError from '../../../../GlobalComponent/InputError.vue'
 
 
@@ -115,8 +121,10 @@ const attachments = [
 ]
 
 const selectedAttachment = ref(null);
-
-
+const errorsArray = computed(()=> Object.values(form.errors));
+const fileError = (arr, word) => {
+    return arr.filter( element => element.includes(word));
+}
 
 
 const form = useForm({
@@ -130,6 +138,8 @@ const form = useForm({
     video:null,
     created_by:user.id,
 })
+
+
 
 // temporary image address...
 const imageUrl = ref([]);
