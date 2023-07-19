@@ -6,6 +6,7 @@ use Auth;
 use Carbon\Carbon;
 use App\Models\Comment;
 use App\Models\WebPost;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\WebPostAttachment;
 
@@ -100,7 +101,7 @@ class WebContentsController extends Controller
         {
             //dd($request);
             $validated = $request->validate([
-                'title'     => 'required',
+                'title'     => 'required|max:100',
                 'content'   => 'required|max:50000',
                 'images.*'  => 'required|mimes:jpg,jpeg,png|max:3000'
             ]);
@@ -134,45 +135,61 @@ class WebContentsController extends Controller
                 
                 return redirect()->route('webPosts.all')->with('success', 'Successfully added new post');
             }
-
-            
         }
-        
+        else if($request->attachment['name'] == 'Video')
+        {
+            //dd($request);
+            // "author_id" => "4"
+            // "attachment" => array:1 [▼
+            //     "name" => "Video"
+            // ]
+            // "subject_id" => "3"
+            // "title" => "asdf"
+            // "content" => "asdfasdf"
+            // "status" => "active"
+            // "created_by" => "4"
+
+            $validate = $request->validate([
+                'title' => 'required|max:100',
+                'content' => 'required|max:50000',
+                'video'     => 'required|mimetypes:video/mp4|max:35000',
+            ]);
+
+            if($validate)
+            {
+                $newPost = new WebPost();
+                $newPost->author_id     = $request->author_id;
+                $newPost->subject_id    = $request->subject_id;
+                $newPost->title         = $request->title;
+                $newPost->content       = $request->content;
+                $newPost->status        = 'active';
+                $newPost->created_by    = Auth::user()->id;
+                $newPost->created_at    = Carbon::now();
+                $newPost->save();
+
+                // add random string to the video filename
+                $file = $request->file('video');
+                $originalName = $file->getClientOriginalName();
+                $randomString = Str::random(10);
+                $newName = $randomString . '_' . $originalName;
+
+                // store the file to public/videos with new name 
+                $path = $file->storeAs('videos', $newName, 'public');
+
+                $newAttachment              = new WebPostAttachment();
+                $newAttachment->type        = 'Video';
+                $newAttachment->web_post_id = $newPost->id;
+                $newAttachment->filename    = $path;
+                $newAttachment->created_at  = Carbon::now();
+
+                $newAttachment->save();
+
+                return redirect()->route('webPosts.all')->with('success', 'Successfully added new post');
+            }
+        }
 
         
-        // if($attachment == 'None' ){
-        //     dd('walang attachment');
-        // }
-        // else if($attachment == 'Image')
-        // {
-        //     dd('i save ang image');
-        // }
-        // else if($attachment == 'Video')
-        // {
-        //     dd(' isave ang video');
-        // }
-
-
-        // if ($request->hasFile('images') || $request->hasFile('video')) {
-        //     // At least one file is present
-        //     if ($request->hasFile('images')) {
-                
-        //         if ($request->hasFile('video')) {
-        //             dd('may picture at video');
-                    
-        //         }
-        //         dd('may picture walang video');
-                
-        //     }
         
-        //     if ($request->hasFile('video')) {
-        //         dd('may video pero walang picture');
-                
-        //     }
-        // } else {
-        //     dd('Walang picture at walang video');
-            
-        // }
     }
     
     public function delete($id)

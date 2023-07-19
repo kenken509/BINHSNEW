@@ -40,7 +40,7 @@
                     
                     <div class="border border-gray-300 border border-2 rounded-md border-gray-400 col-span-12 px-2 py-2">
                         <div class="w-full  my-1 border-b-2 border-gray-300  py-2">
-                            <input id="test-id" type="file"  multiple @input="addImage" accept="image/*" required />
+                            <input id="test-id" type="file" name="video"  multiple @input="addImage" accept="image/*" required />
                             <!-- <FileUpload mode="basic" multiple name="imageUpload" @input="addImage" accept="image/jpeg" :maxFileSize="1000000" /> -->
                             <!-- <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                                 {{ form.progress.percentage }}%
@@ -57,6 +57,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div v-if="fileError(errorsArray, 'images.0').length">
                            <InputError :error="'The image file must ba a file of type: jpg, jpeg, png, with a max size of 3mb'"/>
                         </div>
@@ -69,12 +70,10 @@
                     <div class="flex flex-col col-span-12  border-gray-300 border border-2 rounded-md border-gray-400 px-2 py-2">
                         <div class="w-full  my-1 py-2  border-b-2 border-gray-300">
                             <input id="test-id" type="file" multiple @input="addVideo" accept="video/mp4" required />
-                            <!-- <FileUpload mode="basic"  name="imageUpload" @input="addVideo" accept="video/mp4" :maxFileSize="40000000" /> -->
-                        
-                            <!-- <progress v-if="form.progress" :value="form.progress.percentage" max="100">
-                                {{ form.progress.percentage }}%
-                            </progress> -->
-                            <!-- <div v-if="imageErrors.includes('this image')"><InputError :error="'Image file type must be in jpg,png format. Maximum size: 3mb'" /></div> -->
+                            <div v-if="videoSizeError"><InputError :error="videoSizeError"/></div>
+                            <div v-if="fileError(errorsArray, 'video').length">
+                                <InputError :error="'The video file must ba a file of type: mp4, with a max size of 35mb'"/>
+                            </div>
                         </div>
                         <div class="flex justify-center items-center   p-2">
                             
@@ -155,15 +154,26 @@ const addImage = (event)=>
     console.log(imageUrl);
 }
 
+const videoSizeError = ref();
+const videoSize = ref();
 //at video input
 const addVideo = (event)=>
 {
-    const video = event.target.files[0]
-    form.video = video;
-    videoUrl.value = URL.createObjectURL(video);
+    //console.log(event.target.files[0].size);
+    videoSize.value = event.target.files[0].size;
+    if(event.target.files[0].size > 35000000){
+       videoSizeError.value = 'The video file must ba a file of type: mp4, with a max size of 35mb'
+       
+    }
+    else
+    {
+        videoSizeError.value = '';
+        const video = event.target.files[0]
+        form.video = video;
+        videoUrl.value = URL.createObjectURL(video);
+    }
     
-    console.log(videoUrl);
-    console.log('im here');
+    
 }
 
 
@@ -185,8 +195,15 @@ const reset = ()=> {
 
 // at form submit
 const submit = () => {
-    form.post(route('instructorWebPost.store'),{ onSuccess: ()=> form.reset('images')})
     
+    if(videoSize.value > 35000000)
+    {
+        console.log('oversized video');
+    }
+    else
+    {
+        form.post(route('instructorWebPost.store'),{ onSuccess: ()=> form.reset('images')})
+    }
 } ;
 
 
