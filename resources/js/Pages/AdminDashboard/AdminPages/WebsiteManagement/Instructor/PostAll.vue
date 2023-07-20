@@ -4,7 +4,10 @@
         <div class="border-bot-only border-gray-600 shadow-md">
             <span class="text-[20px] font-bold text-gray-500">All Posts Page</span>  
         </div>
-        <div class=" overflow-x-auto shadow-md sm:rounded-lg mt-12">
+        <div v-if="$page.props.flash.success" class="flex items-center rounded-md bg-[#28a745] my-4 h-8 "><span class="p-3 text-gray-200">{{ $page.props.flash.success }}</span></div>
+            <div v-if="$page.props.flash.error" class="flex items-center rounded-md bg-red-600 my-4 h-8 "><span class="p-3 text-gray-200">{{ $page.props.flash.error }}</span></div>
+        <div class=" overflow-x-auto shadow-md sm:rounded-lg mt-5">
+            
         
             <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                

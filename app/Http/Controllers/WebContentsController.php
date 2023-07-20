@@ -9,6 +9,7 @@ use App\Models\WebPost;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\WebPostAttachment;
+use Illuminate\Support\Facades\Storage;
 
 class WebContentsController extends Controller
 {
@@ -194,6 +195,19 @@ class WebContentsController extends Controller
     
     public function delete($id)
     {
-        dd('delete this:'.$id);
+        $postToDelete = WebPost::where('id','=', $id)->with('attachments')->first();
+        
+
+        if($postToDelete->attachments)
+        {
+            foreach($postToDelete->attachments as $file)
+            {
+                Storage::disk('public')->delete($file->filename);
+            }
+        }
+        
+        $postToDelete->delete();
+
+        return redirect()->back()->with('success', 'Successfully deleted!');
     }
 }

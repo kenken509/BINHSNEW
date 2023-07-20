@@ -40,7 +40,7 @@
                     
                     <div class="border border-gray-300 border border-2 rounded-md border-gray-400 col-span-12 px-2 py-2">
                         <div class="w-full  my-1 border-b-2 border-gray-300  py-2">
-                            <input id="test-id" type="file" name="video"  multiple @input="addImage" accept="image/*" required />
+                            <input id="test-id" type="file" name="images[]"  multiple @input="addImage" accept="image/*" required />
                             <!-- <FileUpload mode="basic" multiple name="imageUpload" @input="addImage" accept="image/jpeg" :maxFileSize="1000000" /> -->
                             <!-- <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                                 {{ form.progress.percentage }}%
@@ -58,7 +58,7 @@
                             </div>
                         </div>
                         
-                        <div v-if="fileError(errorsArray, 'images.0').length">
+                        <div v-if="fileError(errorsArray, 'images').length">
                            <InputError :error="'The image file must ba a file of type: jpg, jpeg, png, with a max size of 3mb'"/>
                         </div>
                     </div>

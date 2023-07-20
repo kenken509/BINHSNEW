@@ -19,4 +19,8 @@ class WebPost extends Model
         return $this->hasMany(Comment::class,'web_post_id', 'id');
     }
     
+    public function attachments()
+    {
+        return $this->hasMany(WebPostAttachment::class,'web_post_id','id');
+    }
 }
