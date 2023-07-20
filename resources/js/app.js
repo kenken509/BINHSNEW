@@ -32,6 +32,7 @@ import Row from 'primevue/row';
 import Password from 'primevue/password';
 import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
+import Card from 'primevue/card';
 
 //flowbite
 // import { 
@@ -72,6 +73,7 @@ createInertiaApp({
       .use(initFlowbite)
       .use(PrimeVue, {ripple: true})
       .use(ToastService)
+      .component('Card', Card)
       .component('FileUpload',FileUpload)
       .component('Textarea',Textarea)
       .component('Dialog',Dialog)

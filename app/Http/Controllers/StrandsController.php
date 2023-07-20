@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\WebPost;
 use Illuminate\Http\Request;
 
 class StrandsController extends Controller
@@ -11,7 +12,12 @@ class StrandsController extends Controller
     }
 
     public function showICT(){
-        return inertia('Index/WebPages/Strands/ICT');
+
+        $posts = WebPost::where('subject_id','=',3)->with('attachments')->orderBy('created_at', 'desc')->get();
+        
+        return inertia('Index/WebPages/Strands/ICT', [
+            'posts' => $posts,
+        ]);
     }
 
     public function showIA(){
