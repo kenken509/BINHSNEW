@@ -79,7 +79,7 @@ class WebContentsController extends Controller
             //{"author_id":4,"attachment":null,"subject_id":3,"title":null,"content":null,"status":"public","images":[],"video":null,"created_by":4}
             
             $post =  $request->validate([
-                'title'     => 'required',
+                'title'     => 'required|max:50',
                 'content'   => 'required|max:50000',
             ]);
 
@@ -102,7 +102,7 @@ class WebContentsController extends Controller
         {
             //dd($request);
             $validated = $request->validate([
-                'title'     => 'required|max:100',
+                'title'     => 'required|max:50',
                 'content'   => 'required|max:50000',
                 'images.*'  => 'required|mimes:jpg,jpeg,png|max:3000'
             ]);
@@ -151,7 +151,7 @@ class WebContentsController extends Controller
             // "created_by" => "4"
 
             $validate = $request->validate([
-                'title' => 'required|max:100',
+                'title' => 'required|max:50',
                 'content' => 'required|max:50000',
                 'video'     => 'required|mimetypes:video/mp4|max:35000',
             ]);

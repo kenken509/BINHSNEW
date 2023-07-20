@@ -7,24 +7,38 @@ use Illuminate\Http\Request;
 
 class StrandsController extends Controller
 {
+    public function showAgriFisheryArts(){
+        $agriFisheryArtsPosts = WebPost::where('subject_id','=',1)->with(['attachments','author'])->orderBy('created_at', 'desc')->get();
+        return inertia('Index/WebPages/Strands/AgriFisheryArts',[
+            'posts' => $agriFisheryArtsPosts,
+        ]);
+    }
+
     public function showHE(){
-        return inertia('Index/WebPages/Strands/HomeEconomics');
+
+        $homeEconomicsPosts = WebPost::where('subject_id','=',2)->with(['attachments','author'])->orderBy('created_at', 'desc')->get();
+
+        return inertia('Index/WebPages/Strands/HomeEconomics', [
+            'posts' => $homeEconomicsPosts,
+        ]);
     }
 
     public function showICT(){
 
-        $posts = WebPost::where('subject_id','=',3)->with('attachments')->orderBy('created_at', 'desc')->get();
-        
+        $posts = WebPost::where('subject_id','=',3)->with(['attachments','author'])->orderBy('created_at', 'desc')->get();
+        //dd($posts);
         return inertia('Index/WebPages/Strands/ICT', [
             'posts' => $posts,
         ]);
     }
 
     public function showIA(){
-        return inertia('Index/WebPages/Strands/IndustrialArts');
+        $posts = WebPost::where('subject_id','=',4)->with(['attachments','author'])->orderBy('created_at', 'desc')->get();
+
+        return inertia('Index/WebPages/Strands/IndustrialArts', [
+            'posts' => $posts,
+        ]);
     }
 
-    public function showAgriFisheryArts(){
-        return inertia('Index/WebPages/Strands/AgriFisheryArts');
-    }
+   
 }

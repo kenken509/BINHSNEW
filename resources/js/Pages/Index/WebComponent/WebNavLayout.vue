@@ -12,7 +12,7 @@
                     
                     <a
                         class="mt-2 mr-2 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mt-0"
-                        href="#">
+                        :href="route('index')">
                         <!-- <img :src="'images/webPage/logo1.png'" class="w-14 h-14"/> -->
                         <h1 class="text-3xl font-semibold primary-text-black">BINHS</h1>
                         
