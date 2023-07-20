@@ -174,6 +174,7 @@ Route::controller(WebContentsController::class)->group(function(){
    //instructor
    Route::get('instructor/web-content/add-post', 'showInstructorAddPost')->name('instructorWebPost.add');
    Route::post('admin/web-content/store-post', 'instructorStorePost')->name('instructorWebPost.store');
+   Route::get('instructor/web-content/edit-post/{id}', 'showInstructorEditPost')->name('instructorWebPost.edit');
 });
 
 Route::controller(CommentsController::class)->group(function(){

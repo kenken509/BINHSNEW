@@ -210,4 +210,14 @@ class WebContentsController extends Controller
 
         return redirect()->back()->with('success', 'Successfully deleted!');
     }
+
+    public function showInstructorEditPost($id)
+    {
+        $postToEdit = WebPost::where('id','=',$id)->with(['attachments','author'])->first();
+
+        //dd($postToEdit);
+        return inertia('AdminDashboard/AdminPages/WebsiteManagement/Instructor/PostEdit', [
+            'post' => $postToEdit,
+        ]);
+    }
 }
