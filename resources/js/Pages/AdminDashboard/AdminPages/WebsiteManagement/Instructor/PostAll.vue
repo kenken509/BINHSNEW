@@ -49,9 +49,9 @@
                             {{ toUpperFirst(post.author.lName)  }}, {{ toUpperFirst(post.author.fName)  }} 
                         </td>
                         
-                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 flex flex-wrap">
                             
-                            <div v-if="readMore">
+                            <div v-if="readMore" class="flex">
                                 {{ post.content }}  <button class="text-blue-300 hover:text-blue-500" @click="allowRead">read less</button>
                             </div>
                             <div v-else>

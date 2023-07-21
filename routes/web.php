@@ -181,3 +181,8 @@ Route::controller(CommentsController::class)->group(function(){
     Route::post('admin/comment/approve', 'approveComment')->name('comment.approve');
     
 });
+
+//attachments
+Route::controller(AttachmentController::class)->group(function(){
+    Route::delete('instructor/attachments/delete-attachment/{id}', 'delete')->name('attachment.delete');
+});

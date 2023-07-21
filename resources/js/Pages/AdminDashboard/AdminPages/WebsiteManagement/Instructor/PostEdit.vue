@@ -3,7 +3,8 @@
         <div class="border-bot-only border-gray-600 shadow-md">
             <span class="text-[20px] font-bold text-gray-500">Add New Post</span>  
         </div>
-        {{ postToEdit.post.attachments }}
+        <div v-if="$page.props.flash.success" hidden>{{ reloadPage() }}</div>
+
         <form @submit.prevent="submit">
             <div class="grid grid-cols-12   gap-4 w-full mt-12 ">
                 <div class="w-full col-span-12 ">
@@ -18,7 +19,7 @@
                     </div>
                     
                 </div>
-
+                relod: {{ reload }}
                 <div class="w-full col-span-12 ">
                     <div class="pb-5 text-[18px]">Content:</div>
                     <span class="p-float-label ">
@@ -32,21 +33,24 @@
 
                 <!--ATTACHMENTS CONTAINER-->
                 <div class="col-span-12 md:col-span-3">
-                    <label > Attachment : </label>
-                    <Dropdown  v-model="selectedAttachment" :options="attachments" optionLabel="name" placeholder="None" class="w-full md:w-14rem " @change="reset"/>
+                    <label > Attachments :  </label>
+                    
                 </div>
                 <!--IMAGE UPLOAD-->
                 <div v-if="selectedAttachment && (selectedAttachment.name === 'Image')" class="col-span-12">
                     
                     <div class="border border-gray-300 border border-2 rounded-md border-gray-400 col-span-12 px-2 py-2">
-                        <div class="w-full  my-1 border-b-2 border-gray-300  py-2">
-                            <input id="test-id" type="file" name="images[]"  multiple @input="addImage" accept="image/*" required />
-                        </div>
+                       
 
-                        <div class="flex gap-3 flex-wrap ">
-                            <div v-for="(image,index) in form.images" :key="image.name" class="py-2" >
-                                <div>
-                                    <img :src="imageUrl[index]" alt="Image" class="w-[100px] h-[100px] rounded-md"/>
+                        <div class="grid grid-cols-12 gap-3  items-center ">
+                            <div v-for="(image,index) in existingImage" :key="image.name" class="flex justify-between w-full py-2 col-span-12 md:col-span-4 border border-gray-300 rounded-md shadow-md bg-gray-200" >
+                                <div class="flex justify-between w-full  px-2">
+                                    <img :src="appUrl+image.filename" alt="Image" class="w-[200px] h-[200px] rounded-md border border-2 border-gray-400 shadow-lg "/>
+                                    <div class="flex flex-col justify-center mr-4">
+                                        <Link :href="route('attachment.delete',{id: image.id })" as="button" method="delete" class="mb-2 p-4 border rounded-md bg-red-600 text-gray-300 hover:bg-red-700 hover:text-white ">Delete</Link>
+                                        <button class="mt-2 p-4 border rounded-md bg-green-600 text-gray-300 hover:bg-green-700 hover:text-white">Update</button>
+                                    </div>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -97,11 +101,21 @@ import { useForm, usePage } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
 import {ref, computed, onMounted} from 'vue'
 import InputError from '../../../../GlobalComponent/InputError.vue'
+import {Link} from '@inertiajs/vue3'
 
 const postToEdit = defineProps({
     post:Object,
 })
+const appUrl = 'http://127.0.0.1:8000/storage/';
 const user = usePage().props.user;
+const deleteConfirm = usePage().props.flash.success;
+const del = ref('');
+function reloadPage(){
+    
+    location.reload()
+}
+
+const existingImage = ref([]);
 const attachments = [
     {
         'name': 'None'
@@ -143,8 +157,9 @@ const addImage = (event)=>
 {
     for(const image of event.target.files)
     {
-        form.images.push(image);
-        imageUrl.value.push(URL.createObjectURL(image));
+        console.log(image.name);
+        // form.images.push(image);
+        // imageUrl.value.push(URL.createObjectURL(image));
     }
     console.log(imageUrl);
 }
@@ -184,12 +199,23 @@ const reset = ()=> {
 
 //const resetVideo = ()=> form.reset('video');
 
-
+const reload = ref(false)
+if (reload.value) {
+        location.reload();
+    } 
 onMounted(()=>{
+   
    
     if(postToEdit.post.attachments.length)
     {
-        console.log(postToEdit.post.attachments[0].type);
+        if(postToEdit.post.attachments[0].type === 'Image')
+        {
+            postToEdit.post.attachments.forEach(image => {
+                
+                existingImage.value.push(image);
+                
+            });
+        }
     }
 });
 
