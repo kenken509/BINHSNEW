@@ -38,9 +38,12 @@
                 <!--IMAGE UPLOAD-->
                 <div v-if="selectedAttachment && (selectedAttachment.name === 'Image')" class="col-span-12">
                     
-                    <div class="border border-gray-300 border border-2 rounded-md border-gray-400 col-span-12 px-2 py-2">
-                        <div class="w-full  my-1 border-b-2 border-gray-300  py-2">
-                            <input id="test-id" type="file" name="images[]"  multiple @input="addImage" accept="image/*" required />
+                    <div class="border border-gray-300 border border-2 rounded-md border-gray-200 col-span-12 px-2 py-2">
+                        <div class="w-full  my-1   py-2">
+                            <label for="fileInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
+                                Select a file...
+                            </label>
+                            <input  type="file"  id="fileInput" multiple @input="addImage" accept="image/*" hidden  ref="fileInputRef"/>
                             <!-- <FileUpload mode="basic" multiple name="imageUpload" @input="addImage" accept="image/jpeg" :maxFileSize="1000000" /> -->
                             <!-- <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                                 {{ form.progress.percentage }}%
@@ -50,10 +53,17 @@
                             
                         </div>
 
-                        <div class="flex gap-3 flex-wrap ">
+                        <div v-if="form.images.length" class="flex gap-3 flex-wrap border border-2 border-gray-400 shadow-md p-4 rounded-md">
                             <div v-for="(image,index) in form.images" :key="image.name" class="py-2" >
                                 <div>
-                                    <img :src="imageUrl[index]" alt="Image" class="w-[100px] h-[100px] rounded-md"/>
+                                    <div class="relative border border-gray-400 rounded-md shadow-md ">
+                                        <img :src="imageUrl[index]" alt="Image" class="w-[100px] h-[100px] rounded-md relative"/>
+                                        <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
+                                            <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteImage(index)" ></i>
+                                        </div>
+                                    </div>
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
@@ -61,6 +71,7 @@
                         <div v-if="fileError(errorsArray, 'images').length">
                            <InputError :error="'The image file must ba a file of type: jpg, jpeg, png, with a max size of 3mb'"/>
                         </div>
+                        <div v-if="$page.props.flash.error" ><InputError :error="$page.props.flash.error"/></div>
                     </div>
                 </div>
                 
@@ -68,18 +79,25 @@
                 <div v-if="selectedAttachment && (selectedAttachment.name === 'Video')" class="col-span-12">
                    
                     <div class="flex flex-col col-span-12  border-gray-300 border border-2 rounded-md border-gray-400 px-2 py-2">
-                        <div class="w-full  my-1 py-2  border-b-2 border-gray-300">
-                            <input id="test-id" type="file" multiple @input="addVideo" accept="video/mp4" required />
-                            <div v-if="videoSizeError"><InputError :error="videoSizeError"/></div>
-                            <div v-if="fileError(errorsArray, 'video').length">
-                                <InputError :error="'The video file must ba a file of type: mp4, with a max size of 35mb'"/>
-                            </div>
-                        </div>
-                        <div class="flex justify-center items-center   p-2">
+                        <div class="w-full  my-1 py-2   border-gray-300">
+                            <label for="videoInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
+                                Select a file...
+                            </label>
+                            <input id="videoInput" type="file" multiple @input="addVideo" accept="video/mp4" hidden  />
                             
-                            <div v-if="videoUrl" id="video-container">
-                                <video :src="videoUrl" controls class="w-[500px] h-full"  ></video>
+                            
+                        </div>
+                        <div class="flex flex-col justify-center items-center border  border-gray-300 rounded-md p-2">
+                            
+                            <div v-if="videoUrl" id="video-container" >
+                                <video :src="videoUrl" controls class="w-[500px] h-full border border-gray-300 shadow-md rounded-md"  ></video>
                                 
+                            </div>
+                            <div>
+                                <div v-if="videoSizeError"><InputError :error="videoSizeError"/></div>
+                                <div v-if="fileError(errorsArray, 'video').length" >
+                                    <InputError :error="'The video file must ba a file of type: mp4, with a max size of 35mb'"/>
+                                </div>
                             </div>
                             
                         </div>
@@ -151,7 +169,16 @@ const addImage = (event)=>
         form.images.push(image);
         imageUrl.value.push(URL.createObjectURL(image));
     }
+    // Reset the file input
+    const fileInputRef = $refs.fileInputRef;
+    if (fileInputRef) {
+        fileInputRef.value = null;
+    }
     console.log(imageUrl);
+}
+const deleteImage = (index)=>{
+    form.images.splice(index, 1);
+    imageUrl.value.splice(index, 1);
 }
 
 const videoSizeError = ref();
@@ -196,6 +223,7 @@ const reset = ()=> {
 // at form submit
 const submit = () => {
     
+   
     if(videoSize.value > 35000000)
     {
         console.log('oversized video');

@@ -41,13 +41,6 @@
                     <div class="border border-gray-300 border border-2 rounded-md border-gray-400 col-span-12 px-2 py-2">
                         <div class="w-full  my-1 border-b-2 border-gray-300  py-2">
                             <input id="test-id" type="file" name="images[]"  multiple @input="addImage" accept="image/*" required />
-                            <!-- <FileUpload mode="basic" multiple name="imageUpload" @input="addImage" accept="image/jpeg" :maxFileSize="1000000" /> -->
-                            <!-- <progress v-if="form.progress" :value="form.progress.percentage" max="100">
-                                {{ form.progress.percentage }}%
-                            </progress> -->
-                            
-                           
-                            
                         </div>
 
                         <div class="flex gap-3 flex-wrap ">
@@ -121,7 +114,7 @@ const attachments = [
     }
 ]
 
-const selectedAttachment = ref(null);
+const selectedAttachment = ref(postToEdit.post.attachments.length === 0 ? {'name':'None'} : {'name': postToEdit.post.attachments[0].type});
 const errorsArray = computed(()=> Object.values(form.errors));
 const fileError = (arr, word) => {
     return arr.filter( element => element.includes(word));
@@ -130,7 +123,7 @@ const fileError = (arr, word) => {
 
 const form = useForm({
     author_id:user.id,
-    attachment: selectedAttachment,
+    attachment: null,
     subject_id:user.subject_id,
     title:postToEdit.post.title,
     content:postToEdit.post.content,
@@ -193,6 +186,7 @@ const reset = ()=> {
 
 
 onMounted(()=>{
+   
     if(postToEdit.post.attachments.length)
     {
         console.log(postToEdit.post.attachments[0].type);

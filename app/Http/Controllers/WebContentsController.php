@@ -74,10 +74,10 @@ class WebContentsController extends Controller
 
     public function instructorStorePost(Request $request)
     {
-        
+       
         if(!$request->attachment || $request->attachment['name'] == 'None'){
             //{"author_id":4,"attachment":null,"subject_id":3,"title":null,"content":null,"status":"public","images":[],"video":null,"created_by":4}
-            
+            //dd('wala nang image');
             $post =  $request->validate([
                 'title'     => 'required|max:50',
                 'content'   => 'required|max:50000',
@@ -100,13 +100,18 @@ class WebContentsController extends Controller
         }
         else if($request->attachment['name'] == 'Image')
         {
-            //dd($request);
+            
+            
             $validated = $request->validate([
                 'title'     => 'required|max:50',
                 'content'   => 'required|max:50000',
                 'images.*'  => 'required|mimes:jpg,jpeg,png|max:3000'
             ]);
-
+            if(!$request->file('images'))
+            {
+                return redirect()->back()->with('error', 'The image file must ba a file of type: jpg, jpeg, png, with a max size of 3mb');
+            };
+            
             if($validated)
             {     
                 $newPost = new WebPost();
