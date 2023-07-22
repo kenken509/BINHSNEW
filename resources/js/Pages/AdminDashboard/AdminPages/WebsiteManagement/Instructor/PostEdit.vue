@@ -19,7 +19,7 @@
                     </div>
                     
                 </div>
-                relod: {{ reload }}
+                
                 <div class="w-full col-span-12 ">
                     <div class="pb-5 text-[18px]">Content:</div>
                     <span class="p-float-label ">
@@ -34,8 +34,9 @@
                 <!--ATTACHMENTS CONTAINER-->
                 <div class="col-span-12 md:col-span-3">
                     <label > Attachments :  </label>
-                    
+                    {{ updateForm.errors.image }}
                 </div>
+                
                 <!--IMAGE UPLOAD-->
                 <div v-if="selectedAttachment && (selectedAttachment.name === 'Image')" class="col-span-12">
                     
@@ -48,7 +49,8 @@
                                     <img :src="appUrl+image.filename" alt="Image" class="w-[200px] h-[200px] rounded-md border border-2 border-gray-400 shadow-lg "/>
                                     <div class="flex flex-col justify-center mr-4">
                                         <Link :href="route('attachment.delete',{id: image.id })" as="button" method="delete" class="mb-2 p-4 border rounded-md bg-red-600 text-gray-300 hover:bg-red-700 hover:text-white ">Delete</Link>
-                                        <button class="mt-2 p-4 border rounded-md bg-green-600 text-gray-300 hover:bg-green-700 hover:text-white">Update</button>
+                                        <label for="imageUpdate" class="mt-2 p-4 border rounded-md bg-green-600 text-gray-300 hover:bg-green-700 hover:text-white cursor-pointer">Update</label>
+                                        <input id="imageUpdate" type="file" accept="image/*" @input="updateImage($event, image.id, image.filename)" hidden />
                                     </div>
                                    
                                 </div>
@@ -135,17 +137,7 @@ const fileError = (arr, word) => {
 }
 
 
-const form = useForm({
-    author_id:user.id,
-    attachment: null,
-    subject_id:user.subject_id,
-    title:postToEdit.post.title,
-    content:postToEdit.post.content,
-    status:'active',
-    images:[],
-    video:null,
-    created_by:user.id,
-})
+
 
 
 
@@ -164,8 +156,34 @@ const addImage = (event)=>
     console.log(imageUrl);
 }
 
+// image update logics ************************
+
+const updateImage = (event, imageId, imageFilename) => {
+    
+   // Your code to update the image goes here
+   updateForm.imageId = imageId;
+   updateForm.image = event.target.files;
+   updateForm.existingFilename = imageFilename
+
+   updateForm.post(route('attachment.image.update'), {
+        preserveScroll: true,
+        onSuccess: () => {updateForm.reset('image', 'imageId', 'existingFilename')},
+   })
+}
+
+
+const updateForm = useForm({
+    imageId:null,
+    existingFilename:null,
+    image:null,
+})
+// image update logics ************************
+
+
 const videoSizeError = ref();
 const videoSize = ref();
+
+
 //at video input
 const addVideo = (event)=>
 {
@@ -219,18 +237,29 @@ onMounted(()=>{
     }
 });
 
+const form = useForm({
+    author_id:user.id,
+    attachment: null,
+    subject_id:user.subject_id,
+    title:postToEdit.post.title,
+    content:postToEdit.post.content,
+    status:'active',
+    images:[],
+    video:null,
+    created_by:user.id,
+})
 
 // at form submit
 const submit = () => {
     
-    if(videoSize.value > 35000000)
-    {
-        console.log('oversized video');
-    }
-    else
-    {
-        form.post(route('instructorWebPost.store'),{ onSuccess: ()=> form.reset('images')})
-    }
+    // if(videoSize.value > 35000000)
+    // {
+    //     console.log('oversized video');
+    // }
+    // else
+    // {
+    //     form.post(route('instructorWebPost.store'),{ onSuccess: ()=> form.reset('images')})
+    // }
 } ;
 
 
