@@ -54,4 +54,32 @@ class AttachmentController extends Controller
         return redirect()->back()->with('success', true);
         
     }
+
+    public function updateAddNewImage(Request $request)
+    {
+        
+        
+        $request->validate([
+            'image/*' => 'required|mimes:jpg,jpeg,png|max:3000'
+        ]);
+
+        $file = $request->file('image');
+
+        // add random string
+        $originalName = $file[0]->getClientOriginalName();
+        $randomString = Str::random(10);
+        $newName = $randomString.' '.$originalName;
+
+        $path = $file[0]->storeAs('image', $newName , 'public');
+
+        $newImage = new WebPostAttachment();
+        $newImage->type = $request->type;
+        $newImage->web_post_id  = $request->web_post_id;
+        $newImage->filename = $path;
+        $newImage->save();
+
+
+        return redirect()->back()->with('success', true);
+
+    }
 }

@@ -197,6 +197,24 @@ class WebContentsController extends Controller
         
         
     }
+
+    public function updatePost(Request $request)
+    {
+        $postToUpdate = WebPost::findOrFail($request->id);
+        //{"id":5,"author_id":5,"subject_id":4,"title":"test add image","content":"j;lakjsdflk","updated_by":5}
+
+        $request->validate([
+            'title'     => 'required|max:50',
+            'content'   => 'required|max:50000',
+        ]);
+
+        $postToUpdate->title        = $request->title;
+        $postToUpdate->content      = $request->content;
+        $postToUpdate->updated_by   = $request->updated_by;
+        $postToUpdate->save();
+
+        return redirect()->route('webPosts.all')->with('success', 'Updated Successfully');
+    }
     
     public function delete($id)
     {

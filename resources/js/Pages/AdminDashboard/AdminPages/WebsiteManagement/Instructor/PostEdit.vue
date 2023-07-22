@@ -41,8 +41,11 @@
                 <div v-if="selectedAttachment && (selectedAttachment.name === 'Image')" class="col-span-12">
                     
                     <div class="border border-gray-300 border border-2 rounded-md border-gray-400 col-span-12 px-2 py-2">
-                       
-
+                        <div class="  mb-4 mt-2">
+                            <label for="addNewImage" class="cursor-pointer bg-[#4338CA] hover:bg-indigo-700 hover:text-white py-3 px-3 border border-blue-500 shadow-md rounded-md text-gray-100">Add Image...</label>
+                            <input id="addNewImage" type="file" accept="image/*" @input="addNewImage($event)"  hidden/>
+                        </div>
+                        
                         <div class="grid grid-cols-12 gap-3  items-center ">
                             <div v-for="(image,index) in existingImage" :key="image.name" class="flex justify-between w-full py-2 col-span-12 md:col-span-4 border border-gray-300 rounded-md shadow-md bg-gray-200" >
                                 <div class="flex justify-between w-full  px-2">
@@ -68,7 +71,7 @@
                    
                     <div class="flex flex-col col-span-12  border-gray-300 border border-2 rounded-md border-gray-400 px-2 py-2">
                         <div class="w-full  my-1 py-2  border-b-2 border-gray-300">
-                            <input id="test-id" type="file" multiple @input="addVideo" accept="video/mp4" required />
+                            <input id="test-id" type="file"  @input="addVideo" accept="video/mp4" required />
                             <div v-if="videoSizeError"><InputError :error="videoSizeError"/></div>
                             <div v-if="fileError(errorsArray, 'video').length">
                                 <InputError :error="'The video file must ba a file of type: mp4, with a max size of 35mb'"/>
@@ -171,6 +174,21 @@ const updateImage = (event, imageId, imageFilename) => {
    })
 }
 
+const addNewImage = (event) => {
+    
+    addImageForm.image = event.target.files;
+    
+    addImageForm.post(route('attachment.addNewImage.update'),{
+        preserveScroll: true,
+        onSuccess: () => {updateForm.reset('image')},
+    })
+}
+
+const addImageForm = useForm({
+    type:'image',
+    web_post_id:postToEdit.post.id,
+    image:null,
+})
 
 const updateForm = useForm({
     imageId:null,
@@ -238,28 +256,26 @@ onMounted(()=>{
 });
 
 const form = useForm({
+    id: postToEdit.post.id,
     author_id:user.id,
-    attachment: null,
     subject_id:user.subject_id,
     title:postToEdit.post.title,
     content:postToEdit.post.content,
-    status:'active',
-    images:[],
-    video:null,
-    created_by:user.id,
+    updated_by:user.id,
+    
 })
 
 // at form submit
 const submit = () => {
     
-    // if(videoSize.value > 35000000)
-    // {
-    //     console.log('oversized video');
-    // }
-    // else
-    // {
-    //     form.post(route('instructorWebPost.store'),{ onSuccess: ()=> form.reset('images')})
-    // }
+    if(videoSize.value > 35000000)
+    {
+        console.log('oversized video');
+    }
+    else
+    {
+        form.post(route('instructorWebPost.update'),{ onSuccess: ()=> form.reset('images')})
+    }
 } ;
 
 

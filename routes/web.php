@@ -175,6 +175,7 @@ Route::controller(WebContentsController::class)->group(function(){
    Route::get('instructor/web-content/add-post', 'showInstructorAddPost')->name('instructorWebPost.add');
    Route::post('admin/web-content/store-post', 'instructorStorePost')->name('instructorWebPost.store');
    Route::get('instructor/web-content/edit-post/{id}', 'showInstructorEditPost')->name('instructorWebPost.edit');
+   Route::post('instructor/web-content/update', 'updatePost')->name('instructorWebPost.update');
 });
 
 Route::controller(CommentsController::class)->group(function(){
@@ -186,4 +187,5 @@ Route::controller(CommentsController::class)->group(function(){
 Route::controller(AttachmentController::class)->group(function(){
     Route::delete('instructor/attachments/delete-attachment/{id}', 'delete')->name('attachment.delete');
     Route::post('instructor/attachments/update-image', 'updateImage')->name('attachment.image.update');
+    Route::post('instructor/attachments/update-add-image', 'updateAddNewImage')->name('attachment.addNewImage.update');
 });
