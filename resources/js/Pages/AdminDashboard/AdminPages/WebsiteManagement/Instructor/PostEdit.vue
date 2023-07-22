@@ -51,7 +51,8 @@
                                 <div class="flex justify-between w-full  px-2">
                                     <img :src="appUrl+image.filename" alt="Image" class="w-[200px] h-[200px] rounded-md border border-2 border-gray-400 shadow-lg "/>
                                     <div class="flex flex-col justify-center mr-4">
-                                        <Link :href="route('attachment.delete',{id: image.id })" as="button" method="delete" class="mb-2 p-4 border rounded-md bg-red-600 text-gray-300 hover:bg-red-700 hover:text-white ">Delete</Link>
+                                        
+                                        <Link v-if="postToEdit.post.attachments.length > 1" :href="route('attachment.delete',{id: image.id })" as="button" method="delete" class="mb-2 p-4 border rounded-md bg-red-600 text-gray-300 hover:bg-red-700 hover:text-white ">Delete</Link>
                                         <label for="imageUpdate" class="mt-2 p-4 border rounded-md bg-green-600 text-gray-300 hover:bg-green-700 hover:text-white cursor-pointer">Update</label>
                                         <input id="imageUpdate" type="file" accept="image/*" @input="updateImage($event, image.id, image.filename)" hidden />
                                     </div>
@@ -65,23 +66,24 @@
                         </div>
                     </div>
                 </div>
-                
+            
                 <!--VIDEO UPLOAD-->
                 <div v-if="selectedAttachment && (selectedAttachment.name === 'Video')" class="col-span-12">
                    
                     <div class="flex flex-col col-span-12  border-gray-300 border border-2 rounded-md border-gray-400 px-2 py-2">
-                        <div class="w-full  my-1 py-2  border-b-2 border-gray-300">
-                            <input id="test-id" type="file"  @input="addVideo" accept="video/mp4" required />
+                        <div class="flex flex-col w-full  my-1 py-2  border-b-2 border-gray-300">
+                            <label for="addVideo" class=" cursor-pointer bg-[#4338CA] hover:bg-indigo-700 hover:text-white py-3 px-3 border border-blue-500 shadow-md rounded-md text-gray-100 mb-2 md:w-[128px]">Replace file...</label>
+                            <input id="addVideo" type="file"  @input="updateVideo($event,postToEdit.post.attachments[0].id )" accept="video/mp4"  hidden/>
                             <div v-if="videoSizeError"><InputError :error="videoSizeError"/></div>
                             <div v-if="fileError(errorsArray, 'video').length">
                                 <InputError :error="'The video file must ba a file of type: mp4, with a max size of 35mb'"/>
                             </div>
+                            <div v-if="$page.props.errors.video"><InputError :error="$page.props.errors.video"/></div>
                         </div>
                         <div class="flex justify-center items-center   p-2">
                             
-                            <div v-if="videoUrl" id="video-container">
-                                <video :src="videoUrl" controls class="w-[500px] h-full"  ></video>
-                                
+                            <div v-if="postToEdit.post.attachments" id="video-container">
+                                <video :src="appUrl+videoUrl" controls class="w-[500px] h-full"  ></video>
                             </div>
                             
                         </div>
@@ -146,18 +148,18 @@ const fileError = (arr, word) => {
 
 // temporary image address...
 const imageUrl = ref([]);
-const videoUrl = ref();
+const videoUrl = ref(postToEdit.post.attachments[0].filename);
 //at image input
-const addImage = (event)=>
-{
-    for(const image of event.target.files)
-    {
-        console.log(image.name);
-        // form.images.push(image);
-        // imageUrl.value.push(URL.createObjectURL(image));
-    }
-    console.log(imageUrl);
-}
+// const addImage = (event)=>
+// {
+//     for(const image of event.target.files)
+//     {
+//         console.log(image.name);
+//         // form.images.push(image);
+//         // imageUrl.value.push(URL.createObjectURL(image));
+//     }
+//     console.log(imageUrl);
+// }
 
 // image update logics ************************
 
@@ -198,12 +200,18 @@ const updateForm = useForm({
 // image update logics ************************
 
 
+
+
+
+// video update logics ************************
 const videoSizeError = ref();
 const videoSize = ref();
 
-
-//at video input
-const addVideo = (event)=>
+const updateVideoForm = useForm({
+    id:null,
+    video:null,
+});
+const updateVideo = (event, videoId)=>
 {
     //console.log(event.target.files[0].size);
     videoSize.value = event.target.files[0].size;
@@ -213,15 +221,18 @@ const addVideo = (event)=>
     }
     else
     {
-        videoSizeError.value = '';
-        const video = event.target.files[0]
-        form.video = video;
-        videoUrl.value = URL.createObjectURL(video);
+        updateVideoForm.id = videoId;
+        updateVideoForm.video = event.target.files[0];
+
+        updateVideoForm.post(route('attachment.video.update'), {
+            preserveScroll: true,
+            onSuccess: () => {updateForm.reset('image')},
+        });
     }
     
     
 }
-
+// video update logics ************************
 
 
 //reset the images in the form
@@ -271,6 +282,10 @@ const submit = () => {
     if(videoSize.value > 35000000)
     {
         console.log('oversized video');
+    }
+    else if(postToEdit.post.attachments.length < 1)    
+    {   
+        console.log('must have at least 1 image');
     }
     else
     {

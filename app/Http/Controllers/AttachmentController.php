@@ -70,7 +70,7 @@ class AttachmentController extends Controller
         $randomString = Str::random(10);
         $newName = $randomString.' '.$originalName;
 
-        $path = $file[0]->storeAs('image', $newName , 'public');
+        $path = $file[0]->storeAs('images', $newName , 'public');
 
         $newImage = new WebPostAttachment();
         $newImage->type = $request->type;
@@ -78,6 +78,33 @@ class AttachmentController extends Controller
         $newImage->filename = $path;
         $newImage->save();
 
+
+        return redirect()->back()->with('success', true);
+
+    }
+
+    // video controllers ********************************************
+
+    public function updateVideo(Request $request)
+    {
+        $attachmentToUpdate = WebPostAttachment::findOrFail($request->id);
+
+        $request->validate([
+            'video' => 'required|mimes:mp4|max:35000'
+        ]);
+        
+        $file = $request->file('video');
+        
+        
+        //add random string
+        $originalName = $file->getClientOriginalName();
+        $randomString = Str::random(10);
+        $newName      = $randomString.' '.$originalName;  
+
+        $path = $file->storeAs('videos', $newName, 'public');
+
+        $attachmentToUpdate->filename = $path;
+        $attachmentToUpdate->save();
 
         return redirect()->back()->with('success', true);
 

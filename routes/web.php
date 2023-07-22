@@ -185,7 +185,11 @@ Route::controller(CommentsController::class)->group(function(){
 
 //attachments
 Route::controller(AttachmentController::class)->group(function(){
+    //image update
     Route::delete('instructor/attachments/delete-attachment/{id}', 'delete')->name('attachment.delete');
     Route::post('instructor/attachments/update-image', 'updateImage')->name('attachment.image.update');
     Route::post('instructor/attachments/update-add-image', 'updateAddNewImage')->name('attachment.addNewImage.update');
+
+    //video update
+    Route::post('instructor/attachments/update-video', 'updateVideo')->name('attachment.video.update');
 });
