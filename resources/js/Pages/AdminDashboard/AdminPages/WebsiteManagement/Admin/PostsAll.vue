@@ -31,7 +31,7 @@
                         
                 </thead>
                 <tbody>
-                    {{ post.about }}
+                    
                     <tr v-for="post in post.posts" class="hover:bg-red-200 cursor-pointer border border-gray-300">
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
                             {{ post.id }}
@@ -71,6 +71,7 @@ const user = usePage().props.user
 const post = defineProps({
     posts:Array,
     about:Array,
+    contacts:Array,
 })
 
 </script>

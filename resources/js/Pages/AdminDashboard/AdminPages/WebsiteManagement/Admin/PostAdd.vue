@@ -54,24 +54,79 @@
                                 <label for="email">email address..</label>
                             </span>
                         </div>
-                        
+                        <InputError :error="validationError"/>
+                    
                         <div class="w-full mt-4">
                             <Button label="Submit" class="w-full " type="submit" />
                         </div>
                     </div>
                 </div>
 
-                <!--About Page-->
+                <!--Downloads Page-->
                 <div v-if="pagesToAdd === 'Downloads'" class="col-span-12">
                     <div>
                         show Downloads page
                     </div>
                 </div>
 
-                <!--About Page-->
+                <!--News Page-->
                 <div v-if="pagesToAdd === 'News'" class="col-span-12">
                     <div>
-                        show News page
+                        <div class="flex flex-col">
+                           <h1 class="mb-6">Title: </h1>
+                            <span class="p-float-label">
+                                <InputText id="name" v-model="form.name" class="w-full" required/>
+                                <label for="name" >Enter news title...</label>
+                             </span>
+                        </div>
+
+                        <div class="mt-4">
+                            <h1 class="mb-6">Content: </h1>
+                            <span class="p-float-label">
+                                <Textarea v-model="form.content" rows="5" cols="50" class="w-full" id="newsContent" required/>
+                                <label for="newsContent" >Enter news content</label>
+                            </span>
+                        </div>
+
+                        <!--image-->
+                        <div class="w-full  my-1   py-2">
+                            <h1 class="mb-6">Attachment: </h1>
+                            <label for="fileInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
+                                Select a file...
+                            </label>
+                            <input  type="file"  id="fileInput" multiple @input="addImage" accept="image/*" hidden  ref="fileInputRef"/>
+                            <!-- <FileUpload mode="basic" multiple name="imageUpload" @input="addImage" accept="image/jpeg" :maxFileSize="1000000" /> -->
+                            <!-- <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+                                {{ form.progress.percentage }}%
+                            </progress> -->
+                            
+                           
+                            
+                        </div>
+
+                        <!-- <div v-if="form.images.length" class="flex gap-3 flex-wrap border border-2 border-gray-400 shadow-md p-4 rounded-md">
+                            <div v-for="(image,index) in form.images" :key="image.name" class="py-2" >
+                                <div>
+                                    <div class="relative border border-gray-400 rounded-md shadow-md ">
+                                        <img :src="imageUrl[index]" alt="Image" class="w-[100px] h-[100px] rounded-md relative"/>
+                                        <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
+                                            <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteImage(index)" ></i>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div v-if="fileError(errorsArray, 'images').length">
+                           <InputError :error="'The image file must ba a file of type: jpg, jpeg, png, with a max size of 3mb'"/>
+                        </div> -->
+                        <!--image-->
+
+                        <div class="w-full mt-4">
+                            <Button label="Submit" class="w-full " type="submit" />
+                        </div>
                     </div>
                 </div>
             
@@ -83,6 +138,7 @@
 
 <script setup>
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
+import InputError from '../../../../GlobalComponent/InputError.vue';
 import { usePage,useForm } from '@inertiajs/vue3';
 import {ref, computed} from 'vue';
 
@@ -112,6 +168,36 @@ const pagesToAdd = computed(()=>{
     }
     
 })
+
+const imageUrl = ref(null);
+const addImage = (event)=>{
+    
+    form.image = event.target.files[0]
+    
+    imageUrl.value = URL.createObjectURL(event.target.files[0]);
+
+    console.log(imageUrl);
+}
+
+
+// temporary image address...
+// const imageUrl = ref([]);
+// const videoUrl = ref();
+//at image input
+// const addImage = (event)=>
+// {
+//     for(const image of event.target.files)
+//     {
+//         form.images.push(image);
+//         imageUrl.value.push(URL.createObjectURL(image));
+//     }
+//     // Reset the file input
+//     const fileInputRef = $refs.fileInputRef;
+//     if (fileInputRef) {
+//         fileInputRef.value = null;
+//     }
+//     console.log(imageUrl);
+// }
 const form = useForm({
     name:null,
     phoneNumber:null,
@@ -119,7 +205,27 @@ const form = useForm({
     title: null,
     content: null,
     page:pagesToAdd,
+    image:null,
 })
 
-const submit = ()=> form.post(route('webPost.store'));
+const validationError = ref('');
+const submit = ()=>{
+
+    if(selectedPage.value.name === 'Contacts')
+    {
+        if(form.phoneNumber !== null || form.email !== null)
+        {
+            form.post(route('webPost.store'));
+        }
+        else
+        {
+            validationError.value = 'Contact number or Email is required';
+        }
+    }
+    else
+    {
+        form.post(route('webPost.store'))
+    }
+    
+};
 </script>

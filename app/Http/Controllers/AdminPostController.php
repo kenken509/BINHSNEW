@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AdminPost;
 use Illuminate\Http\Request;
 use App\Models\AboutPagePost;
+use App\Models\ContactPagePost;
 use Auth;
 
 class AdminPostController extends Controller
@@ -15,6 +16,7 @@ class AdminPostController extends Controller
         return inertia('AdminDashboard/AdminPages/WebsiteManagement/Admin/PostsAll',[
             'posts' => AdminPost::all(),
             'about' => AboutPagePost::with('author')->get(),
+            'contacts' => ContactPagePost::with('author')->get(),
         ]);
     }
 
@@ -45,6 +47,19 @@ class AdminPostController extends Controller
        }
 
        if($request->page == 'Contacts')
+       {
+            $post = new ContactPagePost();
+
+            $post->name = $request->name;
+            $post->phoneNumber = $request->phoneNumber;
+            $post->email = $request->email;
+            $post->created_by = Auth::user()->id;
+            $post->save();
+
+            return redirect()->route('admin.post.all')->with('success', 'Successfully added new post on Contact Page!');
+       }
+
+       if($request->page == 'News')
        {
             dd($request);
        }
