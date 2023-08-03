@@ -35,7 +35,7 @@
                         <li class="lg:pr-2" data-te-nav-item-ref>
                         <a
                         class="nav"   
-                        href=""
+                        :href="route('index.about')"
                         data-te-nav-link-ref
                             >About</a
                         >

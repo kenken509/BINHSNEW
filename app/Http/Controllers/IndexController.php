@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\AboutPagePost;
 use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
@@ -18,9 +19,14 @@ class IndexController extends Controller
         ]);
     }
 
-    // public function showAbout(){
-    //     return inertia('Index/WebPages/About');
-    // }
+    public function showAbout(){
+        $posts = AboutPagePost::all();
+        
+
+        return inertia('Index/WebPages/About', [
+            'posts' => $posts,
+        ]);
+    }
 
     // public function showContact(){
     //     return inertia('Index/WebPages/Contact');
