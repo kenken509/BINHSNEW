@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Models\AdminPost;
+use Illuminate\Support\Str;
+use App\Models\NewsPagePost;
 use Illuminate\Http\Request;
 use App\Models\AboutPagePost;
 use App\Models\ContactPagePost;
-use Auth;
 
 class AdminPostController extends Controller
 {
@@ -17,6 +19,7 @@ class AdminPostController extends Controller
             'posts' => AdminPost::all(),
             'about' => AboutPagePost::with('author')->get(),
             'contacts' => ContactPagePost::with('author')->get(),
+            'news' => NewsPagePost::with('author')->get(),
         ]);
     }
 
@@ -61,7 +64,55 @@ class AdminPostController extends Controller
 
        if($request->page == 'News')
        {
-            dd($request);
+            if($request->hasFile('image'))
+            {
+                
+                $validated = $request->validate([
+                    'title'     => 'required|max:50',
+                    'content'   => 'required|max:50000',
+                    'image'     => 'mimes:jpg,jpeg,png|max:3000'
+                ]);
+
+                if($validated)
+                {
+                    $file = $request->file('image');
+                    $originalName = $file->getClientOriginalName();
+                    $randomString = Str::random(10);
+                    $newName = $randomString . '_' . $originalName;
+
+                    $path = $file->storeAs('images', $newName, 'public');
+
+                    $post = new NewsPagePost();
+                    $post->title    = $request->title;
+                    $post->filename = $path;
+                    $post->content  = $request->content;
+                    $post->created_by = Auth::user()->id;
+                    $post->save();
+
+                    return redirect()->route('admin.post.all')->with('success', 'Successfully added new post on News Page!');
+                }
+                
+
+                // $newAttachment              = new WebPostAttachment();
+                // $newAttachment->type        = 'Image';
+                // $newAttachment->web_post_id = $newPost->id;
+                // $newAttachment->filename    = $path;
+                // $newAttachment->created_at  = Carbon::now();
+
+                // $newAttachment->save();
+            }
+            else
+            {
+                
+                $post = new NewsPagePost();
+                
+                $post->title    = $request->title;
+                $post->content  = $request->content;
+                $post->created_by = Auth::user()->id;
+                $post->save();
+
+                return redirect()->route('admin.post.all')->with('success', 'Successfully added new post on News Page!');
+            }
        }
     }
 }

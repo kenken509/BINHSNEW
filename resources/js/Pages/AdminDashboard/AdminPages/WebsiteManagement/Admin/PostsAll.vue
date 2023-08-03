@@ -72,6 +72,7 @@ const post = defineProps({
     posts:Array,
     about:Array,
     contacts:Array,
+    news:Array,
 })
 
 </script>

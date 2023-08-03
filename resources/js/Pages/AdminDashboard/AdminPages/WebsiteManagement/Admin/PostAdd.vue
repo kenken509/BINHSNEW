@@ -7,7 +7,7 @@
             <div class="grid grid-cols-12">
                 
                 <div class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
-                    <h1>Page</h1>
+                    <h1 class="mb-4">Page</h1>
                     <Dropdown  v-model="selectedPage" :options="pages" optionLabel="name" placeholder="Select page" class="w-full md:w-14rem" />
                     <!-- <InputError :error="form.errors.region"/> -->
                 </div>
@@ -75,7 +75,7 @@
                         <div class="flex flex-col">
                            <h1 class="mb-6">Title: </h1>
                             <span class="p-float-label">
-                                <InputText id="name" v-model="form.name" class="w-full" required/>
+                                <InputText id="name" v-model="form.title" class="w-full" required/>
                                 <label for="name" >Enter news title...</label>
                              </span>
                         </div>
@@ -92,36 +92,21 @@
                         <div class="w-full  my-1   py-2">
                             <h1 class="mb-6">Attachment: </h1>
                             <label for="fileInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
-                                Select a file...
+                                Select a file... 
                             </label>
-                            <input  type="file"  id="fileInput" multiple @input="addImage" accept="image/*" hidden  ref="fileInputRef"/>
-                            <!-- <FileUpload mode="basic" multiple name="imageUpload" @input="addImage" accept="image/jpeg" :maxFileSize="1000000" /> -->
-                            <!-- <progress v-if="form.progress" :value="form.progress.percentage" max="100">
-                                {{ form.progress.percentage }}%
-                            </progress> -->
-                            
-                           
-                            
-                        </div>
-
-                        <!-- <div v-if="form.images.length" class="flex gap-3 flex-wrap border border-2 border-gray-400 shadow-md p-4 rounded-md">
-                            <div v-for="(image,index) in form.images" :key="image.name" class="py-2" >
-                                <div>
-                                    <div class="relative border border-gray-400 rounded-md shadow-md ">
-                                        <img :src="imageUrl[index]" alt="Image" class="w-[100px] h-[100px] rounded-md relative"/>
-                                        <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
-                                            <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteImage(index)" ></i>
-                                        </div>
-                                    </div>
-                                    
-                                    
+                            <div v-if="imageUrl" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
+                               <h1 class="">{{ attachmentFileName }}</h1> 
+                               <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
+                                    <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteImage" ></i>
                                 </div>
                             </div>
+                            <input  type="file"  id="fileInput" multiple @input="addImage" accept="image/*" hidden  ref="fileInputRef"/>
+                          
+                        </div>
+                        <div v-if="imageUrl" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md" >
+                            <img :src="imageUrl" alt="Error" class="w-[50%] h-[50%] rounded-md relative"/>
                         </div>
                         
-                        <div v-if="fileError(errorsArray, 'images').length">
-                           <InputError :error="'The image file must ba a file of type: jpg, jpeg, png, with a max size of 3mb'"/>
-                        </div> -->
                         <!--image-->
 
                         <div class="w-full mt-4">
@@ -170,15 +155,20 @@ const pagesToAdd = computed(()=>{
 })
 
 const imageUrl = ref(null);
+const attachmentFileName = ref('');
 const addImage = (event)=>{
     
     form.image = event.target.files[0]
-    
+    attachmentFileName.value = event.target.files[0].name
     imageUrl.value = URL.createObjectURL(event.target.files[0]);
 
     console.log(imageUrl);
 }
 
+const deleteImage = () => {
+    form.image = '';
+    imageUrl.value = '';
+}
 
 // temporary image address...
 // const imageUrl = ref([]);
