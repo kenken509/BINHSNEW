@@ -43,13 +43,16 @@ class AttachmentController extends Controller
         $randomString = Str::random(10);
         $newName = $randomString . '_' . $originalName;
        
+        //delete old filename
+        Storage::disk('public')->delete($attachmentToUpdate->filename);
+
         // store the file to public/videos with new name 
         $path = $file[0]->storeAs('images', $newName, 'public');
 
         $attachmentToUpdate->filename = $path;
         $attachmentToUpdate->save();
 
-        Storage::disk('public')->delete($request->existingFilename);
+         
 
         return redirect()->back()->with('success', true);
         
@@ -77,7 +80,7 @@ class AttachmentController extends Controller
         $newImage->web_post_id  = $request->web_post_id;
         $newImage->filename = $path;
         $newImage->save();
-
+        
 
         return redirect()->back()->with('success', true);
 
@@ -102,10 +105,11 @@ class AttachmentController extends Controller
         $newName      = $randomString.' '.$originalName;  
 
         $path = $file->storeAs('videos', $newName, 'public');
-
+        //delete old filename
+        Storage::disk('public')->delete($attachmentToUpdate->filename);
         $attachmentToUpdate->filename = $path;
         $attachmentToUpdate->save();
-
+        
         return redirect()->back()->with('success', true);
 
     }

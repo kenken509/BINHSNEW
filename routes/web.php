@@ -169,7 +169,7 @@ Route::controller(SimulatorAuthController::class)->group(function(){
 //website controller *********************************************************8
 Route::controller(WebContentsController::class)->group(function(){
    Route::get('admin/web-content/display', 'show')->name('webPosts.all');
-   Route::get('admin/web-content/add-post', 'showAddPost')->name('webPost.add');
+   
    Route::delete('admin/web-content/delete-post/{id}', 'delete')->name('webPost.delete');
    //instructor
    Route::get('instructor/web-content/add-post', 'showInstructorAddPost')->name('instructorWebPost.add');
@@ -192,4 +192,10 @@ Route::controller(AttachmentController::class)->group(function(){
 
     //video update
     Route::post('instructor/attachments/update-video', 'updateVideo')->name('attachment.video.update');
+});
+
+Route::controller(AdminPostController::class)->group(function(){
+    Route::get('admin/post/all-post', 'showAllPost')->name('admin.post.all');
+    Route::get('admin/web-content/add-post', 'showAddPost')->name('webPost.add');
+    Route::post('admin/web-content/store-post', 'storePost')->name('webPost.store');
 });
