@@ -25,7 +25,7 @@
                         <li class="lg:pr-2" data-te-nav-item-ref>
                         <a
                             class="nav"
-                            href=""
+                            :href="route('index')"
                             data-te-nav-link-ref
                             >Home</a
                         >
@@ -45,7 +45,7 @@
                         <li class="lg:pr-2" data-te-nav-item-ref>
                         <a
                             class="nav"  
-                            href=""
+                            :href="route('index.contact')"
                             data-te-nav-link-ref
                             >Contact</a
                         >
@@ -70,7 +70,7 @@
                         <li class="lg:pr-2" data-te-nav-item-ref>
                         <a
                             class="nav" 
-                            href=""
+                            :href="route('index.news')"
                             data-te-nav-link-ref
                             >News</a
                         >

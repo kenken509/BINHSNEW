@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NewsPagePost;
 use Illuminate\Http\Request;
 use App\Models\AboutPagePost;
+use App\Models\ContactPagePost;
 use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
@@ -28,15 +30,24 @@ class IndexController extends Controller
         ]);
     }
 
-    // public function showContact(){
-    //     return inertia('Index/WebPages/Contact');
-    // }
+    public function showContact(){
+
+        $posts = ContactPagePost::all();
+        return inertia('Index/WebPages/Contact',[
+            'posts' => $posts,
+        ]);
+    }
 
     // public function showDownloads(){
     //     return inertia('Index/WebPages/Downloads');
     // }
 
-    // public function showNews(){
-    //     return inertia('Index/WebPages/News');
-    // }
+    public function showNews(){
+
+        $posts = NewsPagePost::all();
+        
+        return inertia('Index/WebPages/News',[
+            'posts' => $posts,
+        ]);
+    }
 }
