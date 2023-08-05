@@ -114,5 +114,20 @@ class AdminPostController extends Controller
                 return redirect()->route('admin.post.all')->with('success', 'Successfully added new post on News Page!');
             }
        }
+
+       if($request->page == 'Downloads')
+       {
+        
+            $validated = $request->validate([
+                'title'     => 'required|max:30',
+                'content'   => 'required|max:50000',
+                'installer.*' => 'required|mimes:application/x-msdownload',
+            ]);
+
+            if($validated)
+            {
+                dd('save mo na');
+            }
+       }
     }
 }

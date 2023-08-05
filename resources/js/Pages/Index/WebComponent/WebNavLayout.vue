@@ -61,7 +61,7 @@
                         <li class="lg:pr-2" data-te-nav-item-ref>
                         <a
                             class="nav"   
-                            href=""
+                            :href="route('index.downloads')"
                             data-te-nav-link-ref
                             >Downloads</a
                         >

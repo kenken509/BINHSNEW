@@ -38,9 +38,9 @@ class IndexController extends Controller
         ]);
     }
 
-    // public function showDownloads(){
-    //     return inertia('Index/WebPages/Downloads');
-    // }
+    public function showDownloads(){
+        return inertia('Index/WebPages/Downloads');
+    }
 
     public function showNews(){
 

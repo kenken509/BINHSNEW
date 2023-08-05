@@ -65,7 +65,46 @@
                 <!--Downloads Page-->
                 <div v-if="pagesToAdd === 'Downloads'" class="col-span-12">
                     <div>
-                        show Downloads page
+                        <div class="flex flex-col">
+                           <h1 class="mb-6">Title: </h1>
+                            <span class="p-float-label">
+                                <InputText id="name" v-model="form.title" class="w-full" required/>
+                                <label for="name" >Enter downloads title...</label>
+                             </span>
+                        </div>
+
+                        <div class="mt-4">
+                            <h1 class="mb-6">Content: </h1>
+                            <span class="p-float-label">
+                                <Textarea v-model="form.content" rows="5" cols="50" class="w-full" id="downloadsContent" required/>
+                                <label for="downloadsContent" >Enter downloads content</label>
+                            </span>
+                        </div>
+
+                        <!--installer file-->
+                        <div class="w-full  my-1   py-2">
+                            <h1 class="mb-6">Attachment: </h1>
+                            <label for="installerInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
+                                Select a file... 
+                            </label>
+                            <div v-if="installerFileName" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
+                               <h1 class="">{{ installerFileName }}</h1> 
+                               <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
+                                    <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteFile" ></i>
+                                </div>
+                            </div>
+                            <input  type="file"  id="installerInput" multiple @input="addFile" accept=".exe" hidden  ref="fileInputRef"/>
+                          
+                        </div>
+                        <!-- <div v-if="imageUrl" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md" >
+                            <img :src="imageUrl" alt="Error" class="w-[50%] h-[50%] rounded-md relative"/>
+                        </div> -->
+                        
+                        <!--image-->
+
+                        <div class="w-full mt-4">
+                            <Button label="Submit" class="w-full " type="submit" />
+                        </div>
                     </div>
                 </div>
 
@@ -162,7 +201,21 @@ const addImage = (event)=>{
     attachmentFileName.value = event.target.files[0].name
     imageUrl.value = URL.createObjectURL(event.target.files[0]);
 
-    console.log(imageUrl);
+    //console.log(imageUrl);
+}
+
+const installerFileName = ref('');
+const addFile = (event)=>{
+    console.log(event.target.files[0].name);
+
+    installerFileName.value = event.target.files[0].name;
+    form.installer = event.target.files[0];
+    console.log(installerFileName)
+}
+
+const deleteFile = () => {
+    form.installer = '';
+    installerFileName.value = '';
 }
 
 const deleteImage = () => {
@@ -196,6 +249,7 @@ const form = useForm({
     content: null,
     page:pagesToAdd,
     image:null,
+    installer:null,
 })
 
 const validationError = ref('');
@@ -214,7 +268,7 @@ const submit = ()=>{
     }
     else
     {
-        form.post(route('webPost.store'))
+        form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
     }
     
 };
