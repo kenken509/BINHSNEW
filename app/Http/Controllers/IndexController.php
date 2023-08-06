@@ -6,6 +6,7 @@ use App\Models\NewsPagePost;
 use Illuminate\Http\Request;
 use App\Models\AboutPagePost;
 use App\Models\ContactPagePost;
+use App\Models\DownloadsPagePost;
 use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
@@ -39,7 +40,10 @@ class IndexController extends Controller
     }
 
     public function showDownloads(){
-        return inertia('Index/WebPages/Downloads');
+        $posts = DownloadsPagePost::with('author')->get();
+        return inertia('Index/WebPages/Downloads',[
+            'posts' => $posts,
+        ]);
     }
 
     public function showNews(){

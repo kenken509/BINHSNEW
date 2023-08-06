@@ -3,7 +3,7 @@
         <div class="border-bot-only border-gray-600 shadow-md mb-4">
             <span class="text-[20px] font-bold text-gray-500">Add Post Page</span>  
         </div>
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" enctype="multipart/form-data">
             <div class="grid grid-cols-12">
                 
                 <div class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
@@ -84,24 +84,80 @@
                         <!--installer file-->
                         <div class="w-full  my-1   py-2">
                             <h1 class="mb-6">Attachment: </h1>
-                            <label for="installerInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
-                                Select a file... 
-                            </label>
-                            <div v-if="installerFileName" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
-                               <h1 class="">{{ installerFileName }}</h1> 
-                               <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
-                                    <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteFile" ></i>
+                            
+                            <Dropdown  v-model="selectedAttachment" :options="attachmentOption" optionLabel="name" placeholder="Select media" class="w-full md:w-14rem " @change="handleSelectedAttachment"/>
+                            
+                            <!--Media Attachment-->
+                            <div v-if="selectedAttachment && selectedAttachment.name === 'Image'" class="mt-4">
+                                <label for="imageAttachment" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
+                                    Select image file... 
+                                </label>
+                                <div v-if="downloadPageImageValidator" class="mt-2">
+                                    <InputError :error="downloadPageImageValidator" />
+                                </div>
+                                <div v-if="imageUrl" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
+                                    <h1 class="">{{ downloadAddImageFileName }}</h1> 
+                                    <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
+                                        <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteImage" ></i>
+                                    </div>
+                                </div>
+                                <input type="file" accept="image/*" hidden id="imageAttachment" @input="downloadAddImage"/>
+                                <div v-if="imageUrl" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md mt-2" >
+                                    <img :src="imageUrl" alt="Error" class="w-[50%] h-[50%] rounded-md relative"/>
                                 </div>
                             </div>
-                            <input  type="file"  id="installerInput" multiple @input="addFile" accept=".exe" hidden  ref="fileInputRef"/>
-                          
+
+                            <!--video attachment-->
+                            <div v-if="selectedAttachment && selectedAttachment.name === 'Video'" class="mt-4">
+                                <label for="videoAttachment" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
+                                    Select video file... 
+                                </label>
+                                <div v-if="downloadPageVideoValidator" class="mt-2">
+                                    <InputError :error="downloadPageVideoValidator" />
+                                </div>
+
+                                <div v-if="videoUrl" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
+                                    <h1 class="">{{ downloadAddVideoFileName }}</h1> 
+                                    <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
+                                        <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteVideo" ></i>
+                                    </div>
+                                </div>
+                                <input type="file" accept="video/mp4" hidden id="videoAttachment" @input="downloadAddVideo"/>
+                                <div v-if="videoUrl" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md mt-2" >
+                                    <video :src="videoUrl" alt="Error" class="w-[50%] h-[50%] rounded-md relative" controls/>
+                                </div>
+                            </div>
+                            <!--video attachment-->
+
+                            <!--Media Attachment-->
+
+                            
+                            <div class="mt-8 ">
+                                <h1 class="mb-2">Installer:</h1>
+                                <label for="installerInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
+                                    Select a file... 
+                                </label>
+                               
+                                <div v-if="installerFileName" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
+                                    <h1 class="">{{ installerFileName }}</h1> 
+                                <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
+                                        <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteFile" ></i>
+                                    </div>
+                                </div>
+                                <input  type="file"  id="installerInput" multiple @input="addFile" accept=".exe" hidden  ref="fileInputRef" />
+                                <div v-if="installerValidator" class="mt-2">
+                                    <InputError :error="installerValidator" />
+                                </div>
+                                
+                            </div>
+                            
                         </div>
                         <!-- <div v-if="imageUrl" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md" >
                             <img :src="imageUrl" alt="Error" class="w-[50%] h-[50%] rounded-md relative"/>
                         </div> -->
                         
                         <!--image-->
-
+                        <hr class="my-4 border-t-2 border-gray-400">
                         <div class="w-full mt-4">
                             <Button label="Submit" class="w-full " type="submit" />
                         </div>
@@ -147,7 +203,7 @@
                         </div>
                         
                         <!--image-->
-
+                        
                         <div class="w-full mt-4">
                             <Button label="Submit" class="w-full " type="submit" />
                         </div>
@@ -168,6 +224,18 @@ import {ref, computed} from 'vue';
 
 const user = usePage().props.user
 const selectedPage = ref(null);
+const selectedAttachment = ref(null);
+const attachmentOption = ref([
+    {'name':'Image'},
+    {'name':'Video'},
+])
+
+const handleSelectedAttachment = ()=>{
+    form.image = null
+    imageUrl.value = null
+    form.video = null
+    videoUrl.value = null
+}
 
 const pages = ref([
     {
@@ -204,6 +272,30 @@ const addImage = (event)=>{
     //console.log(imageUrl);
 }
 
+const downloadAddImageFileName = ref('');
+const downloadAddImage = (event)=>{
+    downloadAddImageFileName.value = event.target.files[0].name;
+    form.image = event.target.files[0];
+    form.media = 'image';
+    imageUrl.value = URL.createObjectURL(event.target.files[0]);
+}
+
+const downloadAddVideoFileName = ref('');
+const videoUrl = ref('')
+const downloadAddVideo = (event)=>{
+    downloadAddVideoFileName.value = event.target.files[0].name
+    form.video = event.target.files[0]
+    form.media = 'video';
+    videoUrl.value = URL.createObjectURL(event.target.files[0]);
+}
+
+const deleteVideo = ()=>{
+    downloadAddVideoFileName.value = ''
+    form.video = ''
+    videoUrl.value = ''
+    form.media = ''
+}
+
 const installerFileName = ref('');
 const addFile = (event)=>{
     console.log(event.target.files[0].name);
@@ -221,26 +313,11 @@ const deleteFile = () => {
 const deleteImage = () => {
     form.image = '';
     imageUrl.value = '';
+    downloadAddImageFileName.value = '';
+    form.media = '';
 }
 
-// temporary image address...
-// const imageUrl = ref([]);
-// const videoUrl = ref();
-//at image input
-// const addImage = (event)=>
-// {
-//     for(const image of event.target.files)
-//     {
-//         form.images.push(image);
-//         imageUrl.value.push(URL.createObjectURL(image));
-//     }
-//     // Reset the file input
-//     const fileInputRef = $refs.fileInputRef;
-//     if (fileInputRef) {
-//         fileInputRef.value = null;
-//     }
-//     console.log(imageUrl);
-// }
+
 const form = useForm({
     name:null,
     phoneNumber:null,
@@ -248,11 +325,17 @@ const form = useForm({
     title: null,
     content: null,
     page:pagesToAdd,
+    media:null,
     image:null,
+    video:null,
     installer:null,
 })
 
 const validationError = ref('');
+const downloadPageImageValidator = ref('');
+const downloadPageVideoValidator = ref('');
+const installerValidator = ref('');
+
 const submit = ()=>{
 
     if(selectedPage.value.name === 'Contacts')
@@ -266,10 +349,107 @@ const submit = ()=>{
             validationError.value = 'Contact number or Email is required';
         }
     }
-    else
+    else if(selectedPage.value.name === 'Downloads')
     {
-        form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
+        if(selectedAttachment.value)
+        {
+            if(selectedAttachment.value.name === 'Image')
+            {
+            
+                // has image
+                if(!form.image)
+                {
+                    downloadPageImageValidator.value = ' Image field is required! Image must have a file type of JPG or PNG with maximum size of 3mb.'
+                }
+                else
+                {
+                    if(form.image.type === 'image/jpeg' || form.image.type === 'image/png')
+                    {
+                        if(form.image.size > 3000000)
+                        {
+                            // throw an error
+                            downloadPageImageValidator.value = ' Image field is required! Image must have a file type of JPG or PNG with maximum size of 3mb.'
+                        }
+                        else
+                        {
+                            if(!form.installer)
+                            {
+                                installerValidator.value = 'Installer field is required! Installer must have a file type of exe.'
+                            }
+                            else
+                            {
+                                if(form.installer.type === 'application/x-msdownload')
+                                {
+                                    form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
+                                }
+                                else
+                                {
+                                    installerValidator.value = 'Installer field is required! Installer must have a file type of exe.' 
+                                }
+                            }
+                        }
+
+                    }
+                }  
+            }
+
+            if(selectedAttachment.value.name === 'Video')
+            {
+                if(!form.video)
+                {
+                    downloadPageVideoValidator.value = 'Video field is required! Video must have a file type of MP4 with maximum size of 30mb.'
+                }
+                else
+                {
+                    if(form.video.type === 'video/mp4' && form.video.size <= 30000000)
+                    {
+                        if(!form.installer)
+                        {
+                            installerValidator.value = 'Installer field is required! Installer must have a file type of exe.'
+                        }
+                        else
+                        {
+                            if(form.installer.type === 'application/x-msdownload')
+                            {
+                                form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
+                            }
+                            else
+                            {
+                                installerValidator.value = 'Installer field is required! Installer must have a file type of exe.' 
+                            }
+                        }
+                    }
+                    else
+                    {
+                        downloadPageVideoValidator.value = 'Video field is required! Video must have a file type of MP4 with maximum size of 30mb.'
+                    }
+                }
+            }
+        }
+        else
+        {
+            //check if installer is not empty
+            
+            if(!form.installer)
+            {
+                installerValidator.value = 'Installer field is required! Installer must have a file type of exe.'
+            }
+            else
+            {
+                if(form.installer.type === 'application/x-msdownload')
+                {
+                    form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
+                }
+                else
+                {
+                    installerValidator.value = 'Installer field is required! Installer must have a file type of exe.' 
+                }
+                
+            }
+            
+        }
     }
+        
     
 };
 </script>

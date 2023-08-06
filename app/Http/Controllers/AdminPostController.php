@@ -9,6 +9,8 @@ use App\Models\NewsPagePost;
 use Illuminate\Http\Request;
 use App\Models\AboutPagePost;
 use App\Models\ContactPagePost;
+use App\Models\DownloadsPagePost;
+use Illuminate\Support\Facades\Validator;
 
 class AdminPostController extends Controller
 {
@@ -20,6 +22,7 @@ class AdminPostController extends Controller
             'about' => AboutPagePost::with('author')->get(),
             'contacts' => ContactPagePost::with('author')->get(),
             'news' => NewsPagePost::with('author')->get(),
+            'downloads' => DownloadsPagePost::with('author')->get(),
         ]);
     }
 
@@ -117,17 +120,80 @@ class AdminPostController extends Controller
 
        if($request->page == 'Downloads')
        {
-        
-            $validated = $request->validate([
-                'title'     => 'required|max:30',
-                'content'   => 'required|max:50000',
-                'installer.*' => 'required|mimes:application/x-msdownload',
-            ]);
-
-            if($validated)
+            
+            if($request->media == 'image')
             {
-                dd('save mo na');
+                $imageFile = $request->file('image');
+                $originalName = $imageFile->getClientOriginalName();
+                $randomString = Str::random(10);
+                $newName = $randomString.'_'.$originalName;
+                $imagePath = $imageFile->storeAs('Images', $newName, 'public');
+
+                $installerFile = $request->file('installer');
+                $installerOriginalName  = $installerFile->getClientOriginalName();
+                $randString = Str::random(10);
+                $newInstallerName = $randString.'_'.$installerOriginalName;
+                $installerPath = $installerFile->storeAs('Installer', $newInstallerName, 'public');
+
+                $post = new DownloadsPagePost();
+                $post->title = $request->title;
+                $post->mediaType = $request->media;
+                $post->mediaFileName = $imagePath;
+                $post->installerFileName = $installerPath;
+                $post->content = $request->content;
+                $post->created_by = Auth::user()->id;
+                $post->save();
+
+                return redirect()->route('admin.post.all')->with('success', 'Successfully added new post on News Page!');
+
             }
-       }
+
+            if($request->media == 'video')
+            {
+                $videoFile = $request->file('video');
+                $originalName = $videoFile->getClientOriginalName();
+                $randomString = Str::random(10);
+                $newName = $randomString.'_'.$originalName;
+                $videoPath = $videoFile->storeAs('videos', $newName,'public');
+
+                $installerFile = $request->file('installer');
+                $installerOriginalName  = $installerFile->getClientOriginalName();
+                $randString = Str::random(10);
+                $newInstallerName = $randString.'_'.$installerOriginalName;
+                $installerPath = $installerFile->storeAs('Installer', $newInstallerName, 'public');
+
+                $post = new DownloadsPagePost();
+                $post->title = $request->title;
+                $post->mediaType = $request->media;
+                $post->mediaFileName = $videoPath;
+                $post->installerFileName = $installerPath;
+                $post->content = $request->content;
+                $post->created_by = Auth::user()->id;
+                $post->save();
+
+                return redirect()->route('admin.post.all')->with('success', 'Successfully added new post on News Page!');
+            }
+
+            if($request->media == null)
+            {
+                    $file = $request->file('installer');
+                    $originalName = $file->getClientOriginalName();
+                    $randomString = Str::random(10);
+                    $newName = $randomString . '_' . $originalName;
+
+                    $path = $file->storeAs('Installer', $newName, 'public');
+
+                    $post = new DownloadsPagePost();
+                    $post->title    = $request->title;
+                    $post->installerFileName = $path;
+                    $post->content  = $request->content;
+                    $post->created_by = Auth::user()->id;
+                    $post->save();
+
+                    return redirect()->route('admin.post.all')->with('success', 'Successfully added new post on News Page!');
+            }
+        } 
     }
+
+    
 }
