@@ -154,7 +154,6 @@
                                 <img v-if="post.filename" :src="appUrl+post.filename" alt="error" class="rounded-md"/>
                                 <p v-else>----</p>
                             </div>
-                            
                         </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 text-justify ">
                             {{ post.content }}
@@ -167,7 +166,7 @@
                             <div class=" space-x-6" >
                                 <div v-if="$page.props.flash.success"><Toast position="top-left" /> </div>
                                 <Link :href="route('newsPost.delete', {id: post.id})" class="cursor-pointer" v-tooltip.left="'Delete User'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
-                                <Link href="" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit Post'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
+                                <Link :href="route('editPost.show', {id:post.id, page:'News'})" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit Post'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
                                 <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'View full info'" @click="openModal(user.id)" ></span>
                             </div>
                             
@@ -243,7 +242,7 @@
                             <div class=" space-x-6" >
                                 <div v-if="$page.props.flash.success"><Toast position="top-left" /> </div>
                                 <Link :href="route('downloadsPost.delete', {id: post.id})" class="cursor-pointer" v-tooltip.left="'Delete User'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
-                                <Link href="" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit Post'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
+                                <Link :href="route('editPost.show', {id:post.id, page:'Downloads'})" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit Post'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
                                 <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'View full info'" @click="openModal(user.id)" ></span>
                             </div>
                             

@@ -9,6 +9,15 @@
         return result;
     }
 
+    const toLowerFirst = (str)=>{
+        let firstLetter = str.charAt(0);
+        let lowerFirstLetter = firstLetter.toLowerCase();
+        let restOfString = str.slice(1);
+        let result = lowerFirstLetter + restOfString;
+
+        return result;
+    }
+
     const truncateText = (text, wordLimit)=>
     {
         const word = text.split(' ');
@@ -24,5 +33,5 @@
             return truncatedText;
         }
     }
-export { toUpperFirst, truncateText };
+export { toUpperFirst, toLowerFirst, truncateText };
 </script>

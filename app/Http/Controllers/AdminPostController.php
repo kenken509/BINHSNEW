@@ -86,7 +86,7 @@ class AdminPostController extends Controller
                     $randomString = Str::random(10);
                     $newName = $randomString . '_' . $originalName;
 
-                    $path = $file->storeAs('images', $newName, 'public');
+                    $path = $file->storeAs('Images', $newName, 'public');
 
                     $post = new NewsPagePost();
                     $post->title    = $request->title;
@@ -287,7 +287,25 @@ class AdminPostController extends Controller
                 'webPage' => $page,
             ]);
         }
+
+        if($page == 'News')
+        {
+            $postToEdit = NewsPagePost::findOrFail($id);
+            return inertia('AdminDashboard/AdminPages/WebsiteManagement/Admin/PostEdit',[
+                'post' => $postToEdit,
+                'webPage' => $page,
+            ]);
+        }
         
+        if($page == 'Downloads')
+        {
+            $postToEdit = DownloadsPagePost::findOrFail($id);
+
+            return inertia('AdminDashboard/AdminPages/WebsiteManagement/Admin/PostEdit',[
+                'post' => $postToEdit,
+                'webPage' => $page,
+            ]);
+        }
     }
 
     public function storeEditPost(Request $request)
@@ -317,5 +335,68 @@ class AdminPostController extends Controller
 
             return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
         }
+        
+        if($request->page == 'News')
+        {
+            //id,page,title content,
+            if($request->hasFile('image'))
+            {
+                // dd('merong bagong image');
+                $file = $request->file('image');
+                $originalName = $file->getClientOriginalName();
+                $randomString = Str::random(10);
+                $newName = $randomString.'_'.$originalName;
+
+                $path = $file->storeAs('Images', $newName, 'public');
+
+                $postToUpdate = NewsPagePost::findOrFail($request->id);
+                $postToUpdate->title = $request->title;
+                $postToUpdate->content = $request->content;
+                $postToUpdate->filename = $path;
+                $postToUpdate->updated_by = Auth::user()->id;
+                $postToUpdate->save();
+
+                return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+
+            }
+            
+            if($request->image == null)
+            {
+                //dd('tinanggal ang image');
+                $postToUpdate = NewsPagePost::findOrFail($request->id);
+
+                
+                $imageToDelete = $postToUpdate->filename;
+
+                if($imageToDelete)
+                {
+                    Storage::disk('public')->delete($imageToDelete);
+                }
+                
+
+                $postToUpdate->title = $request->title;
+                $postToUpdate->content = $request->content;
+                $postToUpdate->filename = null;
+                $postToUpdate->updated_by = Auth::user()->id;
+                $postToUpdate->save();
+
+                return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+            }
+
+            if($request->image)
+            {
+                //dd('dating image pa din');
+                $postToUpdate = NewsPagePost::findOrFail($request->id);
+
+                $postToUpdate->title = $request->title;
+                $postToUpdate->content = $request->content;
+                $postToUpdate->updated_by = Auth::user()->id;
+                $postToUpdate->save();
+
+                return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+            }
+        }
+
+        
     }
 }
