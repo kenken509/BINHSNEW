@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('contact_page_posts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('phoneNumber')->nullable();
+            $table->string('phoneNumber')->nullable();
             $table->string('email')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->integer('updated_by')->nullable();

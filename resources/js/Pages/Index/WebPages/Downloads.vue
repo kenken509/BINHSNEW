@@ -18,7 +18,7 @@
             </div>
             <div v-if="post.mediaType === 'image'">
                 <img :src="appUrl+post.mediaFileName" alt="error"/>
-            </div>
+            </div>  
 
             <div v-if="post.mediaType === 'video'">
                 <video :src="appUrl+post.mediaFileName" alt="error" controls/>
@@ -26,7 +26,7 @@
             <h1>Click here to <a class="text-blue-400" :href="appUrl+post.installerFileName" download> download</a> </h1>
         </div>
     </div>
-
+    
     <WebFooter></WebFooter>
 </template>
 

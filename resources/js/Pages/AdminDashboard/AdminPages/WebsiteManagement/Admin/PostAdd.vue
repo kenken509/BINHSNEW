@@ -338,7 +338,12 @@ const installerValidator = ref('');
 
 const submit = ()=>{
 
-    if(selectedPage.value.name === 'Contacts')
+    if(selectedPage.value.name === 'About')
+    {
+        
+        form.post(route('webPost.store'));
+    }
+    else if(selectedPage.value.name === 'Contacts')
     {
         if(form.phoneNumber !== null || form.email !== null)
         {
@@ -449,6 +454,11 @@ const submit = ()=>{
             
         }
     }
+    else if(selectedPage.value.name === 'News')
+    {
+        form.post(route('webPost.store'));
+    }
+    
         
     
 };

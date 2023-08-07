@@ -32,8 +32,10 @@ class AdminPostController extends Controller
     }
     public function storePost(Request $request)
     {
+        
        if($request->page == 'About')
        {
+        
             $validated = $request->validate([
                 'title'     => 'required',
                 'content'   => 'required|max:50000',
@@ -195,5 +197,34 @@ class AdminPostController extends Controller
         } 
     }
 
+    
+    // delete functions
+
+    public function aboutPostDelete($id)
+    {
+        $postToDelete = AboutPagePost::findOrFail($id);
+
+        $postToDelete->delete();
+
+        return redirect()->back()->with('success', 'Successfully Deleted!');
+    }
+
+    public function contactPostDelete($id)
+    {
+        $postToDelete = ContactPagePost::findOrFail($id);
+
+        $postToDelete->delete();
+
+        return redirect()->back()->with('success', 'Successfully Deleted!');
+    }
+
+    public function newsPostDelete($id)
+    {
+        $postToDelete = NewsPagePost::findOrFail($id);
+
+        $postToDelete->delete();
+
+        return redirect()->back()->with('success', 'Successfully Deleted!');
+    }
     
 }

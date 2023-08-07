@@ -198,4 +198,7 @@ Route::controller(AdminPostController::class)->group(function(){
     Route::get('admin/post/all-post', 'showAllPost')->name('admin.post.all');
     Route::get('admin/web-content/add-post', 'showAddPost')->name('webPost.add');
     Route::post('admin/web-content/store-post', 'storePost')->name('webPost.store');
+    Route::delete('admin/web-content/about-post/delete/{id}', 'aboutPostDelete')->name('aboutPost.delete');
+    Route::delete('admin/web-content/contact-post/delete/{id}', 'contactPostDelete')->name('contactPost.delete');
+    Route::delete('admin/web-content/news-post/delete/{id}', 'newsPostDelete')->name('newsPost.delete');
 });
