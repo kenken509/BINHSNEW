@@ -263,4 +263,59 @@ class AdminPostController extends Controller
             return redirect()->back()->with('success', 'Successfully Deleted!');
         }
     }
+
+    //update functions
+   
+    public function showEditPost($id, $page)
+    {
+        
+        if($page == 'About')
+        {
+            $postToEdit = AboutPagePost::findOrFail($id);
+
+            return inertia('AdminDashboard/AdminPages/WebsiteManagement/Admin/PostEdit',[
+                'post' => $postToEdit,
+                'webPage' => $page,
+            ]);
+        }
+
+        if($page == 'Contacts')
+        {
+            $postToEdit = ContactPagePost::findOrFail($id);
+            return inertia('AdminDashboard/AdminPages/WebsiteManagement/Admin/PostEdit',[
+                'post' => $postToEdit,
+                'webPage' => $page,
+            ]);
+        }
+        
+    }
+
+    public function storeEditPost(Request $request)
+    {
+
+        if($request->page == 'About')
+        {
+            $postToUpdate = AboutPagePost::findOrFail($request->id);
+
+            $postToUpdate->title = $request->title;
+            $postToUpdate->content = $request->content;
+            $postToUpdate->updated_by = Auth::user()->id;
+            $postToUpdate->save();
+
+            return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+        }
+
+        if($request->page == 'Contacts')
+        {
+            $postToUpdate = ContactPagePost::findOrFail($request->id);
+
+            $postToUpdate->name = $request->name;
+            $postToUpdate->phoneNumber = $request->phoneNumber;
+            $postToUpdate->email = $request->email;
+            $postToUpdate->updated_by = Auth::user()->id;
+            $postToUpdate->save();
+
+            return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+        }
+    }
 }

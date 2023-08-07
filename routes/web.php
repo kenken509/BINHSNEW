@@ -202,4 +202,8 @@ Route::controller(AdminPostController::class)->group(function(){
     Route::delete('admin/web-content/contact-post/delete/{id}', 'contactPostDelete')->name('contactPost.delete');
     Route::delete('admin/web-content/news-post/delete/{id}', 'newsPostDelete')->name('newsPost.delete');
     Route::delete('admin/web-content/downloads-post/delete/{id}', 'downloadsPostDelete')->name('downloadsPost.delete');
+
+    //update routes
+    Route::get('admin/edit-post/{id}/{page}', 'showEditPost')->name('editPost.show');
+    Route::post('admin/edit-post/about/store', 'storeEditPost')->name('editAboutPost.store');
 });
