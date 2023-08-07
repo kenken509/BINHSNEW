@@ -201,4 +201,5 @@ Route::controller(AdminPostController::class)->group(function(){
     Route::delete('admin/web-content/about-post/delete/{id}', 'aboutPostDelete')->name('aboutPost.delete');
     Route::delete('admin/web-content/contact-post/delete/{id}', 'contactPostDelete')->name('contactPost.delete');
     Route::delete('admin/web-content/news-post/delete/{id}', 'newsPostDelete')->name('newsPost.delete');
+    Route::delete('admin/web-content/downloads-post/delete/{id}', 'downloadsPostDelete')->name('downloadsPost.delete');
 });

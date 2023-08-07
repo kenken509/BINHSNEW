@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\AboutPagePost;
 use App\Models\ContactPagePost;
 use App\Models\DownloadsPagePost;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AdminPostController extends Controller
@@ -220,11 +221,46 @@ class AdminPostController extends Controller
 
     public function newsPostDelete($id)
     {
+        //this post could have an image
         $postToDelete = NewsPagePost::findOrFail($id);
+        
+        if($postToDelete->filename)
+        {
+            Storage::disk('public')->delete($postToDelete->filename);
 
-        $postToDelete->delete();
+            $postToDelete->delete();
 
-        return redirect()->back()->with('success', 'Successfully Deleted!');
+            return redirect()->back()->with('success', 'Successfully Deleted!');
+        }
+        else
+        {
+            $postToDelete->delete();
+
+            return redirect()->back()->with('success', 'Successfully Deleted!');
+        }
+        
     }
     
+    public function downloadsPostDelete($id)
+    {
+        $postToDelete = DownloadsPagePost::findOrFail($id);
+
+        if($postToDelete->mediaFileName)
+        {
+            Storage::disk('public')->delete($postToDelete->mediaFileName);
+            Storage::disk('public')->delete($postToDelete->installerFileName);
+
+            $postToDelete->delete();
+
+            return redirect()->back()->with('success', 'Successfully Deleted!');
+        }
+        else
+        {
+            Storage::disk('public')->delete($postToDelete->installerFileName);
+
+            $postToDelete->delete();
+
+            return redirect()->back()->with('success', 'Successfully Deleted!');
+        }
+    }
 }

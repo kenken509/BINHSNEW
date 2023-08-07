@@ -232,7 +232,9 @@
                             </div>
                             
                         </td>
-                        
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
+                            <span class>{{stringModifier(post.installerFileName)  }} </span> 
+                        </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
                             <span class>{{ post.author.lName+', '+post.author.fName }} </span> 
                         </td>
@@ -240,7 +242,7 @@
                         <td class="whitespace-nowrap px-6 py-4">
                             <div class=" space-x-6" >
                                 <div v-if="$page.props.flash.success"><Toast position="top-left" /> </div>
-                                <Link :href="route('newsPost.delete', {id: post.id})" class="cursor-pointer" v-tooltip.left="'Delete User'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
+                                <Link :href="route('downloadsPost.delete', {id: post.id})" class="cursor-pointer" v-tooltip.left="'Delete User'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
                                 <Link href="" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit Post'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
                                 <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'View full info'" @click="openModal(user.id)" ></span>
                             </div>
@@ -305,4 +307,10 @@ const selected = computed(()=>{
     }
     
 })
+
+function stringModifier(myString){
+    let separator = '_'
+    const index = myString.indexOf(separator);
+    return index !== -1 ? myString.slice(index+1) : myString
+}
 </script>
