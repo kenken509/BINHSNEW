@@ -133,13 +133,13 @@
                         <label for="downloadsContent" >Enter downloads content</label>
                     </span>
                 </div>
-
+                
                 <!--installer file-->
                 <div class="w-full  my-1   py-2">
                     <h1 class="mb-6">Attachment: </h1>
                     
                     <Dropdown  v-model="selectedAttachment" :options="attachmentOption" optionLabel="name" placeholder="Select media" class="w-full md:w-14rem " @change="handleSelectedAttachmentChange"/>
-                    <span class="text-red-500 font-extrabold">last update ok na ung attachment sa Image..installer naman </span>
+                    <span class="text-red-500 font-extrabold">last update ok na ung attachment sa Image..Video na lang taz rekta backend at tapos na </span>
                     <!--Image Attachment-->
                     <div v-if="selectedAttachment && selectedAttachment.name === 'Image'" class="mt-4">
                         <label for="imageAttachment" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
@@ -189,24 +189,28 @@
 
                     <!--Media Attachment-->
 
+
+                    <!--Installer-->
                     <div class="mt-8 ">
                         <h1 class="mb-2">Installer:</h1>
                         <label for="installerInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
-                            Select a file... 
+                            Select a file...
                         </label>
                         
-                        <div v-if="installerFileName" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
-                            <h1 class="">{{ installerFileName }}</h1> 
+                        <div v-if="existingInstaller || newInstaller" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
+                            <h1 v-if="existingInstaller" class="">{{ stringModifier(existingInstaller)}}</h1> 
+                            <h1 v-if="newInstaller" class="">{{ newInstaller }}</h1> 
                         <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
-                                <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteFile" ></i>
+                                <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteInstaller" ></i>
                             </div>
                         </div>
-                        <input  type="file"  id="installerInput" multiple @input="addFile" accept=".exe" hidden  ref="fileInputRef" />
-                        <div v-if="installerValidator" class="mt-2">
-                            <InputError :error="installerValidator" />
+                        <input  type="file"  id="installerInput" multiple @input="addChangeInstaller" accept=".exe" hidden  ref="fileInputRef" />
+                        <div v-if="installerError" class="mt-2">
+                            <InputError :error="installerError" />
                         </div>
                         
                     </div>
+                    <!--Installer-->
                     
                 </div>
                 <!-- <div v-if="imageUrl" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md" >
@@ -237,7 +241,7 @@ const user = usePage().props.user
 const appUrl = 'http://127.0.0.1:8000/storage/';
 const web = defineProps({
     post:Object,
-    webPage:Object,
+    webPage:String,
 })
 
 const attachmentOption = ref([
@@ -246,10 +250,12 @@ const attachmentOption = ref([
 ])
 
 const existingImage = ref(null);
+const existingInstaller = ref(null);
 const selectedAttachment = ref({'name':null});
 onMounted(()=>{
     existingImage.value = web.post.filename ? web.post.filename : web.post.mediaFileName;
-    selectedAttachment.value.name = toUpperFirst(web.post.mediaType)
+    selectedAttachment.value.name = toUpperFirst(web.post.mediaType);
+    existingInstaller.value = web.post.installerFileName;
     
 })
 
@@ -265,7 +271,7 @@ const form = useForm({
 
     mediaType:web.post.mediaType,
     image:web.post.filename ? web.post.filename: web.post.mediaFileName,
-    installer:null
+    installer:web.post.installerFileName,
 })
 
 const deleteImage = ()=>{
@@ -275,6 +281,11 @@ const deleteImage = ()=>{
     attachmentFileName.value = null;
     imageUrl.value = null;
     selectedAttachment.value = null;
+}
+
+const deleteInstaller = ()=>{
+    existingInstaller.value = null;
+    form.installer = null;
 }
 
 const imageUrl = ref(null);
@@ -287,6 +298,12 @@ const addChangeImage = (event)=> {
     imageUrl.value = URL.createObjectURL(event.target.files[0]);
 }
 
+const newInstaller = ref(null);
+const addChangeInstaller = (event)=>{
+    existingInstaller.value = null;
+    newInstaller.value = event.target.files[0].name;
+    form.installer = event.target.files[0];
+}
 
 function stringModifier(myString){
     let separator = '_'
@@ -306,30 +323,81 @@ const imageError = ref(null);
 const installerError = ref(null);
 const submit = ()=> {
     // alert(selectedAttachment.value.name)
+    
     if(web.webPage === 'Downloads')
     {
-        
-        if(toLowerFirst(form.mediaType) == 'image')
+        //alert(form.mediaType);
+        //if has attachment
+        if(!form.mediaType)
+        {
+            alert('no image no video');
+        }
+
+        if(toLowerFirst(form.mediaType) === 'image')
         {
             if(form.image)
             {
-        
+                //existing image was not changed
                 if(form.image === web.post.mediaFileName)
                 {
-                    //existing image was not changed
+                    
+                    if(form.installer)
+                    {
+                        if(form.installer === web.post.installerFileName)
+                        {
+                            alert('andito ako');
+                            form.post(route('editAboutPost.store'))
+                        }
 
-                    console.log(form.installer)
-                    //form.post(route('editAboutPost.store'))
+                        if(form.installer.type === 'application/x-msdownload')
+                        {
+                            
+                            form.post(route('editAboutPost.store'))
+                        }
+                        else
+                        {
+                            installerError.value = 'Installer File must be executable file!'
+                        }
+
+                    }
+                    
+                    //if installer field is empty
+                    if(!form.installer)
+                    {
+                        installerError.value = 'Installer Field is required!'
+                    }
+                   
                     
                 }
-                else
+                else // if image was changed
                 {
                     if((form.image.type === 'image/png' && form.image.size <= 3000000) || (form.image.type === 'image/jpeg' && form.image.size <= 3000000) || (form.image.type === 'image/jpg' && form.image.size <= 3000000))
                     {
-                        console.log('goods');
+                        if(form.installer)
+                        {
+                            if(form.installer === web.post.installerFileName)
+                            {
+                                form.post(route('editAboutPost.store'))
+                            }
+
+                            if(form.installer.type === 'application/x-msdownload')
+                            {
+                                form.post(route('editAboutPost.store'))
+                            }
+                            else
+                            {
+                                installerError.value = 'Installer File must be executable file!'
+                            }
+
+                        }
                         
+                        //if installer field is empty
+                        if(!form.installer)
+                        {
+                            installerError.value = 'Installer Field is required!'
+                        }
                     }
-                    else
+                    else //sdfsdf
                     {
                         imageError.value = 'Image file must be a type of : JPG or PNG! with maximum file size of 3mb'
                     }
@@ -341,13 +409,17 @@ const submit = ()=> {
             {
                 imageError.value = 'Image field is required';
             }  
-            form.post(route('editAboutPost.store'))
-            
         }
+
+        if(toLowerFirst(form.mediaType) === 'video')
+        {
+            alert('video ang file');
+        }
+        
     }
     
-
-    //form.post(route('editAboutPost.store'))
+    alert('nakalusot dto');
+    form.post(route('editAboutPost.store'))
     
 };
 </script>
