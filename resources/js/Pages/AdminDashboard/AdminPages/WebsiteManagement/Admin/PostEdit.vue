@@ -137,26 +137,30 @@
                 <!--installer file-->
                 <div class="w-full  my-1   py-2">
                     <h1 class="mb-6">Attachment: </h1>
-                    <Dropdown  v-model="selectedAttachment" :options="attachmentOption" optionLabel="name" placeholder="Select media" class="w-full md:w-14rem " @change="handleSelectedAttachment"/>
-                    <span class="text-red-500 font-extrabold">last update dto sa image bago mag out....bukas naman</span>
+                    {{ imageUrl }}
+                    <Dropdown  v-model="selectedAttachment" :options="attachmentOption" optionLabel="name" placeholder="Select media" class="w-full md:w-14rem " @change="handleSelectedAttachmentChange"/>
+                    <span class="text-red-500 font-extrabold">last update dto sa handleSelectedAttachmentChange</span>
                     <!--Image Attachment-->
                     <div v-if="selectedAttachment && selectedAttachment.name === 'Image'" class="mt-4">
                         <label for="imageAttachment" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
-                            Select image file... 
+                            Select image file...
                         </label>
                         <div v-if="downloadPageImageValidator" class="mt-2">
                             <InputError :error="downloadPageImageValidator" />
                         </div>
-                        <div v-if="existingImage" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
-                            <h1 class="">{{ stringModifier(existingImage) }}</h1> 
+                        <div v-if="existingImage || attachmentFileName" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
+                            <h1 v-if="existingImage" class="">{{ stringModifier(existingImage) }}</h1> 
+                            <h1 v-if="attachmentFileName" class="">{{ attachmentFileName }}</h1> 
                             <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
                                 <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteImage" ></i>
                             </div>
                         </div>
-                        <input type="file" accept="image/*" hidden id="imageAttachment" @input="downloadAddImage"/>
-                        <div v-if="existingImage" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md mt-2" >
-                            <img :src="appUrl+existingImage" alt="Error" class="w-[50%] h-[50%] rounded-md relative"/>
+                        <input type="file" accept="image/*" hidden id="imageAttachment" @input="addChangeImage"/>
+                        <div v-if="existingImage || imageUrl" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md mt-2" >
+                            <img v-if="existingImage" :src="appUrl+existingImage" alt="Error" class="w-[50%] h-[50%] rounded-md relative"/>
+                            <img v-if="imageUrl" :src="imageUrl" alt="Error" class="w-[50%] h-[50%] rounded-md relative"/>
                         </div>
+                        
                     </div>
                     <!--Image Attachment-->
 
@@ -258,14 +262,17 @@ const form = useForm({
     phoneNumber:web.post.phoneNumber,
     email:web.post.email,
 
-    image:web.post.filename,
+    mediaType:web.post.mediaType,
+    image:web.post.filename ? web.post.filename: web.post.mediaFileName,
 })
 
 const deleteImage = ()=>{
     form.image = null;
+    form.mediaType = null;
     existingImage.value = null;
     attachmentFileName.value = null;
     imageUrl.value = null;
+    selectedAttachment.value = null;
 }
 
 const imageUrl = ref(null);
@@ -273,6 +280,7 @@ const attachmentFileName = ref(null);
 const addChangeImage = (event)=> {
     existingImage.value = null;
     form.image = event.target.files[0]
+    form.mediaType = 'image';
     attachmentFileName.value = event.target.files[0].name
     imageUrl.value = URL.createObjectURL(event.target.files[0]);
 }
@@ -284,6 +292,11 @@ function stringModifier(myString){
     return index !== -1 ? myString.slice(index+1) : myString
 }
 
-
-const submit = ()=> form.post(route('editAboutPost.store'));
+const handleSelectedAttachmentChange = ()=>{
+    alert('selected attachment changed');
+}
+const submit = ()=> {
+    // alert(selectedAttachment.value.name)
+    form.post(route('editAboutPost.store'))
+};
 </script>

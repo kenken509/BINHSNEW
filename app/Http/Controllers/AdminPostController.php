@@ -397,6 +397,21 @@ class AdminPostController extends Controller
             }
         }
 
-        
+        if($request->page == 'Downloads')
+        {
+            dd($request);
+            $postToUpdate = DownloadsPagePost::findOrFail($request->id);
+            $existingMediaFileName = $postToUpdate->mediaFileName;
+            //dd($request->image);
+            if($request->image == null)
+            {
+                dd('inalis ang image');
+            }
+
+            if($request->image == $existingMediaFileName)
+            {
+                dd('dati pa din ung image');
+            }
+        }
     }
 }
