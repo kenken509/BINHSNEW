@@ -137,23 +137,24 @@
                 <!--installer file-->
                 <div class="w-full  my-1   py-2">
                     <h1 class="mb-6">Attachment: </h1>
-                    {{ imageUrl }}
+                    
                     <Dropdown  v-model="selectedAttachment" :options="attachmentOption" optionLabel="name" placeholder="Select media" class="w-full md:w-14rem " @change="handleSelectedAttachmentChange"/>
-                    <span class="text-red-500 font-extrabold">last update dto sa handleSelectedAttachmentChange</span>
+                    <span class="text-red-500 font-extrabold">last update ok na ung attachment sa Image..installer naman </span>
                     <!--Image Attachment-->
                     <div v-if="selectedAttachment && selectedAttachment.name === 'Image'" class="mt-4">
                         <label for="imageAttachment" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
                             Select image file...
                         </label>
-                        <div v-if="downloadPageImageValidator" class="mt-2">
-                            <InputError :error="downloadPageImageValidator" />
-                        </div>
+                        
                         <div v-if="existingImage || attachmentFileName" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
                             <h1 v-if="existingImage" class="">{{ stringModifier(existingImage) }}</h1> 
                             <h1 v-if="attachmentFileName" class="">{{ attachmentFileName }}</h1> 
                             <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
                                 <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteImage" ></i>
                             </div>
+                        </div>
+                        <div v-if="imageError" class="mt-2">
+                            <InputError :error="imageError" />
                         </div>
                         <input type="file" accept="image/*" hidden id="imageAttachment" @input="addChangeImage"/>
                         <div v-if="existingImage || imageUrl" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md mt-2" >
@@ -264,6 +265,7 @@ const form = useForm({
 
     mediaType:web.post.mediaType,
     image:web.post.filename ? web.post.filename: web.post.mediaFileName,
+    installer:null
 })
 
 const deleteImage = ()=>{
@@ -293,10 +295,59 @@ function stringModifier(myString){
 }
 
 const handleSelectedAttachmentChange = ()=>{
-    alert('selected attachment changed');
+   
+    form.image = null;
+    form.mediaType = selectedAttachment.value.name;
+    existingImage.value = null;
+    imageUrl.value = null;
 }
+
+const imageError = ref(null);
+const installerError = ref(null);
 const submit = ()=> {
     // alert(selectedAttachment.value.name)
-    form.post(route('editAboutPost.store'))
+    if(web.webPage === 'Downloads')
+    {
+        
+        if(toLowerFirst(form.mediaType) == 'image')
+        {
+            if(form.image)
+            {
+        
+                if(form.image === web.post.mediaFileName)
+                {
+                    //existing image was not changed
+
+                    console.log(form.installer)
+                    //form.post(route('editAboutPost.store'))
+                    
+                }
+                else
+                {
+                    if((form.image.type === 'image/png' && form.image.size <= 3000000) || (form.image.type === 'image/jpeg' && form.image.size <= 3000000) || (form.image.type === 'image/jpg' && form.image.size <= 3000000))
+                    {
+                        console.log('goods');
+                        
+                    }
+                    else
+                    {
+                        imageError.value = 'Image file must be a type of : JPG or PNG! with maximum file size of 3mb'
+                    }
+                    
+                }
+               
+            }
+            else
+            {
+                imageError.value = 'Image field is required';
+            }  
+            form.post(route('editAboutPost.store'))
+            
+        }
+    }
+    
+
+    //form.post(route('editAboutPost.store'))
+    
 };
 </script>
