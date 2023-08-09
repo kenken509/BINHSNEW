@@ -139,7 +139,7 @@
                     <h1 class="mb-6">Attachment: </h1>
                     
                     <Dropdown  v-model="selectedAttachment" :options="attachmentOption" optionLabel="name" placeholder="Select media" class="w-full md:w-14rem " @change="handleSelectedAttachmentChange"/>
-                    <span class="text-red-500 font-extrabold">last update ok na ung attachment sa Image..Video na lang taz rekta backend at tapos na </span>
+                    <span class="text-red-500 font-extrabold">back end na lang </span>
                     <!--Image Attachment-->
                     <div v-if="selectedAttachment && selectedAttachment.name === 'Image'" class="mt-4">
                         <label for="imageAttachment" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
@@ -168,21 +168,24 @@
                     <!--video attachment-->
                     <div v-if="selectedAttachment && selectedAttachment.name === 'Video'" class="mt-4">
                         <label for="videoAttachment" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
-                            Select video file... 
+                            Select video file...
                         </label>
-                        <div v-if="downloadPageVideoValidator" class="mt-2">
-                            <InputError :error="downloadPageVideoValidator" />
-                        </div>
-
-                        <div v-if="videoUrl" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
-                            <h1 class="">{{ downloadAddVideoFileName }}</h1> 
+                        
+                        <div v-if="existingVideo || attachmentFileName" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
+                            <h1 v-if="existingVideo" class="">{{ stringModifier(existingVideo) }}</h1>
+                            <h1 v-if="attachmentFileName" class="">{{ attachmentFileName }}</h1>  
                             <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
                                 <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteVideo" ></i>
                             </div>
                         </div>
-                        <input type="file" accept="video/mp4" hidden id="videoAttachment" @input="downloadAddVideo"/>
-                        <div v-if="videoUrl" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md mt-2" >
-                            <video :src="videoUrl" alt="Error" class="w-[50%] h-[50%] rounded-md relative" controls/>
+
+                        <div v-if="videoError" class="mt-2">
+                            <InputError :error="videoError" />
+                        </div>
+                        <input type="file" accept="video/mp4" hidden id="videoAttachment" @input="addChangeVideo"/>
+                        <div v-if="existingVideo || videoUrl" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md mt-2" >
+                            <video v-if="existingVideo" :src="appUrl+existingVideo" alt="Error" class="w-[50%] h-[50%] rounded-md relative" controls/>
+                            <video v-if="videoUrl" :src="videoUrl" alt="Error" class="w-[50%] h-[50%] rounded-md relative" controls/>
                         </div>
                     </div>
                     <!--video attachment-->
@@ -218,9 +221,10 @@
                 </div> -->
                 
                 <!--image-->
+                
                 <hr class="my-4 border-t-2 border-gray-400">
                 <div class="w-full mt-4">
-                    <Button label="Submit" class="w-full " type="submit" />
+                    <Button label="Submit" class="w-full " :disabled="form.processing" type="submit" />
                 </div>
             </div>
         </div>
@@ -250,13 +254,14 @@ const attachmentOption = ref([
 ])
 
 const existingImage = ref(null);
+const existingVideo = ref(null);
 const existingInstaller = ref(null);
 const selectedAttachment = ref({'name':null});
 onMounted(()=>{
     existingImage.value = web.post.filename ? web.post.filename : web.post.mediaFileName;
     selectedAttachment.value.name = toUpperFirst(web.post.mediaType);
     existingInstaller.value = web.post.installerFileName;
-    
+    existingVideo.value = web.post.mediaFileName;
 })
 
 const form = useForm({
@@ -271,6 +276,7 @@ const form = useForm({
 
     mediaType:web.post.mediaType,
     image:web.post.filename ? web.post.filename: web.post.mediaFileName,
+    video:web.post.filename ? web.post.filename: web.post.mediaFileName,
     installer:web.post.installerFileName,
 })
 
@@ -283,12 +289,21 @@ const deleteImage = ()=>{
     selectedAttachment.value = null;
 }
 
+const deleteVideo = ()=> {
+    form.video = null;
+    form.mediaType = null;
+    existingVideo.value = null;
+    videoUrl.value = null;
+    selectedAttachment.value = null;
+    
+}
 const deleteInstaller = ()=>{
     existingInstaller.value = null;
     form.installer = null;
 }
 
 const imageUrl = ref(null);
+const videoUrl = ref(null);
 const attachmentFileName = ref(null);
 const addChangeImage = (event)=> {
     existingImage.value = null;
@@ -296,6 +311,14 @@ const addChangeImage = (event)=> {
     form.mediaType = 'image';
     attachmentFileName.value = event.target.files[0].name
     imageUrl.value = URL.createObjectURL(event.target.files[0]);
+}
+
+const addChangeVideo = ()=>{
+    existingVideo.value = null;
+    form.video = event.target.files[0];
+    form.mediaType = 'video';
+    attachmentFileName.value = event.target.files[0].name;
+    videoUrl.value = URL.createObjectURL(event.target.files[0]);
 }
 
 const newInstaller = ref(null);
@@ -314,13 +337,18 @@ function stringModifier(myString){
 const handleSelectedAttachmentChange = ()=>{
    
     form.image = null;
+    form.video = null;
     form.mediaType = selectedAttachment.value.name;
     existingImage.value = null;
+    existingVideo.value = null;
     imageUrl.value = null;
+    videoUrl.value = null;
+    
 }
 
 const imageError = ref(null);
 const installerError = ref(null);
+const videoError = ref(null);
 const submit = ()=> {
     // alert(selectedAttachment.value.name)
     
@@ -414,12 +442,90 @@ const submit = ()=> {
         if(toLowerFirst(form.mediaType) === 'video')
         {
             alert('video ang file');
+            if(form.video)
+            {
+                alert('validate the video');
+                //existing video was not changed
+                if(form.video === web.post.mediaFileName)
+                {
+                    
+                    if(form.installer)
+                    {
+                        if(form.installer === web.post.installerFileName)
+                        {
+                            alert('video not changed');
+                            form.post(route('editAboutPost.store'))
+                        }
+
+                        if(form.installer.type === 'application/x-msdownload')
+                        {
+                            
+                            form.post(route('editAboutPost.store'))
+                        }
+                        else
+                        {
+                            installerError.value = 'Installer File must be executable file!video'
+                        }
+
+                    }
+                    
+                    //if installer field is empty
+                    if(!form.installer)
+                    {
+                        installerError.value = 'Installer Field is required!Video'
+                    }
+                   
+                    
+                }
+                else // if video was changed
+                {
+                    alert('new video'); //video/mp4
+                    if((form.video.type === 'video/mp4' && form.video.size <= 50000000))
+                    {
+                        if(form.installer)
+                        {
+                            if(form.installer === web.post.installerFileName)
+                            {
+                                //installer not changed
+                                alert('installer not changed')
+                                form.post(route('editAboutPost.store'))
+                            }
+
+                            if(form.installer.type === 'application/x-msdownload')
+                            {
+                                alert('installer changed');
+                                form.post(route('editAboutPost.store'))
+                            }
+                            else
+                            {
+                                installerError.value = 'Installer File must be executable file!video'
+                            }
+
+                        }
+                        //if installer field is empty
+                        if(!form.installer)
+                        {
+                            console.log('andito ako ngayon')
+                            installerError.value = 'Installer Field is required!'
+                        }
+                    }
+                    else //sdfsdf
+                    {
+                        videoError.value = 'Video file must be a type of : MP4! with maximum file size of 50mb'
+                    }
+                    
+                }
+            }
+            else
+            {
+                videoError.value = 'Video field is required!'
+            }
         }
         
     }
     
-    alert('nakalusot dto');
-    form.post(route('editAboutPost.store'))
+    // alert('nakalusot dto');
+    // form.post(route('editAboutPost.store'))
     
 };
 </script>

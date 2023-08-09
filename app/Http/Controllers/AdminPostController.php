@@ -153,6 +153,7 @@ class AdminPostController extends Controller
 
             if($request->media == 'video')
             {
+                
                 $videoFile = $request->file('video');
                 $originalName = $videoFile->getClientOriginalName();
                 $randomString = Str::random(10);
