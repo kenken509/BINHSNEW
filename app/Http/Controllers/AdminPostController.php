@@ -400,19 +400,352 @@ class AdminPostController extends Controller
 
         if($request->page == 'Downloads')
         {
-            dd($request);
+               
             $postToUpdate = DownloadsPagePost::findOrFail($request->id);
             $existingMediaFileName = $postToUpdate->mediaFileName;
-            //dd($request->image);
-            if($request->image == null)
+            $existingInstallerFileName = $postToUpdate->installerFileName;
+            $mediaType = $request->mediaType;
+            
+            if($mediaType == null)
             {
-                dd('inalis ang image');
+                if($existingMediaFileName)
+                {
+                    if($request->installer == $existingInstallerFileName)
+                    {
+                        Storage::disk('public')->delete($existingMediaFileName);
+
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = $mediaType;
+                        $postToUpdate->mediaFileName = $mediaType;
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+                    }
+                    else // installer was changed
+                    {
+                        
+                        Storage::disk('public')->delete($existingMediaFileName);
+
+                        $installerFile = $request->file('installer');
+                        $installerOriginalName = $installerFile->getClientOriginalName();
+                        $installerRandomString = Str::random(10);
+                        $installerNewName = $installerRandomString.'_'.$installerOriginalName;
+                        $installerPath = $installerFile->storeAs('Installer', $installerNewName, 'public');
+
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = $mediaType;
+                        $postToUpdate->mediaFileName = $mediaType;
+                        $postToUpdate->installerFileName = $installerPath;
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+                    }
+                }
+                else // no media
+                {
+                    if($request->installer == $existingInstallerFileName)
+                    {
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = $mediaType;
+                        $postToUpdate->mediaFileName = $mediaType;
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+                    }
+                    else // installer was changed
+                    {
+                        
+                        $installerFile = $request->file('installer');
+                        $installerOriginalName = $installerFile->getClientOriginalName();
+                        $installerRandomString = Str::random(10);
+                        $installerNewName = $installerRandomString.'_'.$installerOriginalName;
+                        $installerPath = $installerFile->storeAs('Installer', $installerNewName, 'public');
+
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = $mediaType;
+                        $postToUpdate->mediaFileName = $mediaType;
+                        $postToUpdate->installerFileName = $installerPath;
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+                    }
+
+                }
+                
+            }
+            
+            if($mediaType == 'image')
+            {
+                if(!$existingMediaFileName)
+                {
+                    //exisiting installer
+                    if($request->installer == $existingInstallerFileName) 
+                    {
+                        $imageFile = $request->file('image');
+                        $originalName = $imageFile->getClientOriginalName();
+                        $randomString = Str::random(10);
+                        $newName = $randomString.'_'.$originalName;
+                        $imagePath = $imageFile->storeAs('Images',$newName,'public');
+
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = 'image';
+                        $postToUpdate->mediaFileName = $imagePath;
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+                    }
+                    else // replaced installer
+                    {
+                        $imageFile = $request->file('image');
+                        $originalName = $imageFile->getClientOriginalName();
+                        $randomString = Str::random(10);
+                        $newName = $randomString.'_'.$originalName;
+                        $imagePath = $imageFile->storeAs('Images',$newName,'public');
+
+                        $installerFile = $request->file('installer');
+                        $installerOriginalName = $installerFile->getClientOriginalName();
+                        $installerRandomString = Str::random(10);
+                        $installerNewName = $installerRandomString.'_'.$installerOriginalName;
+                        $installerPath = $installerFile->storeAs('Installer', $installerNewName, 'public');
+                        Storage::disk('public')->delete($existingInstallerFileName);
+
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = 'image';
+                        $postToUpdate->mediaFileName = $imagePath;
+                        $postToUpdate->installerFileName = $installerPath;
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+                    }
+                }
+
+
+                if($request->image == $existingMediaFileName)
+                {
+                    if($request->installer == $existingInstallerFileName)
+                    {
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = 'image';
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+                    }
+                    else // replaced installer
+                    {
+                        $installerFile = $request->file('installer');
+                        $installerOriginalName = $installerFile->getClientOriginalName();
+                        $installerRandomString = Str::random(10);
+                        $installerNewName = $installerRandomString.'_'.$installerOriginalName;
+                        $installerPath = $installerFile->storeAs('Installer', $installerNewName, 'public');
+                        Storage::disk('public')->delete($existingInstallerFileName);
+
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = 'image';
+                        $postToUpdate->installerFileName = $installerPath;
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+                    };
+                }
+                else // image replaced with new image file
+                {
+                    // installer not changed
+                    if($request->installer == $existingInstallerFileName)
+                    {
+                        $imageFile = $request->file('image');
+                        $originalName = $imageFile->getClientOriginalName();
+                        $randomString = Str::random(10);
+                        $newName = $randomString.'_'.$originalName;
+                        $imagePath = $imageFile->storeAs('Images',$newName,'public');
+
+                        Storage::disk('public')->delete($existingMediaFileName);
+
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = 'image';
+                        $postToUpdate->mediaFileName = $imagePath;
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+                    }
+                    else // replaced installer
+                    {
+                        $imageFile = $request->file('image');
+                        $originalName = $imageFile->getClientOriginalName();
+                        $randomString = Str::random(10);
+                        $newName = $randomString.'_'.$originalName;
+                        $imagePath = $imageFile->storeAs('Images',$newName,'public');
+                        Storage::disk('public')->delete($existingMediaFileName);
+
+                        $installerFile = $request->file('installer');
+                        $installerOriginalName = $installerFile->getClientOriginalName();
+                        $installerRandomString = Str::random(10);
+                        $installerNewName = $installerRandomString.'_'.$installerOriginalName;
+                        $installerPath = $installerFile->storeAs('Installer', $installerNewName, 'public');
+                        Storage::disk('public')->delete($existingInstallerFileName);
+
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = 'image';
+                        $postToUpdate->mediaFileName = $imagePath;
+                        $postToUpdate->installerFileName = $installerPath;
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+
+                    }
+                }
             }
 
-            if($request->image == $existingMediaFileName)
+            if($mediaType == 'video')
             {
-                dd('dati pa din ung image');
+                if(!$existingMediaFileName)
+                {
+                    //exisiting installer
+                    if($request->installer == $existingInstallerFileName) 
+                    {
+                        $videoFile = $request->file('video');
+                        $originalName = $videoFile->getClientOriginalName();
+                        $randomString = Str::random(10);
+                        $newName = $randomString.'_'.$originalName;
+                        $videoPath = $videoFile->storeAs('videos',$newName,'public');
+
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = 'video';
+                        $postToUpdate->mediaFileName = $videoPath;
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+                    }
+                    else // replaced installer
+                    {
+                        $videoFile = $request->file('video');
+                        $originalName = $videoFile->getClientOriginalName();
+                        $randomString = Str::random(10);
+                        $newName = $randomString.'_'.$originalName;
+                        $videoPath = $videoFile->storeAs('videos',$newName,'public');
+
+                        $installerFile = $request->file('installer');
+                        $installerOriginalName = $installerFile->getClientOriginalName();
+                        $installerRandomString = Str::random(10);
+                        $installerNewName = $installerRandomString.'_'.$installerOriginalName;
+                        $installerPath = $installerFile->storeAs('Installer', $installerNewName, 'public');
+                        Storage::disk('public')->delete($existingInstallerFileName);
+
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = 'video';
+                        $postToUpdate->mediaFileName = $videoPath;
+                        $postToUpdate->installerFileName = $installerPath;
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+                    }
+                }
+                
+                if($request->video == $existingMediaFileName)
+                {
+                    if($request->installer == $existingInstallerFileName)
+                    {
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = 'video';
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+                    }
+                    else // installer is replaced
+                    {
+                        $installerFile = $request->file('installer');
+                        $installerOriginalName = $installerFile->getClientOriginalName();
+                        $installerRandomString = Str::random(10);
+                        $installerNewName = $installerRandomString.'_'.$installerOriginalName;
+                        $installerPath = $installerFile->storeAs('Installer', $installerNewName, 'public');
+                        Storage::disk('public')->delete($existingInstallerFileName);
+
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = 'video';
+                        $postToUpdate->installerFileName = $installerPath;
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+                    };
+                    
+                }
+                else // if has new video
+                {
+                    if($request->installer == $existingInstallerFileName)
+                    {
+                        $videoFile = $request->file('video');
+                        $videoOriginalName = $videoFile->getClientOriginalName();
+                        $videoRandomString = Str::random(10);
+                        $videoNewName = $videoRandomString.'_'.$videoOriginalName;
+                        $videoPath = $videoFile->storeAs('videos', $videoNewName, 'public');
+                        Storage::disk('public')->delete($existingMediaFileName);
+
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = 'video';
+                        $postToUpdate->mediaFileName = $videoPath;
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+                    }
+                    else // installer was changed
+                    {
+                        $videoFile = $request->file('video');
+                        $videoOriginalName = $videoFile->getClientOriginalName();
+                        $videoRandomString = Str::random(10);
+                        $videoNewName = $videoRandomString.'_'.$videoOriginalName;
+                        $videoPath = $videoFile->storeAs('videos', $videoNewName, 'public');
+                        Storage::disk('public')->delete($existingMediaFileName);
+
+                        $installerFile = $request->file('installer');
+                        $installerOriginalName = $installerFile->getClientOriginalName();
+                        $installerRandomString = Str::random(10);
+                        $installerNewName = $installerRandomString.'_'.$installerOriginalName;
+                        $installerPath = $installerFile->storeAs('Installer', $installerNewName, 'public');
+                        Storage::disk('public')->delete($existingInstallerFileName);
+
+                        $postToUpdate->title = $request->title;
+                        $postToUpdate->content = $request->content;
+                        $postToUpdate->mediaType = 'video';
+                        $postToUpdate->mediaFileName = $videoPath;
+                        $postToUpdate->installerFileName = $installerPath;
+                        $postToUpdate->updated_by = Auth::user()->id;
+                        $postToUpdate->save();
+                        
+                        return redirect()->route('admin.post.all')->with('success', 'Successfully Updated!');
+                    }   
+                }
             }
+            
+            
         }
     }
 }

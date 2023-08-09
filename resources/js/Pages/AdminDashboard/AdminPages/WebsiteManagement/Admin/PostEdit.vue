@@ -139,7 +139,7 @@
                     <h1 class="mb-6">Attachment: </h1>
                     
                     <Dropdown  v-model="selectedAttachment" :options="attachmentOption" optionLabel="name" placeholder="Select media" class="w-full md:w-14rem " @change="handleSelectedAttachmentChange"/>
-                    <span class="text-red-500 font-extrabold">back end na lang </span>
+                    
                     <!--Image Attachment-->
                     <div v-if="selectedAttachment && selectedAttachment.name === 'Image'" class="mt-4">
                         <label for="imageAttachment" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
@@ -259,7 +259,7 @@ const existingInstaller = ref(null);
 const selectedAttachment = ref({'name':null});
 onMounted(()=>{
     existingImage.value = web.post.filename ? web.post.filename : web.post.mediaFileName;
-    selectedAttachment.value.name = toUpperFirst(web.post.mediaType);
+    selectedAttachment.value.name = web.post.mediaType ? toUpperFirst(web.post.mediaType) : null;
     existingInstaller.value = web.post.installerFileName;
     existingVideo.value = web.post.mediaFileName;
 })
@@ -343,7 +343,7 @@ const handleSelectedAttachmentChange = ()=>{
     existingVideo.value = null;
     imageUrl.value = null;
     videoUrl.value = null;
-    
+    attachmentFileName.value = null;
 }
 
 const imageError = ref(null);
@@ -354,11 +354,32 @@ const submit = ()=> {
     
     if(web.webPage === 'Downloads')
     {
-        //alert(form.mediaType);
-        //if has attachment
         if(!form.mediaType)
         {
-            alert('no image no video');
+            
+            if(!form.installer)
+            {
+                installerError.value = 'Installer Field is required!'
+            }
+            else
+            {
+                if(form.installer === web.post.installerFileName)
+                {
+                    
+                    form.post(route('editAboutPost.store'))
+                }
+
+                if(!form.installer.type === 'application/x-msdownload')
+                {
+                    installerError.value = 'Installer File must be executable file!'
+                    
+                }
+                else
+                {
+                    form.post(route('editAboutPost.store'))
+                }
+            }
+
         }
 
         if(toLowerFirst(form.mediaType) === 'image')
@@ -373,18 +394,17 @@ const submit = ()=> {
                     {
                         if(form.installer === web.post.installerFileName)
                         {
-                            alert('andito ako');
-                            form.post(route('editAboutPost.store'))
-                        }
-
-                        if(form.installer.type === 'application/x-msdownload')
-                        {
                             
                             form.post(route('editAboutPost.store'))
                         }
-                        else
+
+                        if(!form.installer.type === 'application/x-msdownload')
                         {
                             installerError.value = 'Installer File must be executable file!'
+                        }
+                        else
+                        {
+                            form.post(route('editAboutPost.store'))
                         }
 
                     }
@@ -408,13 +428,13 @@ const submit = ()=> {
                                 form.post(route('editAboutPost.store'))
                             }
 
-                            if(form.installer.type === 'application/x-msdownload')
+                            if(!form.installer.type === 'application/x-msdownload')
                             {
-                                form.post(route('editAboutPost.store'))
+                                installerError.value = 'Installer File must be executable file!'
                             }
                             else
                             {
-                                installerError.value = 'Installer File must be executable file!'
+                                form.post(route('editAboutPost.store'))
                             }
 
                         }
@@ -441,10 +461,10 @@ const submit = ()=> {
 
         if(toLowerFirst(form.mediaType) === 'video')
         {
-            alert('video ang file');
+            
             if(form.video)
             {
-                alert('validate the video');
+                
                 //existing video was not changed
                 if(form.video === web.post.mediaFileName)
                 {
@@ -453,18 +473,17 @@ const submit = ()=> {
                     {
                         if(form.installer === web.post.installerFileName)
                         {
-                            alert('video not changed');
+                           
                             form.post(route('editAboutPost.store'))
                         }
 
-                        if(form.installer.type === 'application/x-msdownload')
+                        if(!form.installer.type === 'application/x-msdownload')
                         {
-                            
-                            form.post(route('editAboutPost.store'))
+                            installerError.value = 'Installer File must be executable file!video'
                         }
                         else
                         {
-                            installerError.value = 'Installer File must be executable file!video'
+                            form.post(route('editAboutPost.store'))
                         }
 
                     }
@@ -479,7 +498,7 @@ const submit = ()=> {
                 }
                 else // if video was changed
                 {
-                    alert('new video'); //video/mp4
+                    
                     if((form.video.type === 'video/mp4' && form.video.size <= 50000000))
                     {
                         if(form.installer)
@@ -487,25 +506,24 @@ const submit = ()=> {
                             if(form.installer === web.post.installerFileName)
                             {
                                 //installer not changed
-                                alert('installer not changed')
+                               
                                 form.post(route('editAboutPost.store'))
                             }
 
-                            if(form.installer.type === 'application/x-msdownload')
+                            if(!form.installer.type === 'application/x-msdownload')
                             {
-                                alert('installer changed');
-                                form.post(route('editAboutPost.store'))
+                                installerError.value = 'Installer File must be executable file!video'
+
                             }
                             else
                             {
-                                installerError.value = 'Installer File must be executable file!video'
+                                form.post(route('editAboutPost.store'))
                             }
 
                         }
                         //if installer field is empty
                         if(!form.installer)
                         {
-                            console.log('andito ako ngayon')
                             installerError.value = 'Installer Field is required!'
                         }
                     }
@@ -524,8 +542,8 @@ const submit = ()=> {
         
     }
     
-    // alert('nakalusot dto');
-    // form.post(route('editAboutPost.store'))
+    
+    form.post(route('editAboutPost.store'))
     
 };
 </script>
