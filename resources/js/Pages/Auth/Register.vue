@@ -29,7 +29,7 @@
                         </span>
                         <InputError :error="form.errors.password"/>
                     </div>
-
+                    
                     <div class="w-full my-8">
                         <span class="p-float-label ">
                             <div class="w-full bg-red-300">
@@ -37,6 +37,18 @@
                             <InputText id="password_confirmation" type="password" class="w-full" v-model="form.password_confirmation" />
                             <label for="password_confirmation">Confirm password</label>
                         </span>
+                    </div>
+                    
+                    <div class="flex gap-5 flex-wrap px-2">
+                        <div class="flex items-center hover:cursor-pointer ">
+                            <RadioButton v-model="selectedRole" inputId="guest" name="pizza" value="guest" />
+                            <label for="guest" class="ml-2 hover:cursor-pointer">Guest</label>
+                        </div>
+                        <div class="flex items-center hover:cursor-pointer ">
+                            <RadioButton v-model="selectedRole" inputId="student" name="pizza" value="student"/>
+                            <label for="student" class="ml-2 hover:cursor-pointer">Student</label>
+                        </div>
+                        <InputError :error="form.errors.role"/>
                     </div>
                     <div class="w-full my-8">
                         <Button label="Submit" class="w-full" type="submit"/>
@@ -51,16 +63,32 @@
 </template>
 
 <script setup>
-import {computed} from 'vue'
+import {computed, ref, watch} from 'vue'
 import { useForm,usePage } from '@inertiajs/vue3';
 import InputError from '../GlobalComponent/InputError.vue';
 const user = computed(() => usePage().props.user);
+
+const selectedRole = ref(null);
+
+watch(selectedRole, (val)=>{
+    form.role = val
+    if(val == 'student')
+    {
+        form.isActive = '0'
+    }
+    
+    if(val == 'guest')
+    {
+        form.isActive = '1'
+    }
+})
 
 const form = useForm({
     email: null,
     password:null,
     password_confirmation:null,
-    role: 'guest',
+    role: null,
+    isActive:null
 })
 
 const submit = () => form.post(route('register.guestStore'),{preserveScroll:true});

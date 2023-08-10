@@ -34,6 +34,7 @@ return new class extends Migration
             $table->String('city')->nullable();
             $table->String('barangay')->nullable();
             $table->enum('role', ['admin','instructor','student','guest'])->nullable();
+            $table->enum('isActive',[1,0])->nullable();
             $table->unsignedBigInteger('subject_id')->nullable();
             $table->unsignedBigInteger('section_id')->nullable();
             $table->rememberToken();

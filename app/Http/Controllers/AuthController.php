@@ -56,6 +56,7 @@ class AuthController extends Controller
 
     public function storeGuest(Request $request){
         
+        //dd($request);
         $rules = [
             'password' => [
                 'required',
@@ -71,8 +72,11 @@ class AuthController extends Controller
         $user = User::make($request->validate([
             'email' => 'required|email|unique:users',
             'password' => $rules['password'],
+            'role' => 'required',
+            'isActive' => 'required',
         ]));
-
+        
+        
         $user->role = $request->role;
         $user->save();
 
