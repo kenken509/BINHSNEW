@@ -1,8 +1,9 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { useForm,usePage } from '@inertiajs/vue3';
+import { ref,computed } from 'vue';
 import {Link} from '@inertiajs/vue3'
 
+const error = computed(()=> usePage().props.flash);
 const inputType = ref('password');
 const iconType = ref(true)
 
@@ -27,25 +28,31 @@ const login = ()=> form.post(route('login.store'))
                 
             </div>
             
-
             <!--login form-->
             <div class="">
                 <form  @submit.prevent="login">
-                    <div class="w-full mx-auto p-5 ">
-                        <div class="flex justify-center mb-8">
-                            <span class=" font-bold text-xl">Account Sign-in</span>
+                    <div class="justify-center w-full mx-auto p-5 ">
+                        <div class="flex  justify-center mb-4">                           
+                             <span class=" font-bold text-xl">Account Sign-in</span>
+                        </div>
+                        <div v-if="error.error" class="flex  justify-center ">
+                            <span class=" font-bold text-red-500">{{ error.error }}</span>
+                        </div>
+                        <div v-if="error.success" class="flex  justify-center ">
+                            <span class=" font-bold text-red-500">{{ error.success }}</span>
                         </div>
                         <div class=" mt-2  ">
                             <label class="label" for="email">E-mail</label>
                             
                             
-                            <div class="w-full relative flex items-center">
+                            <div class="w-full relative flex items-center mb-2">
                                 <i class="fa-solid fa-user absolute p-3 text-blue-400 pointer-events-none"></i>
                                 <input type="text" id="email" name="email" placeholder="email" class="input pl-8"  v-model="form.email" autocomplete="false">
                             </div>
                             
                             
-                            <div v-if="form.errors.email" class="input-error">{{ form.errors.email }}</div>
+                            <div v-if="form.errors.email" class="input-error px-2">{{ form.errors.email }}</div>
+                            
                         </div>
                         
                         <div class="mt-4">

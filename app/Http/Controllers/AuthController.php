@@ -3,37 +3,52 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Validation\Rules\Password;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 
 
 class AuthController extends Controller
 {
     public function create(){ // presents a form that allows you to submit something
-
-        
         return inertia('Auth/Login');
     }
-
+    
     public function store(Request $request){ // create session if the data sent is valid which means there is a valid user name
         
-       
-       if(!Auth::attempt($request->validate([  //($request validation, remember me)
-            'email' => 'required | string | email',
-            'password' => 'required | string'
-       ]),true)){
+        $credentials = $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+        
+        $credentials['isActive'] = '1'; // Add the 'status' field to the credentials
+        
+        if (!Auth::attempt($credentials, $request->has('remember'))) {
             throw ValidationException::withMessages([
-                'email' => 'Authentication failed!'
+                'email' => 'Authentication failed or account not activated',
             ]);
         }
         
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)
+        ->where('isActive','1')
+        ->first();
+        
+        
+        
+        $request->session()->regenerate(); // to avoid session fixation
+
+        return redirect()->intended('/')->with('success', 'Logged in successfully'); // redirect to intended page
         
 
+        
+        
+        
+            
+        
         //************************************************* */
         // if(!$user->email_verified_at){
         //     // send to verify-email view
@@ -45,18 +60,23 @@ class AuthController extends Controller
         // }
         //********************************************************* */
         
-        $request->session()->regenerate(); // to avoid session fixation
-
-        return redirect()->intended('/')->with('success', 'Logged in successfully'); // redirect to intended page
+        
     }
 
     public function showRegistration(){
-        return inertia('Auth/Register');
+
+        $subjects = Subject::with('section')->get();
+        return inertia('Auth/Register', [
+            'subjects' => $subjects,
+        ]);
     }
 
     public function storeGuest(Request $request){
         
-        //dd($request);
+        $request->validate([
+            'role' => 'required',
+        ]);
+
         $rules = [
             'password' => [
                 'required',
@@ -69,19 +89,78 @@ class AuthController extends Controller
             ]
         ];
 
-        $user = User::make($request->validate([
-            'email' => 'required|email|unique:users',
-            'password' => $rules['password'],
-            'role' => 'required',
-            'isActive' => 'required',
-        ]));
-        
-        
-        $user->role = $request->role;
-        $user->save();
+        $customMessages = [
+            'subject.required_if' => 'The subject field is required.',
+            'section.required_if' => 'The section field is required.',
+            'fName'               => 'First name field is required',
+            'lName'               => 'Last name field is required',
+            'student_number'      => 'Student number field is required',
+        ];
 
-        event(new Registered($user));
-        return redirect()->route('login')->with('success', 'Registered Successfully');
+        if($request->role == 'student')
+        {
+            
+            $student = $request->validate([
+                'fName'             => 'required',
+                'lName'             => 'required',
+                'student_number'    => 'required',
+                'email'             => 'required|email|unique:users',
+                'password'          => $rules['password'],
+                'role'              => 'required',
+                'isActive'          => 'required',
+                'subject'           => 'required_if:role,student',
+                'section'           => 'required_if:role,student',
+            ],$customMessages);
+
+            $newUser = new User();
+
+            $newUser->fName             = $request->fName;
+            $newUser->lName             = $request->lName;
+            $newUser->student_number    = $request->student_number;
+            $newUser->email             = $request->email;
+            $newUser->password          = $request->password;
+            $newUser->role              = $request->role;
+            $newUser->subject_id        = $request->subject;
+            $newUser->section_id        = $request->section;
+            $newUser->isActive          = $request->isActive;
+            $newUser->save();
+            event(new Registered($newUser));
+
+            return redirect()->route('login')->with('success', 'Successfully registered! ');
+        }
+
+        if($request->role == 'guest')
+        {
+            
+            $user = User::make($request->validate([
+                'email' => 'required|email|unique:users',
+                'password' => $rules['password'],
+                'role' => 'required',
+                'isActive' => 'required',
+            ]));
+
+            $user->save();
+            event(new Registered($user));
+
+            return redirect()->route('login')->with('success', 'Successfully registered!');
+        }
+
+        
+        // $user = User::make($request->validate([
+        //     'email' => 'required|email|unique:users',
+        //     'password' => $rules['password'],
+        //     'role' => 'required',
+        //     'isActive' => 'required',
+        //     'subject' => 'required_if:role,student',
+        //     'section' => 'required_if:role,student',
+        // ],$customMessages));
+        
+        
+        //$user->role = $request->role;
+        
+
+        
+        
     }
 
     public function changePassword(Request $request)
@@ -102,7 +181,7 @@ class AuthController extends Controller
         
         if(!$user)
         {
-            return redirect()->back()->with('error', 'Failed to change password');
+            return redirect()->redirect('login')->with('error', 'Failed to change password');
         }
         
         $user->password = $request->password;

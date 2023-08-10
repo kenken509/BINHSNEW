@@ -121,6 +121,9 @@ Route::controller(StrandsController::class)->middleware('auth','verified')->grou
 Route::controller(UserManagementController::class)->middleware(['auth','verified','isAdmin'])->group(function(){
     Route::match(['get','post'],'/admin/panel/users-all', 'showAllUsers')->name('admin.showAllUsers');
     Route::get('/admin/panel/user-add', 'showAddUser')->name('admin.addUser');
+    Route::get('/admin/panel/user-approval', 'showApproveUser')->name('admin.approveUser.show');
+    Route::get('/admin/panel/user-approve/{id}', 'ApproveUser')->name('admin.aprprovedUser.approve');
+    Route::delete('/admin/panel/user-approve/{id}', 'rejectUser')->name('admin.aprprovedUser.reject');
     Route::get('/admin/panel/user-edit/{id}', 'showEditUser')->name('admin.editUser');
     Route::delete('/admin/panel/user-delete/{user}', 'userDelete')->name('admin.userDelete');
     Route::post('/admin/panel/user-store', 'userStore')->name('admin.userStore');

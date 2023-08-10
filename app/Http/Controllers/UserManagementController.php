@@ -29,7 +29,7 @@ class UserManagementController extends Controller
     
         if($userRole == 'admin'){
             return inertia('AdminDashboard/AdminPages/UserManagement/UsersAll',[
-                'users' =>$query->filteredData($filters)->paginate(10),
+                'users' =>$query->filteredData($filters)->where('isActive','1')->paginate(10),
             ]);
         }
 
@@ -58,9 +58,35 @@ class UserManagementController extends Controller
                 'subjects' => Subject::with('section')->get(),
             ]);
         }
-        
     }
 
+    public function showApproveUser()
+    {
+        return inertia('AdminDashboard/AdminPages/UserManagement/UserApprove', [
+            'students' => User::with(['subject','section'])->where('isActive', '0')->get(),
+        ]);
+    }
+
+    public function rejectUser($id)
+    {
+        $user = User::findOrFail($id);
+        if($user->image){
+            Storage::disk('public')->delete($user->image);
+        }
+            
+        $user->delete();
+        return redirect()->route('admin.showAllUsers')->with('success', 'Deleted Successfully');
+    }
+
+    public function ApproveUser($id)
+    {
+        $studentToApprove = User::findOrFail($id);
+        
+        $studentToApprove->isActive = '1';
+        $studentToApprove->save();
+
+        return redirect()->route('admin.showAllUsers')->with('success', 'Successfully Approved new student!');
+    }
     public function userStore(Request $request){
         
         //dd(Auth::user()->role);
