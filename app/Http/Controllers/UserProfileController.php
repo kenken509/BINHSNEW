@@ -10,6 +10,9 @@ class UserProfileController extends Controller
     public function showEditProfile($id)
     {
         $userToEdit = User::findOrFail($id);
-        dd($userToEdit);
+        
+        return inertia('Index/WebPages/UserProfileEdit',[
+            'userToEdit' => $userToEdit,
+        ]);
     }
 }

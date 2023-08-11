@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full flex justify-center  primary-bg-green ">
+    <div class="w-full flex justify-center  primary-bg-green hidden md:flex">
         <div class="w-[68%]  flex items-center justify-between ">
             <div class="flex items-center my-4">
                 <img src="../../../../../public/images/webPage/logo1.png" alt="error"  class="w-[150px] h-[150px]" />
