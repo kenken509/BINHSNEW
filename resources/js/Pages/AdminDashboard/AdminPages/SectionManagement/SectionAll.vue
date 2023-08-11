@@ -20,7 +20,7 @@
                         <th v-if="sections.sections" scope="col" class="px-6 py-3">
                             Instructor
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th v-if="user === 'admin'" scope="col" class="px-6 py-3">
                             Action
                         </th>
                         
@@ -43,7 +43,7 @@
                 
                         
                         <td>
-                            <div class=" space-x-4 px-2">
+                            <div v-if="user.role === 'admin'" class=" space-x-4 px-2">
                                 <Link :href="route('section.delete', {section:section.id})" class="cursor-pointer" v-tooltip.left="'Delete Section'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 mx-2"></span></Link>
                                 <Link :href="route('section.edit', {id:section.id})" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit Section'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
                             </div>    
