@@ -7,19 +7,29 @@
             <WebHeaderLayout/> 
         </div>
     </div>
-
+    <div v-if="$page.props.flash.success" hidden>{{ reloadPage() }}</div>
     <div class="flex flex-col items-center   w-full h-full  p-5">
         <div class="w-[80%] h-[90%]">
             <div>Account Management</div>
+            
             <div class=" w-full  border border-gray-500 shadow-md rounded-md bg-gray-200" >
                 
                 <div class="grid grid-cols-12 gap-4">
                     <!--Image-->
-                    <div class="flex flex-col justify-top items-center col-span-12 md:col-span-4  py-2 ">
-                        <img :src="userToEdit.userToEdit.image ? appUrl+userToEdit.userToEdit.image:appUrl+'Images/default.png' " alt="error" class="w-[200px] h-[200px] mt-6"/>
+                    <div class="flex flex-col justify-top items-center col-span-12 md:col-span-4  py-2 relative ">
+
+                        <img :src="userToEdit.userToEdit.image ? appUrl+userToEdit.userToEdit.image:appUrl+'Images/default.png' " alt="error" class="w-[200px] h-[200px] mt-6 rounded-full"/>
+                        <label for="imageUpdate" class="absolute top-1 right-2 mt-2 p-4 border bg-green-600 text-gray-300 hover:bg-green-800 hover:text-white cursor-pointer" v-tooltip.left="'Update Image'" style="width: 40px; height: 40px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;">
+                            <i class="pi pi-pencil " style="color: whitesmoke; font-size: 20px;"></i>
+                        </label>
+                        <input id="imageUpdate" type="file" accept="image/*" @input="updateImage" hidden />
+
                         <span v-if="userToEdit.userToEdit.fName" class=" text-[30px]">{{ toUpperFirst(userToEdit.userToEdit.fName)  }} </span>
                         <span v-else>{{ toUpperFirst(userToEdit.userToEdit.role) }}</span>
                         <div>Account Role: {{ userToEdit.userToEdit.role }}</div>
+                        <div v-if="form.errors.image">
+                            <InputError :error="form.errors.image"/>
+                        </div>
                         <div class="border-bot-only border-gray-600 shadow-md w-[95%]"></div>
                     </div>
                     <!--Image-->
@@ -80,7 +90,8 @@
 
 <script setup>
 import WebNavLayout from '../WebComponent/WebNavLayout.vue'
-import {Link} from '@inertiajs/vue3'
+import InputError from '../../GlobalComponent/InputError.vue'
+import {Link, useForm} from '@inertiajs/vue3'
 import WebHeaderLayout from '../WebComponent/WebHeaderLayout.vue'
 import {toUpperFirst} from '../../Functions/Methods.vue'
 import {regions,provinces,cities,barangays,} from "select-philippines-address";
@@ -137,6 +148,30 @@ onMounted(()=>{
         })
     });
 })
+
+const form = useForm({
+    image:null,
+    existingImage:userToEdit.userToEdit.image,
+
+});
+
+
+const updateImage = (event) => {
+    
+    console.log(event.target.files);
+    form.image = event.target.files[0];
+    console.log(form.image);
+    
+    form.post(route('user.profile.image.update'), {
+         preserveScroll: true,
+         onSuccess: () => {updateForm.reset('image')},
+    })
+ }
+
+ function reloadPage(){
+    
+    location.reload()
+}
 // watch(selectedRegion, (val) =>{ 
 //     //console.log(val.region_code)
 //     form.region = val.region_code

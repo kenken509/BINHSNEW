@@ -132,6 +132,7 @@ Route::controller(UserManagementController::class)->middleware(['auth','verified
 
 Route::controller(UserProfileController::class)->middleware(['auth','verified'])->group(function(){
     Route::get('/account/profile/edit/{id}', 'showEditProfile')->name('user.profile.edit');
+    Route::post('/account/profile/image-update/', 'userProfileImageUpdate')->name('user.profile.image.update');
 });
 
 Route::controller(QuestionsController::class)->middleware(['auth','verified','isAdmin'])->group(function(){
