@@ -128,7 +128,10 @@ Route::controller(UserManagementController::class)->middleware(['auth','verified
     Route::delete('/admin/panel/user-delete/{user}', 'userDelete')->name('admin.userDelete');
     Route::post('/admin/panel/user-store', 'userStore')->name('admin.userStore');
     Route::post('/admin/panel/user-update','userUpdate')->name('admin.userUpdate');
-    
+});
+
+Route::controller(UserProfileController::class)->middleware(['auth','verified'])->group(function(){
+    Route::get('/account/profile/edit/{id}', 'showEditProfile')->name('user.profile.edit');
 });
 
 Route::controller(QuestionsController::class)->middleware(['auth','verified','isAdmin'])->group(function(){
