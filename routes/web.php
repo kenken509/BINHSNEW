@@ -133,6 +133,7 @@ Route::controller(UserManagementController::class)->middleware(['auth','verified
 Route::controller(UserProfileController::class)->middleware(['auth','verified'])->group(function(){
     Route::get('/account/profile/edit/{id}', 'showEditProfile')->name('user.profile.edit');
     Route::post('/account/profile/image-update/', 'userProfileImageUpdate')->name('user.profile.image.update');
+    Route::post('/account/profile/account-info-update/', 'userProfileInfoUpdate')->name('user.profile.info.update');
 });
 
 Route::controller(QuestionsController::class)->middleware(['auth','verified','isAdmin'])->group(function(){
@@ -214,3 +215,4 @@ Route::controller(AdminPostController::class)->group(function(){
     Route::get('admin/edit-post/{id}/{page}', 'showEditPost')->name('editPost.show');
     Route::post('admin/edit-post/about/store', 'storeEditPost')->name('editAboutPost.store');
 });
+

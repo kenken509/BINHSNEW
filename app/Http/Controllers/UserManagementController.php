@@ -478,7 +478,7 @@ class UserManagementController extends Controller
             }
            
             
-            return redirect()->route('admin.showAllUsers')->with('success', 'Updated Successfully!');
+            return redirect()->route('admin.showAllUsers', ['id' => $user->id])->with('success', 'Updated Successfully!');
         }elseif($request->role == 'student'){ // ito lang gagalawin ko ngayon
             
             $user = $request->validate([

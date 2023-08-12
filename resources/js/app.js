@@ -33,6 +33,7 @@ import Password from 'primevue/password';
 import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
 import Card from 'primevue/card';
+import Divider from 'primevue/divider';
 
 //flowbite
 // import { 
@@ -73,6 +74,7 @@ createInertiaApp({
       .use(initFlowbite)
       .use(PrimeVue, {ripple: true})
       .use(ToastService)
+      .component('Divider',Divider)
       .component('Card', Card)
       .component('FileUpload',FileUpload)
       .component('Textarea',Textarea)
