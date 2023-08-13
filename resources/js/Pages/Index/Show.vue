@@ -234,9 +234,9 @@ getQuotes();
 <div class="grid gap-6 text-center md:grid-cols-4 lg:gap-12">
   <div class="mb-12 md:mb-0">
     <div class="mb-6 flex justify-center">
-      <img
+      <!-- <img
         src="images/webPage/taguduin.jpg"
-        class="w-32 rounded-full shadow-lg dark:shadow-black/30" />
+        class="w-32 rounded-full shadow-lg dark:shadow-black/30" /> -->
     </div>
     <h5 class="mb-3 text-xl font-semibold">James Chris Tagudin</h5>
     <h6 class="mb-3 font-semibold text-primary dark:text-primary-500">
@@ -319,9 +319,9 @@ getQuotes();
   </div>
   <div class="mb-12 md:mb-0 ">
     <div class="mb-6 flex justify-center">
-      <img
+      <!-- <img
         src="images/webPage/aries1.jpg"
-        class="w-32 rounded-full shadow-lg dark:shadow-black/30" />
+        class="w-32 rounded-full shadow-lg dark:shadow-black/30" /> -->
     </div>
     <h5 class="mb-4 text-xl font-semibold">Aries LLesis</h5>
     <h6 class="mb-4 font-semibold text-primary dark:text-primary-500">
@@ -404,9 +404,9 @@ getQuotes();
   </div>
   <div class="mb-0 ">
     <div class="mb-6 flex justify-center">
-      <img
+      <!-- <img
         src="images/webPage/delfin.jpg"
-        class="w-32 rounded-full shadow-lg dark:shadow-black/30" />
+        class="w-32 rounded-full shadow-lg dark:shadow-black/30" /> -->
     </div>
     <div class="mb-12 md:mb-0">
       
@@ -493,9 +493,9 @@ getQuotes();
   </div>
   <div class="mb-12 md:mb-0">
     <div class="mb-6 flex justify-center">
-      <img
+      <!-- <img
         src="images/webPage/nelcy.jpg"
-        class="w-32 rounded-full shadow-lg dark:shadow-black/30" />
+        class="w-32 rounded-full shadow-lg dark:shadow-black/30" /> -->
     </div>
       <h5 class="mb-4 text-xl font-semibold">Nelcy Jane Cajayon</h5>
       <h6 class="mb-4 font-semibold text-primary dark:text-primary-400">

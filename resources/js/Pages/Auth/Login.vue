@@ -24,8 +24,7 @@ const login = ()=> form.post(route('login.store'))
     <div class="w-screen h-screen flex items-center justify-center ">
         <div class=" border border-gray-300 shadow-md rounded  w-[450px] h-auto py-8">
             <div class="flex items-center justify-center mt-2 ">
-                <img src="images/webPage/logo1.png" class=" w-[150px] h-[150px]">
-                
+                <!-- <img src="images/webPage/logo1.png" class=" w-[150px] h-[150px]"> -->
             </div>
             
             <!--login form-->
