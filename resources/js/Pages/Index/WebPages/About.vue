@@ -1,8 +1,11 @@
 <template>
-    <div class=" flex justify-center">
-        <WebNavLayout :currentUser="user" />
+    
+    <div class=" flex justify-center bg-red-200">
+
+        <WebNavLayout2 :currentUser="user"></WebNavLayout2>
+        
     </div>
-    <div class="flex justify-center mt-[68px] ">
+    <div class="flex justify-center   ">
         <div class="w-full max-h-[500px] overflow-hidden ">
             <WebHeaderLayout/> 
         </div>
@@ -23,7 +26,7 @@
 </template>
 
 <script setup>
-import WebNavLayout from '../WebComponent/WebNavLayout.vue'
+import WebNavLayout2 from '../WebComponent/WebNavLayout2.vue'
 import WebHeaderLayout from '../WebComponent/WebHeaderLayout.vue'
 import WebTracksCard from '../WebComponent/WebTracksCard.vue'
 import WebFooter from '../WebComponent/WebFooter.vue'
