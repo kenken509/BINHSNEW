@@ -242,6 +242,6 @@ const printPage = ()=>{
     window.print()
 }
 
-const appUrl = 'http://127.0.0.1:8000/storage/'
+const appUrl = '/storage/'
 const defaultImage = 'images/default.png'
 </script>
