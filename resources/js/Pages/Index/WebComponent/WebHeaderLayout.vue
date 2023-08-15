@@ -2,7 +2,7 @@
     <div class="w-full flex justify-center  primary-bg-green ">
         <div class=" w-[90%]  lg:w-[80%]  flex items-center justify-between ">
             <div class="flex items-center my-4 w-full gap-2 mr-2">
-                <img src="/images/webPage/logo1.png" alt="error"  class="w-[80px] h-[80px] lg:w-[150px] lg:h-[150px]" />
+                <img src="../../../../../public/images/webPage/logo1.png" alt="error"  class="w-[80px] h-[80px] lg:w-[150px] lg:h-[150px]" />
                 <div class=" w-full flex flex-col justify-center">
                     <h1 class="flex text-[16px] border-bot-only lg:text-[20px] border-[#ecf4ed] text-[#ecf4ed] tracking-wider">Bulihan, Silang, Cavite</h1>
                     
