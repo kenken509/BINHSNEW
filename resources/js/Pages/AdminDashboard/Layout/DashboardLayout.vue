@@ -213,7 +213,7 @@
 import {Link} from '@inertiajs/vue3'
 
 
-const appUrl = 'http://127.0.0.1:8000/storage/'
+const appUrl = '/storage/'
 const defaultImage = 'Images/default.png'
 
 const toUpperFirst = (word)=>{
