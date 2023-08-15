@@ -12,7 +12,7 @@
         <div class="w-full max-h-[500px] overflow-hidden ">
             <WebHeaderLayout/> 
         </div>
-    </div>user: {{ user }}
+    </div>Logged user: {{ user }}
     
     
     <!--divider-->
