@@ -68,7 +68,7 @@
             <div v-if="user.currentUser" >
                 <ul class="lg:flex lg:flex-row gap-3 justify-center items-center right-ul hidden  ">
                     <li v-if="user.currentUser.role === 'admin'" class="mx-4 my-4 lg:my-0 cursor-pointer hover:text-cyan-500 duration-500 text-xl">
-                        Dashboard
+                        <a :href="route('admin.showAdminPanel')" class="text-xl hover:text-cyan-500 duration-500">Dashboard</a>
                     </li>
                     <div >
                         <li class="mx-4 lg:mx-0 cursor-pointer " @click="accountDropDownClickHandler">
@@ -79,13 +79,20 @@
                             <div :class="accountDropDownClass" >
                                 <div class="absolute  flex flex-col z-[10] p-4 right-[210px] top-[-40px] md:right-[0px] md:top-[2px] z-10 bg-green-600 rounded rounded-md ">
                                     <div class="my-2 hover:bg-gray-200 w-[150px] rounded ">
-                                        <span class="  cursor-pointer  pl-2 text-gray-100 hover:text-gray-950 duration-500 duration-200">Manage Account</span>
+                                        <a :href="route('user.profile.edit',{id:currentUser.id})" class=" cursor-pointer  pl-2 text-gray-100 hover:text-gray-950 duration-500 duration-200">Manage Account</a>
                                     </div>
                                     <div class=" my-2  hover:bg-gray-200 rounded duration-500">
-                                        <span class="  cursor-pointer  pl-2 text-gray-100 hover:text-gray-950 duration-500 duration-200">Change Password</span>
+                                        <a :href="route('change.password')" class=" cursor-pointer  pl-2 text-gray-100 hover:text-gray-950 duration-500 duration-200">Change Password</a>
                                     </div>
                                     <div class="my-2  hover:bg-gray-200 rounded duration-500">
-                                        <span class=" cursor-pointer  pl-2 text-gray-100 hover:text-gray-950 duration-500 duration-200">Logout</span>
+                                        <Link
+                                        class=" cursor-pointer  pl-2 text-gray-100 hover:text-gray-950 duration-500 duration-200"
+                                        :href="route('logout')"
+                                        data-te-dropdown-item-ref
+                                        method="delete"
+                                        as="button"
+                                        >Logout</Link
+                                        >
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +100,27 @@
                     </div>
                 </ul>
             </div>
-            <!--right elements-->
+            <div v-else class=" lg:flex lg:flex-row md:flex-row gap-5 right-ul hidden  my-4 lg:my-0">
+                <div class="mx-4 my-4 lg:my-0">
+                    <a
+                    class="text-xl hover:text-cyan-500 duration-500 "
+                    :href="route('login')"
+                    data-te-nav-link-ref
+                    >
+                        Sign In
+                    </a> 
+                </div>
+                <div class="mx-4 my-4 lg:my-0">
+                    <a
+                    class="text-xl hover:text-cyan-500 duration-500 "
+                    :href="route('register.guest')"
+                    data-te-nav-link-ref
+                    >
+                        Register
+                    </a> 
+                </div>
+            </div>
+            
 
         </div>
         
@@ -107,7 +134,7 @@ import {ref, watch} from 'vue'
 import {toUpperFirst} from '../../Functions/Methods.vue'
 import {Link} from '@inertiajs/vue3'
 
-const userImage = '/storage/'+user.currentUser.image
+const userImage = user.currentUser ? '/storage/'+user.currentUser.image: null
 const logo = 'images/webPage/logo1.png'
 
 const tleDropdownClass = ref('hidden') ;

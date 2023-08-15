@@ -1,8 +1,8 @@
 <template>
     <div class="">
-        <WebNavLayout :current-user="userToEdit.userToEdit" />
+        <WebNavLayout2 :current-user="userToEdit.userToEdit" />
     </div>
-    <div class="flex justify-center mt-[68px]">
+    <div class="flex justify-center ">
         <div class="w-full max-h-[500px] overflow-hidden ">
             <WebHeaderLayout/> 
         </div>
@@ -223,7 +223,7 @@
 </template>
 
 <script setup>
-import WebNavLayout from '../WebComponent/WebNavLayout.vue'
+import WebNavLayout2 from '../WebComponent/WebNavLayout2.vue'
 import InputError from '../../GlobalComponent/InputError.vue'
 import {Link, useForm} from '@inertiajs/vue3'
 import WebHeaderLayout from '../WebComponent/WebHeaderLayout.vue'
