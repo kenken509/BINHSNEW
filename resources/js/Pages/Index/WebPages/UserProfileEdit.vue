@@ -231,7 +231,7 @@ import {toUpperFirst} from '../../Functions/Methods.vue'
 import {regions,provinces,cities,barangays,} from "select-philippines-address";
 import {onMounted, ref, watch} from 'vue';
 
-const appUrl = 'http://127.0.0.1:8000/storage/'
+const appUrl = '/storage/'
 const userToEdit = defineProps({
     userToEdit:Object,
 })

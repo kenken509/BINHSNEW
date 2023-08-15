@@ -30,6 +30,7 @@
          <div class="flex justify-center items-center border-bot-only border-gray-600 shadow-md mb-[30px] mt-[50px] ">
             <span class="text-[24px] font-bold text-gray-500">TOP 10 STUDENTS</span>  
          </div>
+         
       <section class="grid grid-cols-12 mt-4  shadow-md " >
          <div class="flex flex-col col-span-12  md:col-span-6 px-2 mb-4">
             <div class="flex justify-center items-center font-bold">HOME ECONOMICS</div>
