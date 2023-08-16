@@ -14,7 +14,7 @@
                 Card title
                 </h5> -->
                 <div class="h-52 max-h-40">
-                    <p class="mb-4 text-base primary-text-black  ">
+                    <p class="mb-4  text-base    ">
                         {{ cardContent.content }}
                     </p>
                 </div>
@@ -41,3 +41,9 @@ defineProps({
 
 
 </script>
+
+<style scoped>
+
+
+
+</style>

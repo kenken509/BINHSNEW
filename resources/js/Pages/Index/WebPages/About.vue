@@ -13,10 +13,10 @@
     <div class="flex flex-col justify-center mt-5 mx-[10%]">
         <div v-for="post in web.posts" :key="post.id" class="mt-10 mb-10">
             <div class="flex justify-center">
-                <span class="text-[40px] font-extrabold">{{ post.title }}</span>
+                <span class="text-[40px] font-extrabold font-serif">{{ post.title }}</span>
             </div>
             <div class="px-5">
-                <p class=" text-center">{{ post.content }}</p>
+                <p class=" text-center paragraph">{{ post.content }}</p>
             </div>
             
         </div>
@@ -39,3 +39,11 @@ const web = defineProps({
     posts: Array,
 });
 </script>
+
+<style scoped>
+
+    .paragraph{
+        white-space: pre-line;
+    }
+
+</style>

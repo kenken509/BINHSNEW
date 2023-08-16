@@ -7,20 +7,34 @@
             <WebHeaderLayout/> 
         </div>
     </div>
+    <div class="flex justify-center w-full my-4">
+        <span class="font-serif text-[30px] tracking-wider font-bold text-gray-600">Contact us</span>
+    </div>
+    <div class="flex justify-center">
+        <hr class="border border-b-1 border-gray-300 shadow shadow-md w-[90%] lg:w-[80%]">
+    </div>
+    
     <div class="flex flex-col justify-center mt-5 mx-[10%]">
         <div v-for="post in web.posts" :key="post.id" class="mt-5 mb-5">
-            <div class="flex justify-center">
-                <span class="text-[24px] font-extrabold">{{ post.name }}</span>
+            <div class="flex flex-col lg:flex-row justify-center items-center ">
+                <span class="text-[20px] lg:text-[24px] font-serif ">Contact Name:&nbsp; </span>
+                <span class="text-[20px] lg:text-[24px] font-serif ">{{ post.name }}</span>
             </div>
-            <div class="px-5">
-                <div>
-                    <p class=" text-center">{{ post.phoneNumber }} </p>
-                    <p class=" text-center">{{ post.email }} </p>
-                </div>
-                
+
+            <div class="flex justify-center items-center">
+                <span class="font-serif text-[14px] text-gray-700">Phone Number:&nbsp; </span>
+                <span class="font-serif text-[14px] text-gray-700">{{ post.phoneNumber }}</span>
             </div>
-            
+
+            <div class="flex justify-center items-center">
+                <span class="font-serif text-[14px] text-gray-700">Email:&nbsp; </span>
+                <span class="font-serif text-[14px] text-gray-700"> {{ post.email }}</span>
+            </div>
+            <div class="flex justify-center items-center text-gray-500">
+                ---
+            </div>
         </div>
+       
     </div>
     
     <WebFooter></WebFooter>
