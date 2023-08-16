@@ -4,12 +4,6 @@
         <div >
             <WebCard :cardContent="cardContent.about" />
         </div>
-        <!--contact us-->
-        <div>
-            <WebCard :cardContent="cardContent.contactUs" />
-        </div>
-
-        
         
     </div>
 

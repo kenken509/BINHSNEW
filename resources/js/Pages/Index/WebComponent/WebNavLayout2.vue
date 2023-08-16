@@ -77,7 +77,7 @@
                         </li>
                         <div>
                             <div :class="accountDropDownClass" >
-                                <div class="absolute  flex flex-col z-[10] p-4 right-[210px] top-[-40px] md:right-[0px] md:top-[2px] z-10 bg-green-600 rounded rounded-md ">
+                                <div class="absolute  flex flex-col z-[10] top-[-40px] left-[120px] lg:top-1 lg:left-[-125px] bg-green-600 p-4   rounded rounded-md ">
                                     <div class="my-2 hover:bg-gray-200 w-[150px] rounded ">
                                         <a :href="route('user.profile.edit',{id:currentUser.id})" class=" cursor-pointer  pl-2 text-gray-100 hover:text-gray-950 duration-500 duration-200">Manage Account</a>
                                     </div>
