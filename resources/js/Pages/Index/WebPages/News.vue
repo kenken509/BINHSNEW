@@ -8,24 +8,9 @@
         </div>
     </div>
 
-    <div class="flex flex-col justify-center mt-5 mx-[10%]">
-        <div v-for="post in web.posts" :key="post.id" class="mt-5 mb-5">
-           
-            <div class="flex justify-center">
-                <span class="text-[24px] font-extrabold">{{ post.title }}</span>
-            </div>
-            <div class="px-5">
-                <div>
-                    <p class=" text-center">{{ post.content }} </p>
-                    
-                    <div v-if="post.filename !== null">
-                        <img :src="'http://127.0.0.1:8000/storage/'+post.filename" alt="error"> 
-                    </div>
-                </div>
-                
-            </div>
-            
-        </div>
+    <div class="flex flex-col justify-center mt-5 mx-[10%] paragraph">
+        
+        <WebCard2 :contents="web.posts" />
     </div>
     
     <WebFooter></WebFooter>
@@ -33,6 +18,7 @@
 </template>
 
 <script setup>
+import WebCard2 from '../WebComponent/WebCard2.vue'
 import WebNavLayout2 from '../WebComponent/WebNavLayout2.vue'
 import WebHeaderLayout from '../WebComponent/WebHeaderLayout.vue'
 import WebTracksCard from '../WebComponent/WebTracksCard.vue'
