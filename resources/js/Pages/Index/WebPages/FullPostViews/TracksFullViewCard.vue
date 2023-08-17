@@ -11,10 +11,10 @@
     <div class="flex  justify-center mt-5 w-full paragraph">
         
         <div class="w-[95%] md:w-[90%] lg:w-[80%]">
-            <WebFullViewCard :post="web.post"/>
+            <WebTracksFullViewCard :post="web.post"/>
         </div>
     </div>
-    {{ web.post }}
+    
     <WebFooter></WebFooter>
    
 </template>
@@ -23,10 +23,9 @@
 import WebFullViewCard from '../../WebComponent/WebFullViewCard.vue'
 import WebNavLayout2 from '../../WebComponent/WebNavLayout2.vue'
 import WebHeaderLayout from '../../WebComponent/WebHeaderLayout.vue'
-import WebTracksCard from '../../WebComponent/WebTracksCard.vue'
 import WebFooter from '../../WebComponent/WebFooter.vue'
 import { usePage } from '@inertiajs/vue3'
-import { ref, computed } from 'vue';
+import WebTracksFullViewCard from '../../WebComponent/WebTracksFullViewCard.vue'
 
 const user = usePage().props.user
 

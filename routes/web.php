@@ -116,7 +116,7 @@ Route::controller(StrandsController::class)->middleware('auth','verified')->grou
     Route::get('/track/he', 'showHE')->name('strand.showHE');
     Route::get('/track/ict', 'showICT')->name('strand.showICT');
     Route::get('/track/ia', 'showIA')->name('strand.showIA');
-    Route::get('/track/smaw', 'showAgriFisheryArts')->name('strand.showAgriFisheryArts');
+    Route::get('/track/agri-fishery', 'showAgriFisheryArts')->name('strand.showAgriFisheryArts');
     
 });
 
@@ -183,7 +183,7 @@ Route::controller(WebContentsController::class)->group(function(){
    Route::delete('admin/web-content/delete-post/{id}', 'delete')->name('webPost.delete');
    //instructor
    Route::get('instructor/web-content/add-post', 'showInstructorAddPost')->name('instructorWebPost.add');
-   Route::post('admin/web-content/store-post', 'instructorStorePost')->name('instructorWebPost.store');
+   Route::post('instructor/web-content/store-post', 'instructorStorePost')->name('instructorWebPost.store');
    Route::get('instructor/web-content/edit-post/{id}', 'showInstructorEditPost')->name('instructorWebPost.edit');
    Route::post('instructor/web-content/update', 'updatePost')->name('instructorWebPost.update');
 

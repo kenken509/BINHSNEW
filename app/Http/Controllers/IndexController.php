@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\WebPost;
 use App\Models\NewsPagePost;
 use Illuminate\Http\Request;
 use App\Models\AboutPagePost;
@@ -58,11 +59,23 @@ class IndexController extends Controller
     // full post controller
     public function showFullPost($page, $id)
     {
+        
         if($page == 'news')
         {
             $post = NewsPagePost::findOrFail($id);
 
             return inertia('Index/WebPages/FullPostViews/PostFullView',[
+                'post' => $post,
+            ]);
+        }
+
+        if($page = 'afa')
+        {
+            
+            
+            $post = WebPost::with(['attachments','author'])->where('id',$id)->first();
+            
+            return inertia('Index/WebPages/FullPostViews/TracksFullViewCard',[
                 'post' => $post,
             ]);
         }

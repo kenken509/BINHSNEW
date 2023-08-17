@@ -75,6 +75,7 @@ class WebContentsController extends Controller
     public function instructorStorePost(Request $request)
     {
        
+        
         if(!$request->attachment || $request->attachment['name'] == 'None'){
             //{"author_id":4,"attachment":null,"subject_id":3,"title":null,"content":null,"status":"public","images":[],"video":null,"created_by":4}
             //dd('wala nang image');

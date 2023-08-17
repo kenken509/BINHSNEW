@@ -67,12 +67,13 @@
            
             <div v-if="user.currentUser" >
                 <ul class="lg:flex lg:flex-row gap-3 justify-center items-center right-ul hidden  ">
-                    <li v-if="user.currentUser.role === 'admin'" class="mx-4 my-4 lg:my-0 cursor-pointer hover:text-cyan-500 duration-500 text-xl">
+                    <li v-if="user.currentUser.role === 'admin' || user.currentUser.role === 'instructor'" class="mx-4 my-4 lg:my-0 cursor-pointer hover:text-cyan-500 duration-500 text-xl">
                         <a :href="route('admin.showAdminPanel')" class="text-xl hover:text-cyan-500 duration-500">Dashboard</a>
                     </li>
                     <div >
                         <li class="mx-4 lg:mx-0 cursor-pointer " @click="accountDropDownClickHandler">
-                            <img :src="userImage" alt="error" class="h-14 w-14 rounded-full hide-on-table "  />
+                            
+                            <img :src="userImage" alt="image" class="h-14 w-14 rounded-full hide-on-table "  />
                             <button class="lg:hidden bg-green-700 rounded-md text-gray-100 p-2">{{toUpperFirst(user.currentUser.role)}} {{ toUpperFirst(user.currentUser.fName) }}</button>
                         </li>
                         <div>
@@ -134,7 +135,7 @@ import {ref, watch} from 'vue'
 import {toUpperFirst} from '../../Functions/Methods.vue'
 import {Link} from '@inertiajs/vue3'
 
-const userImage = user.currentUser ? '/storage/'+user.currentUser.image: null
+const userImage = user.currentUser.image ? '/storage/'+user.currentUser.image: '/storage/Images/default.png'
 const logo = 'images/webPage/logo1.png'
 
 const tleDropdownClass = ref('hidden') ;
