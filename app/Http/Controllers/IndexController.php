@@ -48,10 +48,23 @@ class IndexController extends Controller
 
     public function showNews(){
 
-        $posts = NewsPagePost::all();
+        $posts = NewsPagePost::orderBy('created_at','desc')->get();
         
         return inertia('Index/WebPages/News',[
             'posts' => $posts,
         ]);
+    }
+
+    // full post controller
+    public function showFullPost($page, $id)
+    {
+        if($page == 'news')
+        {
+            $post = NewsPagePost::findOrFail($id);
+
+            return inertia('Index/WebPages/FullPostViews/PostFullView',[
+                'post' => $post,
+            ]);
+        }
     }
 }

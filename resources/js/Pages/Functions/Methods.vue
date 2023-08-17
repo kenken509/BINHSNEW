@@ -33,5 +33,7 @@
             return truncatedText;
         }
     }
+
+   
 export { toUpperFirst, toLowerFirst, truncateText };
 </script>

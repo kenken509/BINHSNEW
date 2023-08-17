@@ -77,6 +77,8 @@ Route::controller(IndexController::class)->group(function(){
     Route::get('/contact', 'showContact')->name('index.contact');
     Route::get('/downloads', 'showDownloads')->name('index.downloads');
     Route::get('/news', 'showNews')->name('index.news');
+
+    Route::get('full-post/view/{page}/{id}', 'showFullPost')->name('fullPost.show');
 });
 
 
@@ -184,6 +186,8 @@ Route::controller(WebContentsController::class)->group(function(){
    Route::post('admin/web-content/store-post', 'instructorStorePost')->name('instructorWebPost.store');
    Route::get('instructor/web-content/edit-post/{id}', 'showInstructorEditPost')->name('instructorWebPost.edit');
    Route::post('instructor/web-content/update', 'updatePost')->name('instructorWebPost.update');
+
+   
 });
 
 Route::controller(CommentsController::class)->group(function(){

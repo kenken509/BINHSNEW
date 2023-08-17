@@ -1,5 +1,5 @@
 <template>
-    <div class=" flex justify-center">
+    <div class=" flex justify-center ">
         <WebNavLayout2 :currentUser="user" />
     </div>
     <div class="flex justify-center ">
@@ -8,9 +8,11 @@
         </div>
     </div>
 
-    <div class="flex flex-col justify-center mt-5 mx-[10%] paragraph">
+    <div class="flex  justify-center  mt-5 w-full   paragraph ">
         
-        <WebCard2 :contents="web.posts" />
+        <div class="w-[95%] md:w-[90%] lg:w-[80%] ">
+            <WebCard2 :contents="web.posts" :postPage="'news'"/>
+        </div>
     </div>
     
     <WebFooter></WebFooter>
@@ -31,6 +33,7 @@ const user = usePage().props.user
 const web = defineProps({
     posts: Array,
 });
+
 
 
 </script>
