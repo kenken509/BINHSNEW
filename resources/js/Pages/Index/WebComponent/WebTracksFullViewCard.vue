@@ -1,6 +1,6 @@
 <template>
     <div>
-       {{ }}
+       
         <div class="  border border-2 border-gray-300 p-8 bg-gray-100 shadow-md my-8 rounded-md">
            
             <div class="flex flex-col mb-2">
@@ -59,4 +59,5 @@ function dateCreated (id){
 
     return formattedDate;
 }
+
 </script>

@@ -8,8 +8,10 @@
                 <WebHeaderLayout/> 
             </div>
         </div>
-        <div class=" mb-4 ">
-            <WebTracksCard :webPosts="web.posts"/>
+        <div class="flex  justify-center  mt-5 w-full   paragraph ">
+            <div class=" w-[95%] md:w-[90%] lg:w-[80%] mb-4 ">
+                <WebTracksCard :webPosts="web.posts" :page="'ict'"/>
+            </div>
         </div>
         <WebFooter />
 </template>
@@ -28,6 +30,7 @@ import { ref } from 'vue';
 const user = usePage().props.user
 const web = defineProps({
     posts: Array,
+   
 });
 
 

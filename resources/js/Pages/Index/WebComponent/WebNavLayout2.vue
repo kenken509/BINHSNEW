@@ -135,7 +135,7 @@ import {ref, watch} from 'vue'
 import {toUpperFirst} from '../../Functions/Methods.vue'
 import {Link} from '@inertiajs/vue3'
 
-const userImage = user.currentUser.image ? '/storage/'+user.currentUser.image: '/storage/Images/default.png'
+const userImage = user.currentUser ?  (user.currentUser.image ? '/storage/'+user.currentUser.image: '/storage/Images/default.png') : '/storage/Images/default.png'                       
 const logo = 'images/webPage/logo1.png'
 
 const tleDropdownClass = ref('hidden') ;

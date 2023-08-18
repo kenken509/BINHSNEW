@@ -17,7 +17,7 @@ class StrandsController extends Controller
     public function showHE(){
 
         $homeEconomicsPosts = WebPost::where('subject_id','=',2)->with(['attachments','author'])->orderBy('created_at', 'desc')->get();
-
+        
         return inertia('Index/WebPages/Strands/HomeEconomics', [
             'posts' => $homeEconomicsPosts,
         ]);

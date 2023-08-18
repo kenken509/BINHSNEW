@@ -8,8 +8,10 @@
             <WebHeaderLayout/> 
         </div>
     </div>
-    <div class=" mb-4 ">
-        <WebTracksCard :webPosts="web.posts"/>
+    <div class="flex  justify-center  mt-5 w-full   paragraph ">
+        <div class=" mb-4 w-[95%] md:w-[90%] lg:w-[80%]">
+            <WebTracksCard :webPosts="web.posts" :page="'he'"/>
+        </div>
     </div>
     <WebFooter />
 </template>
