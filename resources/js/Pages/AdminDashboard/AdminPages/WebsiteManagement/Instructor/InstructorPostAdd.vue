@@ -73,9 +73,43 @@
                 </div>
             </div>
 
+            <!--VIDEO UPLOAD-->
+            <div v-if="selectedAttachment && (selectedAttachment.name === 'Video')" class="col-span-12">
+                   
+                   <div class="flex flex-col col-span-12  border-gray-300 border border-2 rounded-md border-gray-400 px-2 py-2">
+                        <div class="flex gap-3 w-full  my-1 py-2   border-gray-300">
+                                <label for="videoInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
+                                    Select a file...
+                                </label>
+                                <input id="videoInput" type="file"  @input="addVideo" accept="video/mp4" hidden  />
+                                
+                                <div v-if="videoFileName" class=" file-input-label bg-gray-300 px-4 py-2 rounded-md ">
+                                    <span class="">{{ videoFileName }}</span>
+                                </div>    
+                            
+                        </div>
+                         
+                        <div v-if="form.errors.video">
+                            <InputError :error="form.errors.video"/>
+                        </div>
+                       <div class="flex flex-col justify-center items-center border  border-gray-300 rounded-md p-2">
+                           
+                           <div v-if="videoUrl" id="video-container" >
+                               <video :src="videoUrl" controls class="w-[500px] h-full border border-gray-300 shadow-md rounded-md"  ></video>
+                           </div>
+                           <!-- <div>
+                               <div v-if="videoSizeError"><InputError :error="videoSizeError"/></div>
+                               <div v-if="fileError(errorsArray, 'video').length" >
+                                   <InputError :error="'The video file must ba a file of type: mp4, with a max size of 35mb'"/>
+                               </div>
+                           </div> -->
+                           
+                       </div>
+                   </div>
+               </div>
 
             <div class="w-full col-span-12 mt-4">
-                <Button label="Submit" class="w-full " type="submit"/>
+                <Button label="Submit" class="w-full " :disabled="form.processing" type="submit"/>
             </div>
         </form>
         
@@ -114,7 +148,12 @@ const dropdownChange = ()=>{
 
     //reset all media
     imageUrl.value = null;
+    imageFileName.value = null;
     form.image = null;
+
+    videoUrl.value = null;
+    videoFileName.value = null;
+    form.video = null;
 }
 
 
@@ -143,11 +182,16 @@ const addImage = (event)=>{
     imageFileName.value = event.target.files[0].name
 }
 
-const deleteImage = ()=>{
-    selectedAttachment.value = {'name':'None'}
-    form.image = null;
-    imageUrl.value = null;
+const videoUrl = ref(null);
+const videoFileName = ref(null);
+const addVideo = (event)=>{
+    const video = event.target.files[0]
+
+    form.video = event.target.files[0]
+    videoUrl.value = URL.createObjectURL(video);
+    videoFileName.value = event.target.files[0].name;
 }
+
 
 
 const form = useForm({

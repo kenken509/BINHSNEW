@@ -101,8 +101,7 @@ class WebContentsController extends Controller
         }
         else if($request->attachment['name'] == 'Image')
         {
-            //dd($request);
-            //dd($request->file('image'));
+            
             $validated = $request->validate([
                 'title'     => 'required|max:50',
                 'content'   => 'required|max:50000',
@@ -167,24 +166,15 @@ class WebContentsController extends Controller
         }
         else if($request->attachment['name'] == 'Video')
         {
-            dd('nasa video ako');
-            //dd($request);
-            // "author_id" => "4"
-            // "attachment" => array:1 [▼
-            //     "name" => "Video"
-            // ]
-            // "subject_id" => "3"
-            // "title" => "asdf"
-            // "content" => "asdfasdf"
-            // "status" => "active"
-            // "created_by" => "4"
+            
+            
 
             $validate = $request->validate([
                 'title' => 'required|max:50',
                 'content' => 'required|max:50000',
                 'video'     => 'required|mimetypes:video/mp4|max:35000',
             ]);
-
+            
             if($validate)
             {
                 $newPost = new WebPost();
