@@ -148,7 +148,7 @@ const fileError = (arr, word) => {
 
 // temporary image address...
 const imageUrl = ref([]);
-const videoUrl = ref(postToEdit.post.attachments[0].filename);
+const videoUrl = ref(postToEdit.post.attachments.length ? postToEdit.post.attachments[0].filename: null); //postToEdit.post.attachments[0].filename
 //at image input
 // const addImage = (event)=>
 // {

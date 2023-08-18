@@ -8,10 +8,10 @@
             <div class="grid grid-cols-12   gap-4 w-full mt-12 ">
                 <div class="w-full col-span-12 ">
                     <div class="pb-5 text-[18px] ">Title:</div>
-                    <span class="p-float-label ">
-                        <InputText id="title" v-model="form.title" class="w-full"/>
-                        <label for="title">Enter post title</label>
-                    </span>
+                        <span class="p-float-label ">
+                            <InputText id="title" v-model="form.title" class="w-full"/>
+                            <label for="title">Enter post title</label>
+                        </span>
                     
                     <div v-if="form.errors.title">
                         <InputError :error="form.errors.title"/>

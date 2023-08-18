@@ -69,7 +69,7 @@ class WebContentsController extends Controller
     //instructor
     public function showInstructorAddPost()
     {
-        return inertia('AdminDashboard/AdminPages/WebsiteManagement/Instructor/PostAdd');
+        return inertia('AdminDashboard/AdminPages/WebsiteManagement/Instructor/InstructorPostAdd');
     }
 
     public function instructorStorePost(Request $request)
@@ -84,7 +84,7 @@ class WebContentsController extends Controller
                 'content'   => 'required|max:50000',
             ]);
 
-            //dd($request);
+            
             if($post){
                 $newPost = new WebPost();
                 $newPost->author_id = $request->author_id;
@@ -101,14 +101,17 @@ class WebContentsController extends Controller
         }
         else if($request->attachment['name'] == 'Image')
         {
-            
-            
+            //dd($request);
+            //dd($request->file('image'));
             $validated = $request->validate([
                 'title'     => 'required|max:50',
                 'content'   => 'required|max:50000',
-                'images.*'  => 'required|mimes:jpg,jpeg,png|max:3000'
+                'image'  => 'required|mimes:jpg,jpeg,png|max:3000'
+            ],[
+                'image'     => 'The image file must ba a file of type: jpg, jpeg, png, with a max size of 3mb'
             ]);
-            if(!$request->file('images'))
+            
+            if(!$request->file('image'))
             {
                 return redirect()->back()->with('error', 'The image file must ba a file of type: jpg, jpeg, png, with a max size of 3mb');
             };
@@ -126,25 +129,45 @@ class WebContentsController extends Controller
                 $newPost->created_at    = Carbon::now();
                 $newPost->save();
 
-                foreach($request->file('images') as $file)
-                {
+                $imageFile = $request->file('image');
+                $originalName = $imageFile->getClientOriginalName();
+                $randomString = Str::random(10);
+                $imageNewName = $randomString.'_'.$originalName;
+
+                $path = $imageFile->storeAs('Images', $imageNewName,'public');
+
+                $newAttachment              = new WebPostAttachment();
+                $newAttachment->type        = 'Image';
+                $newAttachment->web_post_id = $newPost->id;
+                $newAttachment->filename    = $path;
+                $newAttachment->created_at  = Carbon::now();
+
+                $newAttachment->save();
+
+
+                //multi media storing
+                // foreach($request->file('images') as $file)
+                // {
                     
-                    $path = $file->store('images', 'public');
+                //     $path = $file->store('images', 'public');
 
-                    $newAttachment              = new WebPostAttachment();
-                    $newAttachment->type        = 'Image';
-                    $newAttachment->web_post_id = $newPost->id;
-                    $newAttachment->filename    = $path;
-                    $newAttachment->created_at  = Carbon::now();
+                //     $newAttachment              = new WebPostAttachment();
+                //     $newAttachment->type        = 'Image';
+                //     $newAttachment->web_post_id = $newPost->id;
+                //     $newAttachment->filename    = $path;
+                //     $newAttachment->created_at  = Carbon::now();
 
-                    $newAttachment->save();
-                }
+                //     $newAttachment->save();
+                // }
+
+
                 
                 return redirect()->route('webPosts.all')->with('success', 'Successfully added new post');
             }
         }
         else if($request->attachment['name'] == 'Video')
         {
+            dd('nasa video ako');
             //dd($request);
             // "author_id" => "4"
             // "attachment" => array:1 [▼
