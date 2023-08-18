@@ -222,6 +222,7 @@ const addVideo = (event)=>{
 
 
 const form = useForm({
+    id:postToEdit.post.id,
     author_id:postToEdit.post.author_id,
     attachment:selectedAttachment, //selectedAttachment
     subject_id:postToEdit.post.subject_id,
@@ -243,7 +244,7 @@ const submit = () => {
     // }
     // else
     
-    form.post(route('instructorWebPost.store'),{ onSuccess: ()=> form.reset('images')})
+    form.post(route('instructorWebPost.update'),{ onSuccess: ()=> form.reset('images')})
     
 } ;
 

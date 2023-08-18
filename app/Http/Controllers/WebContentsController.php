@@ -214,20 +214,153 @@ class WebContentsController extends Controller
 
     public function updatePost(Request $request)
     {
-        $postToUpdate = WebPost::findOrFail($request->id);
+       
+        $postToUpdate = WebPost::with('attachments')->where('id',$request->id)->first();
         //{"id":5,"author_id":5,"subject_id":4,"title":"test add image","content":"j;lakjsdflk","updated_by":5}
 
-        $request->validate([
-            'title'     => 'required|max:50',
-            'content'   => 'required|max:50000',
-        ]);
+        if($request->attachment['name'] == 'None')
+        {
+            $request->validate([
+                'title' => 'required|max:50',
+                'content' => 'required|max:50000',
+            ]);
+            
+            $attachments = $postToUpdate->attachments;
 
-        $postToUpdate->title        = $request->title;
-        $postToUpdate->content      = $request->content;
-        $postToUpdate->updated_by   = $request->updated_by;
-        $postToUpdate->save();
+            if ($attachments->count() > 0) {
+                // Delete attachments
+                
+                foreach ($attachments as $attachment) {
+                    // Delete attachment file from storage or perform any other necessary cleanup
+                    Storage::disk('public')->delete($attachment->filename);
+                    $attachment->delete();
+                }
 
-        return redirect()->route('webPosts.all')->with('success', 'Updated Successfully');
+                $postToUpdate->title = $request->title;
+                $postToUpdate->content = $request->content;
+                $postToUpdate->updated_by = Auth::user()->id;
+                $postToUpdate->save();
+
+                return redirect()->route('webPosts.all')->with('success', 'Successfully Updated');
+            }
+            else
+            {
+                $postToUpdate->title = $request->title;
+                $postToUpdate->content = $request->content;
+                $postToUpdate->updated_by = Auth::user()->id;
+                $postToUpdate->save();
+
+                return redirect()->route('webPosts.all')->with('success', 'Successfully Updated');
+            }
+                
+            
+        }
+
+        if($request->attachment['name']=='Image')
+        {
+            
+            $attachments = $postToUpdate->attachments;
+
+            if ($attachments->count() > 0) // with existing attachment
+            {
+                
+                //validation
+                if($attachments[0]->filename == $request->image)
+                {
+                    $request->validate([
+                        'title' => 'required|max:50',
+                        'content' => 'required|max:50000',
+                    ]);
+                }
+                else
+                {
+                    $validated = $request->validate([
+                        'title'     => 'required|max:50',
+                        'content'   => 'required|max:50000',
+                        'image'  => 'required|mimes:jpg,jpeg,png|max:3000'
+                    ],[
+                        'image'     => 'The image file must ba a file of type: jpg, jpeg, png, with a max size of 3mb'
+                    ]);
+                };
+
+                if($request->file('image'))
+                {
+                    // Delete attachments
+                    foreach ($attachments as $attachment) {
+                        // Delete attachment file from storage or perform any other necessary cleanup
+                        Storage::disk('public')->delete($attachment->filename);
+                        $attachment->delete();
+                    }
+    
+                    $postToUpdate->title = $request->title;
+                    $postToUpdate->content = $request->content;
+                    $postToUpdate->updated_by = Auth::user()->id;
+                    $postToUpdate->save();
+    
+    
+                    $imageFile = $request->file('image');
+                    $originalName = $imageFile->getClientOriginalName();
+                    $randomString = Str::random(10);
+                    $newName = $randomString.'_'.$originalName;
+                    $path = $imageFile->storeAs('Image',$newName,'public');
+    
+                    $newAttachment = new WebPostAttachment();
+                    $newAttachment->type = 'Image';
+                    $newAttachment->web_post_id = $postToUpdate->id;
+                    $newAttachment->filename = $path;
+                    $newAttachment->save(); 
+                }
+                else
+                {
+                    $postToUpdate->title = $request->title;
+                    $postToUpdate->content = $request->content;
+                    $postToUpdate->updated_by = Auth::user()->id;
+                    $postToUpdate->save();
+                    
+                };
+                
+                
+
+                return redirect()->route('webPosts.all')->with('success', 'Successfully Updated');
+            }
+            else // no existing attachment
+            {
+                $validated = $request->validate([
+                    'title'     => 'required|max:50',
+                    'content'   => 'required|max:50000',
+                    'image'  => 'required|mimes:jpg,jpeg,png|max:3000'
+                ],[
+                    'image'     => 'The image file must ba a file of type: jpg, jpeg, png, with a max size of 3mb'
+                ]);
+
+                $postToUpdate->title = $request->title;
+                $postToUpdate->content = $request->content;
+                $postToUpdate->updated_by = Auth::user()->id;
+                $postToUpdate->save();
+
+                $imageFile = $request->file('image');
+                $originalName = $imageFile->getClientOriginalName();
+                $randomString = Str::random(10);
+                $newName = $randomString.'_'.$originalName;
+                $path = $imageFile->storeAs('Image',$newName,'public');
+
+                $newAttachment = new WebPostAttachment();
+                $newAttachment->type = 'Image';
+                $newAttachment->web_post_id = $postToUpdate->id;
+                $newAttachment->filename = $path;
+                $newAttachment->save();
+
+                return redirect()->route('webPosts.all')->with('success', 'Successfully Updated');
+            }
+        }
+
+        if($request->attachment['name']=='Video')
+        {
+            dd('video ang attachement');
+        }
+
+
+        
     }
     
     public function delete($id)
