@@ -253,7 +253,7 @@ class WebContentsController extends Controller
         $postToEdit = WebPost::where('id','=',$id)->with(['attachments','author'])->first();
 
         //dd($postToEdit);
-        return inertia('AdminDashboard/AdminPages/WebsiteManagement/Instructor/PostEdit', [
+        return inertia('AdminDashboard/AdminPages/WebsiteManagement/Instructor/InstructorPostEdit', [
             'post' => $postToEdit,
         ]);
     }

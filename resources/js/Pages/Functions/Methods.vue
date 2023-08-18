@@ -34,6 +34,7 @@
         }
     }
 
+    
    
 export { toUpperFirst, toLowerFirst, truncateText };
 </script>
