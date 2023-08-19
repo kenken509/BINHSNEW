@@ -356,7 +356,88 @@ class WebContentsController extends Controller
 
         if($request->attachment['name']=='Video')
         {
-            dd('video ang attachement');
+            $attachments = $postToUpdate->attachments;
+            if ($attachments->count() > 0) // with existing attachment
+            {
+                if($attachments[0]->filename == $request->video) //same with existing attachment
+                {
+                    $request->validate([
+                        'title' => 'required|max:50',
+                        'content' => 'required|max:50000',
+                    ]);
+
+                    $postToUpdate->title = $request->title;
+                    $postToUpdate->content = $request->content;
+                    $postToUpdate->updated_by = Auth::user()->id;
+                    $postToUpdate->save();
+                }
+                else // new video attachment
+                {
+                    $validated = $request->validate([
+                        'title'     => 'required|max:50',
+                        'content'   => 'required|max:50000',
+                        'video'     => 'required|mimetypes:video/mp4|max:35000',
+                    ],[
+                        'video'     => 'The video file must ba a file of type: mp4, with a max size of 35mb'
+                    ]);
+
+
+                    foreach ($attachments as $attachment) {
+                        // Delete attachment file from storage or perform any other necessary cleanup
+                        Storage::disk('public')->delete($attachment->filename);
+                        $attachment->delete();
+                    }
+                    
+                    $videoFile = $request->file('video');
+                    $originalName = $videoFile->getClientOriginalName();
+                    $randomString = Str::random(10);
+                    $newName = $randomString.'_'.$originalName;
+                    $path = $videoFile->storeAs('videos', $newName, 'public');
+
+                    $postToUpdate->title = $request->title;
+                    $postToUpdate->content = $request->content;
+                    $postToUpdate->updated_by = Auth::user()->id;
+                    $postToUpdate->save();
+
+                    $newAttachment = new WebPostAttachment();
+                    $newAttachment->type = 'Video';
+                    $newAttachment->web_post_id = $postToUpdate->id;
+                    $newAttachment->filename = $path;
+                    $newAttachment->save();
+
+                };
+
+                return redirect()->route('webPosts.all')->with('success', 'Successfully Updated');
+            }
+            else // without existing attachment
+            {
+                $validated = $request->validate([
+                    'title'     => 'required|max:50',
+                    'content'   => 'required|max:50000',
+                    'video'     => 'required|mimetypes:video/mp4|max:35000',
+                ],[
+                    'video'     => 'The video file must ba a file of type: mp4, with a max size of 35mb'
+                ]);
+
+                $videoFile = $request->file('video');
+                $originalName = $videoFile->getClientOriginalName();
+                $randomString = Str::random(10);
+                $newName = $randomString.'_'.$originalName;
+                $path = $videoFile->storeAs('videos', $newName, 'public');
+
+                $postToUpdate->title = $request->title;
+                $postToUpdate->content = $request->content;
+                $postToUpdate->updated_by = Auth::user()->id;
+                $postToUpdate->save();
+
+                $newAttachment = new WebPostAttachment();
+                $newAttachment->type = 'Video';
+                $newAttachment->web_post_id = $postToUpdate->id;
+                $newAttachment->filename = $path;
+                $newAttachment->save();
+
+                return redirect()->route('webPosts.all')->with('success', 'Successfully Updated');
+            }
         }
 
 
