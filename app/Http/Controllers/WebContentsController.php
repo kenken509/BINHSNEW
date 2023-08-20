@@ -404,7 +404,7 @@ class WebContentsController extends Controller
                     $newAttachment->web_post_id = $postToUpdate->id;
                     $newAttachment->filename = $path;
                     $newAttachment->save();
-
+                    
                 };
 
                 return redirect()->route('webPosts.all')->with('success', 'Successfully Updated');

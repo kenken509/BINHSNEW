@@ -4,13 +4,18 @@
             <div class="flex flex-col mb-2">
                 <span class="text-[24px] font-extrabold font-serif">{{ content.title }}</span>
                 <span class="text-[12px] text-gray-500 ">{{ dateCreated(content.id) }}</span>
+                <h1>Click here to <a class="text-blue-400" :href="'/storage/'+content.installerFileName" download> download</a> </h1>
             </div>
             <div class="">
-                <div class="border bg-black">
-                    <div v-if="content.filename !== null" class="flex justify-center items-center">
-                        <img :src="'/storage/'+content.filename" alt="error" class=" shadow-md"> 
+                <div v-if="content.mediaType && content.mediaType==='image'" class="border bg-black">
+                    <div  class="flex justify-center items-center">
+                        <img :src="'/storage/'+content.mediaFileName" alt="error" class=" shadow-md"> 
                     </div>
-                    
+                </div>
+                <div v-if="content.mediaType && content.mediaType==='video'" class="border bg-black">
+                    <div  class="flex justify-center items-center">
+                        <video :src="'/storage/'+content.mediaFileName" alt="error" class=" shadow-md"  /> 
+                    </div>
                 </div>
                 <div class="mt-4">
                     <p class=" text-center whitespace-pre-line text-justify">{{ truncateText(content.content, 19) }} 
@@ -18,7 +23,7 @@
                             <span class="text-blue-500">read more...</span> 
                         </Link>  
                     </p>
-                    {{ content.mediaType }}
+                   
                 </div>
             </div>
             

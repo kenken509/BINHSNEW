@@ -144,7 +144,7 @@
                                         <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteFile" ></i>
                                     </div>
                                 </div>
-                                <input  type="file"  id="installerInput" multiple @input="addFile" accept=".exe" hidden  ref="fileInputRef" />
+                                <input  type="file"  id="installerInput"  @input="addFile" accept=".zip, .rar, .7z" hidden  ref="fileInputRef" />
                                 <div v-if="installerValidator" class="mt-2">
                                     <InputError :error="installerValidator" />
                                 </div>
@@ -185,17 +185,22 @@
 
                         <!--image-->
                         <div class="w-full  my-1   py-2">
-                            <h1 class="mb-6">Attachment: </h1>
-                            <label for="fileInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
-                                Select a file... 
-                            </label>
-                            <div v-if="imageUrl" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
-                               <h1 class="">{{ attachmentFileName }}</h1> 
-                               <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
-                                    <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteImage" ></i>
+                            <h1 class="mb-6">Image: </h1>
+                            <div class="px-2 py-3 border-2 border-gray-300 rounded-md"> 
+                                <label for="fileInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
+                                    Select a file... 
+                                </label>
+                                <div v-if="imageUrl" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
+                                    <h1 class="">{{ attachmentFileName }}</h1> 
+                                    <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
+                                        <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteImage" ></i>
+                                    </div>
                                 </div>
+                                <input  type="file"  id="fileInput" multiple @input="addImage" accept="image/*" hidden  ref="fileInputRef"/>
                             </div>
-                            <input  type="file"  id="fileInput" multiple @input="addImage" accept="image/*" hidden  ref="fileInputRef"/>
+                           
+                            
+                           
                           
                         </div>
                         <div v-if="imageUrl" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md" >
@@ -299,11 +304,11 @@ const deleteVideo = ()=>{
 
 const installerFileName = ref('');
 const addFile = (event)=>{
-    console.log(event.target.files[0].name);
-
+    //console.log(event.target.files[0]);
+    
     installerFileName.value = event.target.files[0].name;
     form.installer = event.target.files[0];
-    console.log(installerFileName)
+    console.log(form.installer)
 }
 
 const deleteFile = () => {
@@ -357,6 +362,8 @@ const submit = ()=>{
     }
     else if(selectedPage.value.name === 'Downloads')
     {
+        const allowedExtensions = /\.(zip|rar|7z)$/i;
+
         if(selectedAttachment.value)
         {
             if(selectedAttachment.value.name === 'Image')
@@ -380,17 +387,17 @@ const submit = ()=>{
                         {
                             if(!form.installer)
                             {
-                                installerValidator.value = 'Installer field is required! Installer must have a file type of exe.'
+                                installerValidator.value = 'Installer field is required! Installer must have a file type of .zip .rar .7z.'
                             }
                             else
                             {
-                                if(form.installer.type === 'application/x-msdownload')
+                                if(allowedExtensions.test(form.installer.name))
                                 {
                                     form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
                                 }
                                 else
                                 {
-                                    installerValidator.value = 'Installer field is required! Installer must have a file type of exe.' 
+                                    installerValidator.value = 'Installer field is required! Installer must have a file type of .zip .rar .7z.' 
                                 }
                             }
                         }
@@ -409,19 +416,20 @@ const submit = ()=>{
                 {
                     if(form.video.type === 'video/mp4' && form.video.size <= 30000000)
                     {
+                        
                         if(!form.installer)
                         {
-                            installerValidator.value = 'Installer field is required! Installer must have a file type of exe.'
+                            installerValidator.value = 'Installer field is required! Installer must have a file type of .zip .rar .7z.'
                         }
                         else
                         {
-                            if(form.installer.type === 'application/x-msdownload')
+                            if(allowedExtensions.test(form.installer.name))
                             {
                                 form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
                             }
                             else
                             {
-                                installerValidator.value = 'Installer field is required! Installer must have a file type of exe.' 
+                                installerValidator.value = 'Installer field is required! Installer must have a file type of .zip .rar .7z.' 
                             }
                         }
                     }
@@ -438,17 +446,18 @@ const submit = ()=>{
             
             if(!form.installer)
             {
-                installerValidator.value = 'Installer field is required! Installer must have a file type of exe.'
+                installerValidator.value = 'Installer field is required! Installer must have a file type of .zip .rar .7z.'
             }
             else
             {
-                if(form.installer.type === 'application/x-msdownload')
+                console.log(form.installer);
+                if(allowedExtensions.test(form.installer.name))
                 {
                     form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
                 }
                 else
                 {
-                    installerValidator.value = 'Installer field is required! Installer must have a file type of exe.' 
+                    installerValidator.value = 'Installer field is required! Installer must have a file type of .zip .rar .7z.' 
                 }
                 
             }
@@ -459,8 +468,5 @@ const submit = ()=>{
     {
         form.post(route('webPost.store'));
     }
-    
-        
-    
 };
 </script>

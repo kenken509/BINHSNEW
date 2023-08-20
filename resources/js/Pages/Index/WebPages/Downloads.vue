@@ -2,28 +2,14 @@
     <div class=" flex justify-center">
         <WebNavLayout2 :currentUser="user" />
     </div>
-    <div class="flex justify-center ">
+    <div class="flex justify-center  ">
         <div class="w-full max-h-[500px] overflow-hidden ">
             <WebHeaderLayout/> 
         </div>
     </div>
-    <div class="flex flex-col justify-center mt-5 mx-[10%]">
-        <div v-for="post in web.posts" :key="post.id" class="mt-10 mb-10">
-            <div class="flex justify-center">
-                <span class="text-[40px] font-extrabold">{{ post.title }}</span>
-            </div>
-
-            <div class="px-5">
-                <p class=" text-center">{{ post.content }}</p>
-            </div>
-            <div v-if="post.mediaType === 'image'">
-                <img :src="appUrl+post.mediaFileName" alt="error"/>
-            </div>  
-
-            <div v-if="post.mediaType === 'video'">
-                <video :src="appUrl+post.mediaFileName" alt="error" controls/>
-            </div>
-            <h1>Click here to <a class="text-blue-400" :href="appUrl+post.installerFileName" download> download</a> </h1>
+    <div class="flex  justify-center   w-full   paragraph bg-gray-200 ">
+        <div  class="w-[95%] md:w-[90%] lg:w-[80%] ">
+            <WebDownloadsCard :contents="web.posts" :postPage="'downloads'"/>
         </div>
     </div>
     
@@ -32,6 +18,7 @@
 
 
 <script setup>
+import WebDownloadsCard from '../WebComponent/WebDownloadsCard.vue'
 import WebNavLayout2 from '../WebComponent/WebNavLayout2.vue'
 import WebHeaderLayout from '../WebComponent/WebHeaderLayout.vue'
 import WebTracksCard from '../WebComponent/WebTracksCard.vue'

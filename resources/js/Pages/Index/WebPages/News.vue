@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <div class="flex  justify-center  mt-5 w-full   paragraph ">
+    <div class="flex  justify-center   w-full   paragraph bg-gray-200 ">
         
         <div class="w-[95%] md:w-[90%] lg:w-[80%] ">
             <WebCard2 :contents="web.posts" :postPage="'news'"/>

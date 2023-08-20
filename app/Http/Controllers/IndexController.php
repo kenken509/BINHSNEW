@@ -69,11 +69,32 @@ class IndexController extends Controller
             ]);
         }
 
-        if($page = 'afa')
+        if($page == 'afa')
         {
             
             
             $post = WebPost::with(['attachments','author'])->where('id',$id)->first();
+            
+            return inertia('Index/WebPages/FullPostViews/TracksFullViewCard',[
+                'post' => $post,
+            ]);
+        }
+
+        if($page == 'downloads')
+        {
+            
+            $post = DownloadsPagePost::with(['author'])->where('id',$id)->first();
+            
+            return inertia('Index/WebPages/FullPostViews/DownloadsFullPostView',[
+                'post' => $post,
+            ]);
+        }
+
+        if($page == 'ia')
+        {
+            
+            $post = WebPost::with(['attachments','author'])->where('id',$id)->first();
+            
             
             return inertia('Index/WebPages/FullPostViews/TracksFullViewCard',[
                 'post' => $post,

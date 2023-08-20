@@ -8,7 +8,7 @@
                 <WebHeaderLayout/> 
             </div>
         </div>
-        <div class="flex  justify-center  mt-5 w-full   paragraph ">
+        <div class="flex  justify-center  w-full   paragraph  bg-gray-200">
             <div class=" w-[95%] md:w-[90%] lg:w-[80%] mb-4 ">
                 <WebTracksCard :webPosts="web.posts" :page="'ict'"/>
             </div>

@@ -147,7 +147,7 @@ class AdminPostController extends Controller
                 $post->created_by = Auth::user()->id;
                 $post->save();
 
-                return redirect()->route('admin.post.all')->with('success', 'Successfully added new post on News Page!');
+                return redirect()->route('admin.post.all')->with('success', 'Successfully added new post on Downloads Page!');
 
             }
 
@@ -175,7 +175,7 @@ class AdminPostController extends Controller
                 $post->created_by = Auth::user()->id;
                 $post->save();
 
-                return redirect()->route('admin.post.all')->with('success', 'Successfully added new post on News Page!');
+                return redirect()->route('admin.post.all')->with('success', 'Successfully added new post on Downloads Page!');
             }
 
             if($request->media == null)
@@ -194,7 +194,7 @@ class AdminPostController extends Controller
                     $post->created_by = Auth::user()->id;
                     $post->save();
 
-                    return redirect()->route('admin.post.all')->with('success', 'Successfully added new post on News Page!');
+                    return redirect()->route('admin.post.all')->with('success', 'Successfully added new post on Downloads Page!');
             }
         } 
     }

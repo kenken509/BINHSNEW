@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="flex justify-center w-full my-4">
-        <span class="font-serif text-[30px] tracking-wider font-bold text-gray-600">Contact us</span>
+        <span class="font-serif text-[30px] tracking-wider font-bold ">Contact us</span>
     </div>
     <div class="flex justify-center">
         <hr class="border border-b-1 border-gray-300 shadow shadow-md w-[90%] lg:w-[80%]">
@@ -17,7 +17,7 @@
     <div class="flex flex-col justify-center mt-5 mx-[10%]">
         <div v-for="post in web.posts" :key="post.id" class="mt-5 mb-5">
             <div class="flex flex-col lg:flex-row justify-center items-center ">
-                <span class="text-[20px] lg:text-[24px] font-serif ">Contact Name:&nbsp; </span>
+                <span class="text-[20px] lg:text-[24px] font-serif ">Name:&nbsp; </span>
                 <span class="text-[20px] lg:text-[24px] font-serif ">{{ post.name }}</span>
             </div>
 

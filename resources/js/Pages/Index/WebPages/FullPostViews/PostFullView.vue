@@ -14,7 +14,7 @@
             <WebFullViewCard :post="web.post"/>
         </div>
     </div>
-    {{ web.post }}
+    
     <WebFooter></WebFooter>
    
 </template>

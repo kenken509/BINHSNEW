@@ -21,7 +21,7 @@
                 </div>
 
                 <div v-if="post.attachments.length && post.attachments[0].type === 'Video'">
-                    <video :src="'../storage/'+post.attachments[0].filename" controls class="border  rounded-md"></video>
+                    <video :src="'../storage/'+post.attachments[0].filename" controls class="border  rounded-md" ></video>
                 </div>
                 
                 <div class=" whitespace-pre-line mt-4">

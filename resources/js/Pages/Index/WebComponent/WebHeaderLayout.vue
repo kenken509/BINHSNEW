@@ -5,7 +5,6 @@
                 <img src="../../../../../public/images/webPage/logo1.png" alt="error"  class="w-[80px] h-[80px] lg:w-[150px] lg:h-[150px]" />
                 <div class=" w-full flex flex-col justify-center">
                     <h1 class="flex text-[11px] md:text-[16px] border-bot-only lg:text-[20px] border-[#ecf4ed] text-gray-200 tracking-wider py-1 font-serif">Bulihan, Silang, Cavite</h1>
-                    
                     <h1 class="flex text-[13px] md:text-[20px]  lg:text-[25px] xl:text-[30px] font-serif text-gray-100 tracking-wider ">Technology and Livelihood Education</h1>
                     
                     
