@@ -51,5 +51,8 @@
   ]);
   
   const modules = [Pagination, Autoplay];
+
+
+  
   </script>
   

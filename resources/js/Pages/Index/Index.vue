@@ -13,8 +13,7 @@
             <WebHeaderLayout/> 
         </div>
     </div>
-    
-    
+  
     <!--divider-->
     <div class=" h-[40px] border shadow-md "></div>
     <div class="flex  justify-center  ">
@@ -26,9 +25,12 @@
         
         <div class="w-[90%] lg:w-[80%] border mt-2 mb-4">You are here: {{ currentUrl }}</div>
     </div>
+    
     <div class="flex justify-center">
-        <div class="w-[90%] lg:w-[80%] md max-h-[500px] overflow-hidden ">
-            <WebCarousel  />
+        
+        <div class="w-[90%] lg:w-[80%] md  overflow-hidden ">
+            <WebCarouselLatest />
+            <!-- <WebCarousel :loggedUser="user" :carouselImages="carouselImages" /> -->
         </div>
     </div>
     
@@ -50,6 +52,7 @@
 </template>
 
 <script setup>
+import WebCarouselLatest from './WebComponent/WebCarouselLatest.vue';
 import WebNavLayout2 from './WebComponent/WebNavLayout2.vue';
 import WebNavLayout from './WebComponent/WebNavLayout.vue';
 import { computed } from '@vue/reactivity';
@@ -61,8 +64,10 @@ import WebCard from './WebComponent/WebCard.vue';
 import WebAbout from './WebComponent/WebAbout.vue';
 import { ref, onMounted, onUnmounted } from 'vue'
 
+
 defineProps({
-    currentUrl:String
+    currentUrl:String,
+    carouselImages:Array
 })
 
 const cardContent = {
@@ -89,5 +94,7 @@ onUnmounted(() => {
   document.removeEventListener('click', handleDocumentClick);
 });
 
+const replaceImage = ()=>{
 
+}
 </script>

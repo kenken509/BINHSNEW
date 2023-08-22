@@ -188,7 +188,7 @@
                             <h1 class="mb-6">Image: </h1>
                             <div class="px-2 py-3 border-2 border-gray-300 rounded-md"> 
                                 <label for="fileInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
-                                    Select a file... 
+                                    Select a file... {{ user }}
                                 </label>
                                 <div v-if="imageUrl" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
                                     <h1 class="">{{ attachmentFileName }}</h1> 
@@ -198,10 +198,6 @@
                                 </div>
                                 <input  type="file"  id="fileInput" multiple @input="addImage" accept="image/*" hidden  ref="fileInputRef"/>
                             </div>
-                           
-                            
-                           
-                          
                         </div>
                         <div v-if="imageUrl" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md" >
                             <img :src="imageUrl" alt="Error" class="w-[50%] h-[50%] rounded-md relative"/>
@@ -214,7 +210,8 @@
                         </div>
                     </div>
                 </div>
-            
+                
+                
             </div>
         </form>
     </DashboardLayout>
@@ -469,4 +466,6 @@ const submit = ()=>{
         form.post(route('webPost.store'));
     }
 };
+
+
 </script>

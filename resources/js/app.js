@@ -34,6 +34,7 @@ import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
 import Card from 'primevue/card';
 import Divider from 'primevue/divider';
+import Carousel from 'primevue/carousel';
 
 //flowbite
 // import { 
@@ -97,6 +98,7 @@ createInertiaApp({
       .component('Button', Button)
       .component('InputMask',InputMask)
       .component('Password',Password)
+      .component('Carousel',Carousel)
       .directive('tooltip', Tooltip)
       .mount(el)
   },

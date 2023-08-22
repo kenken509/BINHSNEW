@@ -6,6 +6,7 @@ module.exports = {
     './resources/views/**/*.blade.php',
     './resources/js/**/*.vue',
     "./node_modules/tw-elements/dist/js/**/*.js",
+    "./node_modules/flowbite/**/*.js"
   ],
   theme: {
     extend: {},

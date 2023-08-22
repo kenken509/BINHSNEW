@@ -1,39 +1,79 @@
 <template>
+    <InputError :error="imageValidationError" />
+
+    <!--test swiper-->
+    
+    
+    
+    <!--test swiper-->
     <div
     id="carouselExampleControls"
     class="relative"
     data-te-carousel-init
     data-te-carousel-slide>
-    <!--Carousel items-->
+    <!--Carousel items--> 
+    
     <div
+    
     class="relative w-full overflow-hidden after:clear-both after:block after:content-['']">
     <!--First item-->
+        
         <div
-        class="relative float-left -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
-        data-te-carousel-item
-        data-te-carousel-active>
-        <img
-            src="../../../../../public/images/webPage/carousel1.jpg"
-            class="block w-full"
-            alt="Wild Landscape" />
+          class="relative  float-left -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+          data-te-carousel-item
+          data-te-carousel-active>
+          <div class="relative">
+            <img
+              :src="'/storage/'+user.carouselImages[0].filename"
+              class="block w-full  "
+              alt="Wild Landscape"
+            />
+            <!-- Text overlay for the first image -->
+            <div v-if="user.loggedUser && user.loggedUser.role === 'admin'" class="absolute  flex justify-center items-center inset-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[15%] h-[10%]  text-white z-50 ">
+              <label for="image-replace1" class="file-input-label bg-green-800 px-4 py-2 rounded-md cursor-pointer font-serif">
+                Replace Image
+              </label>
+              <input type="file" id="image-replace1" @change="replaceImage($event, user.carouselImages[0].id)" accept="image/*" hidden ref="fileInputRef"/>
+            </div>
+          </div> 
         </div>
     <!--Second item-->
         <div
-        class="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
-        data-te-carousel-item>
-        <img
-            src="../../../../../public/images/webPage/carousel2.jpg"
-            class="block w-full"
-            alt="Camera" />
+          class="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+          data-te-carousel-item>
+          <div class="">
+            <img
+              :src="'/storage/'+user.carouselImages[1].filename"
+              class="block w-full h-max-[100%] object-fill"
+              alt="Wild Landscape"
+            />
+            <!-- Text overlay for the first image -->
+            <div v-if="user.loggedUser && user.loggedUser.role === 'admin'" class="absolute  block inset-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[15%] h-[10%]  text-white z-50 ">
+              <label for="image-replace2" class="file-input-label bg-green-800 px-4 py-2 rounded-md cursor-pointer font-serif">
+                Replace Image
+              </label>
+              <input type="file" id="image-replace2" @input="replaceImage($event, user.carouselImages[1].id)" accept="image/*" hidden ref="fileInputRef"/>
+            </div>
+          </div> 
         </div>
     <!--Third item-->
         <div
-        class="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
-        data-te-carousel-item>
-        <img
-            src="../../../../../public/images/webPage/carousel3.png"
-            class="block w-full"
-            alt="Exotic Fruits" />
+          class="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+          data-te-carousel-item>
+          <div class="relative">
+            <img
+              :src="'/storage/'+user.carouselImages[2].filename"
+              class="block w-full "
+              alt="Wild Landscape"
+            />
+            <!-- Text overlay for the first image -->
+            <div v-if="user.loggedUser && user.loggedUser.role === 'admin'" class="absolute  flex justify-center items-center inset-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[15%] h-[10%]  text-white z-50 ">
+              <label for="image-replace3" class="file-input-label bg-green-800 px-4 py-2 rounded-md cursor-pointer font-serif">
+                Replace Image
+              </label>
+              <input type="file" id="image-replace3" @input="replaceImage($event, user.carouselImages[2].id)" accept="image/*" hidden ref="fileInputRef"/>
+            </div>
+          </div> 
         </div>
   </div>
 
@@ -90,5 +130,47 @@
     </div>
 </template>
 <script setup>
+
+import { Link,useForm,usePage } from '@inertiajs/vue3'
+import {ref} from 'vue'
+import InputError from '../../GlobalComponent/InputError.vue';
+import {Swiper, SwiperSlide} from 'swiper/vue'
+
+
+
+const imageValidationError = ref(null);
+const form = useForm({
+  id:null,
+  filename:null,
+  user:user.loggedUser ? user.loggedUser.id: null,
+})
+
+function replaceImage(event,id){
+
+  const allowedExtensions = /\.(jpg|jpeg|png)$/i;
+
+ 
+ console.log(event.target.files[0].name);
+ form.id = id 
+ form.filename = event.target.files[0];
+  
+  if(!allowedExtensions.test(form.filename.name) || form.filename.size > 3000000)
+  {
+      imageValidationError.value = 'Image file must be of type: JPG, JPEG, PNG with maximum size of 3mb! ';
+  }
+  else
+  {
+      form.post(route('carousel.replace.image'));
+  }
+
+}
+
+const user = defineProps({
+   loggedUser:Object,
+   carouselImages:Array,
+})
+
+
+
 
 </script>

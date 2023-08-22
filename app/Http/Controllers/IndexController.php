@@ -3,23 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\WebPost;
+use Illuminate\Support\Str;
 use App\Models\NewsPagePost;
 use Illuminate\Http\Request;
 use App\Models\AboutPagePost;
 use App\Models\ContactPagePost;
 use App\Models\DownloadsPagePost;
+use App\Models\CarouselImageModel;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class IndexController extends Controller
 {
     public function index(){
-        //dd(Auth::user());
-        return inertia('Index/Index');
+        
+        return inertia('Index/Index',[
+            'carouselImages' => CarouselImageModel::all(),
+        ]);
     }
     
     public function show(){
+        $carouselImage = CarouselImageModel::all();
         return inertia('Index/Show',[
-            'currentUrl' => 'home'
+            'currentUrl' => 'home',
+            'carouselImage' => $carouselImage,
         ]);
     }
 
@@ -100,5 +107,27 @@ class IndexController extends Controller
                 'post' => $post,
             ]);
         }
+    }
+
+    public function carouselReplaceImageStore(Request $request)
+    {
+        
+        $imageToUpdate = CarouselImageModel::findOrFail($request->id);
+        
+        Storage::disk('public')->delete($imageToUpdate->filename);
+
+        $imageFile = $request->file('filename');
+        $originalName = $imageFile->getClientOriginalName();
+        $randomString = Str::random(10);
+        $newName = $randomString.'_'.$originalName;
+        $path = $imageFile->storeAs('Images', $newName, 'public');
+
+        $imageToUpdate->filename = $path;
+        $imageToUpdate->updated_by = $request->user;
+        $imageToUpdate->save();
+
+        
+        return redirect()->back()->with('success', 'Image replaced successfully!' );
+
     }
 }
