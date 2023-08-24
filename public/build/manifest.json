@@ -1,6 +1,6 @@
 {
-  "_index.min-a840debb.js": {
-    "file": "assets/index.min-a840debb.js",
+  "_index.min-6a20312c.js": {
+    "file": "assets/index.min-6a20312c.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -106,37 +106,22 @@
     "file": "assets/Inter-SemiBold-15226129.woff2",
     "src": "node_modules/primevue/resources/themes/tailwind-light/fonts/Inter-SemiBold.woff2"
   },
-  "public/images/webPage/carousel1.jpg": {
-    "file": "assets/carousel1-e7f2befb.jpg",
-    "src": "public/images/webPage/carousel1.jpg"
-  },
-  "public/images/webPage/carousel2.jpg": {
-    "file": "assets/carousel2-463c7460.jpg",
-    "src": "public/images/webPage/carousel2.jpg"
-  },
-  "public/images/webPage/carousel3.png": {
-    "file": "assets/carousel3-2adc5152.png",
-    "src": "public/images/webPage/carousel3.png"
-  },
   "public/images/webPage/logo1.png": {
     "file": "assets/logo1-1d182ccf.png",
     "src": "public/images/webPage/logo1.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-943e57d5.css",
+    "file": "assets/app-47a96098.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
   "resources/js/app.css": {
-    "file": "assets/app-cf42d078.css",
+    "file": "assets/app-7578d59b.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
     "assets": [
       "assets/logo1-1d182ccf.png",
-      "assets/carousel1-e7f2befb.jpg",
-      "assets/carousel2-463c7460.jpg",
-      "assets/carousel3-2adc5152.png",
       "assets/fa-brands-400-74833209.woff2",
       "assets/fa-brands-400-20c4a58b.ttf",
       "assets/fa-regular-400-8e7e5ea1.woff2",
@@ -164,12 +149,12 @@
       "assets/primeicons-5e10f102.svg"
     ],
     "css": [
-      "assets/app-cf42d078.css"
+      "assets/app-7578d59b.css"
     ],
     "dynamicImports": [
-      "_index.min-a840debb.js"
+      "_index.min-6a20312c.js"
     ],
-    "file": "assets/app-8d5da4ec.js",
+    "file": "assets/app-eb930336.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }
