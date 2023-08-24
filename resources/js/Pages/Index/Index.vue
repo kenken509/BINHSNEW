@@ -28,8 +28,8 @@
     
     <div class="flex justify-center">
         
-        <div class="w-[90%] lg:w-[80%] md  overflow-hidden ">
-            <WebCarouselLatest />
+        <div class=" w-[90%] lg:w-[80%]  max-h-[200px] lg:max-h-[720px]   overflow-hidden  ">
+            <WebCarousel :carouselImages="carouselImages" :loggedUser="user"/>
             <!-- <WebCarousel :loggedUser="user" :carouselImages="carouselImages" /> -->
         </div>
     </div>

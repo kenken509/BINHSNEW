@@ -1,6 +1,6 @@
 <template>
     <Swiper
-      class="border-b-2 border-t-2 cursor-grab border-gray-500 max-w-screen-lg m-auto p-4 mt-24"
+      class="border-b-2 border-t-2 cursor-grab border-gray-500 w-[100%] m-auto p-4  " 
       :modules="modules"
       :space-between="28"
       :loop="true"
@@ -12,14 +12,13 @@
       }"
     >
       <swiper-slide
-        v-for="(text, index) in swiperTextBase"
+        v-for="(carouselImage, index) in images.image"
         :key="index"
-        class="pb-14 sm:flex sm:justify-evenly"
+        class="pb-14 sm:flex sm:justify-evenly max-h-[500px] aspect-ratio-container"
       >
-        <div>
-          <h1>{{ text.author }}</h1>
-          <p>{{ text.description }}</p>
-          <img :src="text.image" alt="error" />
+      
+        <div class="">
+          <img :src="'/storage/'+carouselImage.filename" alt="error"  class="w-full h-full object-cover"/>
         </div>
       </swiper-slide>
     </Swiper>
@@ -32,6 +31,10 @@
   import 'swiper/css/pagination';
   import { ref } from 'vue';
   
+
+  const images = defineProps({
+    image:Array
+  })
   const swiperTextBase = ref([
     {
       author: 'elon musk',
@@ -56,3 +59,20 @@
   
   </script>
   
+  <style scoped>
+/* Define the aspect ratio for the container */
+.aspect-ratio-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Define the aspect ratio using padding-top */
+.aspect-ratio-content {
+  padding-top: 56.25%; /* 9 / 16 = 0.5625 (56.25%) for 16:9 aspect ratio */
+}
+
+/* Ensure the image fills the container */
+img.object-cover {
+  object-fit: cover;
+}
+</style>
