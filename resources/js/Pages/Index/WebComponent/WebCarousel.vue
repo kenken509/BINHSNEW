@@ -25,11 +25,11 @@
         <div class="relative">
           <img
             :src="'/storage/'+user.carouselImages[0].filename"
-            class=" w-[100%] max-h-[200px] lg:max-h-[720px] object-fill "
+            class=" w-[100%] max-h-[200px] md:max-h-[px] lg:max-h-[600px] object-cover "
             alt="Wild Landscape"
           />
           <!-- Text overlay for the first image -->
-          <div v-if="user.loggedUser && user.loggedUser.role === 'admin'" class="absolute  flex justify-center items-center inset-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[15%] h-[10%]  text-white z-50 ">
+          <div v-if="user.loggedUser && user.loggedUser.role === 'admin'" class="absolute  flex justify-center items-center inset-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[35%] h-[10%]  lg:w-[15%] text-white z-50 text-[10px] lg:text-[16px]">
             <label for="image-replace1" class="file-input-label bg-green-800 px-4 py-2 rounded-md cursor-pointer font-serif">
               Replace Image
             </label>
@@ -44,13 +44,13 @@
        
           <img
             :src="'/storage/'+user.carouselImages[1].filename"
-            class=" w-[100%] max-h-[200px] lg:max-h-[720px] object-fill "
+            class=" w-[100%] max-h-[200px]  lg:max-h-[600px] object-cover "
             alt="Wild Landscape"
           />
           <!-- Text overlay for the first image -->
           
         
-        <div v-if="user.loggedUser && user.loggedUser.role === 'admin'" class="absolute  flex justify-center items-center inset-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[15%] h-[10%]  text-white z-50 ">
+        <div v-if="user.loggedUser && user.loggedUser.role === 'admin'" class="absolute  flex justify-center items-center inset-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[35%] h-[10%]  md:w-[20%]  text-white z-50 text-[10px] lg:text-[16px]">
             <label for="image-replace2" class="file-input-label bg-green-800 px-4 py-2 rounded-md cursor-pointer font-serif">
               Replace Image
             </label>
@@ -64,11 +64,11 @@
         <div class="relative">
           <img
             :src="'/storage/'+user.carouselImages[2].filename"
-            class="w-[100%] max-h-[200px] lg:max-h-[720px] object-fill "
+            class="w-[100%] max-h-[200px] lg:max-h-[600px] object-cover "
             alt="Wild Landscape"
           />
           <!-- Text overlay for the first image -->
-          <div v-if="user.loggedUser && user.loggedUser.role === 'admin'" class="absolute  flex justify-center items-center inset-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[15%] h-[10%]  text-white z-50 ">
+          <div v-if="user.loggedUser && user.loggedUser.role === 'admin'" class="absolute  flex justify-center items-center inset-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[35%] h-[10%]  lg:w-[15%]  text-white z-50 text-[10px] lg:text-[16px]">
             <label for="image-replace3" class="file-input-label bg-green-800 px-4 py-2 rounded-md cursor-pointer font-serif">
               Replace Image
             </label>

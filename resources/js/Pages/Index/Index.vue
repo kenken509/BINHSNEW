@@ -28,20 +28,26 @@
     
     <div class="flex justify-center">
         
-        <div class=" w-[90%] lg:w-[80%]  max-h-[200px] lg:max-h-[720px]   overflow-hidden  ">
-            <WebCarousel :carouselImages="carouselImages" :loggedUser="user"/>
-            <!-- <WebCarousel :loggedUser="user" :carouselImages="carouselImages" /> -->
+        <div class=" w-[90%] lg:w-[80%]  max-h-[200px] md:max-h-[400px] lg:max-h-[720px]   overflow-hidden  ">
+            <!-- <WebCarouselLatest :image="carouselImages" :loggedUser="user"/> -->
+            <WebCarousel :loggedUser="user" :carouselImages="carouselImages" />
         </div>
     </div>
     
     <!--divider-->
-    <div class=" h-[40px]   shadow-md"></div>
-    
-    <div class="flex justify-center mt-4 ">
-        <div class="w-[90%] lg:w-[80%]">
-            <WebCard :cardContent="cardContent"/>
+    <div class=" h-[40px] border shadow-md "></div>
+    <div class="flex justify-center w-full">
+        <div class="flex justify-center mt-8 w-[90%] lg:w-[80%]">
+            <span class="font-serif text-[30px] lg:text-[50px] tracking-wider  text-gray-800 ">Latest News</span>
         </div>
     </div>
+    
+    <div class="flex justify-center  ">
+        <div class="w-[90%] lg:w-[80%]">
+           <IndexCard :newsPost="newsPost"/>
+        </div>
+    </div>
+    <div class=" h-[40px] border shadow-md "></div>
     <div class="flex mt-4 w-full ">
         <div class="flex justify-center items-center  overflow-hidden  ">
             <WebFooter />
@@ -52,7 +58,7 @@
 </template>
 
 <script setup>
-import WebCarouselLatest from './WebComponent/WebCarouselLatest.vue';
+import IndexCard from './IndexComponent/IndexCard.vue';
 import WebNavLayout2 from './WebComponent/WebNavLayout2.vue';
 import WebNavLayout from './WebComponent/WebNavLayout.vue';
 import { computed } from '@vue/reactivity';
@@ -67,7 +73,8 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 defineProps({
     currentUrl:String,
-    carouselImages:Array
+    carouselImages:Array,
+    newsPost:Object,
 })
 
 const cardContent = {
@@ -91,7 +98,7 @@ onMounted(()=>{
 })
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleDocumentClick);
+  document.removeEventListener('click', handleClick);
 });
 
 const replaceImage = ()=>{

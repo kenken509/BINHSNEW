@@ -14,12 +14,10 @@
       <swiper-slide
         v-for="(carouselImage, index) in images.image"
         :key="index"
-        class="pb-14 sm:flex sm:justify-evenly max-h-[500px] aspect-ratio-container"
+        class="pb-4 sm:flex sm:justify-evenly  "
       >
-      
-        <div class="">
-          <img :src="'/storage/'+carouselImage.filename" alt="error"  class="w-full h-full object-cover"/>
-        </div>
+          <img :src="'/storage/'+carouselImage.filename" alt="error"  class="w-[100%] max-h-[200px] md:max-h-[400px] lg:max-h-[600px] object-cover"/>
+        
       </swiper-slide>
     </Swiper>
   </template>

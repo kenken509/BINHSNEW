@@ -12,7 +12,7 @@
     </div>
     
     <div class="w-full flex justify-center bg-gray-200">
-        <div class="w-[95%] md:w-[90%] lg:w-[80%]  ">
+        <div class="w-[95%] md:w-[90%] lg:w-[80%] ">
             <div v-for="post in web.posts" :key="post.id" class="mt-10 mb-10 border border-gray-300 shadow-md rounded-md bg-gray-50  ">
                 <div class="flex justify-center py-2">
                     <span class="text-[40px] font-extrabold font-serif">{{ post.title }}</span>

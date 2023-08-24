@@ -17,8 +17,12 @@ class IndexController extends Controller
 {
     public function index(){
         
+        $posts = NewsPagePost::orderBy('created_at','desc')->first();
+
+        
         return inertia('Index/Index',[
             'carouselImages' => CarouselImageModel::all(),
+            'newsPost' => $posts,
         ]);
     }
     
