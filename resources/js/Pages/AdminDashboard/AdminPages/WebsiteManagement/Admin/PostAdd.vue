@@ -135,7 +135,7 @@
                             <div class="mt-8 ">
                                 <h1 class="mb-2">Installer:</h1>
                                 <label for="installerInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
-                                    Select a file... 
+                                    Select image... 
                                 </label>
                                
                                 <div v-if="installerFileName" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
