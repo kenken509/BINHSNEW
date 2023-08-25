@@ -29,7 +29,7 @@ class AdminPostController extends Controller
 
     public function showAddPost()
     {
-        return inertia('AdminDashboard/AdminPages/WebsiteManagement/Admin/PostAdd');
+        return inertia('AdminDashboard/AdminPages/WebsiteManagement/Admin/AdminPostAdd');
     }
     public function storePost(Request $request)
     {
