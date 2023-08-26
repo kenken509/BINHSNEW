@@ -98,7 +98,7 @@ class AdminPostController extends Controller
                     return redirect()->route('admin.post.all')->with('success', 'Successfully added new post on News Page!');
                 }
                 
-
+                
                 // $newAttachment              = new WebPostAttachment();
                 // $newAttachment->type        = 'Image';
                 // $newAttachment->web_post_id = $newPost->id;
