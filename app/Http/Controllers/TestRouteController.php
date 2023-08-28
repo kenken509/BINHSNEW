@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 class TestRouteController extends Controller
 {
     public function showTestRoute(){
-        return inertia('Index/TestPage');
+         
+        return view('testViews/OtpMail');
     }
 }

@@ -245,3 +245,4 @@ Route::controller(TestRouteController::class)->group(function(){
     Route::get('test/route/controller', 'showTestRoute')->name('test.show');
 });
 
+
