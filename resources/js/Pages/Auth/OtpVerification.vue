@@ -2,7 +2,7 @@
 
     <div class="flex flex-col justify-center items-center w-full h-screen p-4">
         <div class="text-green-500 mb-4">{{ $page.props.flash.message }}</div>
-        <div class="flex  items-center flex-col w-full h-[50%] lg:h-[38%] lg:w-[30%] border border-gray-400 rounded-md shadow-md p-2 lg:p-4">
+        <div class="flex  items-center flex-col w-full h-[45%] md:h-[35%] md:w-[50%] lg:h-[38%] lg:w-[30%] border border-gray-400 rounded-md shadow-md p-2 lg:p-4">
                 
                 <div class="mt-4 mb-4">
                     <span class=" lg:text-[30px] font-serif">OTP VERIFICATION</span>
