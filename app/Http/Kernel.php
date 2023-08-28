@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'verifyEmail' => \App\Http\Middleware\VerifyEmail::class,
         'isAdmin'   =>\App\Http\Middleware\isAdminMiddleware::class,
         'isSuperAdmin' =>\App\Http\Middleware\IsSuperAdmin::class,
+        'otpAttempt' => \App\Http\Middleware\OtpAttempt::class,
     ];
 }

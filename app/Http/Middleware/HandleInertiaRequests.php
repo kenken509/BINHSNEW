@@ -40,7 +40,8 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
                 'success' => fn () => $request->session()->get('success'),
-                'error'    => fn () => $request->session()->get('error')
+                'error'    => fn () => $request->session()->get('error'),
+                'attemptId' => fn () => $request->session()->get('attemptId'),
             ],
             'user' => $request->user() ? [
                 'id'    => $request->user()->id,
@@ -51,6 +52,7 @@ class HandleInertiaRequests extends Middleware
                 'image' => $request->user()->image,
                 'subject_id' => $request->user()->subject_id,
             ] : null,
+            
         ]);
     }
 }

@@ -25,6 +25,7 @@
         "@tailwindcss/typography": "^0.5.9",
         "chart.js": "^4.2.1",
         "flowbite": "^1.6.5",
+        "luxon": "^3.4.2",
         "primeflex": "^3.2.1",
         "primeicons": "^6.0.1",
         "primevue": "^3.26.1",

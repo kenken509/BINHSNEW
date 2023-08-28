@@ -28,6 +28,9 @@
                     <li class="mx-4 my-4">
                         <a :href="route('index.news')" class="text-xl hover:text-cyan-500 duration-500">News</a>
                     </li>
+                    <li class="mx-4 my-4">
+                        <a :href="route('test.show')" class="text-xl hover:text-cyan-500 duration-500">Test Route</a>
+                    </li>
                     <li class="flex items-center mx-4" @click="tleClickHandler" >
                         <a href="#" class="text-xl hover:text-cyan-500 duration-500">TLE Tracks</a>
                         <i class="pi pi-angle-down cursor-pointer" style="font-size: 2rem" ></i>

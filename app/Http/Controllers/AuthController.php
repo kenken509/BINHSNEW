@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Subject;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\OtpVerification;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
@@ -37,32 +41,32 @@ class AuthController extends Controller
         ->where('isActive','1')
         ->first();
         
-        
-        
-        $request->session()->regenerate(); // to avoid session fixation
-
-        return redirect()->intended('/')->with('success', 'Logged in successfully'); // redirect to intended page
-        
+        $mailData = [
+            'otpCode' => Str::random(6),
+        ];
 
         
-        
-        
-            
-        
-        //************************************************* */
-        // if(!$user->email_verified_at){
-        //     // send to verify-email view
-        //     return redirect()->route('verify.show');
-        // }else{
-        //     $request->session()->regenerate(); // to avoid session fixation
+        Mail::to($user->email)->send(new OtpVerification($mailData));
+        date_default_timezone_set('Asia/Manila');
 
-        //     return redirect()->intended('/'); // redirect to intended page
-        // }
-        //********************************************************* */
+        $user->otp = $mailData['otpCode'];
+        $user->expires_at = now()->addMinutes(10);
+        $user->save();
+
+        Auth::logout(); // to log out the user;
         
+        $request->session()->invalidate(); //invalidate the session
+        $request->session()->regenerateToken(); // regenerate csrf token
+
+        // $request->session()->regenerate(); // to avoid session fixation
+
+        // return redirect()->intended('/')->with('success', 'Logged in successfully'); // redirect to intended page
+
+        
+        return redirect()->route('otpVerification.show', ['id' => $user->id] )->with('message', 'Check your email for OTP code.');
         
     }
-
+    
     public function showRegistration(){
 
         $subjects = Subject::with('section')->get();
@@ -211,5 +215,68 @@ class AuthController extends Controller
         return inertia('Auth/ForgotPassword');
     }
 
-    
+    public function showOtpVerification($id)
+    {
+        $attemptingUser = User::findOrFail($id);
+        return inertia('Auth/OtpVerification',[
+            'attemptingUser' => $attemptingUser,
+        ]);
+    }
+
+    public function authOtp(Request $request)
+    {
+       
+        $otp = $request->otp;
+        $user = User::findOrFail($request->userId);
+
+        
+        if($user->expires_at && now()->lessThan($user->expires_at))
+        {
+            if($user->otp == $otp)
+            {
+                Auth::login($user);
+
+                $user->otp = null;
+                $user->expires_at = null;
+                $user->save();
+
+                $request->session()->regenerate();
+                
+                return redirect()->route('index')->with('success', 'Logged in successfully');
+            }
+            else
+            {
+                throw ValidationException::withMessages([
+                    'otp' => 'OTP does not match! Or OTP has expired',
+                ]);
+            }
+        }
+        else
+        {
+            throw ValidationException::withMessages([
+                'otp' => 'OTP does not match! Or OTP has expired',
+            ]);
+        }
+        
+        
+    }
+
+    public function resendOtp($id)
+    {
+        $user = User::findOrFail($id);
+
+        $mailData = [
+            'otpCode' => Str::random(6),
+        ];
+
+        
+        Mail::to($user->email)->send(new OtpVerification($mailData));
+        date_default_timezone_set('Asia/Manila');
+
+        $user->otp = $mailData['otpCode'];
+        $user->expires_at = now()->addMinutes(10);
+        $user->save();
+
+        return redirect()->route('otpVerification.show', ['id' => $user->id] )->with('message', 'OTP sent successfully!');
+    }
 }

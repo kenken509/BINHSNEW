@@ -60,7 +60,7 @@
 <script setup>
 import IndexCard from './IndexComponent/IndexCard.vue';
 import WebNavLayout2 from './WebComponent/WebNavLayout2.vue';
-import WebNavLayout from './WebComponent/WebNavLayout.vue';
+
 import { computed } from '@vue/reactivity';
 import {  usePage } from '@inertiajs/vue3';
 import WebHeaderLayout from './WebComponent/WebHeaderLayout.vue'

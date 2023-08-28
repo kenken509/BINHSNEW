@@ -4,16 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Mail\FirstMail;
 use Illuminate\Http\Request;
+use App\Mail\OtpVerification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OtpController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\StrandsController;
+use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\TestRouteController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\UserManagementController;
-use App\Http\Controllers\CommentsController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -93,6 +96,10 @@ Route::controller(AuthController::class)->group(function(){
     Route::get('/change-password', 'showChangePassword')->name('change.password');
     Route::post('/change-password/store', 'changePassword')->name('reset.password');
     Route::get('/forgot-password', 'showForgotPassword')->name('forgot.password');
+
+    Route::get('user/otp/verify/{id}', 'showOtpVerification')->name('otpVerification.show');
+    Route::post('user/otp/authenticate', 'authOtp')->name('otp.auth');
+    Route::get('user/otp/resend/{id}', 'resendOtp')->name('otp.resend');
     
 });
 
@@ -219,5 +226,22 @@ Route::controller(AdminPostController::class)->group(function(){
     //update routes
     Route::get('admin/edit-post/{id}/{page}', 'showEditPost')->name('editPost.show');
     Route::post('admin/edit-post/about/store', 'storeEditPost')->name('editAboutPost.store');
+});
+
+// test route for email
+Route::get('/send-otp', function(){
+    $mailData = [
+        'name' => "test data",
+        'dob'   => '12/12/22'
+    ];
+
+    Mail::to('helloworld@example.com')->send(new OtpVerification($mailData));
+    
+    dd('email sent successfully ');
+
+});
+
+Route::controller(TestRouteController::class)->group(function(){
+    Route::get('test/route/controller', 'showTestRoute')->name('test.show');
 });
 
