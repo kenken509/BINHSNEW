@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\Models\User;
 use App\Models\Section;
 use App\Models\Subject;
 use Illuminate\Http\Request;
@@ -12,10 +13,14 @@ class SectionController extends Controller
 {
     public function show(){
         
+        
+        
+       
         //dd(Section::with('subject')->latest()->get());
         //dd(Section::with(['subject', 'instructor'])->latest()->get());
         return inertia('AdminDashboard/AdminPages/SectionManagement/SectionAll', [
-            'sections' => Section::with(['subject', 'instructor'])->latest()->get(),
+            'sections' => Section::with(['subject', 'instructor', ])->latest()->get(),
+            'studentUser' => User::all(),
         ]);
     }
 

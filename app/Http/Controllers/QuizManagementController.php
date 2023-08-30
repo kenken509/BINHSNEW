@@ -27,6 +27,7 @@ class QuizManagementController extends Controller
             $insturctorSubject = Auth::user()->subject_id;
             return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Instructor/InstructorQuizAll', [
                 'quizzes' => Quiz::where('subject_id', '=', $insturctorSubject)->with(['question.choices','subject'])->withCount('question')->latest()->get(),
+                'sections' => Section::all(),
             ]);
         }
         

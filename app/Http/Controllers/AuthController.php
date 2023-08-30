@@ -64,7 +64,7 @@ class AuthController extends Controller
 
         
         return redirect()->route('otpVerification.show', ['id' => $user->id] )->with('message', 'Check your email for OTP code.');
-        
+       
     }
     
     public function showRegistration(){
@@ -235,7 +235,7 @@ class AuthController extends Controller
             if($user->otp == $otp)
             {
                 Auth::login($user);
-
+                
                 $user->otp = null;
                 $user->expires_at = null;
                 $user->save();

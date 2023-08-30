@@ -70,7 +70,7 @@
         <div class="message">
             <p>Hi,</p>
             <p>Use the following OTP to complete your Sign Up procedures. OTP is valid for 10 minutes</p>
-            <div class="otp-box">;akjksd;fk</div>
+            <div class="otp-box">{{ $mailData['otpCode'] }}</div>
             <p>Regards,<br />Bulihan Integrated High School</p>
         </div>
         <hr>
