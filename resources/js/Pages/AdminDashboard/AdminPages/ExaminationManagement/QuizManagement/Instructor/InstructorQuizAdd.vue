@@ -34,7 +34,7 @@
                                     
                                 </span>
                                 <InputError :error="form.errors.grading_period"/>
-                        </div>
+                            </div>
                         <div class="w-full mb-4 ">
                             <div class="mb-5">Duration: </div>
                                 <span class="p-float-label">

@@ -56,11 +56,11 @@
                             {{ quiz.question_count }} 
                         </td>
                         <td>
-                            <div class=" space-x-4">
+                            <div class=" flex space-x-4 ">
                                 <Link :href="route('quiz.delete', {id: quiz.id})" class="cursor-pointer" v-tooltip.left="'Delete Question'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
                                 <Link :href="route('quiz.edit', {id:quiz.id})" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
                                 <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'Preview'" @click="openModal(quiz.id)" ></span>
-                                <span class="pi pi-send cursor-pointer hover:scale-150" style="color: slateblue" v-tooltip.right="'Activate'" @click="showQuizModal(quiz.id)"></span>
+                                <span class="pi pi-send cursor-pointer hover:scale-150" style="color: slateblue" v-tooltip.left="'Send Quiz'" @click="showQuizModal(quiz.id)"></span>
                             </div>    
                         </td>
                     </tr>
@@ -103,6 +103,24 @@
                 <div>1. If the currently logged-in user is an admin, allow them to choose the section to which the quiz will be given.</div>
                 <div>2. PROVIDE A DATE INPUT THAT WILL LET THE USER CHOOSE THE START AND END DATE</div>
                 <div>3. PROVIDE A BUTTON THAT WILL ACTIVATE THE QUIZ</div>
+                
+                <div class="mb-5">Grading Period: </div>
+                <div>
+                    <Dropdown  v-model="selectedQuizSection" :options="instructorHandledSection" optionLabel="name"  placeholder="Select section" class="w-full md:w-14rem " />
+                    <!-- <InputError :error="form.errors.grading_period"/> -->
+                </div>
+                <div>
+                    startDate
+                </div>
+                <div>
+                    endDate
+                </div>
+                <div>
+                    button here
+                </div>
+                
+                
+
             </Dialog>
             <!--ACTIVATE QUIZ MODAL-->
         </div>
@@ -117,13 +135,17 @@
  
  import { usePage, Link, useForm } from '@inertiajs/vue3';
  import DashboardLayout from '../../../../Layout/DashboardLayout.vue';
- import { ref } from 'vue';
+ import { onMounted, ref } from 'vue';
+
  
  const user = usePage().props.user;
  
  const quizzes = defineProps({
     quizzes: Array,
+    sections:Array
  })
+
+
 
  const quizId = ref(null);
  const visible = ref(false);
@@ -135,9 +157,27 @@
 
 
 const activateQuizModal = ref(false);
+const selectedQuizSection = ref(null)
+const instructorHandledSection = ref([]);
+
+function sortSection(instructorSec)
+{
+    instructorSec.forEach((sec)=>{
+        if(sec.instructor_id === user.id)
+        {
+            instructorHandledSection.value.push(sec);
+        }
+        else
+        {
+            console.log('wala')
+        }
+    })
+    
+}
 
 function showQuizModal(quizId)
 {
+    console.log(quizId);
     activateQuizModal.value = !activateQuizModal.value
 }
 
@@ -147,5 +187,9 @@ const form = useForm({
     endDate: null,
     subject:user.subject_id,
     section:null,
+})
+
+onMounted(()=>{
+    sortSection(quizzes.sections);
 })
  </script>

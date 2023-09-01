@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Models\Quiz;
+use App\Models\Section;
 use App\Models\Subject;
 use App\Models\QuizChoices;
 use App\Models\QuizQuestion;
 use Illuminate\Http\Request;
-use Auth;
 
 class QuizManagementController extends Controller
 {
