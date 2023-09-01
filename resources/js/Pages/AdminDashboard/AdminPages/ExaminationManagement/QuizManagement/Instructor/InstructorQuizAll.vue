@@ -97,26 +97,39 @@
             <!--MODAL---->
 
             <!--ACTIVATE QUIZ MODAL-->
-            <Dialog v-model:visible="activateQuizModal" modal header="Activate Quiz"  :style="{ width: '60vw' }" :breakpoints="{ '960px': '75vw', '641px': '100vw' }">
+            <Dialog v-model:visible="activateQuizModal" modal header="Send Quiz"  :style="{ width: '60vw' }" :breakpoints="{ '960px': '75vw', '641px': '95vw' }">
                 <hr class="bg-gray-400 h-[2px] mb-2">
                 <div>TO DO:</div>
                 <div>1. If the currently logged-in user is an admin, allow them to choose the section to which the quiz will be given.</div>
                 <div>2. PROVIDE A DATE INPUT THAT WILL LET THE USER CHOOSE THE START AND END DATE</div>
                 <div>3. PROVIDE A BUTTON THAT WILL ACTIVATE THE QUIZ</div>
                 
-                <div class="mb-5">Grading Period: </div>
-                <div>
+                <div class="mb-4">Grading Period: </div>
+                <div class="mb-4">
                     <Dropdown  v-model="selectedQuizSection" :options="instructorHandledSection" optionLabel="name"  placeholder="Select section" class="w-full md:w-14rem " />
                     <!-- <InputError :error="form.errors.grading_period"/> -->
                 </div>
-                <div>
-                    startDate
+
+                <div class="mb-4">Start Date: </div>
+                <div class="mb-4">
+                    <span class="p-float-label">
+                        <Calendar v-model="form.startDate" id="startDate" class="w-full"  />
+                        <label for="startDate">Start date</label>                       
+                    </span>
+                    <!-- <InputError :error="form.errors.birthDate"/> -->                    
                 </div>
-                <div>
-                    endDate
+            
+                <div class="mb-4">Due Date: </div>
+                <div class="mb-4">
+                    <span class="p-float-label">
+                        <Calendar v-model="form.endDate" id="startDate" class="w-full"  />
+                        <label for="startDate">Due date</label>                       
+                    </span>
+                    <!-- <InputError :error="form.errors.birthDate"/> -->                    
                 </div>
-                <div>
-                    button here
+
+                <div class="w-full mt-6 ">
+                    <Button label="Submit" class="w-full" type="submit"/>
                 </div>
                 
                 
@@ -145,6 +158,7 @@
     sections:Array
  })
 
+ 
 
 
  const quizId = ref(null);
