@@ -167,6 +167,7 @@ Route::controller(QuizManagementController::class)->middleware(['auth','verified
     Route::delete('admin/panel/quiz/delete/{id}', 'delete')->name('quiz.delete');
     Route::get('admin/panel/quiz/edit/{id}', 'editQuiz')->name('quiz.edit');
     Route::post('admin/panel/quiz/update', 'update')->name('quiz.update');
+    Route::post('admin/panel/quiz/send', 'sendQuiz')->name('quiz.send');
 });
 
 Route::controller(SectionController::class)->middleware(['auth','verified','isAdmin'])->group(function(){

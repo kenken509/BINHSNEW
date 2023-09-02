@@ -1,6 +1,6 @@
 <template>
     <DashboardLayout :user="user" >
-        {{ user }}
+        
         <div class="border-bot-only border-gray-600 shadow-md mb-4">
             <span class="text-[20px] font-bold text-gray-500">All Questions Page</span>  
         </div>
@@ -104,34 +104,35 @@
                 <div>2. PROVIDE A DATE INPUT THAT WILL LET THE USER CHOOSE THE START AND END DATE</div>
                 <div>3. PROVIDE A BUTTON THAT WILL ACTIVATE THE QUIZ</div>
                 
-                <div class="mb-4">Grading Period: </div>
-                <div class="mb-4">
-                    <Dropdown  v-model="selectedQuizSection" :options="instructorHandledSection" optionLabel="name"  placeholder="Select section" class="w-full md:w-14rem " />
-                    <!-- <InputError :error="form.errors.grading_period"/> -->
-                </div>
+                <form @submit.prevent="submit">
+                    <div class="mb-4">Grading Period: </div>
+                    <div class="mb-4">
+                        <Dropdown  v-model="selectedQuizSection" :options="instructorHandledSection" optionLabel="name"  placeholder="Select section" class="w-full md:w-14rem " />
+                        <InputError :error="form.errors.section_id"/>
+                    </div>
 
-                <div class="mb-4">Start Date: </div>
-                <div class="mb-4">
-                    <span class="p-float-label">
-                        <Calendar v-model="form.startDate" id="startDate" class="w-full"  />
-                        <label for="startDate">Start date</label>                       
-                    </span>
-                    <!-- <InputError :error="form.errors.birthDate"/> -->                    
-                </div>
-            
-                <div class="mb-4">Due Date: </div>
-                <div class="mb-4">
-                    <span class="p-float-label">
-                        <Calendar v-model="form.endDate" id="startDate" class="w-full"  />
-                        <label for="startDate">Due date</label>                       
-                    </span>
-                    <!-- <InputError :error="form.errors.birthDate"/> -->                    
-                </div>
-
-                <div class="w-full mt-6 ">
-                    <Button label="Submit" class="w-full" type="submit"/>
-                </div>
+                    <div class="mb-4">Start Date: </div>
+                    <div class="mb-4">
+                        <span class="p-float-label">
+                            <Calendar v-model="form.startDate" id="startDate" class="w-full"  />
+                            <label for="startDate">Start date</label>                       
+                        </span>
+                        <InputError :error="form.errors.startDate"/>                    
+                    </div>
                 
+                    <div class="mb-4">Due Date: </div>
+                    <div class="mb-4">
+                        <span class="p-float-label">
+                            <Calendar v-model="form.endDate" id="startDate" class="w-full"  />
+                            <label for="startDate">Due date</label>                       
+                        </span>
+                        <InputError :error="form.errors.endDate"/>                    
+                    </div>
+
+                    <div class="w-full mt-6 ">
+                        <Button label="Submit" class="w-full" type="submit"/>
+                    </div>
+                </form>
                 
 
             </Dialog>
@@ -148,7 +149,8 @@
  
  import { usePage, Link, useForm } from '@inertiajs/vue3';
  import DashboardLayout from '../../../../Layout/DashboardLayout.vue';
- import { onMounted, ref } from 'vue';
+ import { onMounted, ref, watch } from 'vue';
+ import InputError from '../../../../../GlobalComponent/InputError.vue'
 
  
  const user = usePage().props.user;
@@ -183,27 +185,37 @@ function sortSection(instructorSec)
         }
         else
         {
-            console.log('wala')
+            
         }
     })
     
 }
 
+
 function showQuizModal(quizId)
 {
-    console.log(quizId);
+    form.quiz_id = quizId;
+    
+    // form.section = selectedQuizSection.value.id
     activateQuizModal.value = !activateQuizModal.value
+
 }
 
 const form = useForm({
-    quizId : null,
+    quiz_id : null,
     startDate: null,
     endDate: null,
-    subject:user.subject_id,
-    section:null,
+    subject_id:user.subject_id,
+    section_id:null,
 })
 
 onMounted(()=>{
     sortSection(quizzes.sections);
+})
+
+const submit = ()=> form.post(route('quiz.send'));
+
+watch(selectedQuizSection, (val)=>{
+    form.section_id = val.id;
 })
  </script>

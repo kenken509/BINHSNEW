@@ -6,9 +6,11 @@ use Auth;
 use App\Models\Quiz;
 use App\Models\Section;
 use App\Models\Subject;
+use App\Models\SentQuiz;
 use App\Models\QuizChoices;
 use App\Models\QuizQuestion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class QuizManagementController extends Controller
 {
@@ -279,5 +281,29 @@ class QuizManagementController extends Controller
         return redirect()->route('quiz.show')->with('success', 'Updated Successfully');
     }
 
+    public function sendQuiz(Request $request)
+    {
+        
+        $request->validate([
+            'section_id' => 'required',
+            'startDate' => 'required',
+            'endDate' => 'required',
+        ],[
+            'section_id' => 'The section field is required!'
+        ]);
+        // {"quiz_id":1,"startDate":"2023-09-11T16:00:00.000Z","endDate":"2023-09-19T16:00:00.000Z","subject_id":3,"section_id":5}
+
+        $activeQuiz                 = new SentQuiz();
+        $activeQuiz->quiz_id        = $request->quiz_id;
+        $activeQuiz->section_id     = $request->section_id;
+        $activeQuiz->subject_id     = $request->subject_id;
+        $activeQuiz->start_date     = Carbon::parse($request->startDate)->toDateString();
+        $activeQuiz->end_date       = Carbon::parse($request->endDate)->toDateString();
+        $activeQuiz->created_by     = Auth::user()->id;
+        $activeQuiz->save();
+
+        return redirect()->route('quiz.show')->with('success', 'Successfully sent new quiz!');
+
+    }
     
 }
