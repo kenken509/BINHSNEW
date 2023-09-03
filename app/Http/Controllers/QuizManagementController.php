@@ -305,5 +305,35 @@ class QuizManagementController extends Controller
         return redirect()->route('quiz.show')->with('success', 'Successfully sent new quiz!');
 
     }
+
+    public function showActiveQuiz()
+    {
+        $currentDate = Carbon::now(); // Get the current date
+
+        $quizzes = SentQuiz::with(['quiz' => function ($query) {
+            $query->with(['question' => function ($query) {
+                $query->inRandomOrder();
+            }]);
+        }, 'section'])->whereDate('end_date', '>=', $currentDate)->latest()->get();
+        
+        return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Instructor/InstructorActiveQuizzesAll',[
+            'quizzes' => $quizzes,
+        ]);
+    }
+
+    public function showPastDueQuiz()
+    {
+        $currentDate = Carbon::now(); // Get the current date
+
+        $quizzes = SentQuiz::with(['quiz' => function ($query) {
+            $query->with(['question' => function ($query) {
+                $query->inRandomOrder();
+            }]);
+        }, 'section'])->whereDate('end_date', '<', $currentDate)->latest()->get();
+        
+        return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Instructor/InstructorPastDueQuizzesAll',[
+            'quizzes' => $quizzes,
+        ]);
+    }
     
 }

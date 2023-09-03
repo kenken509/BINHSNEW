@@ -151,6 +151,16 @@
                       </li>
                       <li v-if="user.role === 'instructor'">
                         
+                        <a  :href="route('quiz.active')" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 "  ><span class="pi pi-list  scale-150 pr-3 text-gray-200" ></span>Active</a>
+                      
+                      </li>
+                      <li v-if="user.role === 'instructor'">
+                        
+                        <a  :href="route('quiz.pastDue')" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 "  ><span class="pi pi-list  scale-150 pr-3 text-gray-200" ></span>Past Due</a>
+                      
+                      </li>
+                      <li v-if="user.role === 'instructor'">
+                        
                         <a  :href="route('quiz.add')" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 "  ><span class="pi pi-list  scale-150 pr-3 text-gray-200" ></span>Add</a>
                       
                       </li>
