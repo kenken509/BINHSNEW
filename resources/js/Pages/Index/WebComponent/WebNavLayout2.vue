@@ -28,8 +28,8 @@
                     <li class="mx-4 my-4">
                         <a :href="route('index.news')" class="text-xl hover:text-cyan-500 duration-500">News</a>
                     </li>
-                    <li class="mx-4 my-4">
-                        <a :href="route('test.show')" class="text-xl hover:text-cyan-500 duration-500">Test Route</a>
+                    <li v-if="user.currentUser && user.currentUser.role === 'student'" class="mx-4 my-4">
+                        <a :href="route('test.quiz')" class="text-xl hover:text-cyan-500 duration-500">Test Quiz</a>
                     </li>
                     <li class="flex items-center mx-4" @click="tleClickHandler" >
                         <a href="#" class="text-xl hover:text-cyan-500 duration-500">TLE Tracks</a>

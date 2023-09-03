@@ -247,6 +247,8 @@ Route::get('/send-otp', function(){
 
 Route::controller(TestRouteController::class)->group(function(){
     Route::get('test/route/controller', 'showTestRoute')->name('test.show');
+    Route::get('test/route/take-quiz', 'showTakeQuiz')->name('test.quiz');
+    Route::get('test/quiz/active', 'showActiveQuiz')->name('quiz.active.show');
 });
 
 
