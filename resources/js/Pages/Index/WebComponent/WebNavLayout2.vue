@@ -77,7 +77,7 @@
                         <li class="mx-4 lg:mx-0 cursor-pointer " @click="accountDropDownClickHandler">
                             
                             <img :src="userImage" alt="image" class="h-14 w-14 rounded-full hide-on-table "  />
-                            <button class="lg:hidden bg-green-700 rounded-md text-gray-100 p-2">{{toUpperFirst(user.currentUser.role)}} {{ toUpperFirst(user.currentUser.fName) }}</button>
+                            <button class="lg:hidden bg-green-700 rounded-md text-gray-100 p-2">{{toUpperFirst(user.currentUser.role)}} {{ user.currentUser.fName ? toUpperFirst(user.currentUser.fName):null }}</button>
                         </li>
                         <div>
                             <div :class="accountDropDownClass" >
