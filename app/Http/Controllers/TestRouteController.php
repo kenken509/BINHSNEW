@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Quiz;
 use App\Models\User;
 use App\Models\SentQuiz;
 use Illuminate\Http\Request;
@@ -43,6 +44,21 @@ class TestRouteController extends Controller
         return inertia('Index/TestPages/StudentActiveQuiz',[
             'quizzes' => $quizzes,
             'currentUser' => $currentUser,
+        ]);
+    }
+
+    public function showBeginQuiz($id)
+    {
+        $quiz = Quiz::with(['question' => function ($query) {
+            $query->with('choices')->inRandomOrder();
+        }])->where('id', '=', $id)->first();
+
+        
+        // Paginate the questions.
+        
+
+        return inertia('Index/TestPages/StudentTakeQuiz', [
+            'quiz' => $quiz,
         ]);
     }
 }

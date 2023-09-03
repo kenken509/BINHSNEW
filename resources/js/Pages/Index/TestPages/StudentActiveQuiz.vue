@@ -27,8 +27,6 @@
                         <th  scope="col" class="px-6 py-3  ">
                             Take Quiz
                         </th>
-                        
-                        
                     </tr>
                 </thead>
                 <tbody >
@@ -47,12 +45,12 @@
                             {{ quiz.quiz.question.length }}
                         </td>     
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
-                           {{ quiz.quiz.duration }} mins
+                           {{ quiz.quiz.duration }} mins 
                         </td> 
                              
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                             <div  class=" space-x-4 px-2">
-                                <Link href="#" class="cursor-pointer" v-tooltip.left="'Take Quiz'" as="button" method="delete" ><span class="pi pi-check text-green-700 scale-110 hover:dark:scale-150 mx-2"></span></Link>
+                                <Link :href="route('quiz.begin',{id:quiz.quiz.id})" class="cursor-pointer" v-tooltip.left="'Take Quiz'"   ><span class="pi pi-check text-green-700 scale-110 hover:dark:scale-150 mx-2"></span></Link>
                             </div>    
                         </td>
                     </tr>
