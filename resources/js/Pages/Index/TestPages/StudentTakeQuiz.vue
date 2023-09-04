@@ -32,7 +32,7 @@
         
         
         <div class="flex justify-between border-t-2 border-gray-600 mt-2 py-2">
-            <div class="flex items-center gap-2 cursor-pointer" @click="handleBackClick">
+            <div class="flex items-center gap-2 cursor-pointer" @click="handleBackClick(quiz.quiz.question[quizNumber-1].id)">
                 <i class="pi pi-angle-double-left" style="font-size: 2rem"></i>
                 <span>back</span> 
             </div>
@@ -75,6 +75,21 @@ const quizNumber = ref(0);
 const handleNextClick = (id)=>
 {
     
+    let exists = false;
+    console.log(userPreAnwers.value.length)
+
+    for(let i = 0; i < userPreAnwers.value.length; i++ )
+    {
+        if (userPreAnwers.value[i].questionId === id) 
+        {
+            exists = true;
+            break;
+        }
+    }
+    
+
+     
+    console.log(exists);
     if(quizNumber.value+1 < quiz.quiz.question.length )
     {
         quizNumber.value = quizNumber.value+1
@@ -92,14 +107,24 @@ const handleNextClick = (id)=>
     })
 
     selectedAnswer.value = null;
+    
+    
 }
 
-const handleBackClick = ()=>
+const handleBackClick = (id)=>
 {
     if(quizNumber.value+1 > 1)
     {
         quizNumber.value = quizNumber.value-1
+
+        userPreAnwers.value.forEach((answer)=>{
+            if(answer.questionId === id)
+            {
+                selectedAnswer.value = answer.userSelectedAnswer
+            }
+        })
     }
+    
 }
 
 onMounted(()=>{
@@ -111,13 +136,12 @@ function userAnswer(id)
   quizQuestions.value.forEach((question)=>{
      if(question.id === id)
      {
-        
         if(question.correct_answer === selectedAnswer.value)
         {
-            console.log('tama ang sagot');
+            // console.log('tama ang sagot');
         }
         else{
-            console.log('mali ang sagot');
+            // console.log('mali ang sagot');
             // console.log('user select:'+ selectedAnswer.value)
             // console.log('correct answer:'+ question.correct_answer)
         }
