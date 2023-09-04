@@ -10,7 +10,7 @@
                     Question {{ quizNumber+1 }} of {{ questionLength }}
                 </span>
             </div>
-            {{ userPreAnswers }}
+            
             <div class="">
                 <span class="font-serif text-[18px] font-bold">
                     {{ quizNumber+1 }}. {{ quiz.quiz.question[quizNumber].question }}
@@ -85,7 +85,6 @@ const quizNumber = ref(0); // index number of quizQuestions
 const handleNextClick = (id)=>
 {
     
-    
     let exists = false;
    
 
@@ -137,6 +136,14 @@ const handleNextClick = (id)=>
         quizNumber.value = quizNumber.value+1
     }
     
+    if(userPreAnswers.value.length > quizNumber.value)
+    {
+        selectedAnswer.value = userPreAnswers.value[quizNumber.value].userSelectedAnswer
+    }
+    else
+    {
+        selectedAnswer.value = null;
+    }
     
     
 }
