@@ -61,4 +61,9 @@ class TestRouteController extends Controller
             'quiz' => $quiz,
         ]);
     }
+
+    public function submitQuizResult(Request $request)
+    {
+        dd($request);
+    }
 }

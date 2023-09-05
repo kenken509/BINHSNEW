@@ -3,9 +3,10 @@
     <StudentDashboardLayout >
         <div class="flex justify-between items-center border-b-2 border-b-gray-600 mb-4">
             <span class="text-[20px] font-bold text-gray-500 ">Quiz Page</span>
-            <span >Quiz will end in {{ quizDuration }} sec {{ remainingSeconds }}</span>
+            <span >Quiz will end in {{ quizDuration }} min(s) and  {{ remainingSeconds }} sec(s)</span>
         </div>
-       
+
+      
            
         {{ timeUp }}
         
@@ -24,7 +25,7 @@
             <div class=" ml-6 gap-5">
                 <label>
                     <input type="radio" :value="quiz.quiz.question[quizNumber].choices.option_a" v-model="selectedAnswer" @change="selectAnswer" class="mr-2" @input="userAnswer(quiz.quiz.question[quizNumber].id)" />
-                    {{ quiz.quiz.question[quizNumber].choices.option_a }} {{ quiz.quiz.question[quizNumber].id }}
+                    {{ quiz.quiz.question[quizNumber].choices.option_a }} 
                 </label>
             </div>
             <div class="ml-6">
@@ -40,7 +41,18 @@
                 {{ quiz.quiz.question[quizNumber].choices.option_d}}
             </div>
         </div>
-       
+        
+        <div v-if="finishQuiz">
+            <div class="w-full flex justify-center">
+                <span v-if="!displayResult" class="text-[30px]">
+                    End of Quiz
+                </span>
+                <div v-else class="flex flex-col justify-center text-center">
+                  <span class="text-[30px]">You got  {{ studentScore }} correct answer over {{ questionLength }}</span> 
+                  <span class="text-[30px]" >Your grade is: {{ computedGrade }}%</span>
+                </div>
+            </div>
+        </div>
        
         
         <div class="flex justify-between border-t-2 border-gray-600 mt-2 py-2">
@@ -51,7 +63,7 @@
             <!-- <div v-if="quizNumber+1 === quiz.quiz.question.length" class="mr-4 cursor-pointer">
                 submit
             </div> -->
-            <div v-if="finishQuiz" > Submit Quiz</div>
+            <div v-if="finishQuiz" ><Button type="button" label="Submit" @click="handleSubmitQuiz"/></div>
             <div v-else  class="flex items-center gap-2 cursor-pointer " @click="handleNextClick(quiz.quiz.question[quizNumber].id)" >
                 next 
                 <i class="pi pi-angle-double-right" style="font-size: 2rem"></i>
@@ -66,7 +78,7 @@
 </template>
 
 <script setup>
-import { usePage } from '@inertiajs/vue3';
+import { usePage,useForm } from '@inertiajs/vue3';
 import StudentDashboardLayout from '../TestPages/StudentDashboard/StudentDashboardLayout.vue'
 import { Link } from '@inertiajs/vue3'
 import {ref, onMounted, watch,computed} from 'vue'
@@ -80,6 +92,7 @@ const finishQuiz = ref(false);
 const questionLength = quiz.quiz.question.length
 const user = usePage().props.user
 const quizQuestions = ref();
+
 
 const quiz = defineProps({
     quiz:Object,
@@ -139,7 +152,7 @@ const handleNextClick = (id)=>
     else
     {
         finishQuiz.value = !finishQuiz.value
-        quizNumber.value = quizNumber.value+1
+        quizNumber.value = quizNumber.value+1   //dto nagtapos
     }
     
     if(userPreAnswers.value.length > quizNumber.value)
@@ -265,4 +278,41 @@ const timeUp = computed (()=>{
         console.log('submit the quiz result')
     }
 })
+const studentScore = ref(0)
+const quizGrade = ref(0);
+const computedGrade = ref(0);
+const displayResult = ref(false);
+const handleSubmitQuiz = ()=>{
+
+    displayResult.value = true;
+    userPreAnswers.value.forEach((answer)=>{
+        if(answer.userSelectedAnswer === answer.correct_answer)
+        {
+            studentScore.value = studentScore.value+1
+        }
+    })
+
+    quizGrade.value = (studentScore.value / questionLength) * 100
+    computedGrade.value = quizGrade.value.toFixed(2);   
+
+    form.studentScore = studentScore.value;
+    form.quizGrade = computedGrade.value;
+
+    //remove stored timer
+    localStorage.removeItem('remainingSeconds')
+    localStorage.removeItem('quizDuration')
+    clearInterval(intervalId);
+
+    form.post(route('quiz.submit'));
+}
+
+const form = useForm({
+    studentId:user.id,
+    quizId:quiz.quiz.id,
+    gradingPeriod:quiz.quiz.grading_period,
+    studentScore:null,
+    quizGrade:null,
+})
+
+
 </script>
