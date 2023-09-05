@@ -252,6 +252,7 @@ Route::controller(TestRouteController::class)->group(function(){
     Route::get('test/quiz/begin/{id}', 'showBeginQuiz')->name('quiz.begin');
 
     Route::post('test/quiz/submit', 'submitQuizResult')->name('quiz.submit');
+    Route::get('test/quiz/results', 'showQuizResults')->name('quiz.result');
 });
 
 

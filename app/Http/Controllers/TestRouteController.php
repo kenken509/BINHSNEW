@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\SentQuiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Models\StudentQuizResult;
 use Illuminate\Support\Facades\Auth;
 
 class TestRouteController extends Controller
@@ -64,6 +65,25 @@ class TestRouteController extends Controller
 
     public function submitQuizResult(Request $request)
     {
-        dd($request);
+       
+
+        $quizResults = new StudentQuizResult();
+
+        $quizResults->student_id        = $request->studentId;
+        $quizResults->quiz_id           = $request->quizId;
+        $quizResults->grading_period    = $request->gradingPeriod;
+        $quizResults->quiz_score        = $request->studentScore;
+        $quizResults->quiz_grade        = $request->quizGrade;
+        $quizResults->save();
+
+        return redirect()->route('quiz.result')->with('success', 'Quiz Submitted Successfully!');
+    }
+
+    public function showQuizResults()
+    {
+        $studentQuizzes = StudentQuizResult::latest()->get();
+        return inertia('Index/TestPages/StudentQuizResult',[
+            'quizResults' => $studentQuizzes,
+        ]);
     }
 }

@@ -246,6 +246,13 @@ function updateDurationTime() {
   {
     intervalId = setInterval(() => 
     {
+        if(quizDuration.value === 1)
+        {
+            quizDuration.value = quizDuration.value-1
+            localStorage.setItem('quizDuration', quizDuration.value);
+
+        }
+
         remainingSeconds.value = remainingSeconds.value - 1;
         localStorage.setItem('remainingSeconds', remainingSeconds.value);
 
@@ -267,6 +274,10 @@ function updateDurationTime() {
                 remainingSeconds.value = localStorage.getItem('remainingSeconds');
             }
         }
+
+        
+
+        
     }, 1000);
   }
 }
@@ -274,8 +285,7 @@ function updateDurationTime() {
 const timeUp = computed (()=>{
     if(quizDuration.value === 0 && remainingSeconds.value === 0)
     {
-        
-        console.log('submit the quiz result')
+        handleSubmitQuiz()
     }
 })
 const studentScore = ref(0)
