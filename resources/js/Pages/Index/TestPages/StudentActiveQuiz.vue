@@ -105,11 +105,11 @@
                     </template>
                 </Dialog>
             </div> -->
-            
+            {{ quizzesId }} filtered {{ filteredQuizzes }}
         </div>
         
         <div class="border-t-4 border-black mt-2">
-            {{ quiz.quizzes }}
+            {{ quiz.studentFinishedQuizzes }} aries {{ quiz.quizzes }} 
         </div>
     </StudentDashboardLayout>
       
@@ -123,7 +123,7 @@
 import { usePage } from '@inertiajs/vue3';
 import StudentDashboardLayout from '../TestPages/StudentDashboard/StudentDashboardLayout.vue'
 import { Link } from '@inertiajs/vue3'
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, computed} from 'vue'
 
 const appUrl = '/storage/'
 const defaultImage = 'Images/default.png';
@@ -132,9 +132,14 @@ const user = usePage().props.user
 const quiz = defineProps({
     quizzes:Array,
     currentUser:Object,
+    studentFinishedQuizzes:Array,
 })
 
+const quizzesId = quiz.studentFinishedQuizzes.map((item)=> item.quiz_id);
+const filteredQuizzes = quiz.quizzes.filter(item => quizzesId.includes(item.quiz_id));
 
-
-
+onMounted(()=>{
+    studentActiveQuizzes
+    console.log(studQuiz.value)
+})
 </script>

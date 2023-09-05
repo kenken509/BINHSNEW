@@ -35,6 +35,7 @@ class TestRouteController extends Controller
         $userSection = $currentUser['section']['id'];
         
         $currentDate = Carbon::now(); // Get the current date
+        $studentFinishedQuizzes = StudentQuizResult::all();
 
         $quizzes = SentQuiz::with(['quiz' => function ($query) {
             $query->with(['question' => function ($query) {
@@ -43,8 +44,9 @@ class TestRouteController extends Controller
         }, 'section'])->whereDate('end_date', '>=', $currentDate)->where('section_id', '=', $userSection)->latest()->get();
         
         return inertia('Index/TestPages/StudentActiveQuiz',[
-            'quizzes' => $quizzes,
-            'currentUser' => $currentUser,
+            'quizzes'                   => $quizzes,
+            'currentUser'               => $currentUser,
+            'studentFinishedQuizzes'    => $studentFinishedQuizzes,
         ]);
     }
 
@@ -74,6 +76,7 @@ class TestRouteController extends Controller
         $quizResults->grading_period    = $request->gradingPeriod;
         $quizResults->quiz_score        = $request->studentScore;
         $quizResults->quiz_grade        = $request->quizGrade;
+        $quizResults->status            = $request->status;
         $quizResults->save();
 
         return redirect()->route('quiz.result')->with('success', 'Quiz Submitted Successfully!');

@@ -322,6 +322,7 @@ const form = useForm({
     gradingPeriod:quiz.quiz.grading_period,
     studentScore:null,
     quizGrade:null,
+    status:'done',
 })
 
 

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('grading_period');
             $table->integer('quiz_score');
             $table->string('quiz_grade'); 
+            $table->enum('status',['done','lapse']);
             $table->timestamps();
 
             $table->foreign('student_id')->references('id')->on('users')->onDelete('restrict');

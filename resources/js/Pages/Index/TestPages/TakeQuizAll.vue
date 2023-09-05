@@ -23,6 +23,7 @@ const defaultImage = 'Images/default.png';
 const user = usePage().props.user
 const quiz = defineProps({
     quizzes:Array,
+    
 })
 
 </script>
