@@ -30,7 +30,7 @@
                     </tr>
                 </thead>
                 <tbody >
-                    <tr v-for="quiz in quiz.quizzes" :key="quiz.id" class="bg-white border-b ">
+                    <tr v-for="quiz in filteredQuizzes" :key="quiz.id" class="bg-white border-b ">
                         
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                             {{ quiz.quiz.title }}
@@ -105,18 +105,13 @@
                     </template>
                 </Dialog>
             </div> -->
-            {{ quizzesId }} filtered {{ filteredQuizzes }}
+            
         </div>
         
-        <div class="border-t-4 border-black mt-2">
+        <!-- <div class="border-t-4 border-black mt-2">
             {{ quiz.studentFinishedQuizzes }} aries {{ quiz.quizzes }} 
-        </div>
+        </div> -->
     </StudentDashboardLayout>
-      
-    
-    
-       
-      
 </template>
 
 <script setup>
@@ -136,10 +131,7 @@ const quiz = defineProps({
 })
 
 const quizzesId = quiz.studentFinishedQuizzes.map((item)=> item.quiz_id);
-const filteredQuizzes = quiz.quizzes.filter(item => quizzesId.includes(item.quiz_id));
+const filteredQuizzes = quiz.quizzes.filter(item => !quizzesId.includes(item.quiz_id));
 
-onMounted(()=>{
-    studentActiveQuizzes
-    console.log(studQuiz.value)
-})
+
 </script>

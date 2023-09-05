@@ -84,7 +84,7 @@ class TestRouteController extends Controller
 
     public function showQuizResults()
     {
-        $studentQuizzes = StudentQuizResult::latest()->get();
+        $studentQuizzes = StudentQuizResult::with('quiz')->latest()->get();
         return inertia('Index/TestPages/StudentQuizResult',[
             'quizResults' => $studentQuizzes,
         ]);
