@@ -1,9 +1,14 @@
 <template>
     
     <StudentDashboardLayout >
-        <div class="col-span-6 md:col-span-5 border-b-2 border-b-gray-600 mb-4">
+        <div class="flex justify-between items-center border-b-2 border-b-gray-600 mb-4">
             <span class="text-[20px] font-bold text-gray-500 ">Quiz Page</span>
+            <span >Quiz will end in {{ quizDuration }} sec {{ remainingSeconds }}</span>
         </div>
+       
+           
+        {{ timeUp }}
+        
         <div v-if="!finishQuiz">
             <div class="flex items-center justify-center w-full ">
                 <span class=" font-bold text-[18px]">
@@ -64,7 +69,7 @@
 import { usePage } from '@inertiajs/vue3';
 import StudentDashboardLayout from '../TestPages/StudentDashboard/StudentDashboardLayout.vue'
 import { Link } from '@inertiajs/vue3'
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, watch,computed} from 'vue'
 import Pagination from '../../AdminDashboard/AdminComponents/Pagination.vue'
 
 const appUrl = '/storage/'
@@ -75,6 +80,7 @@ const finishQuiz = ref(false);
 const questionLength = quiz.quiz.question.length
 const user = usePage().props.user
 const quizQuestions = ref();
+
 const quiz = defineProps({
     quiz:Object,
     
@@ -165,8 +171,37 @@ const handleBackClick = (id)=>
     
 }
 
+// Function to update the stored values in localStorage
+function updateStoredValues() {
+  localStorage.setItem('quizDuration', quiz.quiz.duration); //
+  localStorage.setItem('remainingSeconds',60); //60
+}
+
+// Function to delete stored values in localStorage
+function clearStoredValues() {
+  localStorage.removeItem('quizDuration');
+  localStorage.removeItem('remainingSeconds');
+}
 onMounted(()=>{
     quizQuestions.value = quiz.quiz.question
+    const storedQuizDuration = localStorage.getItem('quizDuration');
+    const storedRemainingSeconds = localStorage.getItem('remainingSeconds');
+
+    if (storedQuizDuration && storedRemainingSeconds) {
+        // Use the stored values if they exist
+        quizDuration.value = parseInt(storedQuizDuration);
+        remainingSeconds.value = parseInt(storedRemainingSeconds);
+    }
+    else
+    {
+        console.log('wala pa')
+        updateStoredValues();
+        quizDuration.value = parseInt(localStorage.getItem('quizDuration'));
+        remainingSeconds.value = parseInt(localStorage.getItem('remainingSeconds'));
+    }
+    
+    // Start the timer
+    updateDurationTime()
 })
 
 function userAnswer(id)
@@ -186,4 +221,48 @@ function userAnswer(id)
      }
   })
 }
+
+const quizDuration = ref(null); 
+const remainingSeconds = ref(null);
+let intervalId;
+
+
+
+function updateDurationTime() {
+  if (remainingSeconds.value >= 0) 
+  {
+    intervalId = setInterval(() => 
+    {
+        remainingSeconds.value = remainingSeconds.value - 1;
+        localStorage.setItem('remainingSeconds', remainingSeconds.value);
+
+        if (remainingSeconds.value < 0) 
+        {
+            clearInterval(intervalId); // Clear the interval when remainingSeconds reaches 0 or less
+            remainingSeconds.value = 59;
+            localStorage.setItem('remainingSeconds', 59);
+            updateDurationTime();
+            if(quizDuration.value > 0)
+            {
+                quizDuration.value = quizDuration.value-1
+                localStorage.setItem('quizDuration', quizDuration.value);
+            }
+            else
+            {
+                clearInterval(intervalId);
+                localStorage.setItem('remainingSeconds', 0);
+                remainingSeconds.value = localStorage.getItem('remainingSeconds');
+            }
+        }
+    }, 1000);
+  }
+}
+
+const timeUp = computed (()=>{
+    if(quizDuration.value === 0 && remainingSeconds.value === 0)
+    {
+        
+        console.log('submit the quiz result')
+    }
+})
 </script>
