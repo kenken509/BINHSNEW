@@ -315,9 +315,12 @@ class QuizManagementController extends Controller
         {
             $studentQuiz = new StudentActiveQuiz();
 
-            $studentQuiz->student_id = $student->id;
-            $studentQuiz->quiz_id    = $request->quiz_id;
-            $studentQuiz->grading_period = $thisQuiz->grading_period;
+            $studentQuiz->sent_quizzes_id   = $activeQuiz->id;
+            $studentQuiz->student_id        = $student->id;
+            $studentQuiz->quiz_id           = $request->quiz_id;
+            $studentQuiz->grading_period    = $thisQuiz->grading_period;
+            $studentQuiz->start_date        = Carbon::parse($request->startDate)->toDateString();
+            $studentQuiz->end_date          = Carbon::parse($request->endDate)->toDateString();
             $studentQuiz->save();
         };
         

@@ -13,16 +13,20 @@ return new class extends Migration
     {
         Schema::create('student_active_quizzes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('sent_quizzes_id');
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('quiz_id');
             $table->string('grading_period');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->integer('quiz_score')->nullable();
             $table->string('quiz_grade')->nullable(); 
             $table->enum('status',['done','lapse','pending'])->default('pending');
             $table->timestamps();
 
             $table->foreign('student_id')->references('id')->on('users')->onDelete('restrict');
-            $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('restrict');
+            $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('sent_quizzes_id')->references('id')->on('sent_quizzes')->onDelete('restrict')->onUpdate('restrict');
         });
     }
 

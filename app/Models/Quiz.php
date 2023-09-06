@@ -18,4 +18,9 @@ class Quiz extends Model
     public function subject(){
         return $this->belongsTo(Subject::class, 'subject_id', 'id');
     }
+
+    public function activeQuiz()
+    {
+        return $this->hasMany(StudentActiveQuiz::class, 'quiz_id', 'id');
+    }
 }

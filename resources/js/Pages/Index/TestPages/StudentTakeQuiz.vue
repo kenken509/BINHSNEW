@@ -96,7 +96,7 @@ const quizQuestions = ref();
 
 const quiz = defineProps({
     quiz:Object,
-    
+    studentActiveQuizId:Number,
 })
 
 const quizNumber = ref(0); // index number of quizQuestions
@@ -313,10 +313,11 @@ const handleSubmitQuiz = ()=>{
     localStorage.removeItem('quizDuration')
     clearInterval(intervalId);
 
-    form.post(route('quiz.submit'));
+     form.post(route('quiz.submit'));
 }
 
 const form = useForm({
+    studentActiveQuizId:quiz.studentActiveQuizId,
     studentId:user.id,
     quizId:quiz.quiz.id,
     gradingPeriod:quiz.quiz.grading_period,
