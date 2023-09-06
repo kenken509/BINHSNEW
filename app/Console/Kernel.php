@@ -15,7 +15,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            \Illuminate\Support\Facades\Log::info('this is my new scheduled task that will run every 5 minutes:' . now());
+        })->everyMinute();
         
     }
 
