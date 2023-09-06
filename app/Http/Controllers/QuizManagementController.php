@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Models\Quiz;
+use App\Models\User;
 use App\Models\Section;
 use App\Models\Subject;
 use App\Models\SentQuiz;
@@ -11,6 +12,7 @@ use App\Models\QuizChoices;
 use App\Models\QuizQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Models\StudentActiveQuiz;
 
 class QuizManagementController extends Controller
 {
@@ -284,6 +286,8 @@ class QuizManagementController extends Controller
     public function sendQuiz(Request $request)
     {
         
+
+        
         $request->validate([
             'section_id' => 'required',
             'startDate' => 'required',
@@ -292,6 +296,9 @@ class QuizManagementController extends Controller
             'section_id' => 'The section field is required!'
         ]);
         // {"quiz_id":1,"startDate":"2023-09-11T16:00:00.000Z","endDate":"2023-09-19T16:00:00.000Z","subject_id":3,"section_id":5}
+        $sectionStudents = User::where('role','=','student')->where('section_id','=',$request->section_id)->get();
+        $thisQuiz = Quiz::find($request->quiz_id);
+        
 
         $activeQuiz                 = new SentQuiz();
         $activeQuiz->quiz_id        = $request->quiz_id;
@@ -302,6 +309,18 @@ class QuizManagementController extends Controller
         $activeQuiz->created_by     = Auth::user()->id;
         $activeQuiz->save();
 
+        
+
+        foreach($sectionStudents as $student)
+        {
+            $studentQuiz = new StudentActiveQuiz();
+
+            $studentQuiz->student_id = $student->id;
+            $studentQuiz->quiz_id    = $request->quiz_id;
+            $studentQuiz->grading_period = $thisQuiz->grading_period;
+            $studentQuiz->save();
+        };
+        
         return redirect()->route('quiz.show')->with('success', 'Successfully sent new quiz!');
 
     }
