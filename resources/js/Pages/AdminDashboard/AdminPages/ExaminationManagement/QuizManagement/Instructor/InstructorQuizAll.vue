@@ -4,6 +4,7 @@
         <div class="border-bot-only border-gray-600 shadow-md mb-4">
             <span class="text-[20px] font-bold text-gray-500">All Questions Page</span>  
         </div>
+        
         <div v-if="$page.props.flash.success" class="bg-green-300 mb-2 p-1 rounded-md text-gray-600">{{ $page.props.flash.success  }} </div>
         <div class=" overflow-x-auto shadow-md sm:rounded-lg">
             <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -69,7 +70,9 @@
             </table>
             <!--MODAL-->
             <Dialog v-model:visible="visible" modal header="Question Info"  :style="{ width: '50vw' }" :breakpoints="{ '960px': '75vw', '641px': '100vw' }">
+                
                 <div v-for="quiz in quizzes.quizzes" :key="quiz.id">
+
                     <div v-if="quiz.id === quizId"> 
                     <div><span class="text-xl">Title : {{ quiz.title }}</span></div> 
                     <div><span class="text-xl">Subject : {{ quiz.subject.name }}</span></div> 
@@ -103,7 +106,7 @@
                 <div>1. If the currently logged-in user is an admin, allow them to choose the section to which the quiz will be given.</div>
                 <div>2. PROVIDE A DATE INPUT THAT WILL LET THE USER CHOOSE THE START AND END DATE</div>
                 <div>3. PROVIDE A BUTTON THAT WILL ACTIVATE THE QUIZ</div>
-                
+                {{ instructorSectionsWithoutQuiz }} {{ instructorHandledSection }}
                 <form @submit.prevent="submit">
                     <div class="mb-4">Grading Period: </div>
                     <div class="mb-4">
@@ -157,7 +160,8 @@
  
  const quizzes = defineProps({
     quizzes: Array,
-    sections:Array
+    sections:Array,
+    sentQuiz:Array,
  })
 
  
@@ -175,7 +179,7 @@
 const activateQuizModal = ref(false);
 const selectedQuizSection = ref(null)
 const instructorHandledSection = ref([]);
-
+// const filteredSection = ([]);
 function sortSection(instructorSec)
 {
     instructorSec.forEach((sec)=>{
@@ -190,6 +194,9 @@ function sortSection(instructorSec)
     })
     
 }
+
+// Get instructorHandledSection that haven't received any quiz
+const instructorSectionsWithoutQuiz = ref([]) 
 
 
 function showQuizModal(quizId)
@@ -211,6 +218,14 @@ const form = useForm({
 
 onMounted(()=>{
     sortSection(quizzes.sections);
+    
+    instructorSectionsWithoutQuiz.value = instructorHandledSection.value.filter((section)=> {
+        const sectionId = section.id
+
+        //kailangan dto ay ung selected quiz!!! pahinga muna ko dto sabog utak!
+        return !quizzes.sentQuiz.some((quizItem) => quizItem.section_id === sectionId);
+    })
+    console.log(instructorSectionsWithoutQuiz.value);
 })
 
 const submit = ()=> form.post(route('quiz.send'));

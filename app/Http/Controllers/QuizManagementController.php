@@ -30,9 +30,13 @@ class QuizManagementController extends Controller
         if($loggedUser == 'instructor')
         {
             $insturctorSubject = Auth::user()->subject_id;
+            $sentQuiz = SentQuiz::all();
+
+            
             return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Instructor/InstructorQuizAll', [
                 'quizzes' => Quiz::where('subject_id', '=', $insturctorSubject)->with(['question.choices','subject'])->withCount('question')->latest()->get(),
                 'sections' => Section::all(),
+                'sentQuiz'  => $sentQuiz,
             ]);
         }
         
