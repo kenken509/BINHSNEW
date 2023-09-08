@@ -13,6 +13,8 @@ use App\Models\QuizQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\StudentActiveQuiz;
+use App\Rules\StartDateBeforeEndDate;
+use Illuminate\Validation\ValidationException;
 
 class QuizManagementController extends Controller
 {
@@ -289,17 +291,29 @@ class QuizManagementController extends Controller
 
     public function sendQuiz(Request $request)
     {
+        //dd(now());
+        if(($request->startDate > $request->endDate))
+        {
+            throw ValidationException::withMessages([
+                'startDate' => 'Start date should not come before end date!',
+            ]);
+        }
         
+        if(Carbon::parse($request->startDate) < now()->startOfDay())
+        {
+            throw ValidationException::withMessages([
+                'startDate' => 'Start Date should be at least today!',
+            ]);
+        }
 
-        
         $request->validate([
             'section_id' => 'required',
-            'startDate' => 'required',
-            'endDate' => 'required',
+            'startDate' => 'required|date',
+            'endDate' => 'required|date|after_or_equal:start_date',
         ],[
             'section_id' => 'The section field is required!'
         ]);
-        // {"quiz_id":1,"startDate":"2023-09-11T16:00:00.000Z","endDate":"2023-09-19T16:00:00.000Z","subject_id":3,"section_id":5}
+        
         $sectionStudents = User::where('role','=','student')->where('section_id','=',$request->section_id)->get();
         $thisQuiz = Quiz::find($request->quiz_id);
         
@@ -363,6 +377,23 @@ class QuizManagementController extends Controller
         ]);
     }
     
+    public function deleteSentQuiz($id)
+    {
+        
+        $quiz = SentQuiz::findOrFail($id);
 
+        $quiz->delete();
+
+        return redirect()->route('quiz.active')->with('success', 'Successfully deleted sent quiz!');
+    }
+
+    public function showUpdateSentQuiz($id)
+    {
+        $sentQuiz = SentQuiz::findOrFail($id);
+        
+        
+
+
+    }
     
 }

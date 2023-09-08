@@ -25,8 +25,8 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('student_id')->references('id')->on('users')->onDelete('restrict');
-            $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('restrict')->onUpdate('restrict');
-            $table->foreign('sent_quizzes_id')->references('id')->on('sent_quizzes')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('sent_quizzes_id')->references('id')->on('sent_quizzes')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

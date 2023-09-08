@@ -6,6 +6,7 @@
         </div>
         
         <div v-if="$page.props.flash.success" class="bg-green-300 mb-2 p-1 rounded-md text-gray-600">{{ $page.props.flash.success  }} </div>
+        
         <div class=" overflow-x-auto shadow-md sm:rounded-lg">
             <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                
@@ -112,19 +113,14 @@
 
                     <div class="mb-4 text-[18px] font-bold text-gray-600">Start Date: </div>
                     <div class="mb-4">
-                        <span class="p-float-label">
-                            <Calendar v-model="form.startDate" id="startDate" class="w-full"  />
-                            <label for="startDate">Start date</label>                       
-                        </span>
+                        <!-- <Calendar v-model="form.startDate" id="startDate" class="w-full"  /> -->
+                        <input class="w-full" type="date" id="start" name="trip-start" v-model="form.startDate"   />
                         <InputError :error="form.errors.startDate"/>                    
                     </div>
                 
                     <div class="mb-4 text-[18px] font-bold text-gray-600">Due Date: </div>
                     <div class="mb-4">
-                        <span class="p-float-label">
-                            <Calendar v-model="form.endDate" id="startDate" class="w-full"  />
-                            <label for="startDate">Due date</label>                       
-                        </span>
+                        <input class="w-full" type="date" id="end" name="trip-end" v-model="form.endDate"   />
                         <InputError :error="form.errors.endDate"/>                    
                     </div>
 
@@ -132,14 +128,10 @@
                         <Button label="Submit" class="w-full" type="submit"/>
                     </div>
                 </form>
-                
-
             </Dialog>
             <!--ACTIVATE QUIZ MODAL-->
         </div>
         
-
-
         
     </DashboardLayout>
  </template>
@@ -212,8 +204,8 @@ function showQuizModal(quizId)
 
 const form = useForm({
     quiz_id : null,
-    startDate: null,
-    endDate: null,
+    startDate:null, // Set to the current date in ISO format
+    endDate:null, // Set to the current date in ISO format
     subject_id:user.subject_id,
     section_id:null,
 })
@@ -221,15 +213,41 @@ const form = useForm({
 onMounted(()=>{
     sortSection(quizzes.sections);
     
+    // Set the time portion to midnight for both start and end dates
+    // form.startDate.setHours(0, 0, 0, 0);
+    // form.endDate.setHours(0, 0, 0, 0);
+
+    // Calculate the minimum date as today's date in the YYYY-MM-DD format
+    const today = new Date();
+    const minDate = today.toISOString().split('T')[0]; 
    
 })
 
-const submit = ()=> {
-    form.post(route('quiz.send'))
-    activateQuizModal.value = !activateQuizModal.value
+// const submit = ()=> {
+//     form.post(route('quiz.send'))
+//     activateQuizModal.value = !activateQuizModal.value
+
+    
+// };
+
+const submit = async () => {
+    try {
+        const response = await form.post(route('quiz.send'));
+
+        if(response)
+        {
+            activateQuizModal.value = !activateQuizModal.value
+        }
+        
+    } catch (error) {
+        // Handle any other errors that may occur during the form submission
+        console.error('An error occurred during the form submission:', error);
+    }
 };
 
 watch(selectedQuizSection, (val)=>{
     form.section_id = val.id;
 })
+
+
  </script>

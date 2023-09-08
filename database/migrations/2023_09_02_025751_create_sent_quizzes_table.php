@@ -24,10 +24,10 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade');
-            $table->foreign('section_id')->references('id')->on('sections')->onDelete('restrict');
-            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('restrict');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('restrict');
-            $table->foreign('updated_by')->references('id')->on('sections')->onDelete('restrict');
+            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('updated_by')->references('id')->on('sections')->onDelete('cascade');
         });
     }
 

@@ -171,6 +171,9 @@ Route::controller(QuizManagementController::class)->middleware(['auth','verified
 
     Route::get('admin/panel/quiz/active', 'showActiveQuiz')->name('quiz.active');
     Route::get('admin/panel/quiz/past-due', 'showPastDueQuiz')->name('quiz.pastDue');
+
+    Route::delete('instructor/sent-quiz/delete/{id}', 'deleteSentQuiz')->name('sentQuiz.delete');
+    Route::get('instructor/sent-quiz/update/{id}', 'showUpdateSentQuiz')->name('sentQuiz.update.show');
 });
 
 Route::controller(SectionController::class)->middleware(['auth','verified','isAdmin'])->group(function(){
