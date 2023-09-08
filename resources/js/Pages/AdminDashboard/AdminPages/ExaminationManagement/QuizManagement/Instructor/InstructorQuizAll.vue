@@ -102,19 +102,15 @@
             <!--ACTIVATE QUIZ MODAL-->
             <Dialog v-model:visible="activateQuizModal" modal header="Send Quiz"  :style="{ width: '60vw' }" :breakpoints="{ '960px': '75vw', '641px': '95vw' }">
                 <hr class="bg-gray-400 h-[2px] mb-2">
-                <div>TO DO:</div>
-                <div>1. If the currently logged-in user is an admin, allow them to choose the section to which the quiz will be given.</div>
-                <div>2. PROVIDE A DATE INPUT THAT WILL LET THE USER CHOOSE THE START AND END DATE</div>
-                <div>3. PROVIDE A BUTTON THAT WILL ACTIVATE THE QUIZ</div>
-                {{ instructorSectionsWithoutQuiz }} {{ instructorHandledSection }}
+                
                 <form @submit.prevent="submit">
-                    <div class="mb-4">Grading Period: </div>
+                    <div class="mb-4 mt-4 text-[18px] font-bold text-gray-600">Section : </div>
                     <div class="mb-4">
-                        <Dropdown  v-model="selectedQuizSection" :options="instructorHandledSection" optionLabel="name"  placeholder="Select section" class="w-full md:w-14rem " />
+                        <Dropdown  v-model="selectedQuizSection" :options="availableSection" optionLabel="name"  placeholder="Select section" class="w-full md:w-14rem " />
                         <InputError :error="form.errors.section_id"/>
                     </div>
 
-                    <div class="mb-4">Start Date: </div>
+                    <div class="mb-4 text-[18px] font-bold text-gray-600">Start Date: </div>
                     <div class="mb-4">
                         <span class="p-float-label">
                             <Calendar v-model="form.startDate" id="startDate" class="w-full"  />
@@ -123,7 +119,7 @@
                         <InputError :error="form.errors.startDate"/>                    
                     </div>
                 
-                    <div class="mb-4">Due Date: </div>
+                    <div class="mb-4 text-[18px] font-bold text-gray-600">Due Date: </div>
                     <div class="mb-4">
                         <span class="p-float-label">
                             <Calendar v-model="form.endDate" id="startDate" class="w-full"  />
@@ -195,16 +191,22 @@ function sortSection(instructorSec)
     
 }
 
-// Get instructorHandledSection that haven't received any quiz
-const instructorSectionsWithoutQuiz = ref([]) 
 
 
+const selectedSentQuiz = ref(null);
+const availableSection = ref(null);
 function showQuizModal(quizId)
 {
     form.quiz_id = quizId;
     
     // form.section = selectedQuizSection.value.id
     activateQuizModal.value = !activateQuizModal.value
+
+    selectedSentQuiz.value = quizzes.sentQuiz.filter((quiz)=> quiz.quiz_id === quizId);
+
+    availableSection.value = instructorHandledSection.value.filter((section) =>{
+        return selectedSentQuiz.value.every((quiz)=> quiz.section_id !== section.id )
+    })
 
 }
 
@@ -219,16 +221,13 @@ const form = useForm({
 onMounted(()=>{
     sortSection(quizzes.sections);
     
-    instructorSectionsWithoutQuiz.value = instructorHandledSection.value.filter((section)=> {
-        const sectionId = section.id
-
-        //kailangan dto ay ung selected quiz!!! pahinga muna ko dto sabog utak!
-        return !quizzes.sentQuiz.some((quizItem) => quizItem.section_id === sectionId);
-    })
-    console.log(instructorSectionsWithoutQuiz.value);
+   
 })
 
-const submit = ()=> form.post(route('quiz.send'));
+const submit = ()=> {
+    form.post(route('quiz.send'))
+    activateQuizModal.value = !activateQuizModal.value
+};
 
 watch(selectedQuizSection, (val)=>{
     form.section_id = val.id;

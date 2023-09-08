@@ -328,9 +328,10 @@ class QuizManagementController extends Controller
             $studentQuiz->save();
         };
         
-        return redirect()->route('quiz.show')->with('success', 'Successfully sent new quiz!');
-
+        return redirect()->route('quiz.active')->with('success', 'Successfully sent new quiz!');
+        
     }
+
 
     public function showActiveQuiz()
     {
