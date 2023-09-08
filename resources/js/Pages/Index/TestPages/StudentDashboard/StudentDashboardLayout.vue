@@ -79,9 +79,6 @@
                           <a  :href="route('quiz.active.show')" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 "  ><span class="pi pi-users  scale-150 pr-3 text-gray-200" ></span>Active</a>
                       </li>
                       <li >
-                         <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><span class="pi pi-user-plus  scale-150 pr-3 text-gray-200" ></span>Past Due</a>
-                      </li>
-                      <li >
                          <a :href="route('quiz.result')" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><span class="pi pi-user-plus  scale-150 pr-3 text-gray-200" ></span>Results</a>
                       </li>
                       

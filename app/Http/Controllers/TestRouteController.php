@@ -97,7 +97,17 @@ class TestRouteController extends Controller
     {
         
         $loggedUser = Auth::user()->id;
-        $studentQuizzes = StudentActiveQuiz::with('quiz')->where('student_id', '=', $loggedUser)->where('status', '=', 'done')->latest()->get();
+        $studentQuizzes = StudentActiveQuiz::with(['quiz' => function ($query){
+                            $query->with('question');
+                        }])
+                        ->where('student_id', '=', $loggedUser)
+                        ->where(function ($query){
+                            $query->where('status','=','done') 
+                            ->orWhere('status', '=', 'lapse');
+                        })
+                        ->latest()
+                        ->get();
+       // dd($studentQuizzes);
         return inertia('Index/TestPages/StudentQuizResult',[
             'quizResults' => $studentQuizzes,
         ]);

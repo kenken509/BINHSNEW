@@ -17,10 +17,16 @@
                             Title
                         </th>
                         <th scope="col" class="px-6 py-3 ">
+                            Items
+                        </th>
+                        <th scope="col" class="px-6 py-3 ">
                             Score
                         </th>
                         <th  scope="col" class="px-6 py-3 ">
                            Grade
+                        </th>
+                        <th  scope="col" class="px-6 py-3 ">
+                           Status
                         </th>
                         
                     </tr>
@@ -35,11 +41,18 @@
                             {{ quiz.quiz.title }}
                         </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
+                            {{ quiz.quiz.question.length }}
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                             {{ quiz.quiz_score }}
                         </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                            {{ quiz.quiz_grade }} %
-                        </td>     
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
+                           {{ quiz.status }} 
+                        </td>
+                             
                         <!-- <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                            
                         </td>  -->
