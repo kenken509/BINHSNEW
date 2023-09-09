@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('sent_quizzes_id');
             $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('section_id');
             $table->unsignedBigInteger('quiz_id');
             $table->string('grading_period');
             $table->date('start_date');
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->foreign('student_id')->references('id')->on('users')->onDelete('restrict');
             $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('sent_quizzes_id')->references('id')->on('sent_quizzes')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

@@ -336,6 +336,7 @@ class QuizManagementController extends Controller
             $studentQuiz->sent_quizzes_id   = $activeQuiz->id;
             $studentQuiz->student_id        = $student->id;
             $studentQuiz->quiz_id           = $request->quiz_id;
+            $studentQuiz->section_id        = $request->section_id;
             $studentQuiz->grading_period    = $thisQuiz->grading_period;
             $studentQuiz->start_date        = Carbon::parse($request->startDate)->toDateString();
             $studentQuiz->end_date          = Carbon::parse($request->endDate)->toDateString();
@@ -398,17 +399,25 @@ class QuizManagementController extends Controller
 
     public function showQuizResults(Request $request)
     {
+        $filters = $request->sectionId;
 
+        $instructorId = Auth::user()->id;
+        
         $studentResults = StudentActiveQuiz::with(['student' => function($query){
             $query->with('section');
         },'quiz' => function($query){
             $query->with('question');
         }])
-        ->latest()
-        ->get();
+        ->where('status','!=','pending')
+        ->latest();
+        
+        
 
+        $instructorHandledSection = Section::where('instructor_id', '=', $instructorId )->get();
+        
         return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Instructor/InstructorQuizResult',[
-            'studentResults' => $studentResults,
+            'studentResults' => $studentResults->filteredData($filters)->get(),
+            'instructorHandledSection' => $instructorHandledSection,
         ]);
     }
     

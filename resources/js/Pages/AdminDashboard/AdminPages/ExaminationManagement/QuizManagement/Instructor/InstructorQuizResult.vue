@@ -1,9 +1,13 @@
 <template>
     <DashboardLayout :user="user" >
-        <div class="border-bot-only border-gray-600 shadow-md mb-4">
-           <span class="text-[20px] font-bold text-gray-500">Quizzes Results Page</span>  
-       </div>
+        <div class=" flex flex-col w-full md:flex-row justify-between items-center border-bot-only border-gray-600 shadow-md mb-4 py-4 px-2">
+           <span class=" text-[20px] font-bold text-gray-500">Quizzes Results Page</span>  
+            <form @submit.prevent="submit" class="w-full md:w-[300px]">
+                <Dropdown  v-model="selectedSection" :options="instructorHandledSection" optionLabel="name" placeholder="Sort by section" class="w-full md:w-14rem " />
+            </form> 
        
+       </div>
+      
        <div class=" overflow-x-auto shadow-md sm:rounded-lg">
            <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               
@@ -109,11 +113,36 @@
 </template>
 
 <script setup>
-import { usePage } from '@inertiajs/vue3';
+import { usePage, useForm } from '@inertiajs/vue3';
 import DashboardLayout from '../../../../Layout/DashboardLayout.vue';
+import { onMounted,ref, watch } from 'vue';
 
 const user = usePage().props.user
 const results = defineProps({
     studentResults:Array,
+    instructorHandledSection:Array,
+})
+
+
+const selectedSection = ref(null)
+const instructorHandledSection = ref([]);
+
+onMounted(()=>{
+    instructorHandledSection.value = results.instructorHandledSection
+})
+
+const filter = useForm({
+    sectionId : null,
+});
+
+watch(selectedSection,(val) =>{
+    // do something!
+    filter.sectionId = val.id
+
+    //console.log(val.id)
+    const submit = filter.post(route('quiz.results'),{
+        preserveScroll: true,
+    });
+    
 })
 </script>
