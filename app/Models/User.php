@@ -100,4 +100,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(aboutPagePost::class,'created_by','id');
     }
+
+    public function studentActiveQuiz()
+    {
+        return $this->hasMany(StudentActiveQuiz::class, 'student_id', 'id');
+    }
 }

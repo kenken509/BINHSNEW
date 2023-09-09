@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\StudentActiveQuiz;
+use Illuminate\Support\Facades\Log;
 
 class UpdateQuizStatus extends Command
 {
@@ -29,8 +30,12 @@ class UpdateQuizStatus extends Command
         $now = now()->startOfDay();
 
         StudentActiveQuiz::where('end_date', '<', $now)
-        ->update(['status' => 'lapse']);
+        ->update([
+            'status'        => 'lapse',
+            'quiz_score'    => 0,
+            'quiz_grade'    => 0,
+        ]);
 
-        $this->info('Quiz status updated successfully!');
+        Log::info('Student Quiz successfully updated');
     }
 }

@@ -13,4 +13,9 @@ class StudentActiveQuiz extends Model
     {
         return $this->belongsTo(Quiz::class,'quiz_id','id');
     }
+
+    public function student()
+    {
+        return $this->belongsTo(User::class, 'student_id', 'id');
+    }
 }

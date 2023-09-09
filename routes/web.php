@@ -168,6 +168,7 @@ Route::controller(QuizManagementController::class)->middleware(['auth','verified
     Route::get('admin/panel/quiz/edit/{id}', 'editQuiz')->name('quiz.edit');
     Route::post('admin/panel/quiz/update', 'update')->name('quiz.update');
     Route::post('admin/panel/quiz/send', 'sendQuiz')->name('quiz.send');
+    Route::match(['get','post'],'instructor/panel/quiz/results', 'showQuizResults')->name('quiz.results');
 
     Route::get('admin/panel/quiz/active', 'showActiveQuiz')->name('quiz.active');
     Route::get('admin/panel/quiz/past-due', 'showPastDueQuiz')->name('quiz.pastDue');

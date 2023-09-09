@@ -395,5 +395,21 @@ class QuizManagementController extends Controller
 
 
     }
+
+    public function showQuizResults(Request $request)
+    {
+
+        $studentResults = StudentActiveQuiz::with(['student' => function($query){
+            $query->with('section');
+        },'quiz' => function($query){
+            $query->with('question');
+        }])
+        ->latest()
+        ->get();
+
+        return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Instructor/InstructorQuizResult',[
+            'studentResults' => $studentResults,
+        ]);
+    }
     
 }
