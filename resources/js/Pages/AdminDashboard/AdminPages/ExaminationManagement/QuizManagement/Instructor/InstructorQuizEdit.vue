@@ -254,7 +254,8 @@
 import DashboardLayout from '../../../../Layout/DashboardLayout.vue';
 import InputError from '../../../../../GlobalComponent/InputError.vue';
 import {onBeforeMount, onBeforeUnmount, onMounted, ref, watch} from 'vue'
-import { usePage, Link, useForm } from '@inertiajs/vue3';
+import { usePage, Link, useForm,router } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
 const user = usePage().props.user;
 
 const quiz = defineProps({
@@ -406,12 +407,46 @@ watch(selectedGradingPeriod,(val)=>{
     form.grading_period = val.name
 })
 const submit = () => {
-    form.questions = getQuestionsFromLocalStorage()
+    confirmUpdate()
+    //form.questions = getQuestionsFromLocalStorage()
     // deleteDataFromLocalStorage()   // if submit has errors do not delete <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    form.post(route('quiz.update'),{preserveScroll:true})
+    //form.post(route('quiz.update'),{preserveScroll:true})
     
 };
 
+function confirmUpdate()
+{
+    Swal.fire({
+        title:'Update Confirmation',
+        text:'The quiz will be updated?',
+        showCancelButton: true,
+        cancelButtonText: 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Update it!',
+        allowOutsideClick: false,
+        icon:'warning',
+    }).then((result)=>{
+        console.log(result)
+        if(result.isConfirmed)
+        {
+            const updateUrl = route('quiz.update')
+            form.questions = getQuestionsFromLocalStorage()
+            router.post(updateUrl, form);
+        }
+
+        if(result.isDismissed)
+        {
+            Swal.fire({
+                title:'Cancelled',
+                text:'Update cancelled!',
+                icon:'error',
+            })
+            
+        }
+
+    })
+}
 //edit question codes **********************************************
 
 

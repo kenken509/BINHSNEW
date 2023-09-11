@@ -194,7 +194,7 @@ class QuizManagementController extends Controller
     //   }
     public function update(Request $request)
     {
-        //dd($request);
+        
         $validate = $request->validate([
             'subject_id' => 'required',
             'title' => 'required',
