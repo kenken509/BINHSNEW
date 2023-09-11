@@ -15,8 +15,5 @@ class StudentQuizResult extends Model
         return $this->belongsTo(Quiz::class,'quiz_id','id');
     }
 
-    public function scopeFilteredData(Builder $query, $filters): Builder  //<< return type
-    {
-        return $query->when($filters, fn ($query) => $query->where('section_id','=',$filters));
-    }
+    
 }

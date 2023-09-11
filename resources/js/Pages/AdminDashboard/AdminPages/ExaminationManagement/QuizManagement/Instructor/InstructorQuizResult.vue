@@ -34,7 +34,7 @@
                    </tr>
                </thead>
                
-               <tbody v-for="student in results.studentResults" :key="student.id" >
+               <tbody v-for="student in results.studentResults.data" :key="student.id" >
                    
                    <tr class="bg-white border-b ">
                        <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
@@ -109,6 +109,9 @@
             </Dialog> -->
             <!--ACTIVATE QUIZ MODAL-->
        </div>
+       <div v-if="results.studentResults.data.length" class="w-full flex justify-center mt-8 mb-8">
+            <Pagination :links="results.studentResults.links"/>    
+        </div>
     </DashboardLayout>
 </template>
 
@@ -116,7 +119,7 @@
 import { usePage, useForm } from '@inertiajs/vue3';
 import DashboardLayout from '../../../../Layout/DashboardLayout.vue';
 import { onMounted,ref, watch } from 'vue';
-
+import Pagination from '../../../../AdminComponents/Pagination.vue';
 const user = usePage().props.user
 const results = defineProps({
     studentResults:Array,

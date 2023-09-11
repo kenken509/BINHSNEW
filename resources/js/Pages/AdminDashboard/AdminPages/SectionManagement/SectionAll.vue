@@ -80,7 +80,6 @@
                         <td class=" text-center ">
                             <span class="pi pi-eye text-green-600 scale-150 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'View students'" @click="showStudentsModal(section.id)"></span>
                         </td>
-                        
                     </tr>
                 </tbody>
             </table>
@@ -157,7 +156,6 @@ const handledSections = computed(()=>{
         {
             instructorSections.value.push(section);
         }
-
     })
     
 })

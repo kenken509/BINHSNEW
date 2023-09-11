@@ -254,6 +254,7 @@ import DashboardLayout from '../../../../Layout/DashboardLayout.vue';
 import InputError from '../../../../../GlobalComponent/InputError.vue';
 import {onBeforeMount, onBeforeUnmount, onMounted, ref, watch} from 'vue'
 import { usePage, Link, useForm } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
 const user = usePage().props.user;
 const existingQuestion = ref([])
 const quiz = defineProps({
@@ -364,10 +365,11 @@ watch(selectedSubject, (val)=>{
 watch(selectedGradingPeriod,(val)=>{
     form.grading_period = val.name
 })
-const submit = () => {
-    form.questions = getQuestionsFromLocalStorage()
-    deleteDataFromLocalStorage()
-    form.post(route('quiz.store'))
+const submit = () => { 
+    confirmSubmission()
+    // form.questions = getQuestionsFromLocalStorage()
+    // deleteDataFromLocalStorage()
+    // form.post(route('quiz.store'))
     
 };
 
@@ -430,5 +432,40 @@ const handleDeleteQuestionButton = (index)=> {
 
 }
 
-//edit question codes **********************************************
+//confirmation codes **********************************************
+
+const confirmSubmission = ()=>{
+    Swal.fire({
+        title: 'Confirmation',
+        text: "New quiz will be posted?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+        
+        }).then((result) => {
+            
+        if (result.isConfirmed) {
+            form.questions = getQuestionsFromLocalStorage()
+            form.post(route('quiz.store'));
+
+            const hasErrors = Object.keys(form).length > 0;
+
+            if(!hasErrors){
+                deleteDataFromLocalStorage()
+            }
+            
+            
+            
+        }else if (result.isDismissed) 
+        {
+            Swal.fire(
+            'Cancelled',
+            'Cancelled successfully!',
+            'success'
+            )
+        }
+    })
+}
 </script>

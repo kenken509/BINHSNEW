@@ -95,8 +95,7 @@
                     </div>
                 </div>
                 <div v-if="users.data.length" class="w-full flex justify-center mt-8 mb-8">
-                    <Pagination :links="users.links"/>
-                        
+                    <Pagination :links="users.links"/>    
                 </div>
                 <!--Modal-->
                 <div class="card flex justify-content-center userInfo">

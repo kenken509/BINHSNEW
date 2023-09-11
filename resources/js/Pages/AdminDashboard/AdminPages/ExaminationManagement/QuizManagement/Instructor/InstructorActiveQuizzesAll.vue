@@ -4,7 +4,7 @@
        <div class="border-bot-only border-gray-600 shadow-md mb-4">
            <span class="text-[20px] font-bold text-gray-500">All Active Quizzes Page</span>  
        </div>
-       <div v-if="$page.props.flash.success" class="bg-green-300 mb-2 p-1 rounded-md text-gray-600">{{ $page.props.flash.success  }} </div>
+       <div v-if="$page.props.flash.success" >{{ successMessage($page.props.flash.success)   }} </div>
        <div class=" overflow-x-auto shadow-md sm:rounded-lg">
            <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               
@@ -55,8 +55,8 @@
                        
                        <td>
                            <div class="flex px-6  space-x-6 ">
-                               <Link :href="route('sentQuiz.delete', {id: quiz.id})" class="cursor-pointer" v-tooltip.left="'Delete Question'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
-                               <span class="pi pi-send cursor-pointer hover:scale-150" style="color: slateblue" v-tooltip.left="'Send Quiz'" @click="showUpdateQuizModal(quiz.id)"></span>
+                                <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'Delete Active Quiz'" @click="confirmDelete(quiz.id)"></span>
+                               <!-- <Link :href="route('sentQuiz.delete', {id: quiz.id})" class="cursor-pointer" v-tooltip.left="'Delete Active Quiz'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link> -->
                            </div>    
                        </td>
                    </tr>
@@ -106,9 +106,10 @@
 </template>
 
 <script setup>
-import {usePage, Link} from '@inertiajs/vue3'
+import {usePage, Link, router} from '@inertiajs/vue3'
 import DashboardLayout from '../../../../Layout/DashboardLayout.vue';
 import {ref} from 'vue'
+import Swal from 'sweetalert2'
 
 const user = usePage().props.user;
 
@@ -119,6 +120,7 @@ const quizzes = defineProps({
 const updateQuizModal = ref(false);
 function showUpdateQuizModal(quizId)
 {
+   
     form.quiz_id = quizId;
     
     // form.section = selectedQuizSection.value.id
@@ -142,4 +144,42 @@ function formatDate(inputDate) {
  return formattedDate;
 }
 
+function confirmDelete(quizId){
+    Swal.fire({
+        title:"Delete Active Quiz?",
+        text:"You won't be able to revert this!",
+        icon:'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        allowOutsideClick: false,
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            router.delete(route('sentQuiz.delete', {id:quizId}))
+        }
+
+        else if (result.isDismissed) 
+        {
+            Swal.fire(
+            'Cancelled',
+            'Active quiz file is safe!',
+            'error'
+            )
+        }
+    })
+}
+function successMessage(message){
+    Swal.fire({
+        title: 'Success',
+        text: message,
+        icon: 'success',
+        allowOutsideClick: false,
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            location.reload()
+        }
+    })
+}
 </script>

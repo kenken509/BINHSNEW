@@ -19,7 +19,7 @@ class SectionController extends Controller
         //dd(Section::with('subject')->latest()->get());
         //dd(Section::with(['subject', 'instructor'])->latest()->get());
         return inertia('AdminDashboard/AdminPages/SectionManagement/SectionAll', [
-            'sections' => Section::with(['subject', 'instructor', ])->latest()->get(),
+            'sections' => Section::with(['subject', 'instructor', 'student' ])->latest()->get(),
             'studentUser' => User::all(),
         ]);
     }

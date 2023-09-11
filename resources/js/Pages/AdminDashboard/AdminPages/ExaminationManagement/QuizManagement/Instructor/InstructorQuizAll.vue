@@ -5,7 +5,7 @@
             <span class="text-[20px] font-bold text-gray-500">All Questions Page</span>  
         </div>
         
-        <div v-if="$page.props.flash.success" class="bg-green-300 mb-2 p-1 rounded-md text-gray-600">{{ $page.props.flash.success  }} </div>
+        <div v-if="$page.props.flash.success">{{ successMessage($page.props.flash.success)  }} </div>
         
         <div class=" overflow-x-auto shadow-md sm:rounded-lg">
             <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -59,7 +59,8 @@
                         </td>
                         <td>
                             <div class=" flex space-x-4 ">
-                                <Link :href="route('quiz.delete', {id: quiz.id})" class="cursor-pointer" v-tooltip.left="'Delete Question'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
+                                <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'Delete Question'" @click="confirmDelete(quiz.id)"></span>
+                                <!-- <Link :href="route('quiz.delete', {id: quiz.id})" class="cursor-pointer" v-tooltip.left="'Delete Question'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link> -->
                                 <Link :href="route('quiz.edit', {id:quiz.id})" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
                                 <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'Preview'" @click="openModal(quiz.id)" ></span>
                                 <span class="pi pi-send cursor-pointer hover:scale-150" style="color: slateblue" v-tooltip.left="'Send Quiz'" @click="showQuizModal(quiz.id)"></span>
@@ -142,8 +143,10 @@
  import DashboardLayout from '../../../../Layout/DashboardLayout.vue';
  import { onMounted, ref, watch } from 'vue';
  import InputError from '../../../../../GlobalComponent/InputError.vue'
+ import Swal from 'sweetalert2';
+ import { router } from '@inertiajs/vue3' // to manually get the route
 
- 
+ const { inertia } = usePage(); // Include inertia in the destructured import
  const user = usePage().props.user;
  
  const quizzes = defineProps({
@@ -210,6 +213,16 @@ const form = useForm({
     section_id:null,
 })
 
+function deleteDataFromLocalStorage() {
+    localStorage.removeItem('questionsArray');
+    }
+
+function getQuestionsFromLocalStorage() {
+    const storedData = localStorage.getItem('questionsArray');
+
+    return storedData ;
+    
+}
 onMounted(()=>{
     sortSection(quizzes.sections);
     
@@ -220,6 +233,11 @@ onMounted(()=>{
     // Calculate the minimum date as today's date in the YYYY-MM-DD format
     const today = new Date();
     const minDate = today.toISOString().split('T')[0]; 
+
+    if(getQuestionsFromLocalStorage())
+    {
+        deleteDataFromLocalStorage();
+    }
    
 })
 
@@ -250,4 +268,50 @@ watch(selectedQuizSection, (val)=>{
 })
 
 
+function confirmDelete(id){
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        allowOutsideClick: false,
+        }).then((result) => {
+            
+        if (result.isConfirmed) {
+            const deleteUrl = route('quiz.delete', { id: id });
+
+            router.delete(deleteUrl)
+            // Swal.fire(
+            // 'Deleted!',
+            // 'Your file has been deleted.',
+            // 'success'
+            // )
+        }else if (result.isDismissed) 
+        {
+            Swal.fire(
+            'Cancelled',
+            'Your quiz file is safe!',
+            'error'
+            )
+        }
+    })
+}
+
+function successMessage(message){
+    Swal.fire({
+        title: 'Success',
+        text: message,
+        icon: 'success',
+        allowOutsideClick: false,
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            location.reload()
+        }
+    })
+    
+}
  </script>

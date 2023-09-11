@@ -416,7 +416,7 @@ class QuizManagementController extends Controller
         $instructorHandledSection = Section::where('instructor_id', '=', $instructorId )->get();
         
         return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Instructor/InstructorQuizResult',[
-            'studentResults' => $studentResults->filteredData($filters)->get(),
+            'studentResults' => $studentResults->filteredData($filters)->paginate(2),
             'instructorHandledSection' => $instructorHandledSection,
         ]);
     }
