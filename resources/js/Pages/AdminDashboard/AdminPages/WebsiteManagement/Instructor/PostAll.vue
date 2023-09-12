@@ -4,7 +4,7 @@
         <div class="border-bot-only border-gray-600 shadow-md">
             <span class="text-[20px] font-bold text-gray-500">All Posts Page</span>  
         </div>
-        <div v-if="$page.props.flash.success" class="flex items-center rounded-md bg-[#28a745] my-4 h-8 "><span class="p-3 text-gray-200">{{ $page.props.flash.success }}</span></div>
+        <div v-if="$page.props.flash.success" ><span class="p-3 text-gray-200">{{ successMessage($page.props.flash.success)  }}</span></div>
             <div v-if="$page.props.flash.error" class="flex items-center rounded-md bg-red-600 my-4 h-8 "><span class="p-3 text-gray-200">{{ $page.props.flash.error }}</span></div>
         <div class=" overflow-x-auto shadow-md sm:rounded-lg mt-5">
             
@@ -68,7 +68,8 @@
                         </td>
                         <td>
                             <div class=" space-x-4">
-                                <Link :href="route('webPost.delete', {id:post.id })" class="cursor-pointer" v-tooltip.left="'Delete Post'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
+                                <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 cursor-pointer" @click="confirmDelete(post.id)"></span>
+                                <!-- <Link :href="route('webPost.delete', {id:post.id })" class="cursor-pointer" v-tooltip.left="'Delete Post'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link> -->
                                 <Link :href="route('instructorWebPost.edit', { id:post.id })" class="cursor-pointer hover:dark:scale-125" v-tooltip.left="'Edit'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
                                 <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'Preview'" @click="openModal(post.id)" ></span>
                             </div>    
@@ -198,10 +199,11 @@
 </template>
 
 <script setup>
-import { usePage, Link, useForm } from '@inertiajs/vue3';
+import { usePage, Link, useForm, router } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
 import { toUpperFirst,truncateText } from '../../../../Functions/Methods.vue'
 import {ref, computed} from 'vue'
+import Swal from 'sweetalert2';
 
 
 
@@ -266,4 +268,52 @@ const postsWithPrivateComments = computed(() => {
 });
 
  const approveComment = () => approvePendingCommentForm.post(route('comment.approve'));
+
+ // alerts function
+
+function confirmDelete(postId){
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        allowOutsideClick: false,
+        }).then((result) => {
+            
+        if (result.isConfirmed) {
+            const deleteUrl = route('webPost.delete', {id:postId });
+
+            router.delete(deleteUrl)
+            // Swal.fire(
+            // 'Deleted!',
+            // 'Your file has been deleted.',
+            // 'success'
+            // )
+        }else if (result.isDismissed) 
+        {
+            Swal.fire(
+            'Cancelled',
+            'Your post file is safe!',
+            'error'
+            )
+        }
+    })
+}
+
+function successMessage(message){
+    Swal.fire({
+        title: 'Success',
+        text: message,
+        icon: 'success',
+        allowOutsideClick: false,
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            location.reload()
+        }
+    })
+}
 </script>

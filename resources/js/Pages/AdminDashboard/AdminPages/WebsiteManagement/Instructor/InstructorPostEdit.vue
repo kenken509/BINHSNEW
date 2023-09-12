@@ -3,7 +3,7 @@
         <div class="border-bot-only border-gray-600 shadow-md">
             <span class="text-[20px] font-bold text-gray-500">Add New Post</span>  
         </div>
-        <form @submit.prevent="submit">
+        <form @submit.prevent="updateConfirmation">
             <div class="grid grid-cols-12   gap-4 w-full mt-12 mb-4 ">
                 <div class="w-full col-span-12 ">
                     <div class="pb-5 text-[18px] ">Title:</div>
@@ -139,7 +139,7 @@ import { useForm, usePage } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
 import {ref, computed, onMounted, watch} from 'vue'
 import InputError from '../../../../GlobalComponent/InputError.vue'
-
+import Swal from 'sweetalert2';
 
 const postToEdit = defineProps({
     post:Object,
@@ -256,4 +256,33 @@ function stringModifier(myString){
 }
 
 
+// alert codes
+
+function updateConfirmation()
+{
+    Swal.fire({
+        title:'Update Confirmation',
+        text:'Are you sure?',
+        icon:'question',
+        confirmButtonText:'Yes, update it!',
+        cancelButtonText:'Cancel',
+        showCancelButton:true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            submit()
+        }
+
+        if(result.isDismissed)
+        {
+            Swal.fire({
+                title:'Update Cancelled',
+                text:'Update was cancelled!',
+                icon:'error',
+            })
+        }
+    })
+}
 </script>

@@ -4,7 +4,7 @@
             <span class="text-[20px] font-bold text-gray-500">Add New Post</span>  
         </div>
         
-        <form @submit.prevent="submit">
+        <form @submit.prevent="addPostConfirmation">
             <div class="grid grid-cols-12   gap-4 w-full mt-12 ">
                 <div class="w-full col-span-12 ">
                     <div class="pb-5 text-[18px] ">Title:</div>
@@ -122,6 +122,7 @@ import { useForm, usePage } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
 import {ref, computed} from 'vue'
 import InputError from '../../../../GlobalComponent/InputError.vue'
+import Swal from 'sweetalert2';
 
 
 const user = usePage().props.user;
@@ -234,5 +235,20 @@ const submit = () => {
     }
 } ;
 
+// alert codes
+
+function addPostConfirmation()
+{
+    Swal.fire({
+        title:'Add New Post',
+        text:'Are you sure?',
+        icon:'question',
+        showCancelButton:true,
+        cancelButtonText:'Cancel',
+        allowOutsideClick:false,
+        confirmButtonText:'Yes,add new post!',
+
+    })
+}
 
 </script>

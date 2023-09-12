@@ -312,6 +312,5 @@ function successMessage(message){
             location.reload()
         }
     })
-    
 }
  </script>
