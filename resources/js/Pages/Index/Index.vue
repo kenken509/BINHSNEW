@@ -16,9 +16,9 @@
   
     <!--divider-->
     <div class=" h-[40px] border shadow-md "></div>
-    <div class="flex  justify-center  ">
-        <div v-if="$page.props.flash.success" class="j bg-green-300 mb-2 p-2 rounded-md text-gray-600 w-[90%] lg:w-[80%] border mt-2 mb-4">{{ $page.props.flash.success  }} </div>
-    </div>
+    
+    <div v-if="$page.props.flash.success" >{{ successMessage($page.props.flash.success) }} </div>
+    
    
     <!--you are here-->
     <div class="flex  justify-center  ">
@@ -60,7 +60,7 @@
 <script setup>
 import IndexCard from './IndexComponent/IndexCard.vue';
 import WebNavLayout2 from './WebComponent/WebNavLayout2.vue';
-
+import Swal from 'sweetalert2';
 import { computed } from '@vue/reactivity';
 import {  usePage } from '@inertiajs/vue3';
 import WebHeaderLayout from './WebComponent/WebHeaderLayout.vue'
@@ -101,7 +101,12 @@ onUnmounted(() => {
   document.removeEventListener('click', handleClick);
 });
 
-const replaceImage = ()=>{
-
+function successMessage(message)
+{
+    Swal.fire({
+        title:'Success',
+        text:message+'!',
+        icon:'success',
+    })
 }
 </script>

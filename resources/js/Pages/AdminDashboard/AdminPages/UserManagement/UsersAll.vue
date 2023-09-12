@@ -24,7 +24,7 @@
 
                   
                 </div>
-                <div v-if="$page.props.flash.success" class="flex items-center rounded-md bg-[#28a745] my-4 h-8 "><span class="p-3 text-gray-200">{{ $page.props.flash.success }}</span></div>
+                <div v-if="$page.props.flash.success" ><span class="p-3 text-gray-200">{{ successMessage($page.props.flash.success)  }}</span></div>
                 <div v-if="$page.props.flash.error" class="flex items-center rounded-md bg-red-600 my-4 h-8 "><span class="p-3 text-gray-200">{{ $page.props.flash.error }}</span></div>
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 mt-4 overflow-x">
                     <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -80,8 +80,8 @@
                                             <div v-if="$page.props.flash.success"><Toast position="top-left" /> </div>
                                             
                                         
-                                            
-                                            <Link :href="route('admin.userDelete', {user: user.id})" class="cursor-pointer" v-tooltip.left="'Delete User'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
+                                            <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 cursor-pointer" @click="deleteConfirmation(user.id)"></span>
+                                            <!-- <Link :href="route('admin.userDelete', {user: user.id})" class="cursor-pointer" v-tooltip.left="'Delete User'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link> -->
                                             <!-- <Link :href="route('admin.editUser', {id:user.id} )" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit User'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link> -->
                                             <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'View full info'" @click="openModal(user.id)" ></span>
                                         </div>
@@ -144,9 +144,10 @@
 import DashboardLayout from '../../Layout/DashboardLayout.vue';
 import Pagination from '../../AdminComponents/Pagination.vue';
 import {ref, computed, watch, onMounted } from 'vue'
-import {Link, useForm, usePage} from '@inertiajs/vue3'
+import {Link, useForm, usePage, router} from '@inertiajs/vue3'
 import { useToast } from 'primevue/usetoast';
 import { toUpperFirst } from '../../../Functions/Methods.vue';
+import Swal from 'sweetalert2';
 
 const searchField = ref('');
 
@@ -243,4 +244,55 @@ const printPage = ()=>{
 
 const appUrl = '/storage/'
 const defaultImage = 'images/default.png'
+
+// alert codes
+
+function deleteConfirmation(userId)
+{
+    Swal.fire({
+        title:'Delete confirmation',
+        text:"You won't be able to revert this!",
+        icon:'warning',
+        confirmButtonText:'Yes, delete it!',
+        cancelButtonText:'Cancel',
+        showCancelButton:true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        allowOutsideClick:false,
+        allowEscapeKey:false,
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            const userDeleteUrl = route('admin.userDelete', {user: userId});
+
+            router.delete(userDeleteUrl);
+        }
+
+        if(result.isDismissed)
+        {
+            Swal.fire({
+                title:'Canceled',
+                text:'Your action was canceled!',
+                icon:'error',
+            })
+        }
+    })
+}
+
+function successMessage(message)
+{
+    Swal.fire({
+        title:'Success',
+        text:message+'!',
+        icon:'success',
+        allowOutsideClick:false,
+        allowEscapeKey:false,
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            location.reload();
+        }
+    })
+}
+
 </script>

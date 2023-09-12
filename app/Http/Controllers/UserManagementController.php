@@ -69,17 +69,19 @@ class UserManagementController extends Controller
 
     public function rejectUser($id)
     {
+        
         $user = User::findOrFail($id);
         if($user->image){
             Storage::disk('public')->delete($user->image);
         }
             
         $user->delete();
-        return redirect()->route('admin.showAllUsers')->with('success', 'Deleted Successfully');
+        return redirect()->route('admin.showAllUsers')->with('success', 'Rejected Successfully!');
     }
 
     public function ApproveUser($id)
     {
+        
         $studentToApprove = User::findOrFail($id);
         
         $studentToApprove->isActive = '1';
@@ -157,6 +159,7 @@ class UserManagementController extends Controller
                 $user->password     = $request->lName; // hashed using accessor mutator in User model
                 $user->birthDate    = $date;
                 $user->image        = $storeName;
+                $user->isActive     = 1;
                 $user->created_by   = Auth::user()->id;
                 $user->save();
 
@@ -218,6 +221,7 @@ class UserManagementController extends Controller
                 $user->age          = $age;
                 $user->password     = $request->lName; // hashed using accessor mutator in User model
                 $user->birthDate    = $date;
+                $user->isActive     = 1;
                 $user->created_by   = Auth::user()->id;
                 $user->image        = $path;
                 $user->save();
@@ -268,6 +272,7 @@ class UserManagementController extends Controller
                 $user->age          = $age;
                 $user->password     = $request->lName; // hashed using accessor mutator in User model tolowercase
                 $user->birthDate    = $date;
+                $user->isActive     = 1;
                 $user->image        = $path;
                 $user->created_by   = Auth::user()->id;
                 $user->save();
@@ -313,6 +318,7 @@ class UserManagementController extends Controller
                 $user->age          = $age;
                 $user->password     = $request->lName; // hashed using accessor mutator in User model
                 $user->birthDate    = $date;
+                $user->isActive     = 1;
                 $user->created_by   = Auth::user()->id;
                 $user->save();
 
@@ -360,6 +366,7 @@ class UserManagementController extends Controller
                 $user->age          = $age;
                 $user->password     = $request->lName; // hashed using accessor mutator in User model
                 $user->birthDate    = $date;
+                $user->isActive     = 1;
                 $user->created_by   = Auth::user()->id;
                 $user->save();
 
@@ -401,6 +408,7 @@ class UserManagementController extends Controller
                 $user->age          = $age;
                 $user->password     = $request->lName; // hashed using accessor mutator in User model
                 $user->birthDate    = $date;
+                $user->isActive     = 1;
                 $user->created_by   = Auth::user()->id;
                 $user->save();
 

@@ -61,8 +61,15 @@
                         
                         <td scope="row" class=" text-center px-6 py-4 font-medium text-gray-900 ">
                             <div class="flex  space-x-10 md:justify-around text-center   items-center">
-                                <Link :href="route('admin.aprprovedUser.reject',{id:student.id})" class="cursor-pointer hover:scale-125" v-tooltip.left="'reject'" as="button" method="delete" ><span class="pi pi-times-circle text-red-700 scale-150 hover:scale-150"></span></Link>
-                                <Link :href="route('admin.aprprovedUser.approve',{id:student.id})" class="cursor-pointer hover:scale-125" v-tooltip.left="'approve'" ><span class="pi pi-check-circle text-green-600 scale-150 hover:scale-150"></span></Link>
+                                <div class="cursor-pointer hover:scale-125">
+                                    <span class="pi pi-check-circle text-green-600 scale-150 hover:scale-150" v-tooltip.left="'approve'" @click="approvalConfirmation(student.id)"></span>
+                                </div>
+                                
+                                <div class="cursor-pointer hover:scale-125" v-tooltip.left="'reject'">
+                                    <span class="pi pi-times-circle text-red-700 scale-150 hover:scale-150" @click="rejectConfirmation(student.id)"></span>
+                                </div>
+                                <!-- <Link :href="route('admin.aprprovedUser.reject',{id:student.id})" class="cursor-pointer hover:scale-125" v-tooltip.left="'reject'" as="button" method="delete" ><span class="pi pi-times-circle text-red-700 scale-150 hover:scale-150"></span></Link> -->
+                                <!-- <Link :href="route('admin.aprprovedUser.approve',{id:student.id})" class="cursor-pointer hover:scale-125" v-tooltip.left="'approve'" ><span class="pi pi-check-circle text-green-600 scale-150 hover:scale-150"></span></Link> -->
                                 <!-- <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'Preview'" @click="openModal(quiz.id)" ></span>
                                 <span class="pi pi-send cursor-pointer hover:scale-150" style="color: slateblue" v-tooltip.right="'Activate'" @click="showQuizModal(quiz.id)"></span> -->
                             </div>   
@@ -82,9 +89,10 @@
 import DashboardLayout from '../../Layout/DashboardLayout.vue';
 import Pagination from '../../AdminComponents/Pagination.vue';
 import {ref, computed, watch, onMounted } from 'vue'
-import {Link, useForm, usePage} from '@inertiajs/vue3'
+import {Link, router, useForm, usePage} from '@inertiajs/vue3'
 import { useToast } from 'primevue/usetoast';
 import { toUpperFirst } from '../../../Functions/Methods.vue';
+import Swal from 'sweetalert2';
 
 const user = usePage().props.user;
 const student = defineProps({
@@ -92,4 +100,67 @@ const student = defineProps({
 })
 
 
+function approvalConfirmation(userId)
+{
+    Swal.fire({
+        title:'Approval Confirmation',
+        text:'Are you sure you?',
+        confirmButtonText:'Yes, approve it!',
+        cancelButtonText:'Cancel',
+        showCancelButton:true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        icon:'question',
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            const approveUrl = route('admin.aprprovedUser.approve',{id:userId})
+
+            router.get(approveUrl);
+        }
+
+        if(result.isDismissed)
+        {
+            Swal.fire({
+                title:'Canceled',
+                text:'Your action was canceled!',
+                icon:'error',
+                confirmButtonColor: '#3085d6',
+            })
+        }
+    })
+}
+
+function rejectConfirmation(userId)
+{
+    
+
+    Swal.fire({
+        title:'Rejection Confirmation',
+        text:'Are you sure you?',
+        confirmButtonText:'Yes, reject it!',
+        cancelButtonText:'Cancel',
+        showCancelButton:true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        icon:'question',
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            const url = route('admin.aprprovedUser.reject',{id:userId})
+
+            router.delete(url);
+        }
+
+        if(result.isDismissed)
+        {
+            Swal.fire({
+                title:'Canceled',
+                text:'Your action was canceled!',
+                icon:'error',
+                confirmButtonColor: '#3085d6',
+            })
+        }
+    })
+}
 </script>

@@ -77,7 +77,7 @@
                 </button>
                 <ul  id="user-management" class="hidden py-2 space-y-2">
                       <li >
-                          <a  :href="route('admin.showAllUsers')" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 "  ><span class="pi pi-users  scale-150 pr-3 text-gray-200" ></span> Display sdf</a>
+                          <a  :href="route('admin.showAllUsers')" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 "  ><span class="pi pi-users  scale-150 pr-3 text-gray-200" ></span> Display</a>
                       </li>
                       <li v-if="user.role === 'admin'">
                          <a :href="route('admin.approveUser.show')" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><span class="pi pi-user-plus  scale-150 pr-3 text-gray-200" ></span>Pending</a>
@@ -207,9 +207,10 @@
              <!--Web site management-->
              
              <li>
-                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                <a href="#" class="flex gap-3 items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                    <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z" clip-rule="evenodd"></path></svg>
-                   <Link :href="route('logout')" class=" ml-3 whitespace-nowrap" role="menuitem" as="button" method="delete">Sign out</Link>
+                   <button type="button" @click="confirmSignOut">Sign out</button>
+                   <!-- <Link :href="route('logout')" class=" ml-3 whitespace-nowrap" role="menuitem" as="button" method="delete">Sign out</Link> -->
                 </a>
              </li>
           </ul>
@@ -226,8 +227,8 @@
     </template>
 
 <script setup>
-import {Link} from '@inertiajs/vue3'
-
+import {Link, router} from '@inertiajs/vue3'
+import Swal from 'sweetalert2';
 
 const appUrl = '/storage/'
 const defaultImage = 'Images/default.png'
@@ -252,4 +253,27 @@ const toUpperFirst = (word)=>{
 defineProps({
   user:Object,
 })
+
+function confirmSignOut()
+{
+  Swal.fire({
+    title:'Sign out',
+    text:'Continue signing out?',
+    icon:'question',
+    confirmButtonText:'Yes, sign me out!',
+    cancelButtonText:'Cancel',
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    showCancelButton:true,
+    allowOutsideClick:false,
+    allowEscapeKey:false,
+  }).then((result)=>{
+     if(result.isConfirmed)
+     {
+        const logOutUrl = route('logout')
+
+        router.delete(logOutUrl);
+     }
+  })
+}
 </script>
