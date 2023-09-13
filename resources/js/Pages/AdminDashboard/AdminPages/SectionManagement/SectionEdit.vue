@@ -7,7 +7,7 @@
 
         
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="confirmUpdate">
             <div class="w-full mb-4 ">
                 <div class="mb-5">Name: </div>
                 <div>
@@ -43,10 +43,11 @@
 </template>
 
 <script setup>
-import { useForm, usePage } from '@inertiajs/vue3';
+import { useForm, usePage, router } from '@inertiajs/vue3';
 import DashboardLayout from '../../Layout/DashboardLayout.vue';
 import { onMounted,ref, watch } from 'vue';
 import InputError from '../../../GlobalComponent/InputError.vue';
+import Swal from 'sweetalert2';
 
 const user = usePage().props.user;
 
@@ -114,5 +115,25 @@ const submit = ()=> form.post(route('section.update',{
     preserveScroll:true,
 }))
 
+// alert codes
+
+function confirmUpdate(sectionId)
+{
+    Swal.fire({
+        title:'Update Confirmation',
+        text:'Are you sure?',
+        icon:'question',
+        showCancelButton:true,
+        confirmButtonText:'Yes, update it!',
+        cancelButtonText:'Cancel',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            submit();
+        }
+    })
+}
 
 </script>

@@ -3,7 +3,7 @@
         <div class="border-bot-only border-gray-600 shadow-md mb-4">
             <span class="text-[20px] font-bold text-gray-500">Add Post Page</span>  
         </div>
-        <form @submit.prevent="submit" enctype="multipart/form-data">
+        <form @submit.prevent="confirmSubmit" enctype="multipart/form-data">
             <div class="grid grid-cols-12">
                 
                 <div class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
@@ -221,8 +221,9 @@
 <script setup>
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
 import InputError from '../../../../GlobalComponent/InputError.vue';
-import { usePage,useForm } from '@inertiajs/vue3';
+import { usePage,useForm, router } from '@inertiajs/vue3';
 import {ref, computed} from 'vue';
+import Swal from 'sweetalert2';
 
 const user = usePage().props.user
 const selectedPage = ref(null);
@@ -466,6 +467,35 @@ const submit = ()=>{
         form.post(route('webPost.store'));
     }
 };
+
+
+// alert codes
+function confirmSubmit()
+{
+    Swal.fire({
+        title:'Confirmation',
+        text: 'Are you sure?',
+        icon:'question',
+        showCancelButton:true,
+        confirmButtonText:'Yes, submit it!',
+        cancelButtonText:'Cancel',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            submit();
+        }
+        if(result.isDismissed)
+        {
+            Swal.fire({
+                title:'Canceled',
+                text:'Your action was canceled!',
+                icon:'error',
+            })
+        }
+    })
+}
 
 
 </script>

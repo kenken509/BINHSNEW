@@ -107,6 +107,13 @@ function successMessage(message)
         title:'Success',
         text:message+'!',
         icon:'success',
+        allowOutsideClick:false,
+        allowEscapeKey:false
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            location.reload();
+        }
     })
 }
 </script>

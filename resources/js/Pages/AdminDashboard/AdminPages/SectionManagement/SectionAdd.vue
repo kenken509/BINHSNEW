@@ -6,7 +6,7 @@
         <div v-if="$page.props.flash.success" class="bg-green-300 mb-2 p-1 rounded-md text-gray-600">{{ $page.props.flash.success  }} </div>
 
         
-        <form @submit.prevent="submit">
+        <form @submit.prevent="confirmAddSection">
             <div class="w-full mb-4 ">
                 <div class="mb-5">Name: </div>
                 <div>
@@ -47,6 +47,8 @@
 import DashboardLayout from '../../Layout/DashboardLayout.vue';
 import InputError from '../../../GlobalComponent/InputError.vue';
 import {ref, watch} from 'vue';
+import Swal from 'sweetalert2';
+import { router } from '@inertiajs/vue3'
 
 import { useForm, usePage } from '@inertiajs/vue3';
 
@@ -88,4 +90,40 @@ const submit = () => form.post(route('section.store',{
     preserveScroll: true,
 }))
 
+// alert codes
+
+function confirmAddSection()
+{
+    Swal.fire({
+        title:'Confirmation',
+        text:'Are you sure?',
+        icon:'question',
+        confirmButtonText:'Yes, add it!',
+        cancelButtonText:'Cancel',
+        showCancelButton:true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            submit()    
+        }
+
+        if(result.isDismissed)
+        {
+            Swal.fire({
+                title:'Canceled',
+                text:'Your action was canceled!',
+                icon:'error',
+                allowOutsideClick:false,
+                allowEscapeKey:false,
+            }).then((result)=>{
+                if(result.isConfirmed)
+                {
+                    location.reload();
+                }
+            })
+        }
+    })
+}
 </script>

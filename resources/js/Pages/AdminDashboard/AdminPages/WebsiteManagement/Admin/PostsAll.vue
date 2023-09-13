@@ -4,7 +4,7 @@
             <span class="text-[20px] font-bold text-gray-500">Web Posts Page</span>  
             <Dropdown  v-model="selectedPage" :options="pages" optionLabel="name" placeholder="Select page" class="md:w-14rem mb-2" />
         </div>
-       <div v-if="$page.props.flash.success" class="bg-green-300 rounded-md p-2 mb-4 text-gray-600">{{ $page.props.flash.success }}</div>
+       <div v-if="$page.props.flash.success" >{{ successMessage($page.props.flash.success) }}</div>
        <!--about page-->
         <div v-if="selected === 'About'" class=" overflow-x-auto shadow-md sm:rounded-lg">
             
@@ -47,8 +47,8 @@
                         </td>
                         <td class="whitespace-nowrap px-6 py-4">
                             <div class=" space-x-6" >
-                                <div v-if="$page.props.flash.success"><Toast position="top-left" /> </div>
-                                <Link :href="route('aboutPost.delete', {id: post.id})" class="cursor-pointer" v-tooltip.left="'Delete User'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
+                                <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'Delete Post'" @click="deleteConfirmation(post.id ,'about')"></span>
+                                <!-- <Link :href="route('aboutPost.delete', {id: post.id})" class="cursor-pointer" v-tooltip.left="'Delete User'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link> -->
                                 <Link :href="route('editPost.show', {id:post.id, page:'About'})" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit Post'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
                                 <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'View full info'" @click="openModal(user.id)" ></span>
                             </div>
@@ -101,8 +101,8 @@
                         
                         <td class="whitespace-nowrap px-6 py-4">
                             <div class=" space-x-6" >
-                                <div v-if="$page.props.flash.success"><Toast position="top-left" /> </div>
-                                <Link :href="route('contactPost.delete', {id: post.id})" class="cursor-pointer" v-tooltip.left="'Delete User'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
+                                <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'Delete Post'" @click="deleteConfirmation(post.id, 'contacts')"></span>
+                                <!-- <Link :href="route('contactPost.delete', {id: post.id})" class="cursor-pointer" v-tooltip.left="'Delete User'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link> -->
                                 <Link :href="route('editPost.show',{id:post.id, page:'Contacts'})" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit Post'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
                                 <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'View full info'" @click="openModal(user.id)" ></span>
                             </div>
@@ -164,8 +164,8 @@
                         
                         <td class="whitespace-nowrap px-6 py-4">
                             <div class=" space-x-6" >
-                                <div v-if="$page.props.flash.success"><Toast position="top-left" /> </div>
-                                <Link :href="route('newsPost.delete', {id: post.id})" class="cursor-pointer" v-tooltip.left="'Delete User'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
+                                <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'Delete Post'" @click="deleteConfirmation(post.id, 'news')"></span>
+                                <!-- <Link :href="route('newsPost.delete', {id: post.id})" class="cursor-pointer" v-tooltip.left="'Delete User'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link> -->
                                 <Link :href="route('editPost.show', {id:post.id, page:'News'})" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit Post'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
                                 <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'View full info'" @click="openModal(user.id)" ></span>
                             </div>
@@ -240,8 +240,8 @@
                         
                         <td class="whitespace-nowrap px-6 py-4">
                             <div class=" space-x-6" >
-                                <div v-if="$page.props.flash.success"><Toast position="top-left" /> </div>
-                                <Link :href="route('downloadsPost.delete', {id: post.id})" class="cursor-pointer" v-tooltip.left="'Delete User'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link>
+                                <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'Delete Post'" @click="deleteConfirmation(post.id, 'downloads')"></span>
+                                <!-- <Link :href="route('downloadsPost.delete', {id: post.id})" class="cursor-pointer" v-tooltip.left="'Delete User'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link> -->
                                 <Link :href="route('editPost.show', {id:post.id, page:'Downloads'})" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit Post'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
                                 <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'View full info'" @click="openModal(user.id)" ></span>
                             </div>
@@ -261,8 +261,9 @@
 
 <script setup>
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
-import { usePage, Link } from '@inertiajs/vue3';
+import { usePage, Link, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue'
+import Swal from 'sweetalert2';
 
 const user = usePage().props.user
 const appUrl = 'http://127.0.0.1:8000/storage/'
@@ -311,5 +312,74 @@ function stringModifier(myString){
     let separator = '_'
     const index = myString.indexOf(separator);
     return index !== -1 ? myString.slice(index+1) : myString
+}
+
+function successMessage(message)
+{
+    Swal.fire({
+        title:'Success',
+        text:message,
+        icon: 'success',
+        allowOutsideClick:false,
+        allowEscapeKey:false,
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            location.reload();
+        }
+    })
+}
+
+// alert codes
+
+function deleteConfirmation(postId, page)
+{
+    Swal.fire({
+        title:'Confirmation',
+        text:"You won't be able to revert this!",
+        icon:'warning',
+        confirmButtonText:'Yes, delete it!',
+        cancelButtonText:'Cancel',
+        showCancelButton:true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            const deleteAboutUrl = route('aboutPost.delete', {id: postId})
+            const deleteContactsUrl = route('contactPost.delete', {id: postId})
+            const deleteNewsUrl = route('newsPost.delete', {id: postId})
+            const deleteDownloadsUrl = route('downloadsPost.delete', {id: postId})
+
+            switch(page)
+            {
+                case 'about':
+                    router.delete(deleteAboutUrl);
+                    break;
+                
+                case 'contacts':
+                    router.delete(deleteContactsUrl);
+                    break;
+
+                case 'news':
+                    router.delete(deleteNewsUrl);
+                    break;
+
+                case 'downloads':
+                    router.delete(deleteDownloadsUrl);
+
+            }
+            
+        }
+
+        if(result.isDismissed)
+        {
+            Swal.fire({
+                title:'Canceled',
+                text:'Your action was canceled!',
+                icon:'error',
+            })
+        }
+    })
 }
 </script>

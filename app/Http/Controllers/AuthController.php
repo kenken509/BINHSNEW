@@ -202,7 +202,7 @@ class AuthController extends Controller
         $request->session()->invalidate(); //invalidate the session
         $request->session()->regenerateToken(); // regenerate csrf token
 
-        return redirect()->route('index')->with('success', 'Logged out successfully');
+        return redirect()->route('index')->with('success', 'Signed out successfully');
     }
 
     public function showChangePassword()
@@ -242,7 +242,7 @@ class AuthController extends Controller
 
                 $request->session()->regenerate();
                 
-                return redirect()->route('index')->with('success', 'Logged in successfully');
+                return redirect()->route('index')->with('success', 'Signed in successfully');
             }
             else
             {
