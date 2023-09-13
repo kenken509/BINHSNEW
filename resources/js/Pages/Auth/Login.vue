@@ -2,6 +2,7 @@
 import { useForm,usePage } from '@inertiajs/vue3';
 import { ref,computed } from 'vue';
 import {Link} from '@inertiajs/vue3'
+import Swal from 'sweetalert2';
 
 const logo = '/storage/Images/logo1.png'
 const error = computed(()=> usePage().props.flash);
@@ -19,6 +20,24 @@ const form = useForm({
 })
 
 const login = ()=> form.post(route('login.store'))
+
+// alert codes
+
+function successMessage(message)
+{
+    Swal.fire({
+        title:'Success',
+        text:message+'!',
+        icon:'success',
+        allowOutsideClick:false,
+        allowEscapeKey:false
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            location.reload();
+        }
+    })
+}
 </script>
 
 <template >
@@ -39,7 +58,7 @@ const login = ()=> form.post(route('login.store'))
                             <span class=" font-bold text-red-500">{{ error.error }}</span>
                         </div>
                         <div v-if="error.success" class="flex  justify-center ">
-                            <span class=" font-bold text-red-500">{{ error.success }}</span>
+                            <span >{{ successMessage(error.success) }}</span>
                         </div>
                         <div class=" mt-2  ">
                             <label class="label" for="email">E-mail</label>

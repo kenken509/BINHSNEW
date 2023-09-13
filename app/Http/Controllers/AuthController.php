@@ -130,7 +130,7 @@ class AuthController extends Controller
             $newUser->save();
             event(new Registered($newUser));
 
-            return redirect()->route('login')->with('success', 'Successfully registered! ');
+            return redirect()->route('login')->with('success', 'Successfully registered! Please check your email for verification! ');
         }
 
         if($request->role == 'guest')
@@ -146,7 +146,7 @@ class AuthController extends Controller
             $user->save();
             event(new Registered($user));
 
-            return redirect()->route('login')->with('success', 'Successfully registered!');
+            return redirect()->route('login')->with('success', 'Successfully registered! Please check your email for verification!');
         }
 
         
