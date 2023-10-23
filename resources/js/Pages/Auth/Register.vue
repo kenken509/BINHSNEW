@@ -9,7 +9,8 @@
             </div>
             <div class="flex justify-center">
                 <span class=" font-bold text-xl">Account Registration</span>
-                
+                current month:{{ currentMonth }}
+                school year: {{  currentSchoolYear }}
             </div>
             <!--input group-->
             <div >
@@ -81,7 +82,7 @@
                                 <RadioButton v-model="selectedRole" inputId="guest" name="pizza" value="guest" />
                                 <label for="guest" class="ml-2 hover:cursor-pointer">Guest</label>
                             </div>
-                            <div class="flex items-center hover:cursor-pointer ">
+                            <div v-if="currentMonth !== 8" class="flex items-center hover:cursor-pointer ">
                                 <RadioButton v-model="selectedRole" inputId="student" name="pizza" value="student"/>
                                 <label for="student" class="ml-2 hover:cursor-pointer">Student</label>
                             </div>
@@ -101,9 +102,10 @@
 </template>
 
 <script setup>
-import {computed, ref, watch} from 'vue'
+import {computed, onMounted, ref, watch} from 'vue'
 import { useForm,usePage } from '@inertiajs/vue3';
 import InputError from '../GlobalComponent/InputError.vue';
+
 
 
 const subject = defineProps({
@@ -159,7 +161,33 @@ const form = useForm({
     section:null,
 })
 
+onMounted(()=>{
+    const currentDate = new Date();
+    const month = ref(currentDate.getMonth());
+    const year = currentDate.getFullYear();
+    
+    
+    currentMonth.value = month.value+1;
+    if(currentMonth.value < 8 )
+    {
+        currentSchoolYear.value = (year-1)+'-'+year
 
+    }
+    else if(currentMonth.value >= 9 )
+    {
+        currentSchoolYear.value = year+'-'+(year+1);
+    }
+    else{
+        currentSchoolYear.value = null;
+    }
+
+    
+    
+})
+
+const currentMonth = ref(null);
+const currentSchoolYear = ref(null);
 
 const submit = () => form.post(route('register.guestStore'),{preserveScroll:true});
+
 </script>
