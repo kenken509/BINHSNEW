@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Http\Request;
+use App\Models\StudentActiveQuiz;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class SimulatorAuthController extends Controller
@@ -24,8 +25,18 @@ class SimulatorAuthController extends Controller
         if ($exist && Hash::check($request->password, $exist->password) ) {
             // Authentication successful
             $user = $exist;
+            
+            $activeQuizzes = StudentActiveQuiz::where('student_id', '=', $user->id)
+                            ->where('status', '=', 'pending')
+                            ->with(['quiz' => function ($query) {
+                                $query->with(['question' => function  ($query) {
+                                    $query->with('choices')->inRandomOrder();
+                                }]);
+                            }])
+                            ->latest()->get();
+            // query student active quiz;
 
-            return response()->json(['message' => 'Login successful', 'user' => $user], 200);
+            return response()->json(['message' => 'Login successfully!!!', 'user' => $user, 'activeQuizzes' => $activeQuizzes], 200);
         } else {
             // Authentication failed
             return response()->json(['message' => 'Invalid credentials'],401);
