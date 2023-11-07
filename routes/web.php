@@ -188,8 +188,10 @@ Route::controller(SectionController::class)->middleware(['auth','verified','isAd
 
 
 Route::controller(SimulatorAuthController::class)->group(function(){
-    Route::post('/simulator/login','simLogin')->name('simulator.login');
+    Route::match(['get', 'post'], '/simulator/login', 'simLogin')->name('simulator.login');
+    //Route::post('/simulator/login','simLogin')->name('simulator.login');
     Route::get('/simulator/test-api','handlePostRequest')->name('simulator.login');
+    Route::get('/simulator/active-quizzes/{id}','getActiveQuiz')->name('simulator.getActiveQuiz');
 });
 
 //website controller *********************************************************8

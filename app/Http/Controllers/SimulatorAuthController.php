@@ -42,4 +42,19 @@ class SimulatorAuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'],401);
         }
     }
+
+    public function getActiveQuiz($id)
+    {
+        
+        $activeQuizzes = StudentActiveQuiz::where('student_id', '=', $id)
+                            ->where('status', '=', 'pending')
+                            ->with(['quiz' => function ($query) {
+                                $query->with(['question' => function  ($query) {
+                                    $query->with('choices')->inRandomOrder();
+                                }]);
+                            }])
+                            ->latest()->get();
+
+        return response()->json(['activeQuizzes' => $activeQuizzes], 200);
+    }
 }
