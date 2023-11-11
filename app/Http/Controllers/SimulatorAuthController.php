@@ -55,6 +55,44 @@ class SimulatorAuthController extends Controller
                             }])
                             ->latest()->get();
 
-        return response()->json(['activeQuizzes' => $activeQuizzes], 200);
+        return response()->json(['activeQuizzes' => $activeQuizzes]);
+    }
+
+    public function activeQuizGrade(Request $request)
+    {
+        //dd($request);
+        //id
+        //quiz_id
+        //quiz_score
+        //quiz_grade
+
+         $QuizToUpdate = StudentActiveQuiz::where('student_id', '=', $request->id)
+                                             ->where('quiz_id', '=', $request->quiz_id)->first();
+
+        if($QuizToUpdate)
+        {
+            if($QuizToUpdate->quiz_grade) // if graded
+            {
+                return response()->json(['status' => "Existing Grade Found!"]);
+            }
+            else
+            {
+                try{
+                    
+                    $QuizToUpdate->quiz_score = $request->quiz_score;
+                    $QuizToUpdate->quiz_grade = $request->quiz_grade;
+                    $QuizToUpdate->status = "done";
+                    $QuizToUpdate->save();
+
+                    return response()->json(["status" => "Graded Successfully!"]);
+                }catch(\Exception $e){
+                    return response()->json(["status" => "ERROR : FAILED TO SUBMIT GRADES!!"]);
+                }
+                
+            }
+           
+        }
+
+    
     }
 }
