@@ -81,20 +81,17 @@
                                                 <div>Option A: {{ question.option_a }}</div>
                                                 <div>Option B: {{ question.option_b }}</div>
                                                 <div>Option C: {{ question.option_c }}</div>
+                                                <div>Option C: {{ question.option_d }}</div>
                                             </td>
                                             
                                             <td>
                                                 <div class="flex flex-col p-2  items-center ">
-                                                   
                                                     <button type="button" class=" bg-red-600 p-2 rounded-md hover:bg-red-700 text-gray-100 hover:text-white my-2 w-20" @click="handleEditQuestionButton(index)">Edit </button>
                                                     <button type="button" class=" bg-indigo-500 p-2 rounded-md hover:bg-indigo-700 text-gray-100 hover:text-white my-2 w-20" @click="handleDeleteQuestionButton(index)">delete</button>
                                                 </div>    
                                             </td>
                                         </tr>
-                                        
-                                    </tbody>
-                                    
-                                    
+                                    </tbody>     
                             </table>
                             <div v-if="getQuestionsFromLocalStorage().length === 0" class="flex justify-center text-red-300 p-2">
                                 Empty List
@@ -109,61 +106,88 @@
                     <div class="border p-2 rounded-md">
                         <form @submit.prevent="handleAddModalQuestion">
                             <div>Question:</div>
+                            
                             <div>
                                 <Textarea v-model="preQuestion" rows="3"  class="w-full" placeholder="Enter question" required/>
                             </div>
 
-                            <div>
-                                Input Options
+                            <div class="grid grid-cols-12">
+                                <span class=" col-span-11">
+                                    Input Options 
+                                </span>
+                                <span class=" col-span-1">
+                                    Answer
+                                </span>
                             </div>
 
                             <div class="">
                                 Option A: 
                             </div>
 
-                            <div>
-                                <span class="">
-                                    <InputText v-model="preOptionA" id="choice_a"  class="w-full" placeholder="Enter option" required/>
-                                
-                                </span>
+                            <div class="grid grid-cols-12">
+                                <div class=" col-span-11">
+                                    <span>
+                                        <InputText v-model="preOptionA" id="choice_a"  class="w-full" placeholder="Enter option" required/>
+                                    </span>
+                                </div>
+                                <div class=" col-span-1  flex items-center justify-center h-full" >
+                                    <RadioButton v-model="preAnswer" inputId="option_a" name="optionGroup" value="A" />
+                                </div>
                                 <!-- <InputError :error="form.errors.correct_answer"/> -->
                             </div>
                             <div class="">
                                 Option B: 
                             </div>
 
-                            <div>
-                                <span class="">
-                                    <InputText v-model="preOptionB" id="choice_a"  class="w-full" placeholder="Enter option" required/>
-                                
-                                </span>
+                            <div class="grid grid-cols-12">
+                                <div class=" col-span-11">
+                                    <span >
+                                        <InputText v-model="preOptionB" id="choice_b"  class="w-full" placeholder="Enter option" required/>
+                                    </span>
+                                </div>
+                                <div class=" col-span-1  flex items-center justify-center h-full" >
+                                    <RadioButton v-model="preAnswer" inputId="option_b" name="optionGroup" value="B" />
+                                </div>
                                 <!-- <InputError :error="form.errors.correct_answer"/> -->
                             </div>
                             <div class="">
                                 Option C: 
                             </div>
 
-                            <div>
-                                <span class="">
-                                    <InputText v-model="preOptionC" id="choice_a"  class="w-full" placeholder="Enter option" required/>
-                                
-                                </span>
+                            <div class="grid grid-cols-12">
+                                <div class=" col-span-11">
+                                    <span class="">
+                                        <InputText v-model="preOptionC" id="choice_c"  class="w-full" placeholder="Enter option" required/>
+                                    </span>
+                                </div>
+                                <div class=" col-span-1  flex items-center justify-center h-full" >
+                                    <RadioButton v-model="preAnswer" inputId="option_c" name="optionGroup" value="C" />
+                                </div>
                                 <!-- <InputError :error="form.errors.correct_answer"/> -->
                             </div>
                             <div class="">
-                                Correct Answer: 
+                                Option D: 
                             </div>
 
-                            <div>
-                                <span class="">
-                                    <InputText v-model="preCorrectAnswer" id="choice_a"  class="w-full" placeholder="Enter option" required/>
-                                
-                                </span>
+                            <div class="grid grid-cols-12">
+                                <div class=" col-span-11">
+                                    <span class="">
+                                        <InputText v-model="preOptionD" id="choice_a"  class="w-full" placeholder="Enter option" required/>
+                                    </span>
+                                </div>
+                                <div class=" col-span-1  flex items-center justify-center h-full" >
+                                    <RadioButton v-model="preAnswer" inputId="option_d" name="optionGroup" value="D" />
+                                </div>
                                 <!-- <InputError :error="form.errors.correct_answer"/> -->
                             </div>
-                            <div class="w-full mt-6 ">
-                                <Button label="Add" class="w-full" type="submit"/>
+                            <div class="mt-6">
+                                <InputError :error="addQuestionError"/>
                             </div>
+                            
+                            <div class="w-full mt-6 ">
+                                <Button label="Add" class="w-full" type="submit" @click="testPreAnswer"/>
+                            </div>
+                            
                         </form>
                     </div>
                     
@@ -188,56 +212,77 @@
                                
                             </div>
 
-                            <div>
-                                Input Options
+                            <div class="grid grid-cols-12">
+                                <span class=" col-span-11">
+                                    Input Options 
+                                </span>
+                                <span class=" col-span-1">
+                                    Answer
+                                </span>
                             </div>
 
                             <div class="">
                                 Option A: 
                             </div>
 
-                            <div>
-                                <span class="">
-                                    <InputText v-model="preOptionAEdit" id="choice_a"  class="w-full" placeholder="Enter option" required/>
-                                
-                                </span>
+                            <div class="grid grid-cols-12">
+                                <div class="col-span-11">
+                                    <span class="">
+                                        <InputText v-model="preOptionAEdit" id="choice_a"  class="w-full" placeholder="Enter option" required/>
+                                    </span>
+                                </div>
+                                <div class=" col-span-1  flex items-center justify-center h-full" >
+                                    <RadioButton v-model="preAnswerEdit" inputId="option_a" name="optionGroup" value="A" />
+                                </div>
                                 <!-- <InputError :error="form.errors.correct_answer"/> -->
                             </div>
                             <div class="">
                                 Option B: 
                             </div>
 
-                            <div>
-                                <span class="">
-                                    <InputText v-model="preOptionBEdit" id="choice_b"  class="w-full" placeholder="Enter option" required/>
-                                
-                                </span>
+                            <div class="grid grid-cols-12">
+                                <div class="col-span-11">
+                                    <span class="">
+                                        <InputText v-model="preOptionBEdit" id="choice_b"  class="w-full" placeholder="Enter option" required/>
+                                    </span>
+                                </div>
+                                <div class=" col-span-1  flex items-center justify-center h-full" >
+                                    <RadioButton v-model="preAnswerEdit" inputId="option_b" name="optionGroup" value="B" />
+                                </div>
                                 <!-- <InputError :error="form.errors.correct_answer"/> -->
                             </div>
                             <div class="">
                                 Option C: 
                             </div>
 
-                            <div>
-                                <span class="">
-                                    <InputText v-model="preOptionCEdit" id="choice_c"  class="w-full" placeholder="Enter option" required/>
-                                
-                                </span>
+                            <div class="grid grid-cols-12">
+                                <div class="col-span-11">
+                                    <span class="">
+                                        <InputText v-model="preOptionCEdit" id="choice_c"  class="w-full" placeholder="Enter option" required/>                                   
+                                    </span>
+                                </div>
+                                <div class=" col-span-1  flex items-center justify-center h-full" >
+                                    <RadioButton v-model="preAnswerEdit" inputId="option_c" name="optionGroup" value="C" />
+                                </div>
                                 <!-- <InputError :error="form.errors.correct_answer"/> -->
                             </div>
                             <div class="">
-                                Correct Answer: 
+                                Option D: 
                             </div>
 
-                            <div>
-                                <span class="">
-                                    <InputText v-model="preCorrectAnswerEdit" id="correct_answer"  class="w-full" placeholder="Enter option" required/>
-                                
-                                </span>
+                            <div class="grid grid-cols-12">
+                                <div class="col-span-11">
+                                    <span class="">
+                                        <InputText v-model="preOptionDEdit" id="correct_answer"  class="w-full" placeholder="Enter option" required/>                                   
+                                    </span>
+                                </div>
+                                <div class=" col-span-1  flex items-center justify-center h-full" >
+                                    <RadioButton v-model="preAnswerEdit" inputId="option_d" name="optionGroup" value="D" />
+                                </div>
                                 <!-- <InputError :error="form.errors.correct_answer"/> -->
                             </div>
                             <div class="w-full mt-6 ">
-                                <Button label="Add" class="w-full" type="submit"/>
+                                <Button label="Update" class="w-full" type="submit" />
                             </div>
                         </form>
                     </div>
@@ -271,14 +316,19 @@ const gradingPeriod = ref([
 ]) 
 
 const selectedGradingPeriod = ref(null)
-const selectedSubject = ref({});
-const preQuestion      = ref(null);
+const selectedSubject   = ref({});
+const preQuestion       = ref(null);
 const preOptionA        = ref(null);
 const preOptionB        = ref(null);
 const preOptionC        = ref(null);
-const preCorrectAnswer  = ref(null);
+const preOptionD        = ref(null);
+const preAnswer         = ref(null);
+const addQuestionError = ref("");
 
 
+const testPreAnswer = ()=>{
+    console.log(preAnswer.value);
+}
 
 const addQuestion = ref(false)
 function handleAddQuestionClick(){
@@ -295,31 +345,43 @@ const preQuestionObject = {
         'option_b'      :null,
         'option_c'      :null,
 }
-//const preQuestionsArray = [];
+
 
 
 const handleAddModalQuestion = () => {
-    const newQuestion = {
-        question: preQuestion.value,
-        correct_answer: preCorrectAnswer.value,
-        option_a: preOptionA.value,
-        option_b: preOptionB.value,
-        option_c: preOptionC.value,
-    };
+    if(preAnswer.value === null)
+    {
+        addQuestionError.value = "Please specify the \"correct answer\".";
+        addQuestion.value = true;
+    }
+    else
+    {
+        const newQuestion = {
+            question: preQuestion.value,
+            correct_answer: preAnswer.value,
+            option_a: preOptionA.value,
+            option_b: preOptionB.value,
+            option_c: preOptionC.value,
+            option_d: preOptionD.value,
+        };
 
-    existingQuestion.value.push(newQuestion);
+        existingQuestion.value.push(newQuestion);
 
-    preQuestion.value = null;
-    preOptionA.value = null;
-    preOptionB.value = null;
-    preOptionC.value = null;
-    preCorrectAnswer.value = null;
+        preQuestion.value = null;
+        preOptionA.value = null;
+        preOptionB.value = null;
+        preOptionC.value = null;
+        preOptionD.value = null;
+        preAnswer.value = null;
 
-    //console.log(preQuestionsArray);
-    saveQuestionsToLocalStorage(existingQuestion.value);
-    //console.log(preQuestionsArray);
-
-    addQuestion.value = !addQuestion.value;
+        //console.log(preQuestionsArray);
+        saveQuestionsToLocalStorage(existingQuestion.value);
+        //console.log(preQuestionsArray);
+        
+        addQuestion.value = !addQuestion.value;
+        addQuestionError.value = "";
+    }
+    
 };
 
 
@@ -380,8 +442,10 @@ const submit = () => {
  const   preOptionAEdit         = ref(null) 
  const   preOptionBEdit         = ref(null) 
  const   preOptionCEdit         = ref(null) 
- const   preCorrectAnswerEdit   = ref(null) 
+ const   preOptionDEdit         = ref(null) 
+ const   preAnswerEdit          = ref(null) 
  const   questionIndex          = ref(null);
+ 
  const handleEditQuestionButton = (index) => {
     const selectedQuestion = getQuestionsFromLocalStorage()[index];
     
@@ -391,7 +455,8 @@ const submit = () => {
     preOptionAEdit.value = selectedQuestion.option_a;
     preOptionBEdit.value = selectedQuestion.option_b;
     preOptionCEdit.value = selectedQuestion.option_c;
-    preCorrectAnswerEdit.value = selectedQuestion.correct_answer;
+    preOptionDEdit.value = selectedQuestion.option_d;
+    preAnswerEdit.value = selectedQuestion.correct_answer;
 
     editQuestion.value = !editQuestion.value;
 };
@@ -407,7 +472,7 @@ const handleEditModalQuestion = () => {
   selectedQuestion.option_a         = preOptionAEdit.value;
   selectedQuestion.option_b         = preOptionBEdit.value;
   selectedQuestion.option_c         = preOptionCEdit.value;
-  selectedQuestion.correct_answer   = preCorrectAnswerEdit.value;
+  selectedQuestion.correct_answer   = preAnswerEdit.value;
 
   // Save the updated array back to localStorage
   saveQuestionsToLocalStorage(questions);

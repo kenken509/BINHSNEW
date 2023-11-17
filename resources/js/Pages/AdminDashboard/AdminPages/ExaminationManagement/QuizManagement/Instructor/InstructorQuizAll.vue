@@ -84,7 +84,7 @@
                     <hr>
                     <div v-for="(question,index) in quiz.question" :key="question.id" class="my-2">
                         <div>Question # {{ index+1 }} : <span >{{ question.question }}</span> </div>
-                        <div>Correct Answer : <span class="text-green-500">{{ question.correct_answer }}</span> </div> 
+                        <div>Correct Answer : <span class="text-green-500">{{ question.correct_answer }}  asdfasdf</span> </div> 
                         <div class="ml-10">
                             <div>Option a : {{ question.choices.option_a }}</div> 
                             <div>Option b : {{ question.choices.option_b }}</div> 

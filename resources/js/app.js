@@ -35,6 +35,7 @@ import FileUpload from 'primevue/fileupload';
 import Card from 'primevue/card';
 import Divider from 'primevue/divider';
 import Carousel from 'primevue/carousel';
+import Checkbox from 'primevue/checkbox';
 
 //flowbite
 // import { 
@@ -100,6 +101,7 @@ createInertiaApp({
       .component('Password',Password)
       .component('Carousel',Carousel)
       .directive('tooltip', Tooltip)
+      .component('Checkbox',Checkbox)
       .mount(el)
   },
   

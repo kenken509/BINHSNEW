@@ -118,7 +118,7 @@ class QuizManagementController extends Controller
                 $choice->option_a = $questionData['option_a'];
                 $choice->option_b = $questionData['option_b'];
                 $choice->option_c = $questionData['option_c'];
-                $choice->option_d = $questionData['correct_answer'];
+                $choice->option_d = $questionData['option_d'];
                 $choice->save();
                 
             }
@@ -259,7 +259,7 @@ class QuizManagementController extends Controller
                         $choices[0]->option_a           = $questionData['choices']['option_a'];
                         $choices[0]->option_b           = $questionData['choices']['option_b'];
                         $choices[0]->option_c           = $questionData['choices']['option_c'];
-                        $choices[0]->option_d           = $questionData['correct_answer'];
+                        $choices[0]->option_d           = $questionData['choices']['option_d'];
                         $choices[0]->save();
                     }
                 }
@@ -278,9 +278,9 @@ class QuizManagementController extends Controller
 
                         $newChoices->quiz_question_id   = $newQuestionId;
                         $newChoices->option_a           = $questionData['choices']['option_a'];
-                        $newChoices->option_b           = $questionData['choices']['option_a'];
-                        $newChoices->option_c           = $questionData['choices']['option_a'];
-                        $newChoices->option_d           = $questionData['correct_answer'];
+                        $newChoices->option_b           = $questionData['choices']['option_b'];
+                        $newChoices->option_c           = $questionData['choices']['option_c'];
+                        $newChoices->option_d           = $questionData['choices']['option_d'];
                         $newChoices->save();
                 }
             }
