@@ -91,8 +91,8 @@ Route::controller(AuthController::class)->group(function(){
     Route::get('/login', 'create')->name('login');
     Route::post('/login', 'store')->name('login.store');
     Route::delete('/logout', 'destroy')->name('logout');
-    Route::get('/guest-registration', 'showRegistration')->name('register.guest');
-    Route::post('/guest-register', 'storeGuest')->name('register.guestStore');
+    Route::get('/account/registration', 'showRegistration')->name('register.guest');
+    Route::post('/register/store', 'storeGuest')->name('register.guestStore');
     Route::get('/change-password', 'showChangePassword')->name('change.password');
     Route::post('/change-password/store', 'changePassword')->name('reset.password');
     Route::get('/forgot-password', 'showForgotPassword')->name('forgot.password');
@@ -262,4 +262,7 @@ Route::controller(TestRouteController::class)->group(function(){
     Route::get('test/quiz/results', 'showQuizResults')->name('quiz.result');
 });
 
+Route::controller(SchoolYearController::class)->group(function(){
+    Route::post('/current-schoolyear', 'store')->name('schoolYear.store');
+});
 

@@ -1,11 +1,11 @@
 <template>
     <div>
         <div  class="border  border-gray-300 p-8 bg-gray-50 shadow-md my-8  rounded-md">
-            <div class="flex flex-col mb-2">
+            <div v-if="post.newsPost" class="flex flex-col mb-2">
                 <span class="text-[24px] font-extrabold font-serif">{{ post.newsPost.title }}</span>
                 <span class="text-[12px] text-gray-500 ">{{ dateCreated(post.newsPost.created_at) }}</span>
             </div>
-            <div class="">
+            <div v-if="post.newsPost" class="">
                 
                 <div class="border bg-black">
                     <div class="flex justify-center items-center">

@@ -19,6 +19,7 @@ class StudentSeeder extends Seeder
             'role'          => 'student',
             'subject_id'    => 1,
             'section_id'    => 1,
+            'isActive' => 1,
         ]);
        
         //HE student
@@ -28,6 +29,7 @@ class StudentSeeder extends Seeder
             'role'          => 'student',
             'subject_id'    => 2,
             'section_id'    => 2,
+            'isActive' => 1,
         ]);
 
          //ict student
@@ -37,6 +39,7 @@ class StudentSeeder extends Seeder
             'role'          => 'student',
             'subject_id'    => 3,
             'section_id'    => 3,
+            'isActive' => 1,
         ]);
 
         // industrial arts (ia) student
@@ -46,6 +49,7 @@ class StudentSeeder extends Seeder
             'role'          => 'student',
             'subject_id'    => 4,
             'section_id'    => 4,
+            'isActive' => 1,
         ]);
     }
 }

@@ -124,6 +124,7 @@ class AuthController extends Controller
             $newUser->email             = $request->email;
             $newUser->password          = $request->password;
             $newUser->role              = $request->role;
+            $newUser->school_year       = $request->currentSchoolYear;
             $newUser->subject_id        = $request->subject;
             $newUser->section_id        = $request->section;
             $newUser->isActive          = $request->isActive;

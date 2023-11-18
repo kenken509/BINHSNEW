@@ -18,6 +18,7 @@ class AdminSeeder extends Seeder
             'fName' => 'aries',
             'email' => 'admin@gmail.com',
             'phoneNumber' => '639191234567',
+            'isActive' => 1,
         ]);
 
         

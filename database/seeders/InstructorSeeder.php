@@ -18,6 +18,7 @@ class InstructorSeeder extends Seeder
             'phoneNumber'   => '639191234567',
             'role'          => 'instructor',
             'subject_id'    => 1,
+            'isActive' => 1,
         ]);
 
         //HE instructor
@@ -27,6 +28,7 @@ class InstructorSeeder extends Seeder
             'phoneNumber'   => '639191234567',
             'role'          => 'instructor',
             'subject_id'    => 2,
+            'isActive' => 1,
         ]);
         //ict instructor
         \App\Models\User::factory(1)->create([
@@ -34,6 +36,7 @@ class InstructorSeeder extends Seeder
             'phoneNumber'   => '639191234567',
             'role'          => 'instructor',
             'subject_id'    => 3,
+            'isActive' => 1,
         ]);
 
         //industrial arts (ia) instructor
@@ -43,6 +46,7 @@ class InstructorSeeder extends Seeder
             'phoneNumber'   => '639191234567',
             'role'          => 'instructor',
             'subject_id'    => 4,
+            'isActive' => 1,
         ]);
     }
 }

@@ -62,7 +62,7 @@ import IndexCard from './IndexComponent/IndexCard.vue';
 import WebNavLayout2 from './WebComponent/WebNavLayout2.vue';
 import Swal from 'sweetalert2';
 import { computed } from '@vue/reactivity';
-import {  usePage } from '@inertiajs/vue3';
+import {  useForm, usePage } from '@inertiajs/vue3';
 import WebHeaderLayout from './WebComponent/WebHeaderLayout.vue'
 import WebCarousel from './WebComponent/WebCarousel.vue';
 import WebFooter from './WebComponent/WebFooter.vue';
@@ -93,8 +93,41 @@ const handleClick = ()=>{
     clicked.value = true
 }
 
+const currentSchoolYear = ref(null);
+const currentMonth = ref(null);
+
+const form = useForm({
+    year:null,
+});
+
+const submit = ()=>{
+    console.log('submitted');
+    form.post(route('schoolYear.store'));
+}
 onMounted(()=>{
     document.addEventListener('click', handleClick)
+
+    const currentDate = new Date();
+    const month = ref(currentDate.getMonth());
+    const year = currentDate.getFullYear();
+    
+    
+    currentMonth.value = month.value+1;
+    if(currentMonth.value < 8 )
+    {
+        currentSchoolYear.value = (year-1)+'-'+year
+
+    }
+    else if(currentMonth.value >= 9 )
+    {
+        currentSchoolYear.value = year+'-'+(year+1);
+    }
+    else{
+        currentSchoolYear.value = null;
+    }
+
+    form.year = currentSchoolYear.value;
+    submit();
 })
 
 onUnmounted(() => {

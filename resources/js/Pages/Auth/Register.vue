@@ -1,16 +1,31 @@
 <template>
 
-   
+    <div class=" flex justify-center">
+        
+        <WebNavLayout2 :currentUser="user"  >
+    
+        </WebNavLayout2>
+
+    </div>
+
+    <div class="flex justify-center ">
+        <div class="w-full max-h-[500px] overflow-hidden ">
+            <WebHeaderLayout/> 
+        </div>
+    </div>
+
     <div class="flex justify-center items-center bg-gray-200 h-full items-center py-10 ">
-        <div></div>
+        
+        
         <div class="border border-gray-300 shadow-xl   w-full md:w-1/2 h-auto   mx-4 md:mx-0 pt-8 rounded-md " >
             <div class="flex justify-center items-center w-full mt-4">
                 <img src="../../../../public/images/webPage/logo1.png" alt="error"  class="w-[150px] h-[150px]" /> 
             </div>
             <div class="flex justify-center">
                 <span class=" font-bold text-xl">Account Registration</span>
-                current month:{{ currentMonth }}
-                school year: {{  currentSchoolYear }}
+            </div>
+            <div class="flex justify-center">
+                <span class="text-[12px]">School Year: {{  currentSchoolYear }}</span>
             </div>
             <!--input group-->
             <div >
@@ -105,8 +120,8 @@
 import {computed, onMounted, ref, watch} from 'vue'
 import { useForm,usePage } from '@inertiajs/vue3';
 import InputError from '../GlobalComponent/InputError.vue';
-
-
+import WebNavLayout2 from '../Index/WebComponent/WebNavLayout2.vue';
+import WebHeaderLayout from '../Index/WebComponent/WebHeaderLayout.vue'
 
 const subject = defineProps({
     subjects:Array,
@@ -159,6 +174,7 @@ const form = useForm({
     isActive:null,
     subject:null,
     section:null,
+    currentSchoolYear:null,
 })
 
 onMounted(()=>{
@@ -188,6 +204,9 @@ onMounted(()=>{
 const currentMonth = ref(null);
 const currentSchoolYear = ref(null);
 
-const submit = () => form.post(route('register.guestStore'),{preserveScroll:true});
+const submit = () => {
+    form.currentSchoolYear = currentSchoolYear.value;
+    form.post(route('register.guestStore'),{preserveScroll:true});
+}
 
 </script>
