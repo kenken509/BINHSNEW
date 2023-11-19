@@ -17,6 +17,7 @@ use App\Http\Controllers\TestRouteController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\EmailVerificationController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -37,7 +38,7 @@ Route::controller(ApiRequestController::class)->group(function(){
     Route::get('/api-request/users', 'showUsers')->name('api-request.users');
 });
 
-
+//verify email notice
 Route::get('/email/verify', function(){
    $isVerified = Auth::user()->email_verified_at;
 
@@ -49,10 +50,10 @@ Route::get('/email/verify', function(){
 
 
  //verification mail handler
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
  
-    return redirect()->route('index',)->with('success', 'Email was verified');
+    return redirect()->route('index',)->with('success', 'Email was successfully  verified!');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function (Request $request) { // import this: use Illuminate\Http\Request;
@@ -70,6 +71,8 @@ Route::post('/email/verification-notification', function (Request $request) { //
 // });
 
 //Auth::routes(['verify' => true]);
+
+
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('/show', [IndexController::class, 'show']);

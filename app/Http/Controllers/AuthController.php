@@ -40,7 +40,14 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)
         ->where('isActive','1')
         ->first();
-        
+
+        // if (!$user->isActive || !$user->email_verified_at) {
+        //     Auth::logout(); // Log out the user if not active or email not verified
+        //     throw ValidationException::withMessages([
+        //         'email' => 'Account is not active or email not verified. Please check your email for verification.',
+        //     ]);
+        // }
+
         $mailData = [
             'otpCode' => Str::random(6),
         ];

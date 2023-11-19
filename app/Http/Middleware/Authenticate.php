@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class Authenticate extends Middleware
 {
@@ -12,7 +13,11 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-       
-         return $request->expectsJson() ? null : route('login');
+        return $request->expectsJson() ? null : route('login');
+        // if ($request->expectsJson())  {
+        //     return null;
+        // }
+        
+        // return redirect()->route('index')->with('success', 'Email was verified')->getTargetUrl();;
     }
 }
