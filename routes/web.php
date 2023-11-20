@@ -128,6 +128,7 @@ Route::controller(StrandsController::class)->middleware('auth','verified')->grou
     Route::get('/track/ict', 'showICT')->name('strand.showICT');
     Route::get('/track/ia', 'showIA')->name('strand.showIA');
     Route::get('/track/agri-fishery', 'showAgriFisheryArts')->name('strand.showAgriFisheryArts');
+    Route::post('/post/toggle-like', 'toggleLike')->name('post.toggleLike');
     
 });
 

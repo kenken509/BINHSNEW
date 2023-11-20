@@ -23,4 +23,9 @@ class WebPost extends Model
     {
         return $this->hasMany(WebPostAttachment::class,'web_post_id','id');
     }
+
+    public function reactions()
+    {
+        return $this->hasMany(PostReaction::class, 'web_post_id', 'id');
+    }
 }

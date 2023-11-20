@@ -31,6 +31,10 @@
                             <span class="text-blue-500">read more...</span> 
                         </Link>
                     </p>
+                    <div class="border border-t-black  border-x-transparent border-b-transparent pt-4 flex justify-between">
+                        <i class="pi pi-thumbs-up-fill" style="color: slateblue; font-size: 1.25rem;"> 300  </i>
+                        <i class="pi pi-thumbs-up hover:cursor-pointer" style="font-size: 1.25rem;" @click="()=>toggleLike(post.id)"> like</i>
+                    </div>
                     
                 </div>
             </div>
@@ -42,7 +46,7 @@
 <script setup>
 import {toUpperFirst} from '../../Functions/Methods.vue'
 import {truncateText} from '../../Functions/Methods.vue'
-import {Link} from '@inertiajs/vue3'
+import {Link, useForm} from '@inertiajs/vue3'
 
 const data = defineProps({
     webPosts:Array,
@@ -67,4 +71,13 @@ function dateCreated (id){
      return formattedDate;
 }
 
+const form = useForm({
+    web_post_id:null,
+    type:'like',
+})
+
+function toggleLike(webPost){
+    form.web_post_id = webPost
+    form.post(route('post.toggleLike'));
+};
 </script>
