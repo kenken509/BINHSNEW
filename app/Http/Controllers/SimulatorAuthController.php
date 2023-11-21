@@ -91,7 +91,7 @@ class SimulatorAuthController extends Controller
                 
             }
         }
-
+        
     
     }
 }
