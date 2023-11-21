@@ -78,6 +78,6 @@ const form = useForm({
 
 function toggleLike(webPost){
     form.web_post_id = webPost
-    form.post(route('post.toggleLike'));
+    form.post(route('post.toggleLike'),{preserveScroll:true});
 };
 </script>

@@ -65,12 +65,17 @@ class SimulatorAuthController extends Controller
         //quiz_id
         //quiz_score
         //quiz_grade
-
+        return response()->json(["status" => $request]);
          $QuizToUpdate = StudentActiveQuiz::where('student_id', '=', $request->id)
                                              ->where('quiz_id', '=', $request->quiz_id)->first();
-
-        if($QuizToUpdate)
+                                             
+        
+        
+            
+        
+        if($QuizToUpdate != null)
         {
+            
             if($QuizToUpdate->quiz_grade) // if graded
             {
                 return response()->json(['status' => "Existing Grade Found!"]);
