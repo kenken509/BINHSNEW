@@ -4,7 +4,7 @@
                     
             <div class=" flex flex-col mb-2">
                 <div class="w-full  text-[30px] text-gray-800 font-serif mb-2">
-                    {{ toUpperFirst(post.title)  }}
+                    {{ toUpperFirst(post.title)  }} webPost: {{ post.userHasReacted }}
                 </div>
                 
                 <div class="text-[12px] text-gray-400 ">
@@ -32,8 +32,9 @@
                         </Link>
                     </p>
                     <div class="border border-t-black  border-x-transparent border-b-transparent pt-4 flex justify-between">
-                        <i class="pi pi-thumbs-up-fill" style="color: slateblue; font-size: 1.25rem;"> 300  </i>
-                        <i class="pi pi-thumbs-up hover:cursor-pointer" style="font-size: 1.25rem;" @click="()=>toggleLike(post.id)"> like</i>
+                        <i class="pi pi-thumbs-up-fill" style="color: slateblue; font-size: 1.25rem;"> <span class="ml-2">{{  post.reactions_count }} </span>  </i>
+                        <i v-if="!post.userHasReacted" class="pi pi-thumbs-up hover:cursor-pointer" style="font-size: 1.25rem; " @click="()=>toggleLike(post.id)"> like</i>
+                        <i v-else class="pi pi-thumbs-up-fill hover:cursor-pointer" style="font-size: 1.25rem; color: slateblue; " @click="()=>toggleLike(post.id)"> liked</i>
                     </div>
                     
                 </div>

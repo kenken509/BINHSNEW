@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class WebPost extends Model
 {
@@ -27,5 +28,10 @@ class WebPost extends Model
     public function reactions()
     {
         return $this->hasMany(PostReaction::class, 'web_post_id', 'id');
+    }
+
+    public function userHasReacted(User $user)
+    {
+        return $this->reactions()->where('user_id', $user->id)->exists();
     }
 }

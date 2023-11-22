@@ -28,8 +28,19 @@ class StrandsController extends Controller
 
     public function showICT(){
 
-        $posts = WebPost::where('subject_id','=',3)->with(['attachments','author'])->orderBy('created_at', 'desc')->get();
-        //dd($posts);
+        $user = Auth::user();
+        
+        $posts = WebPost::where('subject_id','=',3)
+                ->with(['attachments','author'])
+                ->withCount('reactions')
+                ->orderBy('created_at', 'desc')->get();
+        
+         // Check if the user has reacted to each post
+        foreach ($posts as $post) {
+            $post->userHasReacted = $post->userHasReacted($user);
+        }
+
+       
         return inertia('Index/WebPages/Strands/ICT', [
             'posts' => $posts,
         ]);
