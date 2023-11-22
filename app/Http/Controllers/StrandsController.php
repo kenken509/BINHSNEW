@@ -31,10 +31,16 @@ class StrandsController extends Controller
         $user = Auth::user();
         
         $posts = WebPost::where('subject_id','=',3)
-                ->with(['attachments','author','reactions'])
+                ->with(['attachments',
+                        'author',
+                        'reactions' => function ($query){
+                            $query->with('reactingUser');
+                        } ])
                 ->withCount('reactions')
                 ->orderBy('created_at', 'desc')->get();
         
+               
+
          // Check if the user has reacted to each post
         foreach ($posts as $post) {
             $userReaction = $post->reactions->where('user_id', $user->id)->first();
