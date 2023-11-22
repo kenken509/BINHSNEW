@@ -111,6 +111,16 @@ class IndexController extends Controller
                 'post' => $post,
             ]);
         }
+        if($page == 'ict')
+        {
+            
+            $post = WebPost::with(['attachments','author'])->where('id',$id)->first();
+            
+            
+            return inertia('Index/WebPages/FullPostViews/TracksFullViewCard',[
+                'post' => $post,
+            ]);
+        }
     }
 
     public function carouselReplaceImageStore(Request $request)

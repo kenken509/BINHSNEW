@@ -2,7 +2,7 @@
     <div>
        
         <div class="  border border-2 border-gray-300 p-8 bg-gray-100 shadow-md my-8 rounded-md">
-           
+            
             <div class="flex flex-col mb-2">
                 <span class="text-[24px] font-extrabold font-serif">{{ post.post.title }}</span>
                 <span class="text-[12px] text-gray-500 ">Author: {{ toUpperFirst(post.post.author.fName) }} {{ toUpperFirst(post.post.author.lName) }}</span>
@@ -11,13 +11,11 @@
             </div>
             <div class="">
                 
-                <div class=" border bg-black ">
+                <div v-if="post.post.attachments > 0"  class=" border bg-black ">
                     
                     <div v-if="attachmentType == 'Image'" class="flex justify-center " >
                         <img :src="'/storage/'+postImage" alt="error" class=" shadow-md"> 
                     </div>
-
-                    
                 </div>
                 <div class="mt-4">
                     <p class=" text-justify whitespace-pre-line text-justify">{{ post.post.content }}</p>

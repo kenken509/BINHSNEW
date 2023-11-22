@@ -2,9 +2,9 @@
     <div class="w-full flex flex-col justify-center ">
         <div v-for="post in data.webPosts" :key="post.id" class="border border-2 border-gray-300 p-8 bg-gray-100 shadow-md my-8  rounded-md">
                     
-            <div class=" flex flex-col mb-2">
+            <div class=" flex flex-col mb-2 border ">
                 <div class="w-full  text-[30px] text-gray-800 font-serif mb-2">
-                    {{ toUpperFirst(post.title)  }} webPost: {{ post.userHasReacted }}
+                    {{ toUpperFirst(post.title)  }} 
                 </div>
                 
                 <div class="text-[12px] text-gray-400 ">
@@ -15,7 +15,7 @@
                     <span class="text-[12px] text-gray-400 "> {{ dateCreated(post.id) }}</span>
                 </div>
             </div>
-            <div>
+            <div class="relative border "> <!-- mula dito lagay-->
                 <div v-if="post.attachments.length && post.attachments[0].type === 'Image' " >
                     <img :src="'../storage/'+post.attachments[0].filename" alt="error" class="border  rounded-md shadow-gray-900 shadow-md"> 
                 </div>
@@ -31,15 +31,64 @@
                             <span class="text-blue-500">read more...</span> 
                         </Link>
                     </p>
-                    <div class="border border-t-black  border-x-transparent border-b-transparent pt-4 flex justify-between">
-                        <i class="pi pi-thumbs-up-fill" style="color: slateblue; font-size: 1.25rem;"> <span class="ml-2">{{  post.reactions_count }} </span>  </i>
-                        <i v-if="!post.userHasReacted" class="pi pi-thumbs-up hover:cursor-pointer" style="font-size: 1.25rem; " @click="()=>toggleLike(post.id)"> like</i>
-                        <i v-else class="pi pi-thumbs-up-fill hover:cursor-pointer" style="font-size: 1.25rem; color: slateblue; " @click="()=>toggleLike(post.id)"> liked</i>
+                    
+                    <div @click="handleReactionClick(post.id,post.userHasReacted)" class="border  border-t-black  border-x-transparent border-b-transparent pt-4 flex justify-between">
+                        <!-- left reaction-->
+                        <div class=" space-x-1"> 
+                            <i v-if="post.likeReactionsCount" class="pi pi-thumbs-up-fill" style="color: slateblue; font-size: 1rem;"> </i>
+                            <i v-if="post.heartReactionsCount" class="pi pi-heart-fill" style="color: red; font-size: 1rem;"> </i>
+                            <i v-if="post.reactions_count < 1" class="pi pi-thumbs-up" style="color: slateblue; font-size: 1rem;"> </i>
+                            {{  post.reactions_count }}
+                        </div>
+                        <!-- left reaction-->
+
+                        <!-- right reaction-->
+                        <div  v-if="!post.userHasReacted">
+                            <i  
+                                class="pi pi-thumbs-up hover:cursor-pointer" 
+                                style="font-size: 1rem; " 
+                            > like</i>
+                            <!-- @click="()=>toggleLike(post.id)" -->
+                        </div>
+                        <div v-else>
+                            <i v-if="post.userReactionType === 'like'" class="pi pi-thumbs-up-fill hover:cursor-pointer" style="font-size: 1rem; color: slateblue; " @click="()=>toggleLike(post.id)">
+                                <span class=" text-slate-500"> Liked</span> 
+                            </i>
+                            <i v-if="post.userReactionType === 'heart'" class="pi pi-heart-fill hover:cursor-pointer" style="font-size: 1rem; color: red; " @click="()=>toggleLike(post.id)">
+                               <span class=" text-red-500 font-serif"> Loved</span>  
+                            </i>
+                        </div>
+                        <!-- right reaction-->
+                        
                     </div>
                     
                 </div>
-            </div>
-                
+                <!-- reaction options-->
+                <div v-if="isVisible[post.id]" class="flex justify-center items-center space-x-5 absolute z-10 bottom-[30px] right-[5px] border border-gray-300 shadow-lg bg-gray-100 rounded-lg p-2 ">
+                    <div>
+                        <i  
+                        class="pi pi-thumbs-up-fill hover:cursor-pointer hover-effect" 
+                        :style="{ 'font-size': '2rem', 'color': likeColor }" 
+                        @click="()=>toggleLike(post.id,'like')"
+                        @mouseover="handleLikeMouseOver"
+                        @mouseleave="handleLikeMouseLeave"
+                        ></i>
+                    </div>
+                    <div>
+                        <i  
+                        class="pi pi-heart-fill hover:cursor-pointer" 
+                        :style="{ 'font-size': '2rem', 'color': heartColor }" 
+                        @click="()=>toggleLike(post.id,'heart')"
+                        @mouseover="handleHeartMouseOver"
+                        @mouseleave="handleHeartMouseLeave"
+                        > </i>  
+                    </div>
+                    
+                </div>
+                <!-- reaction options-->
+
+            </div><!-- hanggang dito -->
+            
         </div>
     </div>
 </template>
@@ -47,8 +96,13 @@
 <script setup>
 import {toUpperFirst} from '../../Functions/Methods.vue'
 import {truncateText} from '../../Functions/Methods.vue'
+import { ref } from 'vue';
 import {Link, useForm} from '@inertiajs/vue3'
 
+
+const likeColor = ref('slateblue')
+const heartColor = ref('red');
+const isVisible = ref({});
 const data = defineProps({
     webPosts:Array,
     page:String,
@@ -74,11 +128,49 @@ function dateCreated (id){
 
 const form = useForm({
     web_post_id:null,
-    type:'like',
+    type:null,
 })
 
-function toggleLike(webPost){
+function toggleLike(webPost, reaction){
+    
     form.web_post_id = webPost
+    form.type = reaction
     form.post(route('post.toggleLike'),{preserveScroll:true});
+    isVisible.value = false;
 };
+
+const handleReactionClick = (postId , hasReacted) => {
+  // Toggle visibility for the clicked post
+    if(!hasReacted)
+    {
+        isVisible.value = {
+            ...isVisible.value,
+            [postId]: !isVisible.value[postId],
+        }
+    
+  };
+}
+
+const handleLikeMouseOver = ()=>{
+    
+   likeColor.value = '#3439ba';
+}
+
+const handleLikeMouseLeave = ()=>{
+    likeColor.value = 'slateblue';
+    
+}
+
+const handleHeartMouseOver = ()=>{
+    
+    heartColor.value = '#b30f04';
+ }
+ 
+ const handleHeartMouseLeave = ()=>{
+     heartColor.value = 'red';
+     
+ }
 </script>
+
+
+

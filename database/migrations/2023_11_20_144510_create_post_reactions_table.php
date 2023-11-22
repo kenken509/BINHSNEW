@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('web_post_id')->constrained(); // Assumes a foreign key relationship with the posts table
             $table->foreignId('user_id')->constrained(); // Assumes a foreign key relationship with the users table
-            $table->enum('type',['like','love','wow','angry','haha'])->nullable();
+            $table->enum('type',['like','heart','wow','angry','haha'])->nullable();
             $table->timestamps();
         });
     }

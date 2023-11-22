@@ -31,13 +31,23 @@ class StrandsController extends Controller
         $user = Auth::user();
         
         $posts = WebPost::where('subject_id','=',3)
-                ->with(['attachments','author'])
+                ->with(['attachments','author','reactions'])
                 ->withCount('reactions')
                 ->orderBy('created_at', 'desc')->get();
         
          // Check if the user has reacted to each post
         foreach ($posts as $post) {
-            $post->userHasReacted = $post->userHasReacted($user);
+            $userReaction = $post->reactions->where('user_id', $user->id)->first();
+            //$post->userHasReacted = $post->userHasReacted($user);
+            $post->userHasReacted = !is_null($userReaction);
+
+            // Include the type of reaction in the post data
+            $post->userReactionType = $post->userHasReacted ? $userReaction->type : null;
+
+            // Count the number of reactions of type 'heart' and 'like'
+            $post->heartReactionsCount = $post->reactions->where('type', 'heart')->count();
+            $post->likeReactionsCount = $post->reactions->where('type', 'like')->count();
+            
         }
 
        
@@ -56,11 +66,12 @@ class StrandsController extends Controller
 
     public function toggleLike(Request $request)
     {
-        // $request: {"web_post_id":3,"type":"like"}
+        // $request: {"web_post_id":3,"type":"like or heart"}
+        //dd($request);
         $userId = Auth::user()->id;
         $webPostId = $request->web_post_id;
 
-        // Check if the user has already liked the post
+        // Check if the user has already reacted to the post
         $existingReaction = PostReaction::where('web_post_id', $webPostId)
                         ->where('user_id', $userId)
                         ->first();
@@ -70,7 +81,7 @@ class StrandsController extends Controller
             // User has already liked the post, so unlike it
             
             $existingReaction->delete();
-            $liked = false;
+            
         } else {
             
             // User has not liked the post, so create a new reaction
@@ -79,10 +90,10 @@ class StrandsController extends Controller
             $postReaction->user_id = $userId;
             $postReaction->type = $request->type;
             $postReaction->save();
-            $liked = true;
+            
         }
 
-        return redirect()->back()->with('liked', $liked);
+        return redirect()->back();
 
     }
 
