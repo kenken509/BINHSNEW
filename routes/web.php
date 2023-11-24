@@ -191,13 +191,12 @@ Route::controller(SectionController::class)->middleware(['auth','verified','isAd
 });
 
 
-Route::controller(SimulatorAuthController::class)->group(function(){
-    Route::match(['get', 'post'], '/simulator/login', 'simLogin')->name('simulator.login');
-    //Route::post('/simulator/login','simLogin')->name('simulator.login');
-    Route::get('/simulator/test-api','handlePostRequest')->name('simulator.login');
-    Route::get('/simulator/active-quizzes/{id}','getActiveQuiz')->name('simulator.getActiveQuiz');
-    Route::match(['get', 'post'], '/simulator/active-quiz/submit-grade', 'activeQuizGrade')->name('simulator.activeQuizGrade');
-});
+// Route::controller(SimulatorAuthController::class)->group(function(){
+//     Route::match(['get', 'post'], '/simulator/login', 'simLogin')->name('simulator.login');
+//     //Route::post('/simulator/login','simLogin')->name('simulator.login');
+//     Route::get('/simulator/active-quizzes/{id}','getActiveQuiz')->name('simulator.getActiveQuiz');
+//     Route::match(['get', 'post'], '/simulator/active-quiz/submit-grade', 'activeQuizGrade')->name('simulator.activeQuizGrade');
+// });
 
 //website controller *********************************************************8
 Route::controller(WebContentsController::class)->group(function(){

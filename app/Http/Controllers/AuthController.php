@@ -287,4 +287,103 @@ class AuthController extends Controller
 
         return redirect()->route('otpVerification.show', ['id' => $user->id] )->with('message', 'OTP sent successfully!');
     }
+
+
+    // test controllers ************************************************************
+
+    public function simulatorAppLogin(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        // Attempt to authenticate the user
+        if (Auth::attempt($credentials)) {
+            // Check if the authenticated user is active
+            
+            $user = Auth::user();
+            if ($user->isActive == '1') {
+                $token = $user->createToken('authToken')->plainTextToken;
+
+                $mailData = [
+                    'otpCode' => Str::random(6),
+                ];
+        
+                
+                Mail::to($user->email)->send(new OtpVerification($mailData));
+                date_default_timezone_set('Asia/Manila');
+        
+                $user->otp = $mailData['otpCode'];
+                $user->expires_at = now()->addMinutes(10);
+                $user->save();
+        
+                //Auth::logout(); // to log out the user;
+                
+                //$request->session()->invalidate(); //invalidate the session
+                //$request->session()->regenerateToken();
+
+                return response()->json(['token' => $token, 'user' => $user, 'message' => 'verify OTP'], 200);
+            } else {
+                // User is not active
+                Auth::logout(); // Logout the user if they are not active
+                return response()->json(['message' => 'Authentication Failed! user not active']);
+            }
+        }
+
+        // Authentication failed
+        return response()->json(['message' => 'Authentication Failed!']);
+    }
+
+    public function simAuthOtp(Request $request)
+    {
+        //parameter 
+        //opt, userId
+        $otp = $request->otp;
+        
+        $user = User::findOrFail($request->userId);
+
+        
+        if($user->expires_at && now()->lessThan($user->expires_at))
+        {
+            if($user->otp == $otp)
+            {
+                //Auth::login($user);
+                
+                $user->otp = null;
+                $user->expires_at = null;
+                $user->save();
+
+                //$request->session()->regenerate();
+                
+                $token = $user->createToken('authToken')->plainTextToken;
+                
+                return response()->json(['token' => $token, 'user' => $user, 'message' => 'OTP verifies successfully!'], 200);
+            }
+            else
+            {
+                return response()->json(['error' => 'OTP does not match! Or OTP has expired']);
+            }
+        }
+        else
+        {
+            return response()->json(['error' => 'OTP does not match! Or OTP has expired ']);
+        }
+    }
+
+    public function simResendOtp($id)
+    {
+        $user = User::findOrFail($id);
+        
+        $mailData = [
+            'otpCode' => Str::random(6),
+        ];
+
+        
+        Mail::to($user->email)->send(new OtpVerification($mailData));
+        date_default_timezone_set('Asia/Manila');
+
+        $user->otp = $mailData['otpCode'];
+        $user->expires_at = now()->addMinutes(10);
+        $user->save();
+
+        return response()->json(['message' => 'OTP sent successfully! ']);
+    }
 }

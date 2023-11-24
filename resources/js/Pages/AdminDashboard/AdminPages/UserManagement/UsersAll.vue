@@ -98,10 +98,10 @@
                     <Pagination :links="users.links"/>    
                 </div>
                 <!--Modal-->
-                <div class="card flex justify-content-center userInfo">
+                <div class="card flex justify-content-center userInfo" >
                     
-                    <Dialog v-model:visible="visible" modal   :userId="userId" :style="{ width: '50vw' } ">
-                        <div v-for="user in users.data" :key="user.id">
+                    <Dialog v-model:visible="visible" modal   :userId="userId" :style="{ width: '50vw' } " >
+                        <div v-for="user in users.data" :key="user.id" id="testingPrinting">
                             <div v-if="user.id === userId">
                                 <img :src="user.image ? appUrl+user.image:appUrl+defaultImage" alt="error" class="w-[50px] h-[50px]"/>
                                 <h1 class="border-bot-only">User Info</h1>
@@ -127,12 +127,13 @@
                                 
 
                             </div>
-                            
+                           
                         </div>
-                       
+                        
+                        
                         <template #footer>
                             <Button label="Close" icon="pi pi-times" @click="visible = false" text />
-                            <Button label="Print" icon="pi pi-check" @click="printPage" autofocus />
+                            <Button label="Print" icon="pi pi-check" @click="printPage('testingPrinting')" autofocus />
                         </template>
                     </Dialog>
                 </div>
@@ -148,11 +149,16 @@ import {Link, useForm, usePage, router} from '@inertiajs/vue3'
 import { useToast } from 'primevue/usetoast';
 import { toUpperFirst } from '../../../Functions/Methods.vue';
 import Swal from 'sweetalert2';
+import printJS from 'print-js'
 
 const searchField = ref('');
 
+const specificElement = ref(null);
 
-
+onMounted(() => {
+  // Assuming you have an element with the ID 'myElement'
+  specificElement.value = document.getElementById('printElement');
+});
 
 const filter = ref([
     {
@@ -238,8 +244,8 @@ const openModal = (id)=> {
 }
 
 // print
-const printPage = ()=>{
-    window.print()
+const printPage = (divName)=>{
+    printJS('testingPrinting', 'html');
 }
 
 const appUrl = '/storage/'
