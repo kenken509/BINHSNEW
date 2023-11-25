@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Subject;
+use App\Models\SchoolYear;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Mail\OtpVerification;
@@ -294,7 +295,7 @@ class AuthController extends Controller
     public function simulatorAppLogin(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
+        
         // Attempt to authenticate the user
         if (Auth::attempt($credentials)) {
             // Check if the authenticated user is active
@@ -302,7 +303,9 @@ class AuthController extends Controller
             $user = Auth::user();
             if ($user->isActive == '1') {
                 $token = $user->createToken('authToken')->plainTextToken;
-
+                
+                
+                
                 $mailData = [
                     'otpCode' => Str::random(6),
                 ];
@@ -314,12 +317,18 @@ class AuthController extends Controller
                 $user->otp = $mailData['otpCode'];
                 $user->expires_at = now()->addMinutes(10);
                 $user->save();
-        
+                
+                //Auth::login();
                 Auth::logout(); // to log out the user;
                 
                 //$request->session()->invalidate(); //invalidate the session
                 //$request->session()->regenerateToken();
+
+                
                 $otpExpiration = 10;
+                
+
+
                 return response()->json(['token' => $token, 'user' => $user, 'message' => 'verify OTP', 'otpExpiration' => $otpExpiration], 200);
             } else {
                 // User is not active
@@ -338,8 +347,8 @@ class AuthController extends Controller
         //opt, userId
         $otp = $request->otp;
         
-        $user = User::findOrFail($request->userId);
-
+        $user               = User::findOrFail($request->userId);
+        $currentSchooYear   = SchoolYear::first();
         
         if($user->expires_at && now()->lessThan($user->expires_at))
         {
@@ -356,7 +365,7 @@ class AuthController extends Controller
                 
                 $token = $user->createToken('authToken')->plainTextToken;
                 
-                return response()->json(['token' => $token, 'user' => $user, 'message' => 'OTP verified successfully!'], 200);
+                return response()->json(['token' => $token, 'user' => $user, 'message' => 'OTP verified successfully!', 'currentSchooYear' => $currentSchooYear->year], 200);
             }
             else
             {

@@ -31,16 +31,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     Route::match(['get', 'post'], '/simulator/active-quiz/submit-grade1', [SimulatorAuthController::class, 'activeQuizGrade'])->name('simulator.activeQuizGrade1');
 // });
 
-Route::controller(SimulatorAuthController::class)->group(function(){
-    Route::match(['get', 'post'], '/simulator/login', 'simLogin')->name('simulator.login');
-    //Route::post('/simulator/login','simLogin')->name('simulator.login');
-    Route::get('/simulator/active-quizzes/{id}','getActiveQuiz')->name('simulator.getActiveQuiz');
-    Route::match(['get', 'post'], '/simulator/active-quiz/submit-grade', 'activeQuizGrade')->name('simulator.activeQuizGrade');
+// Route::controller(SimulatorAuthController::class)->group(function(){
+//     Route::match(['get', 'post'], '/simulator/login', 'simLogin')->name('simulator.login');
+//     //Route::post('/simulator/login','simLogin')->name('simulator.login');
+//     Route::get('/simulator/active-quizzes/{id}','getActiveQuiz')->name('simulator.getActiveQuiz');
+//     Route::match(['get', 'post'], '/simulator/active-quiz/submit-grade', 'activeQuizGrade')->name('simulator.activeQuizGrade');
+// });
+
+Route::controller(AuthController::class)->group(function(){
+    Route::post('/simlogin','simulatorAppLogin');
+    Route::post('sim/otp/authenticate',  'simAuthOtp');
+    Route::get('sim/user/otp/resend/{id}', 'simResendOtp');
 });
 
 
-Route::post('/simlogin', [AuthController::class, 'simulatorAppLogin']);
 
-Route::post('sim/otp/authenticate', [AuthController::class, 'simAuthOtp'] );
 
-Route::get('sim/user/otp/resend/{id}', [AuthController::class, 'simResendOtp']);
+
