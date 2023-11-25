@@ -315,12 +315,12 @@ class AuthController extends Controller
                 $user->expires_at = now()->addMinutes(10);
                 $user->save();
         
-                //Auth::logout(); // to log out the user;
+                Auth::logout(); // to log out the user;
                 
                 //$request->session()->invalidate(); //invalidate the session
                 //$request->session()->regenerateToken();
-
-                return response()->json(['token' => $token, 'user' => $user, 'message' => 'verify OTP'], 200);
+                $otpExpiration = 10;
+                return response()->json(['token' => $token, 'user' => $user, 'message' => 'verify OTP', 'otpExpiration' => $otpExpiration], 200);
             } else {
                 // User is not active
                 Auth::logout(); // Logout the user if they are not active
@@ -351,15 +351,16 @@ class AuthController extends Controller
                 $user->expires_at = null;
                 $user->save();
 
+
                 //$request->session()->regenerate();
                 
                 $token = $user->createToken('authToken')->plainTextToken;
                 
-                return response()->json(['token' => $token, 'user' => $user, 'message' => 'OTP verifies successfully!'], 200);
+                return response()->json(['token' => $token, 'user' => $user, 'message' => 'OTP verified successfully!'], 200);
             }
             else
             {
-                return response()->json(['error' => 'OTP does not match! Or OTP has expired']);
+                return response()->json(['message' => 'OTP does not match! Or OTP has expired']);
             }
         }
         else
@@ -372,6 +373,7 @@ class AuthController extends Controller
     {
         $user = User::findOrFail($id);
         
+
         $mailData = [
             'otpCode' => Str::random(6),
         ];
@@ -384,6 +386,6 @@ class AuthController extends Controller
         $user->expires_at = now()->addMinutes(10);
         $user->save();
 
-        return response()->json(['message' => 'OTP sent successfully! ']);
+        return response()->json(['message' => 'OTP sent successfully! ' ]);
     }
 }
