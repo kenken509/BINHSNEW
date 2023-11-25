@@ -45,7 +45,7 @@ return [
     | not expire. This won't tweak the lifetime of first-party sessions.
     |
     */
-
+    
     'expiration' => null,
 
     /*
@@ -63,5 +63,7 @@ return [
         'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
+
+    
 
 ];

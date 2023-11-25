@@ -38,12 +38,38 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     Route::match(['get', 'post'], '/simulator/active-quiz/submit-grade', 'activeQuizGrade')->name('simulator.activeQuizGrade');
 // });
 
-Route::controller(AuthController::class)->group(function(){
-    Route::post('/simlogin','simulatorAppLogin');
-    Route::post('sim/otp/authenticate',  'simAuthOtp');
-    Route::get('sim/user/otp/resend/{id}', 'simResendOtp');
-});
+// Route::controller(AuthController::class)->group(function(){
+//     Route::post('/simlogin','simulatorAppLogin');
+//     Route::post('sim/otp/authenticate',  'simAuthOtp');
+//     Route::get('sim/user/otp/resend/{id}', 'simResendOtp');
+// });
 
+
+// current route ***********************
+//public route
+// Route::post('/simlogin', [AuthController::class, 'simulatorAppLogin'])->name('simulator.login');
+
+//protected route
+// Route::group(['middleware' => 'auth:sanctum'], function () {
+    
+//     Route::get('sim/otp/authenticate',[AuthController::class, 'simAuthOtp'])->name('simulator.getActiveQuiz');
+//     Route::get('sim/user/otp/resend/{id}', [AuthController::class, 'simResendOtp'])->name('simulator.activeQuizGrade1');
+// });
+// current route ***********************
+
+
+// testing sanctum routes *************************************************************************8
+//public route
+Route::post('/simlogin', [SimulatorAuthController::class, 'simulatorAppLogin'])->name('simulator.login');
+
+//protected route
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::post('sim/otp/authenticate',[SimulatorAuthController::class, 'simAuthOtp']);
+    Route::get('sim/user/otp/resend/{id}', [SimulatorAuthController::class, 'simResendOtp']);
+    Route::get('/simulator/active-quizzes/{id}',[SimulatorAuthController::class, 'getActiveQuiz']);
+    Route::match(['get', 'post'], '/simulator/active-quiz/submit-grade1', [SimulatorAuthController::class, 'activeQuizGrade']);
+    Route::post('/sim/logout', [SimulatorAuthController::class, 'simLogout']);
+});
 
 
 
