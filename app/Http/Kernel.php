@@ -35,9 +35,10 @@ class Kernel extends HttpKernel
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \App\Http\Middleware\HandleInertiaRequests::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\HandleInertiaRequests::class,
+            
         ],
 
         'api' => [
@@ -69,5 +70,6 @@ class Kernel extends HttpKernel
         'isAdmin'   =>\App\Http\Middleware\isAdminMiddleware::class,
         'isSuperAdmin' =>\App\Http\Middleware\IsSuperAdmin::class,
         'otpAttempt' => \App\Http\Middleware\OtpAttempt::class,
+        'isLoggedUser' => \App\Http\Middleware\LoggedUser::class,
     ];
 }

@@ -4,10 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
-use Auth;
 
-class VerifyEmail
+class LoggedUser
 {
     /**
      * Handle an incoming request.
@@ -16,17 +16,12 @@ class VerifyEmail
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $verifiedUser = Auth::user()->email_verified_at;
-        
-         
+        $user = Auth::user();
 
-        if($verifiedUser){
-            return $next($request); // allow user
-        }else{
-            return redirect('/verify-email');
-            
+        if(!$user)
+        {
+            return redirect()->route('login');
         }
-        
-        
+        return $next($request);
     }
 }

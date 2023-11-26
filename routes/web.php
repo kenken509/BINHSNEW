@@ -89,7 +89,7 @@ Route::controller(IndexController::class)->group(function(){
 });
 
 
-
+    
 Route::controller(AuthController::class)->group(function(){
     Route::get('/login', 'create')->name('login');
     Route::post('/login', 'store')->name('login.store');
@@ -123,7 +123,7 @@ Route::controller(AdminDashboardController::class)->middleware('isAdmin')->group
     Route::get('/admin/panel', 'showAdminPanel')->name('admin.showAdminPanel');
 });
 
-Route::controller(StrandsController::class)->middleware('auth','verified')->group(function(){
+Route::controller(StrandsController::class)->middleware(['isLoggedUser', 'verified'])->group(function(){
     Route::get('/track/he', 'showHE')->name('strand.showHE');
     Route::get('/track/ict', 'showICT')->name('strand.showICT');
     Route::get('/track/ia', 'showIA')->name('strand.showIA');
