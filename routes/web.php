@@ -132,7 +132,7 @@ Route::controller(StrandsController::class)->middleware(['isLoggedUser', 'verifi
     
 });
 
-Route::controller(UserManagementController::class)->middleware(['auth','verified','isAdmin'])->group(function(){
+Route::controller(UserManagementController::class)->middleware(['isLoggedUser','verified','isAdmin'])->group(function(){
     Route::match(['get','post'],'/admin/panel/users-all', 'showAllUsers')->name('admin.showAllUsers');
     Route::get('/admin/panel/user-add', 'showAddUser')->name('admin.addUser');
     Route::get('/admin/panel/user-approval', 'showApproveUser')->name('admin.approveUser.show');
@@ -144,13 +144,13 @@ Route::controller(UserManagementController::class)->middleware(['auth','verified
     Route::post('/admin/panel/user-update','userUpdate')->name('admin.userUpdate');
 });
 
-Route::controller(UserProfileController::class)->middleware(['auth','verified'])->group(function(){
+Route::controller(UserProfileController::class)->middleware(['isLoggedUser','verified'])->group(function(){
     Route::get('/account/profile/edit/{id}', 'showEditProfile')->name('user.profile.edit');
     Route::post('/account/profile/image-update/', 'userProfileImageUpdate')->name('user.profile.image.update');
     Route::post('/account/profile/account-info-update/', 'userProfileInfoUpdate')->name('user.profile.info.update');
 });
 
-Route::controller(QuestionsController::class)->middleware(['auth','verified','isAdmin'])->group(function(){
+Route::controller(QuestionsController::class)->middleware(['isLoggedUser','verified','isAdmin'])->group(function(){
     Route::get('admin/panel/exam-management/question-all', 'questionsShow' )->name('question.all');
     Route::delete('/admin/panel/question-delete/{question}', 'delete')->name('question.delete');
     Route::get('/admin/panel/question-add', 'create')->name('question.add');
@@ -159,12 +159,12 @@ Route::controller(QuestionsController::class)->middleware(['auth','verified','is
     Route::post('/admin/panel/question-update', 'update')->name('question.update');
 });
 
-Route::controller(ExaminationManagementSystem::class)->middleware(['auth', 'verified','isAdmin'])->group(function(){
+Route::controller(ExaminationManagementSystem::class)->middleware(['isLoggedUser', 'verified','isAdmin'])->group(function(){
     Route::get('student-examination/home', 'showExamSystem')->name('studentExamination.show');
 });
 
 
-Route::controller(QuizManagementController::class)->middleware(['auth','verified','isAdmin'])->group(function(){
+Route::controller(QuizManagementController::class)->middleware(['isLoggedUser','verified','isAdmin'])->group(function(){
     Route::get('admin/panel/quiz/show', 'show')->name('quiz.show');
     Route::get('admin/panel/quiz/add', 'create')->name('quiz.add');
     Route::post('admin/panel/quiz/store', 'store')->name('quiz.store');
@@ -181,7 +181,7 @@ Route::controller(QuizManagementController::class)->middleware(['auth','verified
     Route::get('instructor/sent-quiz/update/{id}', 'showUpdateSentQuiz')->name('sentQuiz.update.show');
 });
 
-Route::controller(SectionController::class)->middleware(['auth','verified','isAdmin'])->group(function(){
+Route::controller(SectionController::class)->middleware(['isLoggedUser','verified','isAdmin'])->group(function(){
     Route::get('admin/panel/section/show', 'show')->name('section.show');
     Route::get('admin/panel/section/section-add', 'create')->name('section.add');
     Route::post('admin/panel/section/section-store', 'store')->name('section.store');
@@ -267,5 +267,6 @@ Route::controller(TestRouteController::class)->group(function(){
 
 Route::controller(SchoolYearController::class)->group(function(){
     Route::post('/current-schoolyear', 'store')->name('schoolYear.store');
+    //Route::get('/tester-route', 'testerFunction');
 });
 

@@ -100,14 +100,15 @@ const form = useForm({
     year:null,
 });
 
-const submit = ()=>{
-    console.log('submitted');
-    form.post(route('schoolYear.store'));
-}
+/* const submit = ()=>{
+     console.log('submitted');
+     form.post(route('schoolYear.store'));
+ } */
+
 onMounted(()=>{
     document.addEventListener('click', handleClick)
 
-    const currentDate = new Date();
+    /*const currentDate = new Date();
     const month = ref(currentDate.getMonth());
     const year = currentDate.getFullYear();
     
@@ -127,7 +128,7 @@ onMounted(()=>{
     }
 
     form.year = currentSchoolYear.value;
-    submit();
+    submit(); */
 })
 
 onUnmounted(() => {

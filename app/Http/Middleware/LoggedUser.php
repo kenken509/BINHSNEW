@@ -22,6 +22,7 @@ class LoggedUser
         {
             return redirect()->route('login');
         }
+        
         return $next($request);
     }
 }

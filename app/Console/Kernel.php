@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
     {
     
         $schedule->command('app:update-quiz-status')->everyMinute();
+        $schedule->command('app:school-year-update')->everyMinute();
     }
 
     /**
