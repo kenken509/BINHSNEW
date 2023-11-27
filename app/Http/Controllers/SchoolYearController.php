@@ -58,7 +58,7 @@ class SchoolYearController extends Controller
             $schooYear->year = $currentSchoolYear;
             $schooYear->save();
         }
-        
+
         if($existing)
         {
             $existing->update([

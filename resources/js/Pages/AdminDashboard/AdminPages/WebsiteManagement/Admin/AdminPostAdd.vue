@@ -131,11 +131,11 @@
 
                             <!--Media Attachment-->
 
-                            
+                            <!--installer attachment-->
                             <div class="mt-8 ">
                                 <h1 class="mb-2">Installer:</h1>
                                 <label for="installerInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
-                                    Select image... 
+                                    Select a file... 
                                 </label>
                                
                                 <div v-if="installerFileName" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
@@ -150,7 +150,7 @@
                                 </div>
                                 
                             </div>
-                            
+                            <!--installer attachment-->
                         </div>
                         <!-- <div v-if="imageUrl" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md" >
                             <img :src="imageUrl" alt="Error" class="w-[50%] h-[50%] rounded-md relative"/>
@@ -239,6 +239,7 @@ const handleSelectedAttachment = ()=>{
     imageUrl.value = null
     form.video = null
     videoUrl.value = null
+    
 }
 
 const pages = ref([
@@ -366,7 +367,7 @@ const submit = ()=>{
         {
             if(selectedAttachment.value.name === 'Image')
             {
-            
+                
                 // has image
                 if(!form.image)
                 {
@@ -399,7 +400,6 @@ const submit = ()=>{
                                 }
                             }
                         }
-
                     }
                 }  
             }
