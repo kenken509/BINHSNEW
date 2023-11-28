@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             QuizChoicesSeeder::class,
             WebPostSeeder::class,
             CommentSeeder::class,
+            CarouselImageSeeder::class,
         ]);
         
         

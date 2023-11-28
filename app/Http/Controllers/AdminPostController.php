@@ -123,7 +123,19 @@ class AdminPostController extends Controller
 
        if($request->page == 'Downloads')
        {
-            dd($request);
+            #parameters: array:11 [▼
+            // "name" => null
+            // "phoneNumber" => null
+            // "email" => null
+            // "title" => "asdf"
+            // "content" => "asdf"
+            // "page" => "Downloads"
+            // "media" => null
+            // "image" => null
+            // "video" => null
+            // "installer" => null
+            // "installerLink" => "https://drive.google.com/your-download-link"
+            // ]
             if($request->media == 'image')
             {
                 $imageFile = $request->file('image');
@@ -132,17 +144,17 @@ class AdminPostController extends Controller
                 $newName = $randomString.'_'.$originalName;
                 $imagePath = $imageFile->storeAs('Images', $newName, 'public');
 
-                $installerFile = $request->file('installer');
-                $installerOriginalName  = $installerFile->getClientOriginalName();
-                $randString = Str::random(10);
-                $newInstallerName = $randString.'_'.$installerOriginalName;
-                $installerPath = $installerFile->storeAs('Installer', $newInstallerName, 'public');
+                // $installerFile = $request->file('installer');
+                // $installerOriginalName  = $installerFile->getClientOriginalName();
+                // $randString = Str::random(10);
+                // $newInstallerName = $randString.'_'.$installerOriginalName;
+                // $installerPath = $installerFile->storeAs('Installer', $newInstallerName, 'public');
 
                 $post = new DownloadsPagePost();
                 $post->title = $request->title;
                 $post->mediaType = $request->media;
                 $post->mediaFileName = $imagePath;
-                $post->installerFileName = $installerPath;
+                $post->installerLink = $request->installerLink;
                 $post->content = $request->content;
                 $post->created_by = Auth::user()->id;
                 $post->save();
@@ -160,17 +172,17 @@ class AdminPostController extends Controller
                 $newName = $randomString.'_'.$originalName;
                 $videoPath = $videoFile->storeAs('videos', $newName,'public');
 
-                $installerFile = $request->file('installer');
-                $installerOriginalName  = $installerFile->getClientOriginalName();
-                $randString = Str::random(10);
-                $newInstallerName = $randString.'_'.$installerOriginalName;
-                $installerPath = $installerFile->storeAs('Installer', $newInstallerName, 'public');
+                // $installerFile = $request->file('installer');
+                // $installerOriginalName  = $installerFile->getClientOriginalName();
+                // $randString = Str::random(10);
+                // $newInstallerName = $randString.'_'.$installerOriginalName;
+                // $installerPath = $installerFile->storeAs('Installer', $newInstallerName, 'public');
 
                 $post = new DownloadsPagePost();
                 $post->title = $request->title;
                 $post->mediaType = $request->media;
                 $post->mediaFileName = $videoPath;
-                $post->installerFileName = $installerPath;
+                $post->installerLink = $request->installerLink;
                 $post->content = $request->content;
                 $post->created_by = Auth::user()->id;
                 $post->save();
@@ -180,16 +192,16 @@ class AdminPostController extends Controller
 
             if($request->media == null)
             {
-                    $file = $request->file('installer');
-                    $originalName = $file->getClientOriginalName();
-                    $randomString = Str::random(10);
-                    $newName = $randomString . '_' . $originalName;
+                    // $file = $request->file('installer');
+                    // $originalName = $file->getClientOriginalName();
+                    // $randomString = Str::random(10);
+                    // $newName = $randomString . '_' . $originalName;
 
-                    $path = $file->storeAs('Installer', $newName, 'public');
+                    // $path = $file->storeAs('Installer', $newName, 'public');
 
                     $post = new DownloadsPagePost();
                     $post->title    = $request->title;
-                    $post->installerFileName = $path;
+                    $post->installerLink = $request->installerLink;
                     $post->content  = $request->content;
                     $post->created_by = Auth::user()->id;
                     $post->save();

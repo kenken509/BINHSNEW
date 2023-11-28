@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('mediaType')->nullable();
             $table->string('mediaFileName')->nullable();
-            $table->string('installerFileName');
+            $table->string('installerFileName')->nullable();
+            $table->string('installerLink');
             $table->mediumText('content')->nullable(); //16,777,215 characters - 16 MB
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
