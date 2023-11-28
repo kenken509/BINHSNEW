@@ -81,6 +81,19 @@
                             </span>
                         </div>
 
+                        <div class="flex flex-col">
+                            
+                            
+                            <h1 class="mb-6">Installer Link: </h1>
+                            
+                            <span class="p-float-label">
+                                <InputText id="installerLink" v-model="form.installerLink" class="w-full" required/>
+                                <label for="installerLink" >Enter downloads link...</label>
+                            </span>
+                            <div v-if="installerValidator" class="mt-2">
+                                    <InputError :error="installerValidator" />
+                            </div>
+                        </div>
                         <!--installer file-->
                         <div class="w-full  my-1   py-2">
                             <h1 class="mb-6">Attachment: </h1>
@@ -132,7 +145,7 @@
                             <!--Media Attachment-->
 
                             <!--installer attachment-->
-                            <div class="mt-8 ">
+                            <!-- <div class="mt-8 ">
                                 <h1 class="mb-2">Installer:</h1>
                                 <label for="installerInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
                                     Select a file... 
@@ -145,11 +158,19 @@
                                     </div>
                                 </div>
                                 <input  type="file"  id="installerInput"  @input="addFile" accept=".zip, .rar, .7z" hidden  ref="fileInputRef" />
+
+                                
+                                
+                                
                                 <div v-if="installerValidator" class="mt-2">
                                     <InputError :error="installerValidator" />
                                 </div>
+
                                 
-                            </div>
+                                
+                                
+                                
+                            </div> -->
                             <!--installer attachment-->
                         </div>
                         <!-- <div v-if="imageUrl" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md" >
@@ -266,6 +287,7 @@ const pagesToAdd = computed(()=>{
     
 })
 
+const urlValue = ref(null);
 const imageUrl = ref(null);
 const attachmentFileName = ref('');
 const addImage = (event)=>{
@@ -288,6 +310,7 @@ const downloadAddImage = (event)=>{
 const downloadAddVideoFileName = ref('');
 const videoUrl = ref('')
 const downloadAddVideo = (event)=>{
+    
     downloadAddVideoFileName.value = event.target.files[0].name
     form.video = event.target.files[0]
     form.media = 'video';
@@ -334,6 +357,7 @@ const form = useForm({
     image:null,
     video:null,
     installer:null,
+    installerLink:null
 })
 
 const validationError = ref('');
@@ -361,10 +385,14 @@ const submit = ()=>{
     }
     else if(selectedPage.value.name === 'Downloads')
     {
-        const allowedExtensions = /\.(zip|rar|7z)$/i;
+        //const allowedExtensions = /\.(zip|rar|7z)$/i;
 
+        // Regular expression to match Google Drive download links
+        const googleDriveRegex = /^https:\/\/drive\.google\.com\/.*$/;
+        
         if(selectedAttachment.value)
         {
+            
             if(selectedAttachment.value.name === 'Image')
             {
                 
@@ -384,19 +412,20 @@ const submit = ()=>{
                         }
                         else
                         {
-                            if(!form.installer)
+                            if(!form.installerLink)
                             {
-                                installerValidator.value = 'Installer field is required! Installer must have a file type of .zip .rar .7z.'
+                                installerValidator.value = 'Please provide a valid google drive link. ex. https://drive.google.com/your-download-link'
                             }
                             else
                             {
-                                if(allowedExtensions.test(form.installer.name))
+                                if(googleDriveRegex.test(form.installerLink))
                                 {
+                                    // installerValidator.value = 'submittedd here'
                                     form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
                                 }
                                 else
                                 {
-                                    installerValidator.value = 'Installer field is required! Installer must have a file type of .zip .rar .7z.' 
+                                    installerValidator.value = 'Please provide a valid google drive link. ex. https://drive.google.com/your-download-link' 
                                 }
                             }
                         }
@@ -415,24 +444,28 @@ const submit = ()=>{
                     if(form.video.type === 'video/mp4' && form.video.size <= 30000000)
                     {
                         
-                        if(!form.installer)
+                        if(!form.installerLink)
                         {
-                            installerValidator.value = 'Installer field is required! Installer must have a file type of .zip .rar .7z.'
+                            installerValidator.value = 'Please provide a valid google drive link. ex. https://drive.google.com/your-download-link' 
                         }
                         else
                         {
-                            if(allowedExtensions.test(form.installer.name))
+                            
+                            if(googleDriveRegex.test(form.installerLink))
                             {
+                                
                                 form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
                             }
                             else
                             {
-                                installerValidator.value = 'Installer field is required! Installer must have a file type of .zip .rar .7z.' 
+                                
+                                installerValidator.value = 'Please provide a valid google drive link. ex. https://drive.google.com/your-download-link' 
                             }
                         }
                     }
                     else
                     {
+                        
                         downloadPageVideoValidator.value = 'Video field is required! Video must have a file type of MP4 with maximum size of 30mb.'
                     }
                 }
@@ -442,20 +475,20 @@ const submit = ()=>{
         {
             //check if installer is not empty
             
-            if(!form.installer)
+            if(!form.installerLink)
             {
                 installerValidator.value = 'Installer field is required! Installer must have a file type of .zip .rar .7z.'
             }
             else
             {
-                console.log(form.installer);
-                if(allowedExtensions.test(form.installer.name))
+                console.log("this:"+form.installerLink);
+                if(googleDriveRegex.test(form.installerLink))
                 {
                     form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
                 }
                 else
                 {
-                    installerValidator.value = 'Installer field is required! Installer must have a file type of .zip .rar .7z.' 
+                    installerValidator.value = 'Please provide a valid google drive link. ex: https://drive.google.com/your-download-link' 
                 }
                 
             }

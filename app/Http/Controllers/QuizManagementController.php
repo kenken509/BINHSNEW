@@ -235,7 +235,7 @@ class QuizManagementController extends Controller
                 }
             }
             
-
+                
             $requestQuestion = $request->questions;
             foreach($requestQuestion as $questionData)
             {

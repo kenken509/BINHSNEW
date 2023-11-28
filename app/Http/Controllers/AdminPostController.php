@@ -123,7 +123,7 @@ class AdminPostController extends Controller
 
        if($request->page == 'Downloads')
        {
-            
+            dd($request);
             if($request->media == 'image')
             {
                 $imageFile = $request->file('image');
