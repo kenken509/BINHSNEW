@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Section;
 use App\Models\Subject;
 use App\Models\SentQuiz;
+use App\Models\SchoolYear;
 use App\Models\QuizChoices;
 use App\Models\QuizQuestion;
 use Illuminate\Http\Request;
@@ -314,7 +315,16 @@ class QuizManagementController extends Controller
             'section_id' => 'The section field is required!'
         ]);
         
-        $sectionStudents = User::where('role','=','student')->where('section_id','=',$request->section_id)->get();
+        $schoolYear = SchoolYear::first();
+        $currentSchoolYear = $schoolYear->year;
+
+        
+        $sectionStudents = User::where('role','=','student')
+                            ->where('section_id','=',$request->section_id)
+                            ->where('school_year','=', $currentSchoolYear)
+                            ->get();
+         
+        
         $thisQuiz = Quiz::find($request->quiz_id);
         
 

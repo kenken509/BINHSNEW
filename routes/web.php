@@ -263,6 +263,10 @@ Route::controller(TestRouteController::class)->group(function(){
 
     Route::post('test/quiz/submit', 'submitQuizResult')->name('quiz.submit');
     Route::get('test/quiz/results', 'showQuizResults')->name('quiz.result');
+
+    Route::get('test/upload/chunks', 'chunkUploadShow')->name('chunk.show');
+    Route::post('/upload/chunk', 'storeChunk')->name('chunk.upload');
+    Route::post('/upload/assemble', 'assembleChunks')->name('chunk.assemble');
 });
 
 Route::controller(SchoolYearController::class)->group(function(){

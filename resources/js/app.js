@@ -36,6 +36,7 @@ import Card from 'primevue/card';
 import Divider from 'primevue/divider';
 import Carousel from 'primevue/carousel';
 import Checkbox from 'primevue/checkbox';
+import ProgressSpinner from 'primevue/progressspinner';
 
 //flowbite
 // import { 
@@ -102,6 +103,7 @@ createInertiaApp({
       .component('Carousel',Carousel)
       .directive('tooltip', Tooltip)
       .component('Checkbox',Checkbox)
+      .component('ProgressSpinner',ProgressSpinner)
       .mount(el)
   },
   

@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\StudentActiveQuiz;
 use App\Models\StudentQuizResult;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class TestRouteController extends Controller
 {
@@ -111,5 +113,134 @@ class TestRouteController extends Controller
         return inertia('Index/TestPages/StudentQuizResult',[
             'quizResults' => $studentQuizzes,
         ]);
+    }
+
+    // chunkt uploading test
+    public function chunkUploadShow()
+    {
+        return inertia('Index/TestPages/ChunkUpload');
+
+    }
+
+    public function storeChunk(Request $request)
+    {
+        $chunk = $request->getContent();
+        $totalChunks = $request->input('totalChunks');
+        $currentChunk = $request->input('currentChunk');
+        $originalFilename = $request->input('originalFilename');
+    
+        $tempDir = storage_path('app/temp');
+        $chunkFileName = "chunk_{$currentChunk}_{$originalFilename}.tmp";
+    
+        // Ensure the temporary directory exists (no effect if it already exists)
+        File::makeDirectory($tempDir, 0755, true, true);
+    
+        // Save the chunk to the temporary directory
+        file_put_contents("$tempDir/$chunkFileName", $chunk);
+    
+        // Check if all chunks have been uploaded
+        $uploadedChunks = count(glob("$tempDir/chunk_*_$originalFilename.tmp"));
+    
+        // Log the number of uploaded chunks and their filenames
+        $chunkFilenames = glob("$tempDir/chunk_*_$originalFilename.tmp");
+        Log::info("Number of uploaded chunks: $uploadedChunks");
+        Log::info("Chunk filenames: " . implode(', ', $chunkFilenames));
+    
+        // Check if all chunks have been uploaded
+        if ($uploadedChunks == $totalChunks) {
+            // All chunks have been uploaded, call the function to reassemble the file
+            $this->reassembleFile($totalChunks, $originalFilename);
+    
+            return response()->json(['success' => 'Successfully uploaded the file!!!!']);
+        }
+    
+        return response()->json(['message' => 'Chunk uploaded successfully']);
+    }
+
+    // ...
+
+// ...
+
+public function reassembleFile($totalChunks, $originalFilename)
+{
+    $tempDir = storage_path('app/temp');
+    $outputDir = storage_path('app/public/uploads');
+
+    // Create the output directory if it doesn't exist
+    if (!file_exists($outputDir)) {
+        File::makeDirectory($outputDir, 0755, true, true);
+    }
+
+    $outputFilePath = "$outputDir/$originalFilename";
+
+    // Open the output file for writing
+    $outputFile = fopen($outputFilePath, 'wb');
+
+    // Retrieve all chunk filenames
+    $chunkFiles = glob("$tempDir/chunk_*_$originalFilename.tmp");
+
+    // Sort the chunk filenames based on the chunk number
+    natsort($chunkFiles);
+
+    foreach ($chunkFiles as $chunkFile) {
+        // Open the chunk file for reading
+        $chunkContent = file_get_contents($chunkFile);
+
+        // Write the chunk content to the output file
+        fwrite($outputFile, $chunkContent);
+
+        // Optionally, you can delete the individual chunk after processing
+        unlink($chunkFile);
+    }
+
+    // Close the output file
+    fclose($outputFile);
+}
+
+
+// ...
+
+
+// ...
+
+
+    private function cleanupChunks($tempDir, $originalFilename)
+    {
+        $files = glob("$tempDir/chunk_*_{$originalFilename}.tmp");
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                unlink($file);
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+    public function chunkUploadShow2()
+    {
+        return inertia('Index/TestPages/ChunkUploadTest2');
+    }
+
+    public function chunkUploadStore2(Request $request)
+    {
+        $file = $request->file('file');
+
+        $path = Storage::disk('local')->path("chunks/{$file->getClientOriginalName()}");
+
+        File::append($path, $file->get());
+
+        if ($request->has('is_last') && $request->boolean('is_last')) {
+            $name = basename($path, '.part');
+
+            File::move($path, "/path/to/public/someid/{$name}");
+        }
+
+
+        return response()->json(['uploaded' => true]);
     }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TestRouteController;
 use App\Http\Controllers\SimulatorAuthController;
 
 /*
@@ -61,6 +62,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // testing sanctum routes *************************************************************************8
 //public route
 Route::post('/simlogin', [SimulatorAuthController::class, 'simulatorAppLogin'])->name('simulator.login');
+Route::get('/upload/show', [TestRouteController::class, 'chunkUploadShow2'])->name('test.chunkUpload2.show');
+Route::post('/upload', [TestRouteController::class, 'chunkUploadStore2'])->name('test.chunkUpload2.store');
+
+
+
 
 //protected route
 Route::group(['middleware' => 'auth:sanctum'], function () {
