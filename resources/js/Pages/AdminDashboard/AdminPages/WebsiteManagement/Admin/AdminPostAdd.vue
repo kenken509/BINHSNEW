@@ -6,7 +6,9 @@
         <form @submit.prevent="confirmSubmit" enctype="multipart/form-data">
             <div class="grid grid-cols-12">
                 
-                <div class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3" >
+                
+            </div>
+                <div class="w-full mb-4 col-span-12 md:col-span-4 lg:col-span-3 " >
                     <h1 class="mb-4">Page</h1>
                     <Dropdown  v-model="selectedPage" :options="pages" optionLabel="name" placeholder="Select page" class="w-full md:w-14rem" />
                     <!-- <InputError :error="form.errors.region"/> -->
@@ -81,9 +83,7 @@
                             </span>
                         </div>
 
-                        <div class="flex flex-col">
-                            
-                            
+                        <div class=" flex flex-col ">
                             <h1 class="mb-6">Installer Link: </h1>
                             
                             <span class="p-float-label">
@@ -93,7 +93,12 @@
                             <div v-if="installerValidator" class="mt-2">
                                     <InputError :error="installerValidator" />
                             </div>
-                        </div>
+                            <div v-if="isLoading">
+                                <TestLinkLoadingSpinner :installerLink="form.installerLink"/>
+                            </div>
+                           
+                            
+
                         <!--installer file-->
                         <div class="w-full  my-1   py-2">
                             <h1 class="mb-6">Attachment: </h1>
@@ -234,7 +239,9 @@
                 
                 
             </div>
+            
         </form>
+       
     </DashboardLayout>
     
 </template>
@@ -242,9 +249,12 @@
 <script setup>
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
 import InputError from '../../../../GlobalComponent/InputError.vue';
+import TestLinkLoadingSpinner from '../../../../GlobalComponent/TestLinkLoadingSpinner.vue';
 import { usePage,useForm, router } from '@inertiajs/vue3';
 import {ref, computed} from 'vue';
 import Swal from 'sweetalert2';
+import axios from 'axios';
+
 
 const user = usePage().props.user
 const selectedPage = ref(null);
@@ -364,6 +374,7 @@ const validationError = ref('');
 const downloadPageImageValidator = ref('');
 const downloadPageVideoValidator = ref('');
 const installerValidator = ref('');
+const googleDriveLinkStatus = ref(null);
 
 const submit = ()=>{
 
@@ -412,22 +423,41 @@ const submit = ()=>{
                         }
                         else
                         {
-                            if(!form.installerLink)
-                            {
-                                installerValidator.value = 'Please provide a valid google drive link. ex. https://drive.google.com/your-download-link'
-                            }
-                            else
-                            {
+                            // if image validator was cleared nullify validator variable
+                            downloadPageImageValidator.value = ""
+                            
+
+                            async function validate(){
+                    
                                 if(googleDriveRegex.test(form.installerLink))
                                 {
-                                    // installerValidator.value = 'submittedd here'
-                                    form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
+                                    isLoading.value = true;
+                                    await testGoogleDriveLink()
+
+                                    if(!googleDriveLinkStatus.value)
+                                    {
+                                        isLoading.value = false
+                                        installerValidator.value = "The system cannot reach your Gdrive link, please ensure to provide a working link."
+                                        console.log(installerValidator.value);
+                                    }
+                                    else
+                                    {
+                                        
+                                        installerValidator.value = "";
+                                        isLoading.value = false;
+                                        form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
+
+                                    }
+                                    
                                 }
                                 else
                                 {
-                                    installerValidator.value = 'Please provide a valid google drive link. ex. https://drive.google.com/your-download-link' 
+                                    isLoading.value = false;
+                                    installerValidator.value = 'Please provide a valid google drive link. ex: https://drive.google.com/your-download-link' 
                                 }
                             }
+                            
+                            validate();
                         }
                     }
                 }  
@@ -450,17 +480,40 @@ const submit = ()=>{
                         }
                         else
                         {
+                            // if image validator was cleared nullify validator variable
+                            downloadPageVideoValidator.value = ""
                             
-                            if(googleDriveRegex.test(form.installerLink))
-                            {
+                            async function validate(){
                                 
-                                form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
+                                if(googleDriveRegex.test(form.installerLink))
+                                {
+                                    isLoading.value = true;
+                                    await testGoogleDriveLink()
+
+                                    if(!googleDriveLinkStatus.value)
+                                    {
+                                        isLoading.value = false;
+                                        installerValidator.value = "The system cannot reach your Gdrive link, please ensure to provide a working link."
+                                        console.log(installerValidator.value);
+                                    }
+                                    else
+                                    {
+                                        
+                                        installerValidator.value = "";
+                                        isLoading.value = false
+                                        form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
+
+                                    }
+                                    
+                                }
+                                else
+                                {
+                                    isLoading.value = false;
+                                    installerValidator.value = 'Please provide a valid google drive link. ex: https://drive.google.com/your-download-link' 
+                                }
                             }
-                            else
-                            {
-                                
-                                installerValidator.value = 'Please provide a valid google drive link. ex. https://drive.google.com/your-download-link' 
-                            }
+                            
+                            validate();
                         }
                     }
                     else
@@ -481,15 +534,35 @@ const submit = ()=>{
             }
             else
             {
-                console.log("this:"+form.installerLink);
-                if(googleDriveRegex.test(form.installerLink))
-                {
-                    form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
+                async function validate(){
+                    
+                    if(googleDriveRegex.test(form.installerLink))
+                    {
+                        isLoading.value = true;
+                        await testGoogleDriveLink()
+
+                        if(!googleDriveLinkStatus.value)
+                        {
+                            isLoading.value = false;
+                            installerValidator.value = "The system cannot reach your Gdrive link, please ensure to provide a working link."
+                            console.log(installerValidator.value);
+                        }
+                        else
+                        {
+                            isLoading.value = false;
+                            installerValidator.value = "";
+                            form.post(route('webPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
+
+                        }
+                        
+                    }
+                    else
+                    {
+                        installerValidator.value = 'Please provide a valid google drive link. ex: https://drive.google.com/your-download-link' 
+                    }
                 }
-                else
-                {
-                    installerValidator.value = 'Please provide a valid google drive link. ex: https://drive.google.com/your-download-link' 
-                }
+                
+                validate();
                 
             }
             
@@ -528,6 +601,36 @@ function confirmSubmit()
             })
         }
     })
+}
+
+ // test google drive link
+ const isLoading = ref(false);
+ async  function testGoogleDriveLink() {
+
+    try {
+        // Attempt to fetch the content of the Google Drive link
+        const response = await axios.get(form.installerLink, { maxRedirects: 0 });
+        
+
+        // Check if the response is a redirection (3xx) to the home page
+        if (response.status >= 300 && response.status < 400 && response.headers.location === 'https://drive.google.com/') {
+            googleDriveLinkStatus.value = false;
+            console.log(googleDriveLinkStatus.value);
+            
+        } else {
+            //Otherwise, consider it accessible
+            googleDriveLinkStatus.value = response.status >= 200 && response.status < 300;
+            
+            //googleDriveLinkStatus.value = true;
+            console.log(googleDriveLinkStatus.value);
+        }
+    } 
+    catch (error) {
+        // Handle errors, e.g., the link is not accessible
+        console.error('Error testing Google Drive link: bakket');
+        googleDriveLinkStatus.value = false;
+        console.log(googleDriveLinkStatus.value);
+    }
 }
 
 

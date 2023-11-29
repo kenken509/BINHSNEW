@@ -232,7 +232,7 @@
                             
                         </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
-                            <span class>{{stringModifier(post.installerFileName)  }} </span> 
+                            <a :href=post.installerLink target="_blank"  class=" text-blue-600" >{{ post.installerLink  }} </a> 
                         </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
                             <span class>{{ post.author.lName+', '+post.author.fName }} </span> 
@@ -261,6 +261,7 @@
 
 <script setup>
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
+
 import { usePage, Link, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue'
 import Swal from 'sweetalert2';

@@ -134,6 +134,21 @@
                     </span>
                 </div>
                 
+                <div class="flex flex-col">
+                    <h1 class="mb-6">Installer Link: </h1>
+                    
+                    <span class="p-float-label">
+                        <InputText id="installerLink" v-model="form.installerLink" class="w-full" required/>
+                        <label for="installerLink" >Enter downloads link...</label>
+                    </span>
+                    <div v-if="installerValidator" class="mt-2">
+                            <InputError :error="installerValidator" />
+                    </div>
+                    <div v-if="isLoading">
+                        <TestLinkLoadingSpinner :installerLink="form.installerLink"/>
+                    </div>
+                    
+                </div>
                 <!--installer file-->
                 <div class="w-full  my-1   py-2">
                     <h1 class="mb-6">Attachment: </h1>
@@ -168,7 +183,7 @@
                     <!--video attachment-->
                     <div v-if="selectedAttachment && selectedAttachment.name === 'Video'" class="mt-4">
                         <label for="videoAttachment" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
-                            Select video file...
+                            Select video file... {{ form.video }}
                         </label>
                         
                         <div v-if="existingVideo || attachmentFileName" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
@@ -194,7 +209,7 @@
 
 
                     <!--Installer-->
-                    <div class="mt-8 ">
+                    <!-- <div class="mt-8 ">
                         <h1 class="mb-2">Installer:</h1>
                         <label for="installerInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
                             Select a file...
@@ -212,7 +227,7 @@
                             <InputError :error="installerError" />
                         </div>
                         
-                    </div>
+                    </div> -->
                     <!--Installer-->
                     
                 </div>
@@ -237,9 +252,11 @@
 <script setup>
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
 import InputError from '../../../../GlobalComponent/InputError.vue';
+import TestLinkLoadingSpinner from '../../../../GlobalComponent/TestLinkLoadingSpinner.vue';
 import { usePage,useForm } from '@inertiajs/vue3';
 import {ref, computed, onMounted} from 'vue';
 import { toLowerFirst,toUpperFirst } from '../../../../Functions/Methods.vue'
+import axios from 'axios';
 
 const user = usePage().props.user
 const appUrl = 'http://127.0.0.1:8000/storage/';
@@ -278,6 +295,7 @@ const form = useForm({
     image:web.post.filename ? web.post.filename: web.post.mediaFileName,
     video:web.post.filename ? web.post.filename: web.post.mediaFileName,
     installer:web.post.installerFileName,
+    installerLink:web.post.installerLink,
 })
 
 const deleteImage = ()=>{
@@ -305,6 +323,7 @@ const deleteInstaller = ()=>{
 const imageUrl = ref(null);
 const videoUrl = ref(null);
 const attachmentFileName = ref(null);
+
 const addChangeImage = (event)=> {
     existingImage.value = null;
     form.image = event.target.files[0]
@@ -348,41 +367,72 @@ const handleSelectedAttachmentChange = ()=>{
 
 const imageError = ref(null);
 const installerError = ref(null);
+const installerValidator = ref(null);
 const videoError = ref(null);
+const isLoading = ref(false);
 const submit = ()=> {
     // alert(selectedAttachment.value.name)
     
+    // Regular expression to match Google Drive download links
+    const googleDriveRegex = /^https:\/\/drive\.google\.com\/.*$/;
+    const googleDriveLinkStatus = ref(null);
+    
+
     if(web.webPage === 'Downloads')
     {
-        if(!form.mediaType)
+        console.log('media attachment: '+form.mediaType)
+        if(form.mediaType === null)
         {
-            
-            if(!form.installer)
+
+            // check if the installer link isa a valid googledrive link
+            // check if the link is providing a file for download
+            if(!form.installerLink)
             {
-                installerError.value = 'Installer Field is required!'
+                installerValidator.value = 'Installer Link Field is required!'
             }
             else
             {
-                if(form.installer === web.post.installerFileName)
-                {
-                    
-                    form.post(route('editAboutPost.store'))
-                }
+                
+                async function validate(){
+                    if(googleDriveRegex.test(form.installerLink))
+                    {
+                        try{
+                            isLoading.value = true;
+                            await testGoogleDriveLink();
 
-                if(!form.installer.type === 'application/x-msdownload')
-                {
-                    installerError.value = 'Installer File must be executable file!'
-                    
+                            console.log(googleDriveLinkStatus)
+                            if(!googleDriveLinkStatus.value)
+                            {
+                                isLoading.value = false;
+                                installerValidator.value = "The system cannot reach your Gdrive link, please ensure to provide a working link."
+                                console.log(installerValidator.value);
+                            }
+                            else
+                            {
+                                isLoading.value = false;
+                                installerValidator.value = ""
+                                console.log('working gdrive link');
+                                form.post(route('editAboutPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
+                            }
+                        }catch(err)
+                        {
+                            isLoading.value = false;
+                            console.log("errrrroooorrr: "+err);
+                        }  
+                    }
+                    else
+                    {
+                        isLoading.value = false;
+                        installerValidator.value = 'Please provide a valid google drive link. ex: https://drive.google.com/your-download-link' 
+                    }
                 }
-                else
-                {
-                    form.post(route('editAboutPost.store'))
-                }
+                validate();
+                
             }
 
         }
 
-        if(toLowerFirst(form.mediaType) === 'image')
+        if(form.mediaType && toLowerFirst(form.mediaType) === 'image')
         {
             if(form.image)
             {
@@ -390,60 +440,79 @@ const submit = ()=> {
                 if(form.image === web.post.mediaFileName)
                 {
                     
-                    if(form.installer)
-                    {
-                        if(form.installer === web.post.installerFileName)
+                    async function validate(){
+                        if(googleDriveRegex.test(form.installerLink))
                         {
-                            
-                            form.post(route('editAboutPost.store'))
-                        }
+                            try{
+                                isLoading.value = true;
+                                await testGoogleDriveLink();
 
-                        if(!form.installer.type === 'application/x-msdownload')
-                        {
-                            installerError.value = 'Installer File must be executable file!'
+                                console.log(googleDriveLinkStatus)
+                                if(!googleDriveLinkStatus.value)
+                                {
+                                    isLoading.value = false;
+                                    installerValidator.value = "The system cannot reach your Gdrive link, please ensure to provide a working link."
+                                    console.log(installerValidator.value);
+                                }
+                                else
+                                {
+                                    isLoading.value = false;
+                                    installerValidator.value = ""
+                                    console.log('working gdrive link');
+                                    form.post(route('editAboutPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
+                                }
+                            }catch(err)
+                            {
+                                isLoading.value = false;
+                                console.log("errrrroooorrr: "+err);
+                            }  
                         }
                         else
                         {
-                            form.post(route('editAboutPost.store'))
+                            isLoading.value = false;
+                            installerValidator.value = 'Please provide a valid google drive link. ex: https://drive.google.com/your-download-link' 
                         }
-
                     }
-                    
-                    //if installer field is empty
-                    if(!form.installer)
-                    {
-                        installerError.value = 'Installer Field is required!'
-                    }
-                   
-                    
+                    validate();  
                 }
                 else // if image was changed
                 {
                     if((form.image.type === 'image/png' && form.image.size <= 3000000) || (form.image.type === 'image/jpeg' && form.image.size <= 3000000) || (form.image.type === 'image/jpg' && form.image.size <= 3000000))
                     {
-                        if(form.installer)
-                        {
-                            if(form.installer === web.post.installerFileName)
+                        async function validate(){
+                            if(googleDriveRegex.test(form.installerLink))
                             {
-                                form.post(route('editAboutPost.store'))
-                            }
+                                try{
+                                    isLoading.value = true;
+                                    await testGoogleDriveLink();
 
-                            if(!form.installer.type === 'application/x-msdownload')
-                            {
-                                installerError.value = 'Installer File must be executable file!'
+                                    console.log(googleDriveLinkStatus)
+                                    if(!googleDriveLinkStatus.value)
+                                    {
+                                        isLoading.value = false;
+                                        installerValidator.value = "The system cannot reach your Gdrive link, please ensure to provide a working link."
+                                        console.log(installerValidator.value);
+                                    }
+                                    else
+                                    {
+                                        isLoading.value = false;
+                                        installerValidator.value = ""
+                                        console.log('working gdrive link');
+                                        form.post(route('editAboutPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
+                                    }
+                                }catch(err)
+                                {
+                                    isLoading.value = false;
+                                    console.log("errrrroooorrr: "+err);
+                                }  
                             }
                             else
                             {
-                                form.post(route('editAboutPost.store'))
+                                isLoading.value = false;
+                                installerValidator.value = 'Please provide a valid google drive link. ex: https://drive.google.com/your-download-link' 
                             }
-
                         }
-                        
-                        //if installer field is empty
-                        if(!form.installer)
-                        {
-                            installerError.value = 'Installer Field is required!'
-                        }
+                        validate();
                     }
                     else //sdfsdf
                     {
@@ -459,7 +528,7 @@ const submit = ()=> {
             }  
         }
 
-        if(toLowerFirst(form.mediaType) === 'video')
+        if(form.mediaType && toLowerFirst(form.mediaType) === 'video')
         {
             
             if(form.video)
@@ -468,64 +537,80 @@ const submit = ()=> {
                 //existing video was not changed
                 if(form.video === web.post.mediaFileName)
                 {
-                    
-                    if(form.installer)
-                    {
-                        if(form.installer === web.post.installerFileName)
+                    async function validate(){
+                        if(googleDriveRegex.test(form.installerLink))
                         {
-                           
-                            form.post(route('editAboutPost.store'))
-                        }
+                            try{
+                                isLoading.value = true;
+                                await testGoogleDriveLink();
 
-                        if(!form.installer.type === 'application/x-msdownload')
-                        {
-                            installerError.value = 'Installer File must be executable file!video'
+                                console.log(googleDriveLinkStatus)
+                                if(!googleDriveLinkStatus.value)
+                                {
+                                    isLoading.value = false;
+                                    installerValidator.value = "The system cannot reach your Gdrive link, please ensure to provide a working link."
+                                    console.log(installerValidator.value);
+                                }
+                                else
+                                {
+                                    isLoading.value = false;
+                                    installerValidator.value = ""
+                                    console.log('working gdrive link');
+                                    form.post(route('editAboutPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
+                                }
+                            }catch(err)
+                            {
+                                isLoading.value = false;
+                                console.log("errrrroooorrr: "+err);
+                            }  
                         }
                         else
                         {
-                            form.post(route('editAboutPost.store'))
+                            isLoading.value = false;
+                            installerValidator.value = 'Please provide a valid google drive link. ex: https://drive.google.com/your-download-link' 
                         }
-
                     }
-                    
-                    //if installer field is empty
-                    if(!form.installer)
-                    {
-                        installerError.value = 'Installer Field is required!Video'
-                    }
-                   
-                    
+                    validate(); 
                 }
                 else // if video was changed
                 {
                     
                     if((form.video.type === 'video/mp4' && form.video.size <= 50000000))
                     {
-                        if(form.installer)
-                        {
-                            if(form.installer === web.post.installerFileName)
+                        async function validate(){
+                            if(googleDriveRegex.test(form.installerLink))
                             {
-                                //installer not changed
-                               
-                                form.post(route('editAboutPost.store'))
-                            }
+                                try{
+                                    isLoading.value = true;
+                                    await testGoogleDriveLink();
 
-                            if(!form.installer.type === 'application/x-msdownload')
-                            {
-                                installerError.value = 'Installer File must be executable file!video'
-
+                                    console.log(googleDriveLinkStatus)
+                                    if(!googleDriveLinkStatus.value)
+                                    {
+                                        isLoading.value = false;
+                                        installerValidator.value = "The system cannot reach your Gdrive link, please ensure to provide a working link."
+                                        console.log(installerValidator.value);
+                                    }
+                                    else
+                                    {
+                                        isLoading.value = false;
+                                        installerValidator.value = ""
+                                        console.log('working gdrive link');
+                                        form.post(route('editAboutPost.store'), { onSuccess: ()=> form.reset(['images', 'installer'])})
+                                    }
+                                }catch(err)
+                                {
+                                    isLoading.value = false;
+                                    console.log("errrrroooorrr: "+err);
+                                }  
                             }
                             else
                             {
-                                form.post(route('editAboutPost.store'))
+                                isLoading.value = false;
+                                installerValidator.value = 'Please provide a valid google drive link. ex: https://drive.google.com/your-download-link' 
                             }
-
                         }
-                        //if installer field is empty
-                        if(!form.installer)
-                        {
-                            installerError.value = 'Installer Field is required!'
-                        }
+                        validate();
                     }
                     else //sdfsdf
                     {
@@ -542,8 +627,34 @@ const submit = ()=> {
         
     }
     
+    //form.post(route('editAboutPost.store'))
+
     
-    form.post(route('editAboutPost.store'))
-    
+    // test google drive link
+    async function testGoogleDriveLink() {
+
+        try {
+        // Attempt to fetch the content of the Google Drive link
+            const response = await axios.get(form.installerLink, { maxRedirects: 0 });
+
+            // Check if the response is a redirection (3xx) to the home page
+            if (response.status >= 300 && response.status < 400 && response.headers.location === 'https://drive.google.com/') {
+                googleDriveLinkStatus.value = false;
+                console.log(googleDriveLinkStatus.value);
+                
+            } else {
+                //Otherwise, consider it accessible
+                googleDriveLinkStatus.value = response.status >= 200 && response.status < 300;
+                console.log(googleDriveLinkStatus.value);
+            }
+        } 
+        catch (error) {
+            // Handle errors, e.g., the link is not accessible
+            console.error('Error testing Google Drive link: bajkket');
+            googleDriveLinkStatus.value = false;
+            console.log(googleDriveLinkStatus.value);
+        }
+    }
+      
 };
 </script>
