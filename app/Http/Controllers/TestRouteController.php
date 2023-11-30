@@ -252,20 +252,21 @@ public function reassembleFile($totalChunks, $originalFilename)
 
     public function testData()
     {
-        $sampleId = '123';
-        $randomString = Str::random(20);
+        // $sampleId = '123';
+        // $randomString = Str::random(20);
 
-        $randomNumber = rand(1, 20);
+        // $randomNumber = rand(1, 20);
 
         // Ensure the random number is within a valid range
-        $randomNumber = max(1, min($randomNumber, strlen($randomString)));
+        //$randomNumber = max(1, min($randomNumber, strlen($randomString)));
 
         // Insert the sampleId at the specified position
-        $modifiedString = substr($randomString, 0, $randomNumber - 1) . $sampleId . substr($randomString, $randomNumber - 1);
+        //$modifiedString = substr($randomString, 0, $randomNumber - 1) . $sampleId . substr($randomString, $randomNumber - 1);
 
         // Output the modified string
         //dd('test here: ' . $modifiedString);
-        $this->extractSampleId($modifiedString,$sampleId);
+        //$this->extractSampleId($modifiedString,$sampleId);
+        return view('mails/StudentMail');
     }
 
     public function extractSampleId($modifiedString, $sampleId)

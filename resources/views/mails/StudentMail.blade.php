@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESET PASSWORD</title>
+    <title>Quiz Notification</title>
     <style>
         body {
             margin: 0;
@@ -72,7 +72,7 @@
             padding:3px;
         }
         .regards{
-            margin-top:30px;
+            margin-top:20px;
         }
     </style>
 </head>
@@ -82,11 +82,9 @@
             <a href="#">BINHS.NET</a>
         </div>
         <div class="message">
-            <p>Hi,</p>
-            <p>Please click the button below to reset your password.</p>
-            <div class="otp-box">
-                <a class="reset-link" target="_blank" href="{{$mailData['url']}}" >Click here to reset password</a>
-            </div>
+            <p>Hi!&nbsp;{{$mailData['userName']}},</p>
+            <p>Mr./Ms. {{$mailData['instructor']}} has sent a new quiz. Kindly log in to your Simulator App to take the quiz.</p>
+            <p>Please be informed that your quiz will start on {{ $mailData['start']}} and will end on {{ $mailData['end']}}.</p>
             
             <p class="regards">Regards,<br />Bulihan Integrated High School</p>
         </div>

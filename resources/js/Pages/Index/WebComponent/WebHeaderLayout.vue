@@ -12,8 +12,7 @@
                 </div>
             </div>
             <div class="relative my-4">
-                <img src="../../../../../public/images/webPage/logo1.png" alt="error" class="mr-4 w-[80px] h-[80px] lg:w-[150px] lg:h-[150px] tle-logo-hide">
-                <div class="absolute top-[8px] left-4 lg:top-[20px] lg:left-8 font-extrabold text-[#f71f00] text-[14px] lg:text-[24px] tle-logo-hide">TLE LOGO HERE</div>
+                <img src="/storage/Images/tleLogo.jpg" alt="error" class="mr-4 w-[70px] h-[70px] lg:w-[130px] lg:h-[130px] tle-logo-hide rounded rounded-full">
             </div>
             
         </div>

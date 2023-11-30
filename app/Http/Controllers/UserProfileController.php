@@ -40,7 +40,7 @@ class UserProfileController extends Controller
             $user->save();
 
             
-            return redirect()->back()->with('success', true);
+            return redirect()->back()->with('success', 'Successfully Updated!');
         }
 
         if($user->image)
@@ -56,7 +56,7 @@ class UserProfileController extends Controller
             $user->image = $path;
             $user->save();
 
-            return redirect()->back()->with('success', true);
+            return redirect()->back()->with('success', 'Successfully Updated!');
         }
     }
 
@@ -72,7 +72,7 @@ class UserProfileController extends Controller
                 'lName'         => 'required:max:50',
                 'gender'        => 'required',
                 'civilStatus'   => 'required',
-                'email'         => [ 'required', 'email', Rule::unique('users')->ignore(Auth::user()->id), ],
+                //'email'         => [ 'required', 'email', Rule::unique('users')->ignore(Auth::user()->id), ],
                 'birthDate'     => 'required|date|before_or_equal:'.($role == 'student' || $role === 'guest' ? now()->subYears(11) : now()->subYears(18))->toDateString(),
                 'phoneNumber'   => 'required|min:11|max:12',
                 'region'        => 'required',
@@ -99,11 +99,11 @@ class UserProfileController extends Controller
             $age = Carbon::parse($request->birthDate)->age;
             
 
-            if($user->email != $request->email)
-            {
-                $user->email = $request->email;
-                $user->email_verified_at = null;
-            }
+            // if($user->email != $request->email)
+            // {
+            //     $user->email = $request->email;
+            //     $user->email_verified_at = null;
+            // }
             
             
             $user->fName        = $request->fName;
@@ -121,7 +121,7 @@ class UserProfileController extends Controller
             $user->barangay     = $request->barangay;
             $user->save();
 
-            return redirect()->back()->with('message', 'Successfully Updated!');
+            return redirect()->back()->with('success', 'Successfully Updated!');
 
             
         }

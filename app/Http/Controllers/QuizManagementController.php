@@ -13,7 +13,9 @@ use App\Models\QuizChoices;
 use App\Models\QuizQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Mail\StudentNewQuizMail;
 use App\Models\StudentActiveQuiz;
+use Illuminate\Support\Facades\Mail;
 use App\Rules\StartDateBeforeEndDate;
 use Illuminate\Validation\ValidationException;
 
@@ -351,6 +353,16 @@ class QuizManagementController extends Controller
             $studentQuiz->start_date        = Carbon::parse($request->startDate)->toDateString();
             $studentQuiz->end_date          = Carbon::parse($request->endDate)->toDateString();
             $studentQuiz->save();
+            
+            $mailData = [
+                'userName'      => $student->fName,
+                'instructor'    => Auth::user()->fName,
+                'start'         => Carbon::parse($request->startDate)->format('F j, Y'),
+                'end'           => Carbon::parse($request->endDate)->format('F j, Y'),
+            ];
+
+            Mail::to($student->email)->send(new StudentNewQuizMail($mailData));
+            // send email notification for student
         };
         
         return redirect()->route('quiz.active')->with('success', 'Successfully sent new quiz!');

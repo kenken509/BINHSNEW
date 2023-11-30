@@ -287,3 +287,7 @@ Route::controller(SchoolYearController::class)->group(function(){
     //Route::get('/tester-route', 'testerFunction');
 });
 
+Route::controller(UtilityController::class)->group(function(){
+    Route::get('/utility/flash-message/clear', 'clearFlash')->name('clear.flash.messages');
+});
+

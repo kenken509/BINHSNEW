@@ -147,10 +147,14 @@ function successMessage(message)
     }).then((result)=>{
         if(result.isConfirmed)
         {
-            location.reload();
+            flashClear.get(route('clear.flash.messages'), {preserveScroll:true});
         }
     })
 }
+
+const flashClear = useForm({
+    clear:null,
+})
 
 function errorMessage(message)
 {
@@ -162,7 +166,7 @@ function errorMessage(message)
     }).then((result)=>{
         if(result.isConfirmed)
         {
-            location.reload();
+            flashClear.get(route('clear.flash.messages'), {preserveScroll:true});
         }
     })
 }

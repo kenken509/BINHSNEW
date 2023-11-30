@@ -9,17 +9,17 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class FirstMail extends Mailable
+class StudentNewQuizMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $verificationUrl;
     /**
      * Create a new message instance.
      */
-    public function __construct($verificationUrl)
+    public $mailData;
+    public function __construct($mailData)
     {
-       $this->verificationUrl = $verificationUrl;
+        $this->mailData = $mailData;
     }
 
     /**
@@ -28,7 +28,7 @@ class FirstMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'First Mail',
+            subject: 'New Quiz',
         );
     }
 
@@ -38,10 +38,10 @@ class FirstMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.first-mail',
+            view: 'mails.StudentMail',
         );
     }
-    
+
     /**
      * Get the attachments for the message.
      *

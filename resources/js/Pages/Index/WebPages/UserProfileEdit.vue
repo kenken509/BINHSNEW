@@ -7,13 +7,9 @@
             <WebHeaderLayout/> 
         </div>
     </div>
-    <div v-if="$page.props.flash.success" hidden>{{ reloadPage()  }} </div>
-    <div v-if="$page.props.flash.message" class="flex flex-col items-center   w-full h-full  p-5" >
-        <div class="w-[80%] h-[90%] bg-green-400 p-2 rounded-md text-gray-800">
-            {{ $page.props.flash.message }} {{ hide() }} {{ reloadPageDelayed() }}
-        </div>
-        
-    </div>
+    <div v-if="$page.props.flash.success" >{{ successMessage($page.props.flash.success) }} </div>
+   
+    
     <div class="flex flex-col items-center   w-full h-full  p-5">
         <div class="w-[80%] h-[90%]">
             <div>Account Management</div>
@@ -129,7 +125,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-span-12 md:col-span-4">
+                                <!-- <div class="col-span-12 md:col-span-4">
                                     <div class="mb-5">Email: </div>
                                     <div>
                                         <span class="p-float-label">
@@ -138,7 +134,7 @@
                                         </span>
                                         <InputError :error="form.errors.email"/>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="col-span-12 md:col-span-4">
                                     <div class="mb-5">Contact #: </div>
@@ -225,11 +221,14 @@
 <script setup>
 import WebNavLayout2 from '../WebComponent/WebNavLayout2.vue'
 import InputError from '../../GlobalComponent/InputError.vue'
-import {Link, useForm} from '@inertiajs/vue3'
+import {Link, useForm, usePage} from '@inertiajs/vue3'
 import WebHeaderLayout from '../WebComponent/WebHeaderLayout.vue'
 import {toUpperFirst} from '../../Functions/Methods.vue'
 import {regions,provinces,cities,barangays,} from "select-philippines-address";
-import {onMounted, ref, watch} from 'vue';
+import {onMounted, ref, watch, computed} from 'vue';
+import Swal from 'sweetalert2';
+
+
 
 const appUrl = '/storage/'
 const userToEdit = defineProps({
@@ -319,7 +318,7 @@ const form = useForm({
     gender:selectedGender,
     civilStatus:selectedCivilStatus,
     phoneNumber:userToEdit.userToEdit.phoneNumber,
-    email:userToEdit.userToEdit.email,
+    //email:userToEdit.userToEdit.email,
     birthDate:userToEdit.userToEdit.birthDate,
     student_number:null,
     region:userToEdit.userToEdit.region,
@@ -360,10 +359,13 @@ function reloadPageDelayed()
 //     disabledProvince.value = false
 // })
 
-const submit = ()=> form.post(route('user.profile.info.update'),{
+const submit = ()=> {
+
+    visible.value = false;
+    form.post(route('user.profile.info.update'),{
          preserveScroll: true,
-         
     });
+}
 
 
 const visible = ref(false);
@@ -424,4 +426,24 @@ watch(userBarangay, (brgy)=>{
         form.barangay = brgy.brgy_code;
     }
 })
+
+const flashClear = useForm({
+    clear:null,
+})
+
+function successMessage(message)
+{
+    Swal.fire({
+        title:'Success',
+        text:message+'!',
+        icon:'success',
+        allowOutsideClick:false,
+        allowEscapeKey:false
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            flashClear.get(route('clear.flash.messages'), {preserveScroll:true});
+        }
+    })
+}
 </script>
