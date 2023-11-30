@@ -15,6 +15,7 @@ use App\Http\Controllers\StrandsController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\TestRouteController;
 use App\Http\Controllers\UserAccountController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\EmailVerificationController;
@@ -96,9 +97,11 @@ Route::controller(AuthController::class)->group(function(){
     Route::delete('/logout', 'destroy')->name('logout');
     Route::get('/account/registration', 'showRegistration')->name('register.guest');
     Route::post('/register/store', 'storeGuest')->name('register.guestStore');
-    Route::get('/change-password', 'showChangePassword')->name('change.password');
-    Route::post('/change-password/store', 'changePassword')->name('reset.password');
-    Route::get('/forgot-password', 'showForgotPassword')->name('forgot.password');
+    
+    //change password
+    //Route::get('/forgot-password', 'showForgotPassword')->name('forgot.password');
+    Route::post('/forgot-password/email-link', 'sendEmailResetPassword')->name('email.reset.password');
+    
 
     Route::get('user/otp/verify/{id}', 'showOtpVerification')->name('otpVerification.show');
     Route::post('user/otp/authenticate', 'authOtp')->name('otp.auth');
@@ -106,6 +109,14 @@ Route::controller(AuthController::class)->group(function(){
     
 });
 
+Route::controller(ResetPasswordController::class)->group(function(){
+    Route::get('/forgot-password/show', 'showForgotPassword')->name('forgot.password.show');
+    Route::post('/forgot-password/email-link', 'sendEmailResetPassword')->name('email.reset.password');
+    Route::get('/pasword-reset/verify/{resetToken}', 'resetLinkVerify')->name('reset.link.verify');
+    Route::get('/change-password/show', 'showChangePassword')->name('change.password.show');
+    Route::post('/change-password/store', 'storeNewPassword')->name('change.password.store');
+
+});
 
 Route::controller(MailController::class)->group(function(){
     Route::get('/verify-email', 'showVerify')->name('verify.show');
@@ -267,6 +278,8 @@ Route::controller(TestRouteController::class)->group(function(){
     Route::get('test/upload/chunks', 'chunkUploadShow')->name('chunk.show');
     Route::post('/upload/chunk', 'storeChunk')->name('chunk.upload');
     Route::post('/upload/assemble', 'assembleChunks')->name('chunk.assemble');
+    Route::get('/email-testing', 'showEmailTemplate');
+    Route::get('test-data', 'testData')->name('test.data');
 });
 
 Route::controller(SchoolYearController::class)->group(function(){

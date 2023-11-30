@@ -28,9 +28,11 @@
                     <li class="mx-4 my-4">
                         <a :href="route('index.news')" class="text-xl hover:text-cyan-500 duration-500">News</a>
                     </li>
-                    <li v-if="user.currentUser && user.currentUser.role === 'student'" class="mx-4 my-4">
+                <!--trial link-->
+                    <!-- <li v-if="user.currentUser && user.currentUser.role === 'student'" class="mx-4 my-4">
                         <a :href="route('test.quiz')" class="text-xl hover:text-cyan-500 duration-500">Test Quiz</a>
-                    </li>
+                    </li> -->
+                <!--trial link-->
                     <li class="flex items-center mx-4" @click="tleClickHandler" >
                         <a href="#" class="text-xl hover:text-cyan-500 duration-500">TLE Tracks</a>
                         <i class="pi pi-angle-down cursor-pointer" style="font-size: 2rem" ></i>
@@ -86,7 +88,7 @@
                                         <a :href="route('user.profile.edit',{id:currentUser.id})" class=" cursor-pointer  pl-2 text-gray-100 hover:text-gray-950 duration-500 duration-200">Manage Account</a>
                                     </div>
                                     <div class=" my-2  hover:bg-gray-200 rounded duration-500">
-                                        <a :href="route('change.password')" class=" cursor-pointer  pl-2 text-gray-100 hover:text-gray-950 duration-500 duration-200">Change Password</a>
+                                        <a :href="route('forgot.password.show')" class=" cursor-pointer  pl-2 text-gray-100 hover:text-gray-950 duration-500 duration-200">Change Password</a>
                                     </div>
                                     <div class="my-2  hover:bg-gray-200 rounded duration-500">
                                         <Link

@@ -38,6 +38,21 @@ function successMessage(message)
         }
     })
 }
+
+function errorMessage(message)
+{
+    Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: message+'!',
+        
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            location.reload();
+        }
+    })
+}
 </script>
 
 <template >
@@ -46,7 +61,7 @@ function successMessage(message)
             <div class="flex items-center justify-center mt-2 ">
                 <img :src="logo" class=" w-[150px] h-[150px]">
             </div>
-            
+            <div v-if="$page.props.flash.error" >{{ errorMessage($page.props.flash.error) }} </div>
             <!--login form-->
             <div class="">
                 <form  @submit.prevent="login">
@@ -90,13 +105,11 @@ function successMessage(message)
                         <button class="btn-primary w-full mt-4 text-center" type="submit">Sign-in</button>
                         <div class="flex justify-between mt-2">
                             <span>Don't have and account? <Link :href="route('register.guest')" class="text-blue-500"> register</Link></span>
-                            <Link :href="route('forgot.password')" class="text-blue-500"> Forgot password?</Link>
+                            <Link :href="route('forgot.password.show')" class="text-blue-500"> Forgot password?</Link>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-    </div>
-    
-    
+    </div> 
 </template>

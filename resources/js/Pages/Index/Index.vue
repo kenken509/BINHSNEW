@@ -18,6 +18,7 @@
     <div class=" h-[40px] border shadow-md "></div>
     
     <div v-if="$page.props.flash.success" >{{ successMessage($page.props.flash.success) }} </div>
+    <div v-if="$page.props.flash.error" >{{ errorMessage($page.props.flash.error) }} </div>
     
    
     <!--you are here-->
@@ -143,6 +144,21 @@ function successMessage(message)
         icon:'success',
         allowOutsideClick:false,
         allowEscapeKey:false
+    }).then((result)=>{
+        if(result.isConfirmed)
+        {
+            location.reload();
+        }
+    })
+}
+
+function errorMessage(message)
+{
+    Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: message+'!',
+        
     }).then((result)=>{
         if(result.isConfirmed)
         {

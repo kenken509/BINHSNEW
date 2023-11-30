@@ -4,7 +4,14 @@
             <div class="flex flex-col mb-2">
                 <span class="text-[24px] font-extrabold font-serif">{{ content.title }}</span>
                 <span class="text-[12px] text-gray-500 ">{{ dateCreated(content.id) }}</span>
-                <h1>Click here to <a class="text-blue-400" :href="'/storage/'+content.installerFileName" download> download</a> </h1>
+                
+                <div v-if="$page.props.user">
+                    <h1>Click here to <a class="text-blue-400" :href="content.installerLink" target="_blank"  download @click="handleDownloadLinkClick(content.id)" > download</a> </h1>
+                </div>
+                <div v-else>
+                    <span class="text-red-500">Please sign in to download.</span>
+                </div>
+                
             </div>
             <div class="">
                 <div v-if="content.mediaType && content.mediaType==='image'" class="border bg-black">
@@ -18,7 +25,7 @@
                     </div>
                 </div>
                 <div class="mt-4">
-                    <p class=" text-center whitespace-pre-line text-justify">{{ truncateText(content.content, 19) }} 
+                    <p class="  whitespace-pre-line text-justify">{{ truncateText(content.content, 19) }} 
                         <Link :href="route('fullPost.show',{page:post.postPage, id:content.id})">
                             <span class="text-blue-500">read more...</span> 
                         </Link>  
@@ -60,6 +67,8 @@ function dateCreated (id){
     return formattedDate;
 }
 
-
+const handleDownloadLinkClick = (id)=>{
+    alert('Record someone attempted to download post id: '+id);
+}
 
 </script>

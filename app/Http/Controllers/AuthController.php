@@ -176,35 +176,8 @@ class AuthController extends Controller
         
     }
 
-    public function changePassword(Request $request)
-    {
-        $userEmail = Auth::user()->email;
-        $request->validate([
-            'password' => [
-                'required',
-                'confirmed',
-                Password::min(8)
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols(),
-            ],
-        ]);
 
-        $user = User::where('email', $userEmail)->first();
-        
-        if(!$user)
-        {
-            return redirect()->redirect('login')->with('error', 'Failed to change password');
-        }
-        
-        $user->password = $request->password;
-        $user->save();
-
-        return redirect()->route('index')->with('success', 'Successfully changed password');
-
-        
-    }
-
+    
     public function destroy(Request $request){ // destroy the current user session (log out)
         Auth::logout();
 
@@ -214,16 +187,7 @@ class AuthController extends Controller
         return redirect()->route('index')->with('success', 'Signed out successfully');
     }
 
-    public function showChangePassword()
-    {
-        return inertia('Auth/ChangePassword');
-    }
-
-    public function showForgotPassword()
-    {
-        return inertia('Auth/ForgotPassword');
-    }
-
+   
     public function showOtpVerification($id)
     {
         $attemptingUser = User::findOrFail($id);
@@ -237,7 +201,7 @@ class AuthController extends Controller
        
         $otp = $request->otp;
         $user = User::findOrFail($request->userId);
-
+        date_default_timezone_set('Asia/Manila');
         
         if($user->expires_at && now()->lessThan($user->expires_at))
         {

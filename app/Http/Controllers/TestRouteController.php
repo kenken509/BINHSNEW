@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Quiz;
 use App\Models\User;
 use App\Models\SentQuiz;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\StudentActiveQuiz;
@@ -242,5 +243,42 @@ public function reassembleFile($totalChunks, $originalFilename)
 
 
         return response()->json(['uploaded' => true]);
+    }
+
+    public function showEmailTemplate()
+    {
+        return view('mails/ResetPasswordMail');
+    }
+
+    public function testData()
+    {
+        $sampleId = '123';
+        $randomString = Str::random(20);
+
+        $randomNumber = rand(1, 20);
+
+        // Ensure the random number is within a valid range
+        $randomNumber = max(1, min($randomNumber, strlen($randomString)));
+
+        // Insert the sampleId at the specified position
+        $modifiedString = substr($randomString, 0, $randomNumber - 1) . $sampleId . substr($randomString, $randomNumber - 1);
+
+        // Output the modified string
+        //dd('test here: ' . $modifiedString);
+        $this->extractSampleId($modifiedString,$sampleId);
+    }
+
+    public function extractSampleId($modifiedString, $sampleId)
+    {
+        $randomNumber = rand(1, 20);
+
+        // Ensure the random number is within a valid range
+        $randomNumber = max(1, min($randomNumber, strlen($modifiedString)));
+
+        // Extract the sampleId from the modified string
+        $sampleId = substr($modifiedString, $randomNumber - 1, strlen($sampleId));
+
+        // Output the extracted sampleId
+        dd('Extracted sampleId: ' . $sampleId);
     }
 }
