@@ -279,7 +279,9 @@ Route::controller(TestRouteController::class)->group(function(){
     Route::post('/upload/chunk', 'storeChunk')->name('chunk.upload');
     Route::post('/upload/assemble', 'assembleChunks')->name('chunk.assemble');
     Route::get('/email-testing', 'showEmailTemplate');
-    Route::get('test-data', 'testData')->name('test.data');
+    Route::get('/test-data', 'testData')->name('test.data');
+
+    
 });
 
 Route::controller(SchoolYearController::class)->group(function(){
@@ -291,3 +293,6 @@ Route::controller(UtilityController::class)->group(function(){
     Route::get('/utility/flash-message/clear', 'clearFlash')->name('clear.flash.messages');
 });
 
+Route::controller(WebAnalyticsController::class)->group(function(){
+    Route::post('/web-analytics/store', 'store')->name('analytics.store');
+});

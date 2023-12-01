@@ -40,9 +40,8 @@
 </template>
 
 <script setup>
-import {computed} from 'vue'
 import { truncateText } from '../../Functions/Methods.vue';
-import {Link} from '@inertiajs/vue3'
+import {Link, useForm} from '@inertiajs/vue3'
 
 const post =  defineProps({
     contents:Array,
@@ -67,8 +66,20 @@ function dateCreated (id){
     return formattedDate;
 }
 
-const handleDownloadLinkClick = (id)=>{
-    alert('Record someone attempted to download post id: '+id);
+const record = useForm({
+    type:'download_attempt'
+})
+// const handleDownloadLinkClick = (id)=>{
+//     record.post(route('analytics.store'),{preserveScroll:true});
+// }
+
+async function handleDownloadLinkClick() {
+  try {
+        await record.post(route('analytics.store'), { preserveScroll: true });
+        console.log('Visit recorded successfully!');
+    } catch (error) {
+        console.error('Error recording visit:', error.message);
+    }
 }
 
 </script>

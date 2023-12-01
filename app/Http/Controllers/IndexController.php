@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\WebPost;
+use App\Models\WebAnalysis;
 use Illuminate\Support\Str;
 use App\Models\NewsPagePost;
 use Illuminate\Http\Request;
@@ -19,6 +20,10 @@ class IndexController extends Controller
         
         $posts = NewsPagePost::orderBy('created_at','desc')->first();
 
+        // $newVisitor = new WebAnalysis();
+        // record new visit upon loading this page;
+        // $newVisitor->type = 'visit';
+        // $newVisitor->save();
         
         return inertia('Index/Index',[
             'carouselImages' => CarouselImageModel::all(),

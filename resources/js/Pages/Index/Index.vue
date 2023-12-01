@@ -58,7 +58,7 @@
     
 </template>
 
-<script setup>
+<!-- <script setup>
 import IndexCard from './IndexComponent/IndexCard.vue';
 import WebNavLayout2 from './WebComponent/WebNavLayout2.vue';
 import Swal from 'sweetalert2';
@@ -67,9 +67,8 @@ import {  useForm, usePage } from '@inertiajs/vue3';
 import WebHeaderLayout from './WebComponent/WebHeaderLayout.vue'
 import WebCarousel from './WebComponent/WebCarousel.vue';
 import WebFooter from './WebComponent/WebFooter.vue';
-import WebCard from './WebComponent/WebCard.vue';
-import WebAbout from './WebComponent/WebAbout.vue';
-import { ref, onMounted, onUnmounted } from 'vue'
+import { router } from '@inertiajs/vue3'
+import { ref, onMounted, onUnmounted, onBeforeUnmount  } from 'vue'
 
 
 defineProps({
@@ -108,33 +107,54 @@ const form = useForm({
 
 onMounted(()=>{
     document.addEventListener('click', handleClick)
+    window.addEventListener('beforeunload', cleanup);
+    document.addEventListener('visibilitychange', cleanup);
+    const isFirstVisit = checkFirstVisit();
 
-    /*const currentDate = new Date();
-    const month = ref(currentDate.getMonth());
-    const year = currentDate.getFullYear();
+    if (isFirstVisit) {
+        // Record the new visit to the Laravel backend
+        recordVisitOnBackend();
+    } else {
+        // It's a refresh, do nothing or perform necessary actions
+    }
+
+    if (!sessionStorage.getItem('firstVisit')) {
+        localStorage.setItem('firstVisit', 'true');
+        sessionStorage.setItem('firstVisit', 'true');
+    }
     
-    
-    currentMonth.value = month.value+1;
-    if(currentMonth.value < 8 )
-    {
-        currentSchoolYear.value = (year-1)+'-'+year
-
-    }
-    else if(currentMonth.value >= 9 )
-    {
-        currentSchoolYear.value = year+'-'+(year+1);
-    }
-    else{
-        currentSchoolYear.value = null;
-    }
-
-    form.year = currentSchoolYear.value;
-    submit(); */
 })
 
-onUnmounted(() => {
-  document.removeEventListener('click', handleClick);
+const cleanup = () => {
+    // if(isTabClosing())
+    // {
+    //     localStorage.removeItem('firstVisit');
+    // }
+    if (document.visibilityState === 'hidden') {
+        localStorage.removeItem('firstVisit');
+    }
+};
+
+onBeforeUnmount(() => {
+  // Cleanup tasks, such as clearing local storage
+  
+  window.removeEventListener('beforeunload', cleanup);
+  //cleanup();
 });
+
+const isRefreshEvent = () => {
+    // Check if the navigation is due to a refresh
+    return performance.navigation.type === performance.navigation.TYPE_RELOAD;
+};
+
+const isTabClosing = () => {
+    const navigationType = performance.navigation.type;
+
+    // Check if the navigation is not a regular reload, back/forward, or navigate action
+    return navigationType !== performance.navigation.TYPE_RELOAD &&
+           navigationType !== performance.navigation.TYPE_BACK_FORWARD &&
+           navigationType !== performance.navigation.TYPE_NAVIGATE;
+};
 
 function successMessage(message)
 {
@@ -170,4 +190,106 @@ function errorMessage(message)
         }
     })
 }
+
+const checkFirstVisit = () => {
+  return !localStorage.getItem('firstVisit');
+};
+
+const recordVisitOnBackend = () => {
+  
+    router.post(route('analytics.store'),{preserveScroll:true}); 
+  // Set 'firstVisit' key in localStorage
+  localStorage.setItem('firstVisit', 'true');
+};
+</script> -->
+
+<script setup>
+import IndexCard from './IndexComponent/IndexCard.vue';
+import WebNavLayout2 from './WebComponent/WebNavLayout2.vue';
+import Swal from 'sweetalert2';
+import { computed } from '@vue/reactivity';
+import { useForm, usePage } from '@inertiajs/vue3';
+import WebHeaderLayout from './WebComponent/WebHeaderLayout.vue'
+import WebCarousel from './WebComponent/WebCarousel.vue';
+import WebFooter from './WebComponent/WebFooter.vue';
+import { router } from '@inertiajs/vue3'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
+defineProps({
+  currentUrl: String,
+  carouselImages: Array,
+  newsPost: Object,
+})
+
+const user = computed(() => usePage().props.user);
+const clicked = ref(false)
+
+const handleClick = () => {
+  clicked.value = true
+}
+
+
+onMounted(() => {
+  document.addEventListener('click', handleClick);
+
+  const isFirstVisit = sessionStorage.getItem('firstVisit');
+  
+
+  if (!isFirstVisit) {
+    // If it's the first visit, set the variable to true and store it in sessionStorage
+    sessionStorage.setItem('firstVisit', 'true');
+
+    // Store information in the database (simulated asynchronous operation)
+    // Replace this with your actual database integration logic
+    recordVisit();
+  }
+})
+
+function successMessage(message) {
+  Swal.fire({
+    title: 'Success',
+    text: message + '!',
+    icon: 'success',
+    allowOutsideClick: false,
+    allowEscapeKey: false
+  }).then((result) => {
+    if (result.isConfirmed) {
+      flashClear.get(route('clear.flash.messages'), { preserveScroll: true });
+    }
+  })
+}
+
+const flashClear = useForm({
+  clear: null,
+})
+
+const record = useForm({
+    type:'visit',
+})
+
+function errorMessage(message) {
+  Swal.fire({
+    icon: "error",
+    title: "Oops...",
+    text: message + '!',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      flashClear.get(route('clear.flash.messages'), { preserveScroll: true });
+    }
+  })
+}
+
+const checkFirstVisit = () => {
+  return !localStorage.getItem('firstVisit');
+};
+
+async function recordVisit() {
+  try {
+        await record.post(route('analytics.store'), { preserveScroll: true });
+        console.log('Visit recorded successfully!');
+    } catch (error) {
+        console.error('Error recording visit:', error.message);
+    }
+}
+
 </script>
