@@ -11,7 +11,7 @@
         <p class="mb-4 text-base text-gray-700 font-bold text-[45px] py-2">
             {{ value }}
         </p>
-        <div class="flex space-x-2 ">
+        <!-- <div class="flex space-x-2 ">
             <div class="flex space-x-1">
                 <i :class="arrow"></i>
                 <p :class="textColor" >{{percentage}} %</p>
@@ -19,7 +19,7 @@
             </div>
             
             <p> {{ evaluation }} from previous school year</p>
-        </div>
+        </div> -->
         
     </div>
     
@@ -40,5 +40,6 @@ defineProps({
     arrow:String,
     textColor:String,
     evaluation:String,
+    currentSchoolYear:String,
 })
 </script>

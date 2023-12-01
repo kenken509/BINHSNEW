@@ -19,7 +19,8 @@ class StudentSeeder extends Seeder
             'role'          => 'student',
             'subject_id'    => 1,
             'section_id'    => 1,
-            'isActive' => 1,
+            'isActive'      => 1,
+            'school_year'   => '2023-2024'
         ]);
        
         //HE student
@@ -30,6 +31,7 @@ class StudentSeeder extends Seeder
             'subject_id'    => 2,
             'section_id'    => 2,
             'isActive' => 1,
+            'school_year'   => '2023-2024'
         ]);
 
          //ict student
@@ -40,6 +42,16 @@ class StudentSeeder extends Seeder
             'subject_id'    => 3,
             'section_id'    => 3,
             'isActive' => 1,
+            'school_year'   => '2023-2024'
+        ]);
+        \App\Models\User::factory(1)->create([
+            'email'         => 'ictStudent2@gmail.com',
+            'phoneNumber'   => '639191234567',
+            'role'          => 'student',
+            'subject_id'    => 3,
+            'section_id'    => 3,
+            'isActive' => 1,
+            'school_year'   => '2019-2020'
         ]);
 
         // industrial arts (ia) student
@@ -50,6 +62,7 @@ class StudentSeeder extends Seeder
             'subject_id'    => 4,
             'section_id'    => 4,
             'isActive' => 1,
+            'school_year'   => '2023-2024'
         ]);
     }
 }

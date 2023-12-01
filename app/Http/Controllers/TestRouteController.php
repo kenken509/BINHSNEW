@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Quiz;
 use App\Models\User;
 use App\Models\SentQuiz;
+use App\Models\WebAnalysis;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\StudentActiveQuiz;
 use App\Models\StudentQuizResult;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -281,5 +283,91 @@ public function reassembleFile($totalChunks, $originalFilename)
 
         // Output the extracted sampleId
         dd('Extracted sampleId: ' . $sampleId);
+    }
+
+    public function showTestChart()
+    {
+        
+        // $data = DB::table('web_analyses')
+        //     ->selectRaw('
+        //         DATE_FORMAT(created_at, "%W") AS day,
+        //         COUNT(*) AS count
+        //     ')
+        //     ->whereBetween('created_at', ['start_date', 'end_date']) // Replace with the desired date range
+        //     ->groupBy(DB::raw('DAYOFWEEK(created_at)'))
+        //     ->orderBy(DB::raw('DAYOFWEEK(created_at)'))
+        //     ->get();
+
+        // // Convert the result to an array
+        // $resultArray = $data->toArray();
+
+        // // Optionally, you can convert the count to integers if needed
+        // $resultArray = array_map(function ($item) {
+        //     return ['day' => $item->day, 'count' => (int)$item->count];
+        // }, $resultArray);
+
+        // // Echo and die to check the result
+        // dd($resultArray);
+
+            //per week
+        // $data = WebAnalysis::select(DB::raw('WEEK(created_at) as week_number'), DB::raw('COUNT(*) as total_visits'))
+        //         ->where('type', '=', 'visit')
+        //         ->groupBy(DB::raw('WEEK(created_at)'))
+        //         ->get();
+
+        //         foreach ($data as $item) {
+        //             echo 'Week ' . $item->week_number . ': ' . $item->total_visits . ' visits' . PHP_EOL;
+        //         }
+        
+        // per day
+        // $data = WebAnalysis::select(DB::raw('DATE(created_at) as date'), DB::raw('COUNT(*) as total_visits'))
+        //     ->where('type', '=', 'visit')
+        //     ->groupBy(DB::raw('DATE(created_at)'))
+        //     ->get();
+            
+        //     foreach ($data as $item) {
+        //         echo $item->date . ': ' . $item->total_visits . ' visits'. PHP_EOL;
+        //     }
+
+        //per month
+
+        // Assuming your Eloquent model is named WebAnalysis
+
+        // Set the locale to English (adjust based on your preferred language)
+        setlocale(LC_TIME, 'en_US.utf8');
+
+        $currentYear = Carbon::now()->year;
+
+        $monthly = WebAnalysis::select(
+            DB::raw('YEAR(created_at) as year'),
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('COUNT(*) as total_visits')
+        )
+            ->where('type', '=', 'visit')
+            ->whereYear('created_at', '=', $currentYear)
+            ->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
+            ->get();
+
+        //     echo($data);
+        // foreach ($data as $item) {
+        //     echo $item->year . '-' . str_pad($item->month, 2, '0', STR_PAD_LEFT) . ': ' . $item->total_visits . ' visits' . PHP_EOL;
+        // }
+
+        $monthNames = [
+            1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April',
+            5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August',
+            9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December',
+        ];
+
+        // Convert numeric month to month name
+        $monthly = $monthly->map(function ($item) use ($monthNames) {
+            $item->month_name = $monthNames[$item->month];
+            return $item;
+        });
+        
+        //echo $monthly;
+        return inertia('Index/TestPages/TestChart', [
+            'monthlyVisit' =>  $monthly
+        ]);
     }
 }
