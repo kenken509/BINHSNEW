@@ -26,8 +26,15 @@ class SectionSeeder extends Seeder
             'instructor_id' => '3',
         ]);
 
-        \App\Models\Section::factory(1)->create([
+        //ict sections ID 3 & 4
+        \App\Models\Section::factory(1)->create([ 
             'name'          => 'ICT11M1',
+            'subject_id'    => '3',
+            'instructor_id' => '4',
+        ]);
+
+        \App\Models\Section::factory(1)->create([
+            'name'          => 'ICT11A1',
             'subject_id'    => '3',
             'instructor_id' => '4',
         ]);

@@ -19,5 +19,19 @@ class QuizSeeder extends Seeder
             'grading_period'    => '1st',
             'duration'          => 20,
         ]);
+
+        DB::table('quizzes')->insert([
+            'title'             => 'Quiz 2',
+            'subject_id'        => 3,
+            'grading_period'    => '1st',
+            'duration'          => 20,
+        ]);
+
+        DB::table('quizzes')->insert([
+            'title'             => 'Quiz 3',
+            'subject_id'        => 3,
+            'grading_period'    => '1st',
+            'duration'          => 20,
+        ]);
     }
 }

@@ -12,7 +12,7 @@ class StudentSeeder extends Seeder
      */
     public function run(): void
     {
-         //agri-fishery arts (afa) student
+         //agri-fishery arts (afa) student SECTION ID 1
          \App\Models\User::factory(1)->create([
             'email'         => 'afaStudent@gmail.com',
             'phoneNumber'   => '639191234567',
@@ -23,7 +23,7 @@ class StudentSeeder extends Seeder
             'school_year'   => '2023-2024'
         ]);
        
-        //HE student
+        //HE student SECTION ID 2
         \App\Models\User::factory(1)->create([
             'email'         => 'heStudent@gmail.com',
             'phoneNumber'   => '639191234567',
@@ -34,7 +34,7 @@ class StudentSeeder extends Seeder
             'school_year'   => '2023-2024'
         ]);
 
-         //ict student
+         //ict student SECTION ID 3/4
          \App\Models\User::factory(1)->create([
             'email'         => 'ictStudent@gmail.com',
             'phoneNumber'   => '639191234567',
@@ -44,6 +44,7 @@ class StudentSeeder extends Seeder
             'isActive' => 1,
             'school_year'   => '2023-2024'
         ]);
+        
         \App\Models\User::factory(1)->create([
             'email'         => 'ictStudent2@gmail.com',
             'phoneNumber'   => '639191234567',
@@ -54,7 +55,50 @@ class StudentSeeder extends Seeder
             'school_year'   => '2019-2020'
         ]);
 
-        // industrial arts (ia) student
+        \App\Models\User::factory(1)->create([
+            'email'         => 'ictStudent5@gmail.com',
+            'phoneNumber'   => '639191234567',
+            'role'          => 'student',
+            'subject_id'    => 3,
+            'section_id'    => 3,
+            'isActive' => 1,
+            'school_year'   => '2023-2024'
+        ]);
+        
+        \App\Models\User::factory(1)->create([
+            'email'         => 'ictStudent6@gmail.com',
+            'phoneNumber'   => '639191234567',
+            'role'          => 'student',
+            'subject_id'    => 3,
+            'section_id'    => 4,
+            'isActive' => 1,
+            'school_year'   => '2019-2020'
+        ]);
+
+        
+
+        \App\Models\User::factory(1)->create([
+            'email'         => 'ictStudent3@gmail.com',
+            'phoneNumber'   => '639191234567',
+            'role'          => 'student',
+            'subject_id'    => 3,
+            'section_id'    => 4,
+            'isActive' => 1,
+            'school_year'   => '2023-2024'
+        ]);
+        
+        \App\Models\User::factory(1)->create([
+            'email'         => 'ictStudent4@gmail.com',
+            'phoneNumber'   => '639191234567',
+            'role'          => 'student',
+            'subject_id'    => 3,
+            'section_id'    => 4,
+            'isActive' => 1,
+            'school_year'   => '2019-2020'
+        ]);
+
+
+        // industrial arts (ia) student SECTION ID 5
         \App\Models\User::factory(1)->create([
             'email'         => 'iaStudent@gmail.com',
             'phoneNumber'   => '639191234567',

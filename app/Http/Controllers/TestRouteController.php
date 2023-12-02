@@ -369,5 +369,15 @@ public function reassembleFile($totalChunks, $originalFilename)
         return inertia('Index/TestPages/TestChart', [
             'monthlyVisit' =>  $monthly
         ]);
+
+    
+    }
+
+    public function studendGradePeriod()
+    {
+        $studentGrades = StudentActiveQuiz::all();
+
+        echo $studentGrades;
+        return inertia('Index/TestPages/StudentGrade');
     }
 }

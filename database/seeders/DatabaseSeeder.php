@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             WebPostSeeder::class,
             CommentSeeder::class,
             CarouselImageSeeder::class,
+            WebAnalysysSeeder::class,
         ]);
         
         

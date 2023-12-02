@@ -281,6 +281,7 @@ Route::controller(TestRouteController::class)->group(function(){
     Route::get('/email-testing', 'showEmailTemplate');
     Route::get('/test-data', 'testData')->name('test.data');
     Route::get('/test/chart', 'showTestChart')->name('test.chart.show');
+    Route::get('/test/student-grade/grading-period', 'studendGradePeriod')->name('test.grade.gradingPeriod');
 
     
 });
