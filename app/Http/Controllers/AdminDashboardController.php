@@ -10,6 +10,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\UserCollection;
 
+class UserData {
+    public $role;
+    public $count;
+
+    public function __construct($role, $count) {
+        $this->role = $role;
+        $this->count = $count;
+    }
+}
+
 class AdminDashboardController extends Controller
 {
     function showAdminPanel(){
@@ -24,6 +34,7 @@ class AdminDashboardController extends Controller
         
         $currentYear = Carbon::now()->year;
 
+        // monthly web visits *****************************************
         $monthly = WebAnalysis::select(
             DB::raw('YEAR(created_at) as year'),
             DB::raw('MONTH(created_at) as month'),
@@ -39,16 +50,40 @@ class AdminDashboardController extends Controller
                     5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August',
                     9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December',
                 ];
-
-        // Convert numeric month to month name
+            
+        
         $monthly = $monthly->map(function ($item) use ($monthNames) {
             $item->month_name = $monthNames[$item->month];
             return $item;
         });
         
-        //dd($monthly);
+        // monthly web visits *****************************************
         
+        // users count ***********************************************
+        $users = User::all()->groupBy('role')->map->count();
+        
+        $usersData = [];
 
+        foreach ($users as $role => $count) {
+            $usersData[] = (object)['role' => $role, 'count' => $count];
+        }
+        // users count *************************************
+
+        // download attempt count..*********************************************
+        $montlyDownloadAttempt = WebAnalysis::select(
+            DB::raw('YEAR(created_at) as year'),
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('COUNT(*) as total_visits')
+        )
+            ->where('type', '=', 'download_attempt')
+            ->whereYear('created_at', '=', $currentYear)
+            ->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
+            ->get();
+
+        
+        //dd($montlyDownloadAttempt);    
+
+        // download attempt count..*********************************************
         //****************************************** */
         return inertia('AdminDashboard/AdminPages/Dashboard',[
             'adminCount' => $adminCount,
@@ -56,7 +91,8 @@ class AdminDashboardController extends Controller
             'studentCount' =>  $studentCount,
             'guestCount' => $guestCount,
             'currentSchoolYear' => $currentSchoolYear->year,
-            'monthlyVisit' =>  $monthly
+            'monthlyVisit' =>  $monthly,
+            'usersData' => $usersData,
         ]); 
      }
  

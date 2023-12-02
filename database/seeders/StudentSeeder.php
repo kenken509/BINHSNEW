@@ -104,7 +104,7 @@ class StudentSeeder extends Seeder
             'phoneNumber'   => '639191234567',
             'role'          => 'student',
             'subject_id'    => 4,
-            'section_id'    => 4,
+            'section_id'    => 5,
             'isActive' => 1,
             'school_year'   => '2023-2024'
         ]);

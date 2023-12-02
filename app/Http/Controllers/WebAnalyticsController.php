@@ -11,7 +11,21 @@ class WebAnalyticsController extends Controller
     {
         $newRecord = new WebAnalysis();
 
-        $newRecord->type = $request->type;
-        $newRecord->save();
+        
+        
+        if($request->installerType)
+        {
+            $newRecord->type = $request->type;
+            $newRecord->installerType = $request->installerType;
+            $newRecord->save();
+        }
+        else
+        {
+            $newRecord->type = $request->type;
+            $newRecord->save();
+        }
+
+
+        
     }
 }

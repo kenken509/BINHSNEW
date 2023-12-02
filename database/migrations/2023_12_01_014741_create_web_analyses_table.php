@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('web_analyses', function (Blueprint $table) {
             $table->id();
             $table->enum('type', ['visit', 'download_attempt'])->nullable();
+            $table->string('installerType')->nullable();
             $table->timestamps();
         });
     }

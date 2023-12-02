@@ -38,7 +38,7 @@ class SectionSeeder extends Seeder
             'subject_id'    => '3',
             'instructor_id' => '4',
         ]);
-
+        
         \App\Models\Section::factory(1)->create([
             'name'          => 'IA11M1',
             'subject_id'    => '4',

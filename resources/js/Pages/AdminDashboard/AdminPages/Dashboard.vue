@@ -31,17 +31,28 @@
       <div>
          
       </div>
-      <div class="flex justify-center items-center border border-t-2 border-l-0 border-r-0 border-b-0 border-gray-300 pt-4 mt-2">
-         <div>Data as of  {{ year }}</div>
+      <div class="w-full mt-4  px-2 "><hr class="border-t-2 border-gray-300 " /></div>
+      <div class="flex justify-center items-center py-4 ">
+         <div><span class="text-[20px] text-gray-500">Data as of  {{ year }}</span></div>
       </div>
+      
 
       <div class="flex flex-col items-center lg:flex-row space-y-5 lg:space-y-0 lg:space-x-5 ">
 
-         <div class=" flex justify-center  lg:items-center  w-[100%] lg:w-[40%] border border-gray-300 shadow-md rounded-md ">
+         <div class=" flex flex-col justify-center   lg:items-center  w-[100%] lg:w-[40%] border border-gray-300 shadow-md rounded-md ">
+            <div class="py-4 text-gray-500">
+               USER'S DATA
+            </div>
+            <div class="w-full  px-2 "><hr class="border-t-2 border-gray-300 " /></div>
+           
             <canvas ref="userPie"></canvas>
          </div>
          
-         <div class="w-[100%] lg:w-[80%]   border border-gray-300 shadow-md rounded-md" >
+         <div class="flex flex-col justify-center items-center w-[100%] lg:w-[80%]   border border-gray-300 shadow-md rounded-md" >
+            <div class="py-4 text-gray-500">
+               WEB ANALYSIS DATA
+            </div>
+            <div class="w-full  px-2 "><hr class="border-t-2 border-gray-300 " /></div>
             <canvas ref="analysis" class=""></canvas>
          </div>
                
@@ -293,6 +304,7 @@ const data = defineProps({
    guestCount:Number,
    currentSchoolYear:String,
    monthlyVisit:Array,
+   usersData:Array,
 })
 
 // const testData = [
@@ -306,103 +318,149 @@ const data = defineProps({
 //   ];
 
   const testData = [
-    { year: 2010, count: 10 },
-    { year: 2011, count: 20 },
-    { year: 2012, count: 15 },
-    { year: 2013, count: 25 },
-    { year: 2014, count: 22 },
-    { year: 2015, count: 30 },
-    { year: 2016, count: 28 },
+    {
+      'role':'Admins', 
+      'count': '5',
+    },
+    {
+      'role':'Instructors', 
+      'count': '10'
+    },
+    {
+      'role':'Students', 
+      'count': '15'
+    },
+    {
+      'role':'Guests', 
+      'count': '10'
+    }
   ];
+    
+//   const calculatedTestData = [
+//     {
+//       'role':'Admins', 
+//       'percent': '25',
+      
+//     },
+//     {
+//       'role':'Instructors', 
+//       'percent': '25',
+//     },
+//     {
+//       'role':'Students', 
+//       'percent': '25',
+//     },
+//     {
+//       'role':'Guests', 
+//       'percent': '25',
+//     }
+//   ];
 
-  const NUMBER_CFG = [{'count': 10}];
+  // Step 1: Find the total count
+const totalCount = data.usersData.reduce((sum, role) => sum + parseInt(role.count), 0);
+
+// Step 2 and 3: Calculate percentages and create calculatedTestData
+const calculatedData = data.usersData.map(role => ({
+   role: role.role,
+   percent: ((parseInt(role.count) / totalCount) * 100).toFixed(2)
+}));
+
+const NUMBER_CFG = [{'count': 10}];
 const currentSchoolYear = ref(null);
 
 const analysis = ref(null);
 const userPie = ref(null);
 onMounted(()=>{
+ 
+   
    currentSchoolYear.value = data.currentSchoolYear;
 
    const ctx = analysis.value.getContext('2d');
-   
-    new Chart(ctx, {
+
+   new Chart(ctx, {
       type: 'bar',
       options: {
-        animation: true,
-        plugins: {
-          legend: {
-            display: true
-          },
-          tooltip: {
-            enabled: true
-          }
-        }
+         animation: true,
+         plugins: {
+            legend: {
+            display: true,
+            },
+            tooltip: {
+            enabled: true,
+            },
+         },
+         layout: {
+            padding: {
+            left: 5,
+            top: 10,
+            right: 0,
+            bottom: 0,
+            },
+         },
+         onHover: (event, chartElement) => {
+            analysis.value.style.cursor = chartElement[0] ? 'pointer' : 'default';
+         },
       },
       data: {
-        labels: data.monthlyVisit.map(row => row.month_name),
-        datasets: [
-          {
+         labels: data.monthlyVisit.map((row) => row.month_name),
+         datasets: [
+            {
             label: 'Web page visitors per month',
-            data: data.monthlyVisit.map(row => row.total_visits),
+            data: data.monthlyVisit.map((row) => row.total_visits),
             borderColor: '#36A2EB',
             backgroundColor: '#057A55',
-          },
-          
-          
-        ]
+            },
+         ],
       },
-      options: {
-         layout: {
-               padding: {
-                  left: 5,
-                  top:10,
-                  right:0,
-                  bottom:0,
-               },
-         }
-      }
-    });
+   });
 
-    const userPieCtx = userPie.value.getContext('2d');
-    new Chart(userPieCtx, {
+
+   const userPieCtx = userPie.value.getContext('2d');
+   const chart = new Chart(userPieCtx, {
       type: 'pie',
       options: {
-        animation: true,
-        plugins: {
-          legend: {
-            display: true
-          },
-          tooltip: {
-            enabled: true
-          },
-          title: {
+         animation: true,
+         plugins: {
+            legend: {
             display: true,
-            text: 'Chart.js Pie Chart'
-         }
-        }
+            },
+            tooltip: {
+            enabled: true,
+            callbacks: {
+               label: (context) => {
+                  const label = context.dataset.label || '';
+                  const value = context.parsed.toFixed(2);
+                  return `${label}: ${value} %`;
+               },
+            },
+            },
+         },
+         layout: {
+            padding: {
+            left: 20,
+            top: 20,
+            right: 20,
+            bottom: 20,
+            },
+         },
+         events: ['mousemove'], // Use 'mousemove' event for hover
+         onHover: (event, chartElements) => {
+            userPie.value.style.cursor = chartElements[0] ? 'pointer' : 'default';
+         },
       },
       data: {
-        labels: ['Admins', 'Instructors', 'Students', 'Guest'],
-        datasets: [
-          {
-            label: 'Users',
-            data:[4, 8, 105,50],
+         labels: calculatedData.map((row) => row.role),
+         datasets: [
+            {
+            label: ' Users',
+            data: calculatedData.map((row) => row.percent),
             backgroundColor: ['#ff700a', '#ffeab8', '#a6deae', '#020E54'],
-          },
-         
-        ]
+            },
+         ],
       },
-      options: {
-         layout: {
-               padding: {
-                  left: 5,
-                  top:10,
-                  right:0,
-                  bottom:0,
-               },
-         }
-      }
-    });
+   });
+
+
 
     
 })
@@ -418,9 +476,14 @@ onMounted(()=>{
     padding-left: 10px; 
     border: solid rgb(2, 36, 2) 2px; 
   }
+  
 
   canvas {
     width: 100%; /* Make the canvas element 100% width */
     display: block; /* Remove any default inline-block styling */
   }
+
+
+  
+  
 </style>

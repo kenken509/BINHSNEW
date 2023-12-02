@@ -123,7 +123,12 @@ class AdminPostController extends Controller
 
        if($request->page == 'Downloads')
        {
-            
+            $request->validate([
+                'installerType' => 'required',
+            ],[
+                'installerType' => 'File type is required',
+            ]);
+            //dd($request->installerType);
             #parameters: array:11 [▼
             // "name" => null
             // "phoneNumber" => null
@@ -156,6 +161,7 @@ class AdminPostController extends Controller
                 $post->mediaType = $request->media;
                 $post->mediaFileName = $imagePath;
                 $post->installerLink = $request->installerLink;
+                $post->installerType = $request->installerType;
                 $post->content = $request->content;
                 $post->created_by = Auth::user()->id;
                 $post->save();
@@ -184,6 +190,7 @@ class AdminPostController extends Controller
                 $post->mediaType = $request->media;
                 $post->mediaFileName = $videoPath;
                 $post->installerLink = $request->installerLink;
+                $post->installerType = $request->installerType;
                 $post->content = $request->content;
                 $post->created_by = Auth::user()->id;
                 $post->save();
@@ -203,6 +210,7 @@ class AdminPostController extends Controller
                     $post = new DownloadsPagePost();
                     $post->title    = $request->title;
                     $post->installerLink = $request->installerLink;
+                    $post->installerType = $request->installerType;
                     $post->content  = $request->content;
                     $post->created_by = Auth::user()->id;
                     $post->save();

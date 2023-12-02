@@ -83,6 +83,29 @@
                             </span>
                         </div>
 
+                        <!--installer TYPE-->
+                        <div class="my-4 ">
+                            <h1 class="mb-6">File Type: </h1>
+                            <div class="flex space-x-6">
+                                <div class="flex items-center cursor-pointer">
+                                    <RadioButton v-model="form.installerType" inputId="androidFileType" name="inputType" value="android" class="cursor-pointer mr-2" required/>
+                                    <i class="pi pi-android text-green-500 " style="font-size: 20px;"></i>
+                                    <label for="androidFileType" class="ml-1 cursor-pointer">Android</label>
+                                    
+                                </div>
+                                <div class="flex items-center cursor-pointer">
+                                    <RadioButton v-model="form.installerType" inputId="windowsFileType" name="inputType" value="windows" class="cursor-pointer mr-2" required/>
+                                    <i class="pi pi-microsoft text-blue-500"></i>
+                                    <label for="windowsFileType" class="ml-1 cursor-pointer">Windows</label>
+                                </div>
+                                <div v-if="form.errors.installerType">
+                                    <InputError :error="form.errors.installerType"/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!--installer TYPE-->
+                        <!--Installer Link-->
                         <div class=" flex flex-col ">
                             <h1 class="mb-6">Installer Link: </h1>
                             
@@ -145,38 +168,7 @@
                                     <video :src="videoUrl" alt="Error" class="w-[50%] h-[50%] rounded-md relative" controls/>
                                 </div>
                             </div>
-                            <!--video attachment-->
-
-                            <!--Media Attachment-->
-
-                            <!--installer attachment-->
-                            <!-- <div class="mt-8 ">
-                                <h1 class="mb-2">Installer:</h1>
-                                <label for="installerInput" class="file-input-label bg-gray-300 px-4 py-2 rounded-md cursor-pointer">
-                                    Select a file... 
-                                </label>
-                               
-                                <div v-if="installerFileName" class="mx-2 mt-2 p-1 bg-gray-200  inline-block relative  border border-gray-300  rounded-md" >
-                                    <h1 class="">{{ installerFileName }}</h1> 
-                                <div class="absolute right-[-7px] top-[-7px] hover:right-[-9px] hover:top-[-7px] cursor-pointer">
-                                        <i class="pi pi-times-circle text-red-700 cursor-pointer hover:text-[20px]" @click="deleteFile" ></i>
-                                    </div>
-                                </div>
-                                <input  type="file"  id="installerInput"  @input="addFile" accept=".zip, .rar, .7z" hidden  ref="fileInputRef" />
-
-                                
-                                
-                                
-                                <div v-if="installerValidator" class="mt-2">
-                                    <InputError :error="installerValidator" />
-                                </div>
-
-                                
-                                
-                                
-                                
-                            </div> -->
-                            <!--installer attachment-->
+                           <!--Installer Link-->
                         </div>
                         <!-- <div v-if="imageUrl" class="flex justify-center items-center border border-gray-300 rounded-md p-2 shadow-md" >
                             <img :src="imageUrl" alt="Error" class="w-[50%] h-[50%] rounded-md relative"/>
@@ -366,7 +358,7 @@ const form = useForm({
     media:null,
     image:null,
     video:null,
-    installer:null,
+    installerType:null,
     installerLink:null
 })
 

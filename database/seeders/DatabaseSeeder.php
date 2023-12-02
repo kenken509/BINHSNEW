@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             CommentSeeder::class,
             CarouselImageSeeder::class,
             WebAnalysysSeeder::class,
+            GuestUserSeeder::class,
         ]);
         
         
