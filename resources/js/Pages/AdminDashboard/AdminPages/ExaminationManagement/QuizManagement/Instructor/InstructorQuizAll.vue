@@ -1,8 +1,15 @@
 <template>
     <DashboardLayout :user="user" >
         
-        <div class="border-bot-only border-gray-600 shadow-md mb-4">
-            <span class="text-[20px] font-bold text-gray-500">All Questions Page</span>  
+        <div class="flex justify-between items-center border-bot-only border-gray-600 shadow-md mb-4 pb-4">
+            <span class="text-[20px] font-bold text-gray-500">All Quizzes</span>
+            
+            <div class="">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search" />
+                    <InputText v-model="searchField" placeholder="search " @input="handleSearchFieldInput" />
+                </span>
+            </div>
         </div>
         
         <div v-if="$page.props.flash.success">{{ successMessage($page.props.flash.success)  }} </div>
@@ -36,7 +43,7 @@
                         
                     </tr>
                 </thead>
-                <tbody v-for="quiz in quizzes.quizzes" :key="quiz.id" >
+                <tbody v-for="quiz in currentPageItems" :key="quiz.id" >
                     <tr class="bg-white border-b ">
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                         {{ quiz.id }}
@@ -126,11 +133,27 @@
                     </div>
 
                     <div class="w-full mt-6 ">
-                        <Button label="Submit" class="w-full" type="submit"/>
+                        <Button label="Submit" class="w-full" type="submit" :disabled="form.processing"/>
                     </div>
                 </form>
             </Dialog>
             <!--ACTIVATE QUIZ MODAL-->
+        </div>
+
+        <div class="flex justify-center w-full space-x-4 mt-4" v-if="totalPages > 1">
+            <div @click="prevPage"  class="flex items-center  cursor-pointer hover:text-red-400">
+                <i class="pi pi-angle-double-left cursor-pointer" style="font-size: 24px;"></i>
+                
+            </div>
+            <div class="flex space-x-2" >
+                <div v-for="(number, index) in totalPages" class="hover:text-green-500 cursor-pointer" @click="changePageClick(index+1)" >
+                    <div v-if="currentPage === index+1" class="border bg-green-700 px-2 rounded-lg text-gray-200" >{{ index+1 }}</div>
+                    <div v-else class="px-2">{{ index+1 }}</div>
+                </div>
+            </div>
+            <div @click="nextPage"  class="flex items-center  cursor-pointer hover:text-green-400">
+                <i class="pi pi-angle-double-right  " style="font-size: 24px;"></i>
+            </div>
         </div>
         
         
@@ -141,7 +164,7 @@
  
  import { usePage, Link, useForm } from '@inertiajs/vue3';
  import DashboardLayout from '../../../../Layout/DashboardLayout.vue';
- import { onMounted, ref, watch } from 'vue';
+ import { onMounted, ref, watch, computed } from 'vue';
  import InputError from '../../../../../GlobalComponent/InputError.vue'
  import Swal from 'sweetalert2';
  import { router } from '@inertiajs/vue3' // to manually get the route
@@ -225,7 +248,8 @@ function getQuestionsFromLocalStorage() {
 }
 onMounted(()=>{
     sortSection(quizzes.sections);
-    
+    filteredData.value = quizzes.quizzes
+    pageNumbers.length = totalPages.value
     // Set the time portion to midnight for both start and end dates
     // form.startDate.setHours(0, 0, 0, 0);
     // form.endDate.setHours(0, 0, 0, 0);
@@ -238,7 +262,6 @@ onMounted(()=>{
     {
         deleteDataFromLocalStorage();
     }
-   
 })
 
 // const submit = ()=> {
@@ -313,4 +336,60 @@ function successMessage(message){
         }
     })
 }
+
+
+// search logic
+const filteredData = ref([])
+const searchField  = ref(null)
+
+function handleSearchFieldInput(){
+    if(!searchField.value)
+    {
+        filteredData.value = quizzes.quizzes
+    }
+    else
+    {
+        filteredData.value = quizzes.quizzes.filter( quiz =>
+            Object.values(quiz).some(value => typeof value === 'string' && value.toLowerCase().includes(searchField.value.toLowerCase()))
+        )  
+    }
+}
+
+// pagination logic
+const itemsPerPage = ref(10);
+const currentPage = ref(1);
+
+
+const totalPages = computed(() => Math.ceil(filteredData.value.length / itemsPerPage.value));
+const pageNumbers = ref([]);
+
+watch(currentPage,(val)=>{
+    console.log(val);
+})
+const currentPageItems = computed(() => {
+    
+  const start = (currentPage.value - 1) * itemsPerPage.value; 
+  const end = start + itemsPerPage.value;
+  
+  return filteredData.value.slice(start, end);
+}); 
+
+const nextPage = () => {
+    
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+};
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+};
+
+const changePageClick = (index)=>
+{
+    currentPage.value = index;
+}
+
  </script>

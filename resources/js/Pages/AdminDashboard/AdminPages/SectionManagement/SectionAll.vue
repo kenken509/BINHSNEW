@@ -54,7 +54,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody v-if="user.role === 'admin'" v-for="section in filteredData" :key="section.id" >
+                <tbody v-if="user.role === 'admin'" v-for="section in currentPageItems" :key="section.id" >
                     <tr class="bg-white border-b ">
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                         {{ section.id }}
@@ -83,7 +83,7 @@
                     
                 </tbody>
                 
-                <tbody v-if="user.role === 'instructor'" v-for="section in instructorSections" :key="section.id" class="" >
+                <tbody v-if="user.role === 'instructor'" v-for="section in currentPageItems" :key="section.id" class="" >
                     <tr  class="bg-white border-b ">
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
                             {{ section.id }}
@@ -161,6 +161,22 @@
             </div>
             
         </div>
+
+        <div class="flex justify-center w-full space-x-4 mt-4" v-if="totalPages > 1">
+            <div @click="prevPage"  class="flex items-center  cursor-pointer hover:text-red-400">
+                <i class="pi pi-angle-double-left cursor-pointer" style="font-size: 24px;"></i>
+                
+            </div>
+            <div class="flex space-x-2" >
+                <div v-for="(number, index) in totalPages" class="hover:text-green-500 cursor-pointer" @click="changePageClick(index+1)" >
+                    <div v-if="currentPage === index+1" class="border bg-green-700 px-2 rounded-lg text-gray-200" >{{ index+1 }}</div>
+                    <div v-else class="px-2">{{ index+1 }}</div>
+                </div>
+            </div>
+            <div @click="nextPage"  class="flex items-center  cursor-pointer hover:text-green-400">
+                <i class="pi pi-angle-double-right  " style="font-size: 24px;"></i>
+            </div>
+        </div>
         
     </DashboardLayout>
 </template>
@@ -169,7 +185,7 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import DashboardLayout from '../../Layout/DashboardLayout.vue';
 import { usePage, Link, router } from '@inertiajs/vue3';
-import { DialogDescription } from '@headlessui/vue';
+import { DialogDescription, MenuItems } from '@headlessui/vue';
 import Swal from 'sweetalert2';
 
 
@@ -199,6 +215,7 @@ const sections = defineProps({
 
 onMounted(()=>{
     filteredData.value = sections.sections
+    pageNumbers.length = totalPages.value;
 })
 
 const visible = ref(false);
@@ -264,6 +281,9 @@ function successMessage(message)
 const searchField = ref(null);
 const filteredData = ref([])
 
+
+
+
 function handleSearchFieldInput(){
 
     if (!sections.sections || sections.sections.length === 0) {
@@ -281,12 +301,49 @@ function handleSearchFieldInput(){
     {
         
         filteredData.value = sections.sections.filter(section =>
-            Object.values(section).some(value => typeof value === 'string' && value.toLowerCase().includes(searchField.value.toLowerCase()))
-        );
-
-        
-    }
-    
+            Object.values(section).some(value => typeof value === 'string' && value.toLowerCase().includes(searchField.value.toLowerCase())) ||
+            Object.values(section.subject).some(value => typeof value === 'string' && value.toLowerCase().includes(searchField.value.toLowerCase())) ||
+            Object.values(section.instructor).some(value => typeof value === 'string' && value.toLowerCase().includes(searchField.value.toLowerCase())) 
+        );        
+    } 
 }
+
+
+// pagination logic
+const itemsPerPage = ref(10);
+const currentPage = ref(1);
+
+
+const totalPages = computed(() => Math.ceil(filteredData.value.length / itemsPerPage.value));
+const pageNumbers = ref([]);
+watch(currentPage,(val)=>{
+    console.log(val);
+})
+const currentPageItems = computed(() => {
+    
+  const start = (currentPage.value - 1) * itemsPerPage.value; 
+  const end = start + itemsPerPage.value;
+  
+  return filteredData.value.slice(start, end);
+}); 
+
+const nextPage = () => {
+    
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+};
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+};
+
+const changePageClick = (index)=>
+{
+    currentPage.value = index;
+}
+
 
 </script>

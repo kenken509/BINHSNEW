@@ -89,7 +89,7 @@
             </table>
             
         </div>
-        <div class="flex justify-center w-full space-x-4 mt-4">
+        <div class="flex justify-center w-full space-x-4 mt-4" v-if="totalPages > 1">
             <div @click="prevPage" class="flex items-center  cursor-pointer hover:text-red-400">
                 <i class="pi pi-angle-double-left cursor-pointer" style="font-size: 24px;"></i>
                 
@@ -227,7 +227,7 @@ function rejectConfirmation(userId)
 }
 
 //pagination logic
-const itemsPerPage = ref(5);
+const itemsPerPage = ref(10);
 const currentPage = ref(1);
 
 

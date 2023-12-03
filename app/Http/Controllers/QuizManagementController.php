@@ -388,7 +388,7 @@ class QuizManagementController extends Controller
     public function showPastDueQuiz()
     {
         $currentDate = Carbon::now(); // Get the current date
-
+        
         $quizzes = SentQuiz::with(['quiz' => function ($query) {
             $query->with(['question' => function ($query) {
                 $query->inRandomOrder();
