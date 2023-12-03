@@ -18,13 +18,9 @@ class WebContentsController extends Controller
         $currentlyLoggedUser = Auth::user()->role;
         $instructorSubject = Auth::user()->subject_id;
         
-        $posts = WebPost::with(['comments' => function ($query) {
-            $query->orderBy('approved_at', 'desc');
-        }])
-        ->with('author')
-        ->get();
+        $posts = WebPost::with(['author','attachments'])->get();
 
-        
+        //dd($posts);
         $comments = Comment::with('commenter')->orderBy('approved_at', 'desc')->get();
        
 
@@ -32,7 +28,7 @@ class WebContentsController extends Controller
         {
             return inertia('AdminDashboard/AdminPages/WebsiteManagement/Admin/PostsAll',[
                 'posts' => $posts,
-                'comments' => $comments,
+                // 'comments' => $comments,
             ]);
         }
         
@@ -40,14 +36,11 @@ class WebContentsController extends Controller
         {
             
             
-            $instructorPost = WebPost::with(['comments' => function ($query) {
-                $query->orderBy('approved_at', 'desc');
-            }])
-            ->with('author')
+            $instructorPost = WebPost::with(['author','attachments'])
             ->where('subject_id', '=', $instructorSubject)
             ->orderBy('created_at','desc')
             ->get();
-
+            
             return inertia('AdminDashboard/AdminPages/WebsiteManagement/Instructor/PostAll',[
                 'posts' => $instructorPost,
                 'comments' => $comments
