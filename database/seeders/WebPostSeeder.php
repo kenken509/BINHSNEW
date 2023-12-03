@@ -15,7 +15,7 @@ class WebPostSeeder extends Seeder
     {
         $faker = Faker::create();
         \App\Models\WebPost::factory(1)->create([
-            'author_id' => 1,
+            'author_id' => 4,
             'subject_id' => 3,
             'title'     => 'Latest Post',
             'content'   => $faker->realText(200,2),
@@ -23,9 +23,9 @@ class WebPostSeeder extends Seeder
         ]);
 
         \App\Models\WebPost::factory(1)->create([
-            'author_id' => 2,
+            'author_id' => 4,
             'subject_id' => 3,
-            'title'     => 'Latest Post',
+            'title'     => 'New Post',
             'content'   => $faker->realText(200,2),
             'status'    => 'active', //experimental
         ]);

@@ -1,8 +1,14 @@
 <template>
     <DashboardLayout :user="user">
         
-        <div class="border-bot-only border-gray-600 shadow-md">
-            <span class="text-[20px] font-bold text-gray-500">All Posts Page</span>  
+        <div class="flex justify-between items-center py-4 border-bot-only border-gray-600 shadow-md">
+            <span class="text-[20px] font-bold text-gray-500">All Posts</span> 
+            <div class="">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search" />
+                    <InputText v-model="searchField" placeholder="search " @input="handleSearchFieldInput" />
+                </span>
+            </div> 
         </div>
         <div v-if="$page.props.flash.success" ><span class="p-3 text-gray-200">{{ successMessage($page.props.flash.success)  }}</span></div>
             <div v-if="$page.props.flash.error" class="flex items-center rounded-md bg-red-600 my-4 h-8 "><span class="p-3 text-gray-200">{{ $page.props.flash.error }}</span></div>
@@ -37,7 +43,7 @@
                         
                     </tr>
                 </thead>
-                <tbody v-for="post in allPost.posts" :key="post.id" >
+                <tbody v-for="post in currentPageItems" :key="post.id" >
                     <tr class="bg-white border-b ">
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                             {{ post.id }}
@@ -104,7 +110,7 @@
                                 </div>
                             </p>
                             <!--pending comments-->
-                            <div>
+                            <!-- <div>
                                 <h1>Pending Comments:</h1>
                                 <form @submit.prevent="approveComment">
                                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -148,11 +154,11 @@
                                         
                                     </table>
                                 </form>
-                            </div>
+                            </div> -->
                             <!--pending comments-->
 
                             <!--Approved comments-->
-                            <div >
+                            <!-- <div >
                                 <h1>Approved Comments:</h1>
                                 <form @submit.prevent="approveComment" >
                                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -185,7 +191,7 @@
                                         
                                     </table>
                                 </form>
-                            </div>
+                            </div> -->
                             <!--Approved comments-->
                         </div>
                     </div>
@@ -193,6 +199,22 @@
                 
             </Dialog>
             <!--PREVIEW MODAL---->
+        </div>
+
+        <div class="flex justify-center w-full space-x-4 mt-4" v-if="totalPages > 1">
+            <div @click="prevPage"  class="flex items-center  cursor-pointer hover:text-red-400">
+                <i class="pi pi-angle-double-left cursor-pointer" style="font-size: 24px;"></i>
+                
+            </div>
+            <div class="flex space-x-2" >
+                <div v-for="(number, index) in totalPages" class="hover:text-green-500 cursor-pointer" @click="changePageClick(index+1)" >
+                    <div v-if="currentPage === index+1" class="border bg-green-700 px-2 rounded-lg text-gray-200" >{{ index+1 }}</div>
+                    <div v-else class="px-2">{{ index+1 }}</div>
+                </div>
+            </div>
+            <div @click="nextPage"  class="flex items-center  cursor-pointer hover:text-green-400">
+                <i class="pi pi-angle-double-right  " style="font-size: 24px;"></i>
+            </div>
         </div>
     </DashboardLayout>
     
@@ -202,7 +224,7 @@
 import { usePage, Link, useForm, router } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
 import { toUpperFirst,truncateText } from '../../../../Functions/Methods.vue'
-import {ref, computed} from 'vue'
+import {ref, computed, watch, onMounted} from 'vue'
 import Swal from 'sweetalert2';
 
 
@@ -315,5 +337,66 @@ function successMessage(message){
             location.reload()
         }
     })
+}
+
+onMounted(()=>{
+    filteredData.value = allPost.posts
+    pageNumbers.length = totalPages.value
+})
+
+// search logic
+const filteredData = ref([])
+const searchField  = ref(null)
+
+function handleSearchFieldInput(){
+    if(!searchField.value)
+    {
+        filteredData.value = quizzes.quizzes
+    }
+    else
+    {
+        filteredData.value = allPost.posts.filter( post =>
+            Object.values(post).some(value => typeof value === 'string' && value.toLowerCase().includes(searchField.value.toLowerCase())) ||
+            Object.values(post.author).some(value => typeof value === 'string' && value.toLowerCase().includes(searchField.value.toLowerCase())) 
+        )  
+    }
+}
+
+// pagination logic
+const itemsPerPage = ref(10);
+const currentPage = ref(1);
+
+
+const totalPages = computed(() => Math.ceil(filteredData.value.length / itemsPerPage.value));
+const pageNumbers = ref([]);
+
+watch(currentPage,(val)=>{
+    console.log(val);
+})
+
+const currentPageItems = computed(() => {
+    
+  const start = (currentPage.value - 1) * itemsPerPage.value; 
+  const end = start + itemsPerPage.value;
+  
+  return filteredData.value.slice(start, end);
+}); 
+
+const nextPage = () => {
+    
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+};
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+};
+
+const changePageClick = (index)=>
+{
+    currentPage.value = index;
 }
 </script>
