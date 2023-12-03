@@ -90,17 +90,17 @@
             
         </div>
         <div class="flex justify-center w-full space-x-4 mt-4">
-            <div @click="prevPage" class="flex items-center p-2 cursor-pointer hover:text-red-400">
+            <div @click="prevPage" class="flex items-center  cursor-pointer hover:text-red-400">
                 <i class="pi pi-angle-double-left cursor-pointer" style="font-size: 24px;"></i>
                 
             </div>
             <div class="flex space-x-2">
                 <div v-for="(number, index) in totalPages" class="hover:text-green-500 cursor-pointer" @click="changePageClick(index+1)" >
-                    <div v-if="currentPage === index+1" class="border bg-green-500 p-2 rounded-lg text-gray-200" >{{ index+1 }}</div>
-                    <div v-else class="p-2">{{ index+1 }}</div>
+                    <div v-if="currentPage === index+1" class="border bg-green-700 px-2 rounded-lg text-gray-200" >{{ index+1 }}</div>
+                    <div v-else class="px-2">{{ index+1 }}</div>
                 </div>
             </div>
-            <div @click="nextPage" class="flex items-center p-2 cursor-pointer hover:text-green-400">
+            <div @click="nextPage" class="flex items-center  cursor-pointer hover:text-green-400">
                 <i class="pi pi-angle-double-right  " style="font-size: 24px;"></i>
             </div>
         </div>

@@ -1,9 +1,16 @@
 <template>
     <DashboardLayout :user="user">
-        <div class="border-bot-only border-gray-600 shadow-md mb-4">
-            <span class="text-[20px] font-bold text-gray-500">All Sections Page</span>  
+        <div class="flex items-center sm:flex-col md:flex-row  lg:justify-between border-bot-only py-2 border-gray-600  mb-4">
+            <span class="text-[20px] font-bold text-gray-500">All Sections </span>  
+
+            <div class="">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search" />
+                    <InputText v-model="searchField" placeholder="search " @input="handleSearchFieldInput" />
+                </span>
+            </div>
         </div>
-        {{ handledSections }}
+        {{ handledSections }}  
         <div v-if="$page.props.flash.success" >{{ successMessage($page.props.flash.success) }} </div>
         <div class=" overflow-x-auto shadow-md rounded-lg ">
             <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -47,7 +54,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody v-if="user.role === 'admin'" v-for="section in sections.sections" :key="section.id" >
+                <tbody v-if="user.role === 'admin'" v-for="section in filteredData" :key="section.id" >
                     <tr class="bg-white border-b ">
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                         {{ section.id }}
@@ -106,13 +113,13 @@
 
             <!--Modal-->
             <div class="card flex justify-content-center userInfo">
-                <Dialog v-model:visible="visible" modal   :userId="userId" :style="{ width: '90vw' } ">
+                <Dialog v-model:visible="visible" modal    :style="{ width: '90vw' } ">
                     <div class=" overflow-x-auto shadow-md rounded-lg ">   <!-- v-for="students in sections.studentUser" -->
                         <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
                             <thead class="text-xs text-gray-200 uppercase bg-green-700  ">
                                 <tr  >
                                     <th scope="col" class="px-6 py-3 text-center">
-                                        ID#
+                                        ID# 
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-center">
                                         Name
@@ -159,7 +166,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import DashboardLayout from '../../Layout/DashboardLayout.vue';
 import { usePage, Link, router } from '@inertiajs/vue3';
 import { DialogDescription } from '@headlessui/vue';
@@ -187,6 +194,12 @@ const sections = defineProps({
     studentUser:Array,
     
 });
+
+
+
+onMounted(()=>{
+    filteredData.value = sections.sections
+})
 
 const visible = ref(false);
 const selectedSection = ref(null);
@@ -245,6 +258,35 @@ function successMessage(message)
             location.reload();
         }
     })
+}
+
+// search field logic
+const searchField = ref(null);
+const filteredData = ref([])
+
+function handleSearchFieldInput(){
+
+    if (!sections.sections || sections.sections.length === 0) {
+        // Handle the case where sections.sections is undefined or an empty array
+        console.error('No sections available');
+        return;
+    }
+
+    if(!searchField.value)
+    {
+        filteredData.value = sections.sections
+        console.log('null')
+    }
+    else
+    {
+        
+        filteredData.value = sections.sections.filter(section =>
+            Object.values(section).some(value => typeof value === 'string' && value.toLowerCase().includes(searchField.value.toLowerCase()))
+        );
+
+        
+    }
+    
 }
 
 </script>
