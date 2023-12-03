@@ -108,5 +108,84 @@ class StudentSeeder extends Seeder
             'isActive' => 1,
             'school_year'   => '2023-2024'
         ]);
+
+        // Students for approval 
+        //ict student SECTION ID 3/4
+        \App\Models\User::factory(1)->create([
+            'email'         => 'ictStudent7@gmail.com',
+            'phoneNumber'   => '639191234567',
+            'role'          => 'student',
+            'subject_id'    => 3,
+            'section_id'    => 3,
+            'isActive' => '0',
+            'school_year'   => '2023-2024'
+        ]);
+
+        \App\Models\User::factory(1)->create([
+            'email'         => 'ictStudent9@gmail.com',
+            'phoneNumber'   => '639191234567',
+            'role'          => 'student',
+            'subject_id'    => 3,
+            'section_id'    => 3,
+            'isActive' => '0',
+            'school_year'   => '2023-2024'
+        ]);
+        \App\Models\User::factory(1)->create([
+            'email'         => 'ictStudent10@gmail.com',
+            'phoneNumber'   => '639191234567',
+            'role'          => 'student',
+            'subject_id'    => 3,
+            'section_id'    => 4,
+            'isActive' => '0',
+            'school_year'   => '2023-2024'
+        ]);
+        \App\Models\User::factory(1)->create([
+            'email'         => 'ictStudent11@gmail.com',
+            'phoneNumber'   => '639191234567',
+            'role'          => 'student',
+            'subject_id'    => 3,
+            'section_id'    => 4,
+            'isActive' => '0',
+            'school_year'   => '2023-2024'
+        ]);
+
+        //he student for aproval
+        \App\Models\User::factory(1)->create([
+            'email'         => 'heStudent2@gmail.com',
+            'phoneNumber'   => '639191234567',
+            'role'          => 'student',
+            'subject_id'    => 2,
+            'section_id'    => 2,
+            'isActive' => '0',
+            'school_year'   => '2023-2024'
+        ]);
+        \App\Models\User::factory(1)->create([
+            'email'         => 'heStudent3@gmail.com',
+            'phoneNumber'   => '639191234567',
+            'role'          => 'student',
+            'subject_id'    => 2,
+            'section_id'    => 2,
+            'isActive' => '0',
+            'school_year'   => '2023-2024'
+        ]);
+        \App\Models\User::factory(1)->create([
+            'email'         => 'heStudent4@gmail.com',
+            'phoneNumber'   => '639191234567',
+            'role'          => 'student',
+            'subject_id'    => 2,
+            'section_id'    => 2,
+            'isActive' => '0',
+            'school_year'   => '2023-2024'
+        ]);
+        \App\Models\User::factory(1)->create([
+            'email'         => 'heStudent5@gmail.com',
+            'phoneNumber'   => '639191234567',
+            'role'          => 'student',
+            'subject_id'    => 2,
+            'section_id'    => 2,
+            'isActive' => '0',
+            'school_year'   => '2023-2024'
+        ]);
+
     }
 }

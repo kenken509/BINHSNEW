@@ -2,7 +2,7 @@
     <DashboardLayout :user="user">
         <div class="grid grid-cols-6 items-center justify-between border-bot-only border-gray-600  p-2">
             <div class="col-span-6 md:col-span-5 ">
-                <span class="text-[20px] font-bold text-gray-500">Approve Users Page</span>
+                <span class="text-[20px] font-bold text-gray-500">Users Approval Page</span>
             </div>
         </div>   
         <div v-if="$page.props.flash.success" class="flex items-center rounded-md bg-[#28a745] my-4 h-8 "><span class="p-3 text-gray-200">{{ $page.props.flash.success }}</span></div>

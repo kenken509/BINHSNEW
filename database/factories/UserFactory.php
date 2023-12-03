@@ -33,6 +33,7 @@ class UserFactory extends Factory
             'province' => '0421',
             'city'  => '042118',
             'barangay' => '042118047',
+            'student_number' => '2023-'.fake()->randomNumber(6, true),
             // 'subject_id' => 3,
             'role' =>'admin',
             'fatherName' => fake()->firstNameMale(),

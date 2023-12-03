@@ -70,29 +70,44 @@ class AdminDashboardController extends Controller
         // users count *************************************
 
         // download attempt count..*********************************************
-        $montlyDownloadAttempt = WebAnalysis::select(
+        $windowsMonthlyDownloads = WebAnalysis::select(
             DB::raw('YEAR(created_at) as year'),
             DB::raw('MONTH(created_at) as month'),
-            DB::raw('COUNT(*) as total_visits')
+            DB::raw('COUNT(*) as count')
         )
             ->where('type', '=', 'download_attempt')
+            ->where('installerType','=', 'windows')
+            ->whereYear('created_at', '=', $currentYear)
+            ->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
+            ->get();
+
+        $androidMonthlyDownloads = WebAnalysis::select(
+            DB::raw('YEAR(created_at) as year'),
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('COUNT(*) as count')
+        )
+            ->where('type', '=', 'download_attempt')
+            ->where('installerType','=', 'android')
             ->whereYear('created_at', '=', $currentYear)
             ->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
             ->get();
 
         
-        //dd($montlyDownloadAttempt);    
+
+        
 
         // download attempt count..*********************************************
         //****************************************** */
         return inertia('AdminDashboard/AdminPages/Dashboard',[
-            'adminCount' => $adminCount,
-            'instructorCount' => $instructorCount,
-            'studentCount' =>  $studentCount,
-            'guestCount' => $guestCount,
-            'currentSchoolYear' => $currentSchoolYear->year,
-            'monthlyVisit' =>  $monthly,
-            'usersData' => $usersData,
+            'adminCount'                => $adminCount,
+            'instructorCount'           => $instructorCount,
+            'studentCount'              =>  $studentCount,
+            'guestCount'                => $guestCount,
+            'currentSchoolYear'         => $currentSchoolYear->year,
+            'monthlyVisit'              =>  $monthly,
+            'usersData'                 => $usersData,
+            'windowsMonthlyDownloads'   => $windowsMonthlyDownloads,
+            'androidMonthlyDownloads'   => $androidMonthlyDownloads,
         ]); 
      }
  

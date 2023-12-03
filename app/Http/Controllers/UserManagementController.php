@@ -24,12 +24,15 @@ class UserManagementController extends Controller
         
         $userRole = Auth::user()->role;
         $userSubjectId = Auth::user()->subject_id;
+        $allUsers = User::where('isActive','1')->with(['subject','section','instructorSection'])->get();//User::orderBy('id','desc')->get();
+        
         
         $query = User::with(['subject','section','instructorSection'])->latest();
     
         if($userRole == 'admin'){
             return inertia('AdminDashboard/AdminPages/UserManagement/UsersAll',[
-                'users' =>$query->filteredData($filters)->where('isActive','1')->paginate(10),
+                'users'     =>$query->filteredData($filters)->where('isActive','1')->paginate(10),
+                'allUsers'  => $allUsers,
             ]);
         }
 

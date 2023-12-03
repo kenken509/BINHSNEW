@@ -186,8 +186,114 @@ class WebAnalysysSeeder extends Seeder
             'created_at'        => '2023-03-04 14:17:28',
             'updated_at'        => '2023-03-01 14:17:28',
         ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-03-02 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-03-03 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-03-04 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-03-02 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-03-03 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-03-04 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
 
         // april 
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
         DB::table('web_analyses')->insert([
             'type'              => 'visit',
             'created_at'        => '2023-04-01 14:17:28',
@@ -256,6 +362,76 @@ class WebAnalysysSeeder extends Seeder
             'updated_at'        => '2023-05-01 14:17:28',
         ]);
 
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        
         DB::table('web_analyses')->insert([
             'type'              => 'visit',
             'created_at'        => '2023-05-01 14:17:28',
@@ -385,6 +561,94 @@ class WebAnalysysSeeder extends Seeder
         ]);
 
         //july
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
         DB::table('web_analyses')->insert([
             'type'              => 'visit',
             'created_at'        => '2023-07-01 14:17:28',
@@ -548,6 +812,127 @@ class WebAnalysysSeeder extends Seeder
             'created_at'        => '2023-08-09 14:17:28',
             'updated_at'        => '2023-08-09 14:17:28',
         ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-08-09 14:17:28',
+            'updated_at'        => '2023-08-09 14:17:28',
+        ]);
+
 
         //september
         DB::table('web_analyses')->insert([
@@ -585,8 +970,223 @@ class WebAnalysysSeeder extends Seeder
             'created_at'        => '2023-09-01 14:17:28',
             'updated_at'        => '2023-09-01 14:17:28',
         ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
 
         //october
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
         DB::table('web_analyses')->insert([
             'type'              => 'visit',
             'created_at'        => '2023-10-01 14:17:28',
@@ -674,6 +1274,106 @@ class WebAnalysysSeeder extends Seeder
             'created_at'        => '2023-11-01 14:17:28',
             'updated_at'        => '2023-11-01 14:17:28',
         ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
 
         //december
         DB::table('web_analyses')->insert([
@@ -696,12 +1396,1574 @@ class WebAnalysysSeeder extends Seeder
             'created_at'        => '2023-12-01 14:17:28',
             'updated_at'        => '2023-12-01 14:17:28',
         ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'visit',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+
         
 
 
         // visits ************************
         
-       
+        // windows download ****************************
+        // January
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-01-01 14:17:28',
+            'updated_at'        => '2023-01-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-01-01 14:17:28',
+            'updated_at'        => '2023-01-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-01-01 14:17:28',
+            'updated_at'        => '2023-01-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-01-01 14:17:28',
+            'updated_at'        => '2023-01-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-01-01 14:17:28',
+            'updated_at'        => '2023-01-01 14:17:28',
+        ]);
+
+        //feb
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-02-01 14:17:28',
+            'updated_at'        => '2023-02-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-02-01 14:17:28',
+            'updated_at'        => '2023-02-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-02-01 14:17:28',
+            'updated_at'        => '2023-02-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-02-01 14:17:28',
+            'updated_at'        => '2023-02-01 14:17:28',
+        ]);
+        // march
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        //april
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+
+        //may
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-05-03 14:17:28',
+            'updated_at'        => '2023-05-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-05-03 14:17:28',
+            'updated_at'        => '2023-05-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-05-03 14:17:28',
+            'updated_at'        => '2023-05-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-05-03 14:17:28',
+            'updated_at'        => '2023-05-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-05-03 14:17:28',
+            'updated_at'        => '2023-05-03 14:17:28',
+        ]);
+
+        //june
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-06-03 14:17:28',
+            'updated_at'        => '2023-06-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-06-03 14:17:28',
+            'updated_at'        => '2023-06-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-06-03 14:17:28',
+            'updated_at'        => '2023-06-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-06-03 14:17:28',
+            'updated_at'        => '2023-06-03 14:17:28',
+        ]);
+        //july
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-07-03 14:17:28',
+            'updated_at'        => '2023-07-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-07-03 14:17:28',
+            'updated_at'        => '2023-07-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-07-03 14:17:28',
+            'updated_at'        => '2023-07-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-07-03 14:17:28',
+            'updated_at'        => '2023-07-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-07-03 14:17:28',
+            'updated_at'        => '2023-07-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-07-03 14:17:28',
+            'updated_at'        => '2023-07-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-07-03 14:17:28',
+            'updated_at'        => '2023-07-03 14:17:28',
+        ]);
+        //august
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-08-03 14:17:28',
+            'updated_at'        => '2023-08-03 14:17:28',
+        ]);
+        //sept
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-09-03 14:17:28',
+            'updated_at'        => '2023-09-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-09-03 14:17:28',
+            'updated_at'        => '2023-09-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-09-03 14:17:28',
+            'updated_at'        => '2023-09-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-09-03 14:17:28',
+            'updated_at'        => '2023-09-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-09-03 14:17:28',
+            'updated_at'        => '2023-09-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-09-03 14:17:28',
+            'updated_at'        => '2023-09-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-09-03 14:17:28',
+            'updated_at'        => '2023-09-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-09-03 14:17:28',
+            'updated_at'        => '2023-09-03 14:17:28',
+        ]);
+        //oct
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-10-03 14:17:28',
+            'updated_at'        => '2023-10-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-10-03 14:17:28',
+            'updated_at'        => '2023-10-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-10-03 14:17:28',
+            'updated_at'        => '2023-10-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-10-03 14:17:28',
+            'updated_at'        => '2023-10-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-10-03 14:17:28',
+            'updated_at'        => '2023-10-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-10-03 14:17:28',
+            'updated_at'        => '2023-10-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-10-03 14:17:28',
+            'updated_at'        => '2023-10-03 14:17:28',
+        ]);
+        //nov
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-11-03 14:17:28',
+            'updated_at'        => '2023-11-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-11-03 14:17:28',
+            'updated_at'        => '2023-11-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-11-03 14:17:28',
+            'updated_at'        => '2023-11-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-11-03 14:17:28',
+            'updated_at'        => '2023-11-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-11-03 14:17:28',
+            'updated_at'        => '2023-11-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-11-03 14:17:28',
+            'updated_at'        => '2023-11-03 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-11-03 14:17:28',
+            'updated_at'        => '2023-11-03 14:17:28',
+        ]);
+        //december
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'windows',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        // windows download ****************************
+
+        //android downloads ******************************
+        // jan
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-01-01 14:17:28',
+            'updated_at'        => '2023-01-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-01-01 14:17:28',
+            'updated_at'        => '2023-01-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-01-01 14:17:28',
+            'updated_at'        => '2023-01-01 14:17:28',
+        ]);
+        //feb
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-02-01 14:17:28',
+            'updated_at'        => '2023-02-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-02-01 14:17:28',
+            'updated_at'        => '2023-02-01 14:17:28',
+        ]);DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-02-01 14:17:28',
+            'updated_at'        => '2023-02-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-02-01 14:17:28',
+            'updated_at'        => '2023-02-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-02-01 14:17:28',
+            'updated_at'        => '2023-02-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-02-01 14:17:28',
+            'updated_at'        => '2023-02-01 14:17:28',
+        ]);
+        //march
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-03-01 14:17:28',
+            'updated_at'        => '2023-03-01 14:17:28',
+        ]);
+        //april
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-04-01 14:17:28',
+            'updated_at'        => '2023-04-01 14:17:28',
+        ]);
+        //may
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-05-01 14:17:28',
+            'updated_at'        => '2023-05-01 14:17:28',
+        ]);
+        //june
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-06-01 14:17:28',
+            'updated_at'        => '2023-06-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-06-01 14:17:28',
+            'updated_at'        => '2023-06-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-06-01 14:17:28',
+            'updated_at'        => '2023-06-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-06-01 14:17:28',
+            'updated_at'        => '2023-06-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-06-01 14:17:28',
+            'updated_at'        => '2023-06-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-06-01 14:17:28',
+            'updated_at'        => '2023-06-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-06-01 14:17:28',
+            'updated_at'        => '2023-06-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-06-01 14:17:28',
+            'updated_at'        => '2023-06-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-06-01 14:17:28',
+            'updated_at'        => '2023-06-01 14:17:28',
+        ]);
+        //july
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-07-01 14:17:28',
+            'updated_at'        => '2023-07-01 14:17:28',
+        ]);
+        //august
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-08-01 14:17:28',
+            'updated_at'        => '2023-08-01 14:17:28',
+        ]);
+        //setpember
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-09-01 14:17:28',
+            'updated_at'        => '2023-09-01 14:17:28',
+        ]);
+
+        //october
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-10-01 14:17:28',
+            'updated_at'        => '2023-10-01 14:17:28',
+        ]);
+        //november
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-11-01 14:17:28',
+            'updated_at'        => '2023-11-01 14:17:28',
+        ]);
+        //december
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
+        DB::table('web_analyses')->insert([
+            'type'              => 'download_attempt',
+            'installerType'     => 'android',
+            'created_at'        => '2023-12-01 14:17:28',
+            'updated_at'        => '2023-12-01 14:17:28',
+        ]);
         
+        
+
     }
 }

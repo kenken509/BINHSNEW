@@ -60,11 +60,11 @@
 
       
 
-      <div class="flex justify-center items-center border-bot-only border-gray-600 shadow-md mb-[30px] mt-[50px] ">
+      <!-- <div class="flex justify-center items-center border-bot-only border-gray-600 shadow-md mb-[30px] mt-[50px] ">
          <span class="text-[24px] font-bold text-gray-500">TOP 10 STUDENTS</span>  
-      </div>
+      </div> -->
          
-      <section class="grid grid-cols-12 mt-4  shadow-md " >
+      <!-- <section class="grid grid-cols-12 mt-4  shadow-md " >
          <div class="flex flex-col col-span-12  md:col-span-6 px-2 mb-4">
             <div class="flex justify-center items-center font-bold">HOME ECONOMICS</div>
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 ">
@@ -279,7 +279,7 @@
                </div>
             </div>
          </div>
-      </section>
+      </section> -->
       
 
 
@@ -305,6 +305,9 @@ const data = defineProps({
    currentSchoolYear:String,
    monthlyVisit:Array,
    usersData:Array,
+   windowsMonthlyDownloads:Array, // [{"year":2023,"month":1,"count":5}]
+   androidMonthlyDownloads:Array, // [{"year":2023,"month":1,"count":5}]
+
 })
 
 // const testData = [
@@ -405,10 +408,22 @@ onMounted(()=>{
          labels: data.monthlyVisit.map((row) => row.month_name),
          datasets: [
             {
-            label: 'Web page visitors per month',
-            data: data.monthlyVisit.map((row) => row.total_visits),
-            borderColor: '#36A2EB',
-            backgroundColor: '#057A55',
+               label: 'Winddows installer download attempt', //windowsMonthlyDownloads:Array, // [{"year":2023,"month":1,"count":5}]
+               data: data.windowsMonthlyDownloads.map((row) => row.count), // ['#ff700a', '#ffeab8', '#a6deae', '#020E54'],
+               borderColor: '#36A2EB',
+               backgroundColor: '#ffeab8',
+            },
+            {
+               label: 'Android installer download attempt',
+               data: data.androidMonthlyDownloads.map((row) => row.count),
+               borderColor: '#36A2EB',
+               backgroundColor: '#a6deae',
+            },
+            {
+               label: 'Web page visitors per month',
+               data: data.monthlyVisit.map((row) => row.total_visits),
+               borderColor: '#36A2EB',
+               backgroundColor: '#057A55',
             },
          ],
       },
