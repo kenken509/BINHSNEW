@@ -105,4 +105,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(PostReactions::class, 'user_id', 'id');
     }
+
+    public function grade()
+    {
+        return $this.hasOne(StudentGrade::class,'student_id', 'id');
+    }
 }

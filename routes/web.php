@@ -286,6 +286,10 @@ Route::controller(TestRouteController::class)->group(function(){
     
 });
 
+Route::controller(StudentGradesController::class)->group(function(){
+    Route::get('admin/panel/student-grades', 'show')->name('student.grades.show');
+})->middleware('isAdmin');
+
 Route::controller(SchoolYearController::class)->group(function(){
     Route::post('/current-schoolyear', 'store')->name('schoolYear.store');
     //Route::get('/tester-route', 'testerFunction');
