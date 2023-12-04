@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\SchoolYear;
 use Illuminate\Support\Str;
+use App\Models\StudentGrade;
 use Illuminate\Http\Request;
 use App\Mail\OtpVerification;
 use App\Models\StudentActiveQuiz;
@@ -70,13 +71,22 @@ class SimulatorAuthController extends Controller
         //quiz_id
         //quiz_score
         //quiz_grade
-        return response()->json(["status" => $request]);
+        //dd($request);
+
+        
+       
          $QuizToUpdate = StudentActiveQuiz::where('student_id', '=', $request->id)
                                              ->where('quiz_id', '=', $request->quiz_id)->first();
                                              
         
         
-            
+        
+        
+        
+                                         
+        
+        
+        
         
         if($QuizToUpdate != null)
         {
@@ -91,15 +101,156 @@ class SimulatorAuthController extends Controller
                     
                     $QuizToUpdate->quiz_score = $request->quiz_score;
                     $QuizToUpdate->quiz_grade = $request->quiz_grade;
-                    $QuizToUpdate->status = "done";
-                    $QuizToUpdate->save();
 
+                    if($request->quiz_grade >= 75.00)
+                    {
+                        $QuizToUpdate->status = "passed";
+                    }
+                    else
+                    {
+                        $QuizToUpdate->status = "failed";
+                    }
+                    
+                    $QuizToUpdate->save();
+        
+                    if($QuizToUpdate->grading_period == '1st'){
+
+                        try{
+
+                            $studentFistGradingAverage = StudentActiveQuiz::where('student_id', '=', $request->id)
+                                    ->where('grading_period','=', '1st')
+                                    ->get()->avg('quiz_grade');
+                            
+                            
+
+                            $studentGrades = StudentGrade::where('student_id', $request->id)->first();
+                            
+                            if($studentGrades)
+                            {
+                                $studentGrades->first_grading = $studentFistGradingAverage;
+                                $studentGrades->save();
+                            }
+                            else
+                            {
+                                $newStudentGrades = new StudentGrade();
+                                $newStudentGrades->student_id = $request->id;
+                                $newStudentGrades->first_grading = $studentFistGradingAverage;
+                                $newStudentGrades->save();
+                            }                           
+                        }
+                        catch(\Exception $e){
+                            return response()->json(["status:" => 'FAILED TO UPDATE  STUDENT 1ST GRADING PEROID']);
+                        }
+                        
+
+                    }
+
+                    if($QuizToUpdate->grading_period == '2nd'){
+
+                        try{
+
+                            $studentSecondGradingAverage = StudentActiveQuiz::where('student_id', '=', $request->id)
+                                    ->where('grading_period','=', '2nd')
+                                    ->get()->avg('quiz_grade');
+                            
+                            
+
+                            $studentGrades = StudentGrade::where('student_id', $request->id)->first();
+                            
+                            if($studentGrades)
+                            {
+                                $studentGrades->second_grading = $studentSecondGradingAverage;
+                                $studentGrades->save();
+                            }
+                            else
+                            {
+                                $newStudentGrades = new StudentGrade();
+                                $newStudentGrades->student_id = $request->id;
+                                $newStudentGrades->second_grading = $studentSecondGradingAverage;
+                                $newStudentGrades->save();
+                            }                           
+                        }
+                        catch(\Exception $e){
+                            return response()->json(["status:" => 'FAILED TO UPDATE  STUDENT 2ND GRADING PEROID']);
+                        }
+                        
+
+                    }
+
+                    if($QuizToUpdate->grading_period == '3rd'){
+
+                        try{
+
+                            $studentThirdGradingAverage = StudentActiveQuiz::where('student_id', '=', $request->id)
+                                    ->where('grading_period','=', '3rd')
+                                    ->get()->avg('quiz_grade');
+                            
+                            
+
+                            $studentGrades = StudentGrade::where('student_id', $request->id)->first();
+                            
+                            if($studentGrades)
+                            {
+                                $studentGrades->third_grading = $studentThirdGradingAverage;
+                                $studentGrades->save();
+                            }
+                            else
+                            {
+                                $newStudentGrades = new StudentGrade();
+                                $newStudentGrades->student_id = $request->id;
+                                $newStudentGrades->third_grading = $studentThirdGradingAverage;
+                                $newStudentGrades->save();
+                            }                           
+                        }
+                        catch(\Exception $e){
+                            return response()->json(["status:" => 'FAILED TO UPDATE  STUDENT 3RD GRADING PEROID']);
+                        }
+                        
+
+                    }
+
+                    if($QuizToUpdate->grading_period == '4th'){
+
+                        try{
+
+                            $studentFourthGradingAverage = StudentActiveQuiz::where('student_id', '=', $request->id)
+                                    ->where('grading_period','=', '4th')
+                                    ->get()->avg('quiz_grade');
+                            
+                            
+
+                            $studentGrades = StudentGrade::where('student_id', $request->id)->first();
+                            
+                            if($studentGrades)
+                            {
+                                $studentGrades->fourth_grading = $studentFourthGradingAverage;
+                                $studentGrades->save();
+                            }
+                            else
+                            {
+                                $newStudentGrades = new StudentGrade();
+                                $newStudentGrades->student_id = $request->id;
+                                $newStudentGrades->fourth_grading = $studentFourthGradingAverage;
+                                $newStudentGrades->save();
+                            }                           
+                        }
+                        catch(\Exception $e){
+                            return response()->json(["status:" => 'FAILED TO UPDATE  STUDENT 3RD GRADING PEROID']);
+                        }
+                        
+
+                    }
+                    
                     return response()->json(["status" => "Graded Successfully!"]);
                 }catch(\Exception $e){
                     return response()->json(["status" => "ERROR : FAILED TO SUBMIT GRADES!!"]);
                 }
                 
             }
+        }
+        else
+        {
+            return responso()->json(["status" => "Error: FAILED TO SUBMIT GRADES!!"]);
         }
         
     

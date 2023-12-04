@@ -29,9 +29,9 @@
                         <a :href="route('index.news')" class="text-xl hover:text-cyan-500 duration-500">News</a>
                     </li>
                 <!--trial link-->
-                    <!-- <li v-if="user.currentUser && user.currentUser.role === 'student'" class="mx-4 my-4">
+                    <li v-if="user.currentUser && user.currentUser.role === 'student'" class="mx-4 my-4">
                         <a :href="route('test.quiz')" class="text-xl hover:text-cyan-500 duration-500">Test Quiz</a>
-                    </li> -->
+                    </li>
                 <!--trial link-->
                     <li class="flex items-center mx-4" @click="tleClickHandler" >
                         <a href="#" class="text-xl hover:text-cyan-500 duration-500">TLE Tracks</a>

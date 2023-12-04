@@ -73,7 +73,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('sim/otp/authenticate',[SimulatorAuthController::class, 'simAuthOtp']);
     Route::get('sim/user/otp/resend/{id}', [SimulatorAuthController::class, 'simResendOtp']);
     Route::get('/simulator/active-quizzes/{id}',[SimulatorAuthController::class, 'getActiveQuiz']);
-    Route::match(['get', 'post'], '/simulator/active-quiz/submit-grade1', [SimulatorAuthController::class, 'activeQuizGrade']);
+    Route::match(['get', 'post'], '/simulator/active-quiz/submit-grade', [SimulatorAuthController::class, 'activeQuizGrade']);
     Route::post('/sim/logout', [SimulatorAuthController::class, 'simLogout']);
 });
 

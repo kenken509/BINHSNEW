@@ -17,12 +17,12 @@ return new class extends Migration
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('section_id');
             $table->unsignedBigInteger('quiz_id');
-            $table->string('grading_period');
+            $table->enum('grading_period',['1st','2nd','3rd','4th']);
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('quiz_score')->nullable();
             $table->string('quiz_grade')->nullable(); 
-            $table->enum('status',['done','lapse','pending'])->default('pending');
+            $table->enum('status',['failed','passed','lapse','pending'])->default('pending');
             $table->timestamps();
 
             $table->foreign('student_id')->references('id')->on('users')->onDelete('restrict');
