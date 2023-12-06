@@ -22,10 +22,10 @@ class StudentGradesController extends Controller
         //                     }])
         //                     ->latest()->get();
         
-        //$instructorId = Auth::user()->id;
+        $instructorSections = User::where('id',Auth::user()->id)->with('instructorSections')->first();
 
         
-
+       
         
         
         

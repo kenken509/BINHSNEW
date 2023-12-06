@@ -19,6 +19,13 @@ class Section extends Model
     //     return $this->hasMany(User::class, 'section_id', 'id');
     // }
 
+    // has many relationship
+    public function instructor(){
+        return $this->belongsTo(User::class, 'instructor_id', 'id');
+    }
+    
+
+    // many to many relationship
     public function instructors(){
         return $this->belongsToMany(User::class, 'instructor_sections', 'instructor_id', 'section_id');
     }
