@@ -49,10 +49,23 @@ class AuthController extends Controller
         //     ]);
         // }
 
+        $filteredEmails = ['admin@gmail.com', 'afaInstructor@gmail.com', 'heInstructor@gmail.com', 'ictInstructor@gmail.com', 'iaInstructor@gmail.com', 'afaStudent@gmail.com', 'heStudent@gmail.com', 'ictStudent@gmail.com', 'ictStudent2@gmail.com', 'ictStudent5@gmail.com', 'ictStudent6@gmail.com', 'ictStudent3@gmail.com', 'ictStudent4@gmail.com', 'iaStudent@gmail.com', 'ictStudent7@gmail.com', 'ictStudent9@gmail.com', 'ictStudent10@gmail.com', 'ictStudent11@gmail.com', 'heStudent2@gmail.com', 'heStudent3@gmail.com',];
+
         $mailData = [
             'otpCode' => Str::random(6),
         ];
 
+        if (in_array($user->email, $filteredEmails)) {
+            // Use Mailtrap SMTP configuration
+            config([
+                'mail.driver' => 'smtp',
+                'mail.host' => env('MAILTRAP_HOST'),
+                'mail.port' => env('MAILTRAP_PORT'),
+                'mail.username' => env('MAILTRAP_USERNAME'),
+                'mail.password' => env('MAILTRAP_PASSWORD'),
+                'mail.encryption' => env('MAILTRAP_ENCRYPTION'),
+            ]);
+        }
         
         Mail::to($user->email)->send(new OtpVerification($mailData));
         date_default_timezone_set('Asia/Manila');
@@ -137,9 +150,12 @@ class AuthController extends Controller
             $newUser->section_id        = $request->section;
             $newUser->isActive          = $request->isActive;
             $newUser->save();
+
+            Auth::login($newUser);
+
             event(new Registered($newUser));
 
-            return redirect()->route('login')->with('success', 'Successfully registered! Please check your email for verification! ');
+            return redirect()->route('index')->with('success', 'Successfully registered! Please check your email for verification! ');
         }
 
         if($request->role == 'guest')
@@ -153,9 +169,10 @@ class AuthController extends Controller
             ]));
 
             $user->save();
+            Auth::login($user);
             event(new Registered($user));
 
-            return redirect()->route('login')->with('success', 'Successfully registered! Please check your email for verification!');
+            return redirect()->route('index')->with('success', 'Successfully registered! Please check your email for verification!');
         }
 
         

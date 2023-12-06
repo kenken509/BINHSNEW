@@ -4,7 +4,7 @@
     <div class="flex justify-center items-center bg-gray-200 h-screen  py-10">
         <div></div>
         <div>
-            
+            <div v-if="$page.props.flash.error"  >{{ errorMessage($page.props.flash.error) }} </div>
         </div>
         <div class="flex flex-col w-full md:w-[450px] border border-gray-300 shadow-md  mx-4 md:mx-0 pt-8 rounded-md" >
             <div class="flex justify-center items-center w-full mt-4">
@@ -57,6 +57,7 @@
 <script setup>
 import {computed} from 'vue'
 import { useForm,usePage } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
 
 const user = computed(() => usePage().props.user);
 
@@ -67,5 +68,22 @@ const form = useForm({
     // role: 'guest',
 })
 
+const flashClear = useForm({
+  clear: null,
+})
+
+function errorMessage(message) {
+  Swal.fire({
+    icon: "error",
+    title: "Oops...",
+    html: `<span class="text-red-500">${message}!</span>`,
+    allowOutsideClick:false,
+  }).then((result) => {
+    if (result.isConfirmed) {
+       
+      flashClear.get(route('clear.flash.messages'), { preserveScroll: true });
+    }
+  })
+}
 const submit = () => form.post(route('email.reset.password'));
 </script>

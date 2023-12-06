@@ -22,13 +22,12 @@ class ResetPasswordController extends Controller
     {
        
         $userToSendEmail = User::where('email','=',$request->email)->first();
-        $userId = $userToSendEmail->id;
+        
         if($userToSendEmail)
         {
-
+            $userId = $userToSendEmail->id;
             $resetToken = Str::random(30);
 
-            
             
             $mailData = [
                 'url' => env('APP_URL').'/pasword-reset/verify/'.$resetToken,
@@ -47,7 +46,7 @@ class ResetPasswordController extends Controller
         }
         else
         {
-            dd('email not found');
+            return redirect()->route('forgot.password.show')->with('error', 'Email not found');
         }
     }
 
@@ -58,7 +57,7 @@ class ResetPasswordController extends Controller
         
         if($user)
         {
-            dd('andito dapat ako');
+            //dd('andito dapat ako');
             if($user->reset_expires_at && now()->lessThan($user->reset_expires_at))
             {
                 

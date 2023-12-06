@@ -15,24 +15,20 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request): Response
     {
-        // $jsonData = $request->json()->all();
-        // if($jsonData == null )
-        // {
-        //     return redirect('/login');
-        // }
+       
+       
         
         
 
-        return $request->expectsJson()
-        ? null
-        : route('login');
+        if ($request->expectsJson()) {
+            return null;
+        } else {
+            //dd('fix me');
+            // dd($request);
+            // Throw an unauthorized error
+            abort(401, 'Unauthorized');
+        }
         
-        
-
-        // if ($request->expectsJson())  {
-        //     return null;
-        // }
-        
-        // return redirect()->route('index')->with('success', 'Email was verified')->getTargetUrl();;
+        return redirect()->route('login')->with('success', 'Email was verified')->getTargetUrl();
     }
 }

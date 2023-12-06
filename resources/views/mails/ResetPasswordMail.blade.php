@@ -66,7 +66,7 @@
             display:flex;
             justify-content: center;
             align-items: center;
-            color:white;
+            color:white !important;
             text-decoration:none;
             font-size:20px;
             padding:3px;

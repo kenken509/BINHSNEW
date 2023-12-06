@@ -41,21 +41,29 @@ Route::controller(ApiRequestController::class)->group(function(){
 
 //verify email notice
 Route::get('/email/verify', function(){
-   $isVerified = Auth::user()->email_verified_at;
+   $user = Auth::user();
 
-   if($isVerified){
-     return redirect()->route('index');
-   }
+    if ($user && $user->email_verified_at) {
+        return redirect()->route('index');
+    }
+
     return inertia('Auth/VerifyEmail');
 })->middleware('auth')->name('verification.notice');
 
 
  //verification mail handler
  Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
+    
+    try{
+        $request->fulfill();
  
-    return redirect()->route('index',)->with('success', 'Email was successfully  verified!');
-})->middleware(['auth', 'signed'])->name('verification.verify');
+        return redirect()->route('index',)->with('success', 'Email was successfully  verified!');
+    }catch(\Exception $e)
+    {
+        abort(401, 'Unauthorized');
+    }
+    
+})->middleware(['isLoggedUser', 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function (Request $request) { // import this: use Illuminate\Http\Request;
     $request->user()->sendEmailVerificationNotification();

@@ -272,6 +272,7 @@ function errorMessage(message) {
     icon: "error",
     title: "Oops...",
     text: message + '!',
+    allowOutsideClick:false,
   }).then((result) => {
     if (result.isConfirmed) {
       flashClear.get(route('clear.flash.messages'), { preserveScroll: true });
