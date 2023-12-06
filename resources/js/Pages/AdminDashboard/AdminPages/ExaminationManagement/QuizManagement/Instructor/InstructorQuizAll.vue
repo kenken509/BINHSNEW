@@ -125,7 +125,7 @@
                         <input class="w-full" type="date" id="start" name="trip-start" v-model="form.startDate"   />
                         <InputError :error="form.errors.startDate"/>                    
                     </div>
-                
+                    
                     <div class="mb-4 text-[18px] font-bold text-gray-600">Due Date: </div>
                     <div class="mb-4">
                         <input class="w-full" type="date" id="end" name="trip-end" v-model="form.endDate"   />

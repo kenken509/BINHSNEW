@@ -309,10 +309,10 @@ const quiz = defineProps({
 
 
 const gradingPeriod = ref([
-    {'name':'1st'},
-    {'name':'2nd'},
-    {'name':'3rd'},
-    {'name':'4th'},
+    {'name':'First Grading'},
+    {'name':'Second Grading'},
+    {'name':'Third Grading'},
+    {'name':'Fifth Grading'},
 ]) 
 
 const selectedGradingPeriod = ref(null)

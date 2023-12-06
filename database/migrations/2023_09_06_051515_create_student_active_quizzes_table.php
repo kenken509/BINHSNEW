@@ -17,18 +17,20 @@ return new class extends Migration
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('section_id');
             $table->unsignedBigInteger('quiz_id');
-            $table->enum('grading_period',['1st','2nd','3rd','4th']);
+            $table->enum('grading_period',['First Grading','Second Grading','Third Grading', 'Fifth Grading']);
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('quiz_score')->nullable();
             $table->string('quiz_grade')->nullable(); 
             $table->enum('status',['failed','passed','lapse','pending'])->default('pending');
+            $table->unsignedBigInteger('sent_by');
             $table->timestamps();
-
+            
             $table->foreign('student_id')->references('id')->on('users')->onDelete('restrict');
             $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('sent_quizzes_id')->references('id')->on('sent_quizzes')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('section_id')->references('id')->on('sections')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('sent_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
         });
     }
 

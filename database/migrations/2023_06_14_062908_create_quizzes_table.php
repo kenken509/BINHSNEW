@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->unsignedBigInteger('subject_id');
-            $table->enum('grading_period',['1st','2nd','3rd','4th']);
+            $table->enum('grading_period',['First Grading','Second Grading','Third Grading', 'Fifth Grading']);
+            $table->string('school_year');
             $table->float('duration');
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

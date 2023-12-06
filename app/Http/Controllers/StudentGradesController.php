@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use App\Models\Section;
+use App\Models\User;
 use App\Models\StudentGrade;
 use Illuminate\Http\Request;
+
 
 class StudentGradesController extends Controller
 {
@@ -17,19 +21,33 @@ class StudentGradesController extends Controller
         //                         }]);
         //                     }])
         //                     ->latest()->get();
-
-
-        $studentGrades = StudentGrade::with(['student' => function ($query) {
-            $query->where('role', '=', 'student')
-                ->with(['studentActiveQuiz' => function ($query) {
-                    $query->whereIn('status', ['passed', 'failed']);
-                }])->with('section');
-        }])->get();
+        
+        //$instructorId = Auth::user()->id;
 
         
-        return inertia('AdminDashboard/AdminPages/StudentGrades/InstructorPage/StudentGradesAll',[
-            'studentGrades' => $studentGrades,
-        ]);
+
+        
+        
+        
+
+        // dd($instructoSections);
+        // foreach ($instructoSections as $section) {
+        //     echo $section->name.'<br>'; // Access the section name
+        // }
+
+       
+            
+        // $studentGrades = StudentGrade::with(['student' => function ($query) {
+        //     $query->where('role', '=', 'student')
+        //         ->with(['studentActiveQuiz' => function ($query) {
+        //             $query->whereIn('status', ['passed', 'failed']);
+        //         }])->with('section');
+        // }])->get();
+
+        
+        // return inertia('AdminDashboard/AdminPages/StudentGrades/InstructorPage/StudentGradesAll',[
+        //     'studentGrades' => $studentGrades,
+        // ]);
         
     }
 }

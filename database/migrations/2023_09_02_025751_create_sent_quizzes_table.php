@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('quiz_id');
             $table->unsignedBigInteger('section_id')->nullable();
             $table->unsignedBigInteger('subject_id');
-            $table->unsignedBigInteger('student_id')->nullable();
             $table->date('start_date');
             $table->date('end_date');
             $table->unsignedBigInteger('created_by')->nullable();

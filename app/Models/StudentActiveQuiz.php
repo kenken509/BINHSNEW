@@ -26,4 +26,16 @@ class StudentActiveQuiz extends Model
             return $query->where('section_id', '=', $filters);
         });
     }
+
+
+    public function sentQuiz()
+    {
+        return $this->belongsTo(SentQuiz::class, 'sent_quizzes_id ', 'id');
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class,'subject_id ', 'id');
+    }
+
 }

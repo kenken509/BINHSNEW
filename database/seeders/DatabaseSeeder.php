@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             CarouselImageSeeder::class,
             WebAnalysysSeeder::class,
             GuestUserSeeder::class,
+            SchoolYearSeeder::class,
         ]);
         
         

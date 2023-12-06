@@ -75,6 +75,10 @@ class QuizManagementController extends Controller
         //dd($request->questions);
         $questionsArray = $request->questions;
         //dd($questionsArray);
+        $currentSchoolYear = SchoolYear::first();
+
+        $currentSchoolYear = $currentSchoolYear->year;
+        
 
         $validate = $request->validate([
             "subject_id"        => 'required',
@@ -93,6 +97,7 @@ class QuizManagementController extends Controller
             $quiz->subject_id       = $request->subject_id;
             $quiz->title            = $request->title;
             $quiz->grading_period   = $request->grading_period;
+            $quiz->school_year      = $currentSchoolYear;
             $quiz->duration         = $request->duration;
             $quiz->save();
 
@@ -294,7 +299,7 @@ class QuizManagementController extends Controller
 
     public function sendQuiz(Request $request)
     {
-        //dd(now());
+        
         if(($request->startDate > $request->endDate))
         {
             throw ValidationException::withMessages([
@@ -329,7 +334,7 @@ class QuizManagementController extends Controller
         
         $thisQuiz = Quiz::find($request->quiz_id);
         
-
+        
         $activeQuiz                 = new SentQuiz();
         $activeQuiz->quiz_id        = $request->quiz_id;
         $activeQuiz->section_id     = $request->section_id;
@@ -340,7 +345,7 @@ class QuizManagementController extends Controller
         $activeQuiz->save();
 
         
-
+        
         foreach($sectionStudents as $student)
         {
             $studentQuiz = new StudentActiveQuiz();
@@ -352,14 +357,29 @@ class QuizManagementController extends Controller
             $studentQuiz->grading_period    = $thisQuiz->grading_period;
             $studentQuiz->start_date        = Carbon::parse($request->startDate)->toDateString();
             $studentQuiz->end_date          = Carbon::parse($request->endDate)->toDateString();
+            $studentQuiz->sent_by           = Auth::user()->id;
             $studentQuiz->save();
             
+            $filteredEmails = ['admin@gmail.com', 'afaInstructor@gmail.com', 'heInstructor@gmail.com', 'ictInstructor@gmail.com', 'iaInstructor@gmail.com', 'afaStudent@gmail.com', 'heStudent@gmail.com', 'ictStudent@gmail.com', 'ictStudent2@gmail.com', 'ictStudent5@gmail.com', 'ictStudent6@gmail.com', 'ictStudent3@gmail.com', 'ictStudent4@gmail.com', 'iaStudent@gmail.com', 'ictStudent7@gmail.com', 'ictStudent9@gmail.com', 'ictStudent10@gmail.com', 'ictStudent11@gmail.com', 'heStudent2@gmail.com', 'heStudent3@gmail.com',];
+
             $mailData = [
                 'userName'      => $student->fName,
                 'instructor'    => Auth::user()->fName,
                 'start'         => Carbon::parse($request->startDate)->format('F j, Y'),
                 'end'           => Carbon::parse($request->endDate)->format('F j, Y'),
             ];
+
+            if (in_array($student->email, $filteredEmails)) {
+                // Use Mailtrap SMTP configuration
+                config([
+                    'mail.driver' => 'smtp',
+                    'mail.host' => env('MAILTRAP_HOST'),
+                    'mail.port' => env('MAILTRAP_PORT'),
+                    'mail.username' => env('MAILTRAP_USERNAME'),
+                    'mail.password' => env('MAILTRAP_PASSWORD'),
+                    'mail.encryption' => env('MAILTRAP_ENCRYPTION'),
+                ]);
+            }
 
             Mail::to($student->email)->send(new StudentNewQuizMail($mailData));
             // send email notification for student

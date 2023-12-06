@@ -13,25 +13,29 @@ class QuizSeeder extends Seeder
      */
     public function run(): void
     {
+        //'First Grading','Second Grading','Third Grading', 'Fifth Grading'
         DB::table('quizzes')->insert([
             'title'             => 'Quiz 1',
             'subject_id'        => 3,
-            'grading_period'    => '1st',
+            'grading_period'    => 'First Grading',
             'duration'          => 20,
+            'school_year'       => '2023-2024'
         ]);
 
         DB::table('quizzes')->insert([
             'title'             => 'Quiz 2',
             'subject_id'        => 3,
-            'grading_period'    => '1st',
+            'grading_period'    => 'First Grading',
             'duration'          => 20,
+            'school_year'       => '2023-2024'
         ]);
 
         DB::table('quizzes')->insert([
             'title'             => 'Quiz 3',
             'subject_id'        => 3,
-            'grading_period'    => '1st',
+            'grading_period'    => 'First Grading',
             'duration'          => 20,
+            'school_year'       => '2023-2024'
         ]);
     }
 }

@@ -22,6 +22,7 @@ return new class extends Migration
 
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('restrict')->onUpdate('restrict');
             
+            
         });
     }
 

@@ -20,4 +20,9 @@ class SentQuiz extends Model
     {
         return $this->belongsTo(Section::class, 'section_id', 'id');
     }
+
+    public function studentActiveQuiz()
+    {
+        return $this->hasMany(StudentActiveQuiz::class, 'sent_quizzes_id ', 'id');
+    }
 }

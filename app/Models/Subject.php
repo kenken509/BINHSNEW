@@ -31,4 +31,8 @@ class Subject extends Model
         return $this->hasMany(User::class, 'subject_id', 'id');
     }
     
+    public function studentActiveQuiz()
+    {
+        return $this->hasMany(StudentActiveQuiz::class, 'subject_id', 'id');
+    }
 }

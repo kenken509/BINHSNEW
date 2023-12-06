@@ -32,7 +32,7 @@ class ResetPasswordController extends Controller
             $mailData = [
                 'url' => env('APP_URL').'/pasword-reset/verify/'.$resetToken,
             ];
-    
+            
             
             Mail::to($userToSendEmail->email)->send(new ResetPassword($mailData));
             date_default_timezone_set('Asia/Manila');
