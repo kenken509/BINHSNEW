@@ -22,38 +22,41 @@
     
    
     <!--you are here-->
-    <div class="flex  justify-center  ">
+    <!-- <div class="flex  justify-center  ">
         
         <div class="w-[90%] lg:w-[80%] border mt-2 mb-4">You are here: {{ currentUrl }}</div>
-    </div>
+    </div> -->
     
-    <div class="flex justify-center">
+    <!-- <div class="flex justify-center mt-2"> -->
         
-        <div class=" w-[90%] lg:w-[80%]  max-h-[200px] md:max-h-[400px] lg:max-h-[720px]   overflow-hidden  ">
+        <!-- <div class=" w-[90%] lg:w-[80%]  max-h-[200px] md:max-h-[400px] lg:max-h-[720px]   overflow-hidden  "> -->
             <!-- <WebCarouselLatest :image="carouselImages" :loggedUser="user"/> -->
-            <WebCarousel :loggedUser="user" :carouselImages="carouselImages" />
-        </div>
-    </div>
+            <!-- <WebCarousel :loggedUser="user" :carouselImages="carouselImages" /> -->
+        <!-- </div> -->
+    <!-- </div> -->
 
     <!--NEW CAROUSEL-->
-    <!-- <div class="flex justify-center">
-      <div class="w-[90%] lg:w-[80%]  max-h-[200px] md:max-h-[400px] lg:max-h-[720px]">
-        <Carousel :value="data.carouselImages" :numVisible="1" :numScroll="1" :responsiveOptions="responsiveOptions">
+    <div class="flex justify-center overflow-hidden">
+      <div class="w-[90%] lg:w-[86%] mt-4  max-h-[200px] md:max-h-[400px] lg:max-h-[1020px]  flex justify-center ">
+        <Carousel :value="data.carouselImages" :numVisible="1" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
           <template #item="slotProps">
-              <div class="border-1 surface-border border-round m-2 text-center py-5 px-3 w-full">
-                  <div class="mb-3">
-                      <img :src="'/storage/'+slotProps.data.filename" :alt="slotProps.data.name" class="w-full h-[30%] shadow-2" />
+              <div class="border-1 surface-border border-round  w-full ">
+                  <div class="mb-3  ">
+                      <img :src="'/storage/'+slotProps.data.filename" :alt="slotProps.data.name" class="w-full h-[30%] shadow-md max-h-[500px] max-w-[1280px] " />
                   </div>
               </div>
           </template>
         </Carousel>
       </div>
-    </div> -->
+    </div>
     <!--NEW CAROUSEL-->
      
     <!--divider-->
-    <div class=" h-[40px] border shadow-md "></div>
-    <div class="flex justify-center w-full">
+    <hr>
+   <div>
+    
+   </div>
+    <div class="flex justify-center w-full mt-4">
         <div class="flex justify-center mt-8 w-[90%] lg:w-[80%]">
             <span class="font-serif text-[30px] lg:text-[50px] tracking-wider  text-gray-800 ">Latest News</span>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\SchoolYear;
@@ -94,8 +95,16 @@ class AdminDashboardController extends Controller
             ->get();
 
         
+        $instructorSubject = Auth::user()->subject_id;
 
-        $ictTopTenFistGrading = StudentGrade::with('student')->orderBy('first_grading', 'desc')->get();
+        
+        $instructorTopTenFirstGrading = StudentGrade::with(['student' => function ($query) use ($instructorSubject) {
+            $query->with(['subject' => function ($query) use ($instructorSubject) {
+                $query->where('id', $instructorSubject);
+            }]); 
+        }])->orderBy('first_grading', 'desc')->get();
+
+        
         
         
         // download attempt count..*********************************************
@@ -110,7 +119,7 @@ class AdminDashboardController extends Controller
             'usersData'                 => $usersData,
             'windowsMonthlyDownloads'   => $windowsMonthlyDownloads,
             'androidMonthlyDownloads'   => $androidMonthlyDownloads,
-            'ictTopTenFistGrading'      => $ictTopTenFistGrading,
+            'TopTenFirstGrading'         => $instructorTopTenFirstGrading,
         ]); 
      }
  
