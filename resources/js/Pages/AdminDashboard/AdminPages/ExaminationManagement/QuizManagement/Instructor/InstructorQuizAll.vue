@@ -9,18 +9,18 @@
                     <i class="pi pi-search" />
                     <InputText v-model="searchField" placeholder="search " @input="handleSearchFieldInput" />
                 </span>
-            </div>
+            </div> 
         </div>
-        
+       
         <div v-if="$page.props.flash.success">{{ successMessage($page.props.flash.success)  }} </div>
-        
+        <div v-if="$page.props.flash.error">{{ errorMessage($page.props.flash.error)  }} </div>
         <div class=" overflow-x-auto shadow-md sm:rounded-lg">
             <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                
                 <thead class="text-xs text-gray-200 uppercase bg-green-700  ">
-                    <tr>
+                    <tr>{{ quizzes.quizzes.setnQuiz }}
                         <th scope="col" class="px-6 py-3">
-                            ID#
+                            ID#sss
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Title
@@ -43,10 +43,12 @@
                         
                     </tr>
                 </thead>
-                <tbody v-for="quiz in currentPageItems" :key="quiz.id" >
-                    <tr class="bg-white border-b ">
+                <tbody v-for="quiz in currentPageItems" :key="quiz.id"  >
+                   
+                    <tr  v-if="!quizIsDone(quiz.id)" class="bg-white border-b ">
+                        
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
-                        {{ quiz.id }}
+                            {{ quiz.id }}
                         </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                         {{ quiz.title }}
@@ -65,10 +67,14 @@
                             {{ quiz.question_count }} 
                         </td>
                         <td>
-                            <div class=" flex space-x-4 ">
-                                <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'Delete Question'" @click="confirmDelete(quiz.id)"></span>
+                            <div class=" flex flex  space-x-4 ">
+                                
+                                <div  v-if="isNotActiveQuiz(quiz.id)" class=" flex space-x-4 ">
+                                    <span  class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'Delete Question'" @click="confirmDelete(quiz.id)"></span>
                                 <!-- <Link :href="route('quiz.delete', {id: quiz.id})" class="cursor-pointer" v-tooltip.left="'Delete Question'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link> -->
-                                <Link :href="route('quiz.edit', {id:quiz.id})" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
+                                    <Link :href="route('quiz.edit', {id:quiz.id})" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
+                                </div>
+                                
                                 <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'Preview'" @click="openModal(quiz.id)" ></span>
                                 <span class="pi pi-send cursor-pointer hover:scale-150" style="color: slateblue" v-tooltip.left="'Send Quiz'" @click="showQuizModal(quiz.id)"></span>
                             </div>    
@@ -81,7 +87,7 @@
             <Dialog v-model:visible="visible" modal header="Question Info"  :style="{ width: '50vw' }" :breakpoints="{ '960px': '75vw', '641px': '100vw' }">
                 
                 <div v-for="quiz in quizzes.quizzes" :key="quiz.id">
-
+                   
                     <div v-if="quiz.id === quizId"> 
                     <div><span class="text-xl">Title : {{ quiz.title }}</span></div> 
                     <div><span class="text-xl">Subject : {{ quiz.subject.name }}</span></div> 
@@ -111,6 +117,7 @@
             <!--ACTIVATE QUIZ MODAL-->
             <Dialog v-model:visible="activateQuizModal" modal header="Send Quiz"  :style="{ width: '60vw' }" :breakpoints="{ '960px': '75vw', '641px': '95vw' }">
                 <hr class="bg-gray-400 h-[2px] mb-2">
+                
                 
                 <form @submit.prevent="submit">
                     <div class="mb-4 mt-4 text-[18px] font-bold text-gray-600">Section : </div>
@@ -174,9 +181,33 @@
  
  const quizzes = defineProps({
     quizzes: Array,
-    sections:Array,
+    instructorSections:Array,
     sentQuiz:Array,
  })
+
+
+ 
+ const isNotActiveQuiz = computed(() => {
+  return (quizId) => {
+    const isQuizSent = quizzes.quizzes.some((quiz) =>
+      quiz.sent_quiz.some((sent) => sent.quiz_id === quizId)
+    );
+    return !isQuizSent;
+  };
+});
+
+const handleQuizVisibility = () => {
+    filteredData.value.forEach((quiz) => {
+        const isQuizSentToAllSections = instructorHandledSection.value.every(
+            (section) =>
+                quiz.sent_quiz.some((sent) => sent.section_id === section.id)
+        );
+
+        // Set the quiz visibility based on the check
+        quiz.isVisible = !isQuizSentToAllSections;
+    });
+};
+
 
  
 
@@ -213,20 +244,38 @@ function sortSection(instructorSec)
 
 const selectedSentQuiz = ref(null);
 const availableSection = ref(null);
+
 function showQuizModal(quizId)
 {
+    
     form.quiz_id = quizId;
     
     // form.section = selectedQuizSection.value.id
     activateQuizModal.value = !activateQuizModal.value
 
     selectedSentQuiz.value = quizzes.sentQuiz.filter((quiz)=> quiz.quiz_id === quizId);
+    availableSection.value = quizzes.instructorSections.filter((section) =>{
+        return selectedSentQuiz.value.every((quiz)=> quiz.section_id !== section.id )
+    })
+    // availableSection.value = instructorHandledSection.value.filter((section) =>{
+    //     return selectedSentQuiz.value.every((quiz)=> quiz.section_id !== section.id )
+    // })
+       
+}
 
-    availableSection.value = instructorHandledSection.value.filter((section) =>{
+const done = ref(null);
+function quizIsDone(quizId)
+{
+    selectedSentQuiz.value = quizzes.sentQuiz.filter((quiz)=> quiz.quiz_id === quizId);
+    done.value = quizzes.instructorSections.filter((section) =>{
         return selectedSentQuiz.value.every((quiz)=> quiz.section_id !== section.id )
     })
 
+    // Return true if the quiz is done, false otherwise
+    return done.value.length === 0;
 }
+
+
 
 const form = useForm({
     quiz_id : null,
@@ -247,7 +296,7 @@ function getQuestionsFromLocalStorage() {
     
 }
 onMounted(()=>{
-    sortSection(quizzes.sections);
+    //sortSection(quizzes.sections);
     filteredData.value = quizzes.quizzes
     pageNumbers.length = totalPages.value
     // Set the time portion to midnight for both start and end dates
@@ -257,11 +306,13 @@ onMounted(()=>{
     // Calculate the minimum date as today's date in the YYYY-MM-DD format
     const today = new Date();
     const minDate = today.toISOString().split('T')[0]; 
-
+    
     if(getQuestionsFromLocalStorage())
     {
         deleteDataFromLocalStorage();
     }
+
+    
 })
 
 // const submit = ()=> {
@@ -335,6 +386,23 @@ function successMessage(message){
             location.reload()
         }
     })
+}
+
+const flashClear = useForm({
+  clear: null,
+})
+
+function errorMessage(message) {
+  Swal.fire({
+    icon: "error",
+    title: "Oops...",
+    html: '<span style="color: red;">' + message + '!</span>',
+    allowOutsideClick:false,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      flashClear.get(route('clear.flash.messages'), { preserveScroll: true });
+    }
+  })
 }
 
 

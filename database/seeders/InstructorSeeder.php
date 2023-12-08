@@ -39,6 +39,24 @@ class InstructorSeeder extends Seeder
             'isActive' => 1,
         ]);
 
+        //ict instructor
+        \App\Models\User::factory(1)->create([
+            'email'         => 'ictInstructor2@gmail.com',
+            'phoneNumber'   => '639191234567',
+            'role'          => 'instructor',
+            'subject_id'    => 3,
+            'isActive' => 1,
+        ]);
+
+        //ict instructor
+        \App\Models\User::factory(1)->create([
+            'email'         => 'ictInstructor3@gmail.com',
+            'phoneNumber'   => '639191234567',
+            'role'          => 'instructor',
+            'subject_id'    => 3,
+            'isActive' => 1,
+        ]);
+
         //industrial arts (ia) instructor
         \App\Models\User::factory(1)->create([
             

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('subject_id');
-            $table->unsignedBigInteger('instructor_id')->nullable();
+            //$table->unsignedBigInteger('instructor_id')->nullable();
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();

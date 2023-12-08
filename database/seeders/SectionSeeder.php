@@ -17,32 +17,38 @@ class SectionSeeder extends Seeder
         \App\Models\Section::factory(1)->create([
             'name'          => 'AFA11A1',
             'subject_id'    => '1',
-            'instructor_id' => '2',
+            //'instructor_id' => '2',
         ]);
 
         \App\Models\Section::factory(1)->create([
             'name'          => 'HE11A1',
             'subject_id'    => '2',
-            'instructor_id' => '3',
+            //'instructor_id' => '3',
         ]);
 
         //ict sections ID 3 & 4
         \App\Models\Section::factory(1)->create([ 
             'name'          => 'ICT11M1',
             'subject_id'    => '3',
-            'instructor_id' => '4',
+            //'instructor_id' => '4',
         ]);
 
         \App\Models\Section::factory(1)->create([
             'name'          => 'ICT11A1',
             'subject_id'    => '3',
-            'instructor_id' => '4',
+            //'instructor_id' => '4',
+        ]);
+
+        \App\Models\Section::factory(1)->create([
+            'name'          => 'ICT11A2',
+            'subject_id'    => '3',
+            //'instructor_id' => '4',
         ]);
         
         \App\Models\Section::factory(1)->create([
             'name'          => 'IA11M1',
             'subject_id'    => '4',
-            'instructor_id' => '5',
+            //'instructor_id' => '5',
         ]);
 
         // ****** SECTIONS TABLE ***********

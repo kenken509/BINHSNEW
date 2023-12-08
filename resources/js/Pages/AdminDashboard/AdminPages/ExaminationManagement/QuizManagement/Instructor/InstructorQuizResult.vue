@@ -60,7 +60,7 @@
                         </span>
                        </td>
                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 ">
-                        <span v-if="student.status === 'lapse'" class="text-red-600">
+                        <span v-if="student.status === 'lapse' || student.status === 'failed'" class="text-red-600">
                             {{ student.status }}
                         </span>
                         <span v-else >

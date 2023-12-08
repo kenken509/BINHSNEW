@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\SchoolYear;
 use App\Models\WebAnalysis;
+use App\Models\StudentGrade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\UserCollection;
@@ -94,8 +95,9 @@ class AdminDashboardController extends Controller
 
         
 
+        $ictTopTenFistGrading = StudentGrade::with('student')->orderBy('first_grading', 'desc')->get();
         
-
+        
         // download attempt count..*********************************************
         //****************************************** */
         return inertia('AdminDashboard/AdminPages/Dashboard',[
@@ -108,6 +110,7 @@ class AdminDashboardController extends Controller
             'usersData'                 => $usersData,
             'windowsMonthlyDownloads'   => $windowsMonthlyDownloads,
             'androidMonthlyDownloads'   => $androidMonthlyDownloads,
+            'ictTopTenFistGrading'      => $ictTopTenFistGrading,
         ]); 
      }
  

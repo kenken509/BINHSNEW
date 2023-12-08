@@ -111,6 +111,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function grade()
     {
-        return $this.hasOne(StudentGrade::class,'student_id', 'id');
+        return $this->hasOne(StudentGrade::class,'student_id', 'id');
     }
 }

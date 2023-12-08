@@ -23,4 +23,10 @@ class Quiz extends Model
     {
         return $this->hasMany(StudentActiveQuiz::class, 'quiz_id', 'id');
     }
+
+    public function sentQuiz()
+    {
+        return $this->hasMany(SentQuiz::class, 'quiz_id', 'id');
+    }
+    
 }

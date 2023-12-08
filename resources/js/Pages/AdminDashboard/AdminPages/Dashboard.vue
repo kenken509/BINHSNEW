@@ -2,7 +2,7 @@
    <DashboardLayout :user="user">
       <div class="flex justify-between border-bot-only border-gray-600 shadow-md mb-[30px]">
             <span class="text-[20px] font-bold text-gray-500">Admin Dashboard</span>
-            <span class="text-[20px] font-bold text-gray-500">School year: {{ data.currentSchoolYear }}</span>    
+            <span class="text-[20px] font-bold text-gray-500">School year: {{ $props.flash }}</span>    
       </div>
       <section class="grid grid-cols-12 mt-4" >
          <div class="col-span-12 md:col-span-3 ">

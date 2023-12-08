@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Print</title>
+    
+</head>
+<style>
+    
+    .header-container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #034515 ;
+    }
+    .left-header-container{
+        display: flex;
+        align-items: center;
+        padding: 2px;
+        color: whitesmoke;
+        
+    }
+    .logo{
+        width: 100px;
+        height: 100px;
+    }
+    .school-info-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    span{
+        padding: 2px;
+    }
+    .school-acro{
+        font-weight: bold;
+    }
+
+    @media print {
+   
+        
+    
+    /* Hide the button when printing */
+    button[type="button"] {
+        display: none;
+    }
+}
+
+    /* Styles for printing */
+    
+
+</style>
+<body>
+    <div class="header-container printable">
+        <div class="left-header-container">
+            <div ><img class="logo" src="../../../../public/images/webPage/logo1.png" /> </div>
+            <div class="school-info-container">
+                <span class="school-acro">
+                    BINHS
+                </span>
+                <span class="school-name">
+                    Bulihan Integrated National Highschool
+                </span>
+                <span class="school-name">
+                    Brgy. Old Bulihan, Silang, Philippines
+                </span>
+            </div>
+        </div>
+        <div>
+            <span>;alksdjflaksdf</span>
+        </div>
+    </div>
+    
+    <button class="print-btn" type="button" onclick="printThis()">
+        print window
+    </button>
+</body>
+</html>
+
+<script>
+    function printThis(){
+        alert('i was clicked');
+        window.print();
+    }
+</script>

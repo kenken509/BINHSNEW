@@ -2,8 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Http\Request;
 use Inertia\Middleware;
+use App\Models\SchoolYear;
+use Illuminate\Http\Request;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -36,6 +37,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+       
         return array_merge(parent::share($request), [
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
@@ -43,6 +45,7 @@ class HandleInertiaRequests extends Middleware
                 'error'    => fn () => $request->session()->get('error'),
                 'attemptId' => fn () => $request->session()->get('attemptId'),
                 'temp' => fn () => $request->session()->get('temp'),
+                
             ],
             'user' => $request->user() ? [
                 'id'    => $request->user()->id,
@@ -52,7 +55,9 @@ class HandleInertiaRequests extends Middleware
                 'isActive' =>$request->user()->isActive,
                 'image' => $request->user()->image,
                 'subject_id' => $request->user()->subject_id,
+                'handled_sections' => $request->user()->instructorSections, 
             ] : null,
+
             
         ]);
     }

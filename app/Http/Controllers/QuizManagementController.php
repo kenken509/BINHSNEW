@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Mail\StudentNewQuizMail;
 use App\Models\StudentActiveQuiz;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Rules\StartDateBeforeEndDate;
 use Illuminate\Validation\ValidationException;
@@ -35,12 +36,22 @@ class QuizManagementController extends Controller
         if($loggedUser == 'instructor')
         {
             $insturctorSubject = Auth::user()->subject_id;
+            $instructor = Auth::user()->id;
             $sentQuiz = SentQuiz::all();
 
+            $user = Auth::user();
+            $sections = $user->instructorSections;
+
+            //dd($sections);
             
+           
+
             return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Instructor/InstructorQuizAll', [
-                'quizzes' => Quiz::where('subject_id', '=', $insturctorSubject)->with(['question.choices','subject'])->withCount('question')->latest()->get(),
-                'sections' => Section::all(),
+                'quizzes' => Quiz::where('subject_id', '=', $insturctorSubject)
+                                ->where('created_by',$instructor)
+                                ->with(['question.choices','subject','sentQuiz'])
+                                ->withCount('question')->latest()->get(),
+                'instructorSections' => $sections,
                 'sentQuiz'  => $sentQuiz,
             ]);
         }
@@ -99,6 +110,7 @@ class QuizManagementController extends Controller
             $quiz->grading_period   = $request->grading_period;
             $quiz->school_year      = $currentSchoolYear;
             $quiz->duration         = $request->duration;
+            $quiz->created_by       = Auth::user()->id;
             $quiz->save();
 
             $quizId = $quiz->id;
@@ -137,21 +149,38 @@ class QuizManagementController extends Controller
 
     public function delete($id)
     {
-        $quiz = Quiz::findOrFail($id);
+        try{
 
-        $quizQuestions = $quiz->question;
+            DB::beginTransaction();
+
+            $quiz = Quiz::findOrFail($id);
+
+            $quizQuestions = $quiz->question;
+            
+            foreach ($quizQuestions as $question) {
+                // Delete the related QuizChoices manually
+                $question->choices()->delete(); // Assuming 'choices' is the relationship method in QuizQuestion model
         
-        foreach ($quizQuestions as $question) {
-            // Delete the related QuizChoices manually
-            $question->choices()->delete(); // Assuming 'choices' is the relationship method in QuizQuestion model
-    
-            // Delete the QuizQuestion
-            $question->delete();
+                // Delete the QuizQuestion
+                $question->delete();
+            }
+
+            $quiz->delete();
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Successfully Deleted');
+        
+        }catch(\Exception $e)
+        {
+            
+            DB::rollBack();
+
+            return redirect()->back()->with('error', 'Quiz distributed: Deletion not allowed!.');
         }
+        
 
-        $quiz->delete();
-
-        return redirect()->back()->with('success', 'Successfully Deleted');
+        
     }
 
     public function editQuiz($id)
@@ -180,26 +209,7 @@ class QuizManagementController extends Controller
         
     }
 
-    // +request: Symfony\Component\HttpFoundation\ParameterBag {#36 ▼
-    //     #parameters: array:5 [▼
-    //       "subject_id" => 2
-    //       "title" => "Quiz 1"
-    //       "grading_period" => "1st"
-    //       "duration" => 20
-    //       "questions" => array:2 [▼
-    //         0 => array:3 [▼
-    //           "question" => "What does RAM stands for?"
-    //           "correct_answer" => "Random Access Memory"
-    //           "choices" => array:3 [▶]
-    //         ]
-    //         1 => array:3 [▼
-    //           "question" => "Who is the current president of the Philippines"
-    //           "correct_answer" => "Ferdinan Marcos Jr."
-    //           "choices" => array:3 [▶]
-    //         ]
-    //       ]
-    //     ]
-    //   }
+   
     public function update(Request $request)
     {
         
@@ -223,6 +233,7 @@ class QuizManagementController extends Controller
             $quiz->title            = $request['title'];
             $quiz->grading_period   = $request['grading_period'];
             $quiz->duration         = $request['duration'];
+            $quiz->updated_by       = Auth::user()->id;
             $quiz->save();
 
             $deletedQuestion = $request->deleted_question_id;
@@ -403,7 +414,7 @@ class QuizManagementController extends Controller
         return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Instructor/InstructorActiveQuizzesAll',[
             'quizzes' => $quizzes,
         ]);
-    }
+    }   
 
     public function showPastDueQuiz()
     {
@@ -451,14 +462,15 @@ class QuizManagementController extends Controller
             $query->with('question');
         }])
         ->where('status','!=','pending')
+        ->where('sent_by', $instructorId)
         ->latest();
         
         
 
-        $instructorHandledSection = Section::where('instructor_id', '=', $instructorId )->get();
+        $instructorHandledSection = User::with('instructorSections')->find($instructorId);
         
         return inertia('AdminDashboard/AdminPages/ExaminationManagement/QuizManagement/Instructor/InstructorQuizResult',[
-            'studentResults' => $studentResults->filteredData($filters)->paginate(2),
+            'studentResults' => $studentResults->filteredData($filters)->paginate(10),
             'instructorHandledSection' => $instructorHandledSection,
         ]);
     }

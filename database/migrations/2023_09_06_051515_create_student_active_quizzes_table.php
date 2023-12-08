@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('section_id');
             $table->unsignedBigInteger('quiz_id');
-            $table->enum('grading_period',['First Grading','Second Grading','Third Grading', 'Fifth Grading']);
+            $table->enum('grading_period',['First Grading','Second Grading','Third Grading', 'Fourth Grading']);
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('quiz_score')->nullable();

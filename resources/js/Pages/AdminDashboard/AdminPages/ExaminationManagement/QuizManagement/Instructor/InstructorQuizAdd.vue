@@ -312,7 +312,7 @@ const gradingPeriod = ref([
     {'name':'First Grading'},
     {'name':'Second Grading'},
     {'name':'Third Grading'},
-    {'name':'Fifth Grading'},
+    {'name':'Fourth Grading'},
 ]) 
 
 const selectedGradingPeriod = ref(null)

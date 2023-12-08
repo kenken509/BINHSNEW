@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             WebAnalysysSeeder::class,
             GuestUserSeeder::class,
             SchoolYearSeeder::class,
+            Instructor_Sections_Seeder::class,
         ]);
         
         

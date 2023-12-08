@@ -25,4 +25,6 @@ class SentQuiz extends Model
     {
         return $this->hasMany(StudentActiveQuiz::class, 'sent_quizzes_id ', 'id');
     }
+
+    
 }

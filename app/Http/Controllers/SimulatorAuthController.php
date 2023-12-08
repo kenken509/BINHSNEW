@@ -9,6 +9,7 @@ use App\Models\StudentGrade;
 use Illuminate\Http\Request;
 use App\Mail\OtpVerification;
 use App\Models\StudentActiveQuiz;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -77,16 +78,7 @@ class SimulatorAuthController extends Controller
        
          $QuizToUpdate = StudentActiveQuiz::where('student_id', '=', $request->id)
                                              ->where('quiz_id', '=', $request->quiz_id)->first();
-                                             
-        
-        
-        
-        
-        
-                                         
-        
-        
-        
+
         
         if($QuizToUpdate != null)
         {
@@ -98,7 +90,8 @@ class SimulatorAuthController extends Controller
             else
             {
                 try{
-                    
+                    DB::beginTransaction();
+
                     $QuizToUpdate->quiz_score = $request->quiz_score;
                     $QuizToUpdate->quiz_grade = $request->quiz_grade;
 
@@ -112,13 +105,14 @@ class SimulatorAuthController extends Controller
                     }
                     
                     $QuizToUpdate->save();
-        
-                    if($QuizToUpdate->grading_period == '1st'){
+                    
+                    //['First Grading','Second Grading','Third Grading', 'Fifth Grading']
+                    if($QuizToUpdate->grading_period == 'First Grading'){
 
                         try{
-
+                            //get all the student quizzes and get the average grade
                             $studentFistGradingAverage = StudentActiveQuiz::where('student_id', '=', $request->id)
-                                    ->where('grading_period','=', '1st')
+                                    ->where('grading_period','=', 'First Grading')
                                     ->get()->avg('quiz_grade');
                             
                             
@@ -141,16 +135,14 @@ class SimulatorAuthController extends Controller
                         catch(\Exception $e){
                             return response()->json(["status:" => 'FAILED TO UPDATE  STUDENT 1ST GRADING PEROID']);
                         }
-                        
-
                     }
 
-                    if($QuizToUpdate->grading_period == '2nd'){
+                    if($QuizToUpdate->grading_period == 'Second Grading'){
 
                         try{
 
                             $studentSecondGradingAverage = StudentActiveQuiz::where('student_id', '=', $request->id)
-                                    ->where('grading_period','=', '2nd')
+                                    ->where('grading_period','=', 'Second Grading')
                                     ->get()->avg('quiz_grade');
                             
                             
@@ -177,12 +169,12 @@ class SimulatorAuthController extends Controller
 
                     }
 
-                    if($QuizToUpdate->grading_period == '3rd'){
+                    if($QuizToUpdate->grading_period == 'Third Grading'){
 
                         try{
 
                             $studentThirdGradingAverage = StudentActiveQuiz::where('student_id', '=', $request->id)
-                                    ->where('grading_period','=', '3rd')
+                                    ->where('grading_period','=', 'Third Grading')
                                     ->get()->avg('quiz_grade');
                             
                             
@@ -209,12 +201,12 @@ class SimulatorAuthController extends Controller
 
                     }
 
-                    if($QuizToUpdate->grading_period == '4th'){
+                    if($QuizToUpdate->grading_period == 'Fourth Grading'){
 
                         try{
 
                             $studentFourthGradingAverage = StudentActiveQuiz::where('student_id', '=', $request->id)
-                                    ->where('grading_period','=', '4th')
+                                    ->where('grading_period','=', 'Fourth Grading')
                                     ->get()->avg('quiz_grade');
                             
                             
@@ -241,6 +233,7 @@ class SimulatorAuthController extends Controller
 
                     }
                     
+                    DB::commit();
                     return response()->json(["status" => "Graded Successfully!"]);
                 }catch(\Exception $e){
                     return response()->json(["status" => "ERROR : FAILED TO SUBMIT GRADES!!"]);
@@ -250,6 +243,7 @@ class SimulatorAuthController extends Controller
         }
         else
         {
+            DB::rollBack();
             return responso()->json(["status" => "Error: FAILED TO SUBMIT GRADES!!"]);
         }
         

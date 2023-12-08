@@ -5,8 +5,9 @@
         </div>
         <!-- <div v-if="$page.props.flash.success" class="bg-green-300 mb-2 p-1 rounded-md text-gray-600">{{ $page.props.flash.success  }} </div> -->
 
+        <!-- <div v-for="subject in section.subjects">{{ subject.instructor }}</div> -->
         
-
+      
         <form @submit.prevent="confirmUpdate">
             <div class="w-full mb-4 ">
                 <div class="mb-5">Name: </div>
@@ -26,7 +27,9 @@
             </div>
             <hr>
             <div class="my-5">Instructor: </div>
+            
             <div v-for="subject in section.subjects">
+               
                 <div v-if="subject === selectedSubject">
                     <div>
                         <Dropdown  v-model="selectedInstructor" :options="existingInstructors" optionLabel="lName" placeholder="Select a Instructor" class="w-full md:w-14rem "  />
@@ -57,8 +60,8 @@ const section = defineProps({
 })
 const sectionSubject = section.subjects.filter((subject)=> subject.id === section.section.subject.id)
 const selectedSubject = ref(sectionSubject[0]);
-const selectedInstructor = ref(section.section.instructor)
-const existingInstructors = ref([]);
+const selectedInstructor = ref(null)
+const existingInstructors = ref(null);
 
 
 
@@ -66,7 +69,7 @@ const form = useForm({
     section_id:section.section.id,
     name:section.section.name,
     subject_id:section.section.subject.id,
-    instructor_id:section.section.instructor.id,
+    instructor_id:section.section.instructors[0].id,
 })
 
 const hasReloaded = localStorage.getItem('hasReloaded');
@@ -79,6 +82,7 @@ onMounted(()=>{
         localStorage.removeItem('hasReloaded');
     }
 
+    
 
     section.subjects.forEach(element => {
         
@@ -89,12 +93,22 @@ onMounted(()=>{
         }
     });
 
+    
+       existingInstructors.value.forEach(value =>{
+            if(value.id === section.section.instructors[0].id)
+            {
+                selectedInstructor.value = value;
+            }
+        });
+    
+    
     //console.log(existingInstructors)
 })
 console.log("current instructor id: "+form.instructor_id)
 watch(selectedSubject,(val)=>{
     form.instructor_id = null;
     form.subject_id = val.id;
+
 
     section.subjects.forEach(element => {
         if(element.id === val.id){
@@ -109,6 +123,7 @@ watch(selectedSubject,(val)=>{
 
 watch(selectedInstructor, (val)=>{
     console.log(val.id);
+    
     form.instructor_id = val.id;
 })
 const submit = ()=> form.post(route('section.update',{

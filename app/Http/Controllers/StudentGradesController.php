@@ -28,7 +28,7 @@ class StudentGradesController extends Controller
        
         
         
-        
+        //dd($instructorSections);
 
         // dd($instructoSections);
         // foreach ($instructoSections as $section) {
@@ -37,17 +37,20 @@ class StudentGradesController extends Controller
 
        
             
-        // $studentGrades = StudentGrade::with(['student' => function ($query) {
-        //     $query->where('role', '=', 'student')
-        //         ->with(['studentActiveQuiz' => function ($query) {
-        //             $query->whereIn('status', ['passed', 'failed']);
-        //         }])->with('section');
-        // }])->get();
+        $studentGrades = StudentGrade::with(['student' => function ($query) {
+            $query->where('role', '=', 'student')
+                ->with(['studentActiveQuiz' => function ($query) {
+                    $query->whereIn('status', ['passed', 'failed'])
+                        ->with(['quiz' => function ($query){
+                            $query->with('question');
+                        }]);
+                }])->with('section');
+        }])->get();
 
         
-        // return inertia('AdminDashboard/AdminPages/StudentGrades/InstructorPage/StudentGradesAll',[
-        //     'studentGrades' => $studentGrades,
-        // ]);
+        return inertia('AdminDashboard/AdminPages/StudentGrades/InstructorPage/StudentGradesAll',[
+            'studentGrades' => $studentGrades,
+        ]);
         
     }
 }

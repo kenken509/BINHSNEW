@@ -9,7 +9,7 @@
                 </span>
             </div>
         </div>
-         TO DO: GRADE INFO MODAL
+         TO DO: GRADE INFO MODAL 
         <div class=" overflow-x-auto shadow-md rounded-lg " >
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" >
                 <thead class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -28,7 +28,7 @@
                         <th scope="col" class="px-6 py-3 text-center">
                             <span>ID</span>
                         </th>
-                        <tH scope="col" class="px-6 py-3 text-center">
+                        <th scope="col" class="px-6 py-3 text-center">
                             <span>NAME</span>
                         </th>
                         <th scope="col" class="px-6 py-3 text-center">
@@ -60,6 +60,7 @@
                 </thead>
                 <tbody v-for="grade in currentPageItems" :key="grade.id">
                     <tr  class="bg-white border-b ">
+             
                         <td scope="row" class=" py-4 font-medium text-gray-900 text-center ">
                             {{ grade.student.student_number }}
                         </td>
@@ -83,10 +84,10 @@
                         </td>
                         <td  scope="row" class=" py-4 font-medium text-gray-900 text-center ">
                             <span class="text-red-500" v-if="grade.fourth_grading < 1">
-                                pending 
+                                pending  
                             </span>
                             <span v-else>
-                                {{ grade.final_grade }}
+                                {{ grade.final_grade }} 
                             </span>
                         </td>
                         <td scope="row" class=" py-4 font-medium text-gray-900 text-center ">
@@ -98,60 +99,135 @@
                             </span>
                         </td>
                         <td class=" text-center ">
-                            <span class="pi pi-eye text-green-600 scale-150 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'Grade Info'" @click="showStudentsModal(section.id)"></span>
+                            <span class="pi pi-eye text-green-600 scale-150 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'Grade Info'" @click="handleGradeInfoModal(grade.id)"></span>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
             <!--Grade info modal-->
-            <!-- <div class="card flex justify-content-center userInfo">
-                <Dialog v-model:visible="visible" modal    :style="{ width: '90vw' } ">
-                    <div class=" overflow-x-auto shadow-md rounded-lg ">  
-                        <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
-                            <thead class="text-xs text-gray-200 uppercase bg-green-700  ">
-                                <tr  >
-                                    <th scope="col" class="px-6 py-3 text-center">
-                                        ID# 
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-center">
-                                        Name
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-center">
-                                        Email
-                                    </th>
-                                    <th v-if="sections.sections" scope="col" class="px-6 py-3 text-center">
-                                        Gender
-                                    </th>
-                                    
-                                </tr>
-                            </thead>
-
-                            <tbody v-for="students in sections.studentUser">
-                                <tr v-if="(students.section_id === selectedSection) && students.role === 'student' " class="bg-white border-b ">
-                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
-                                        {{ students.id }}
-                                    </td>
-                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
-                                        {{ students.fName }}, {{ students.lName }}
-                                    </td>
-                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
-                                        {{ students.email }} 
-                                    </td>
-                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
-                                        {{ students.gender }} 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <div v-if="showGradeInfo" class="card flex justify-content-center userInfo "  >
+                <Dialog v-model:visible="showGradeInfo" modal :test="selectedStudentGradeId"   :style="{ width: '90vw' } ">
                     
+                   <div ref="printable">
+                        <!-- Add your header content here -->
+                        <div class="flex flex-col justify-center items-center w-full bg-[#034515] " >
+                            <div class=" w-[100%] text-center text-2xl font-semibold ">
+                                
+                                <div class="flex w-[100%] justify-between p-2 items-center font-sans ">
+                                    <div class="flex items-center w-[100%] md:w-[70%]">
+                                        <div class="flex "><img :src="'/storage/Images/logo1.png'" alt="TLE Logo" class="w-[100px]"/></div>
+                                        <div class="flex flex-col items-start ml-2 w-[100%] md:w-[70%]  ">
+                                            <span class="text-[20px] leading-tight mb-[2px] tracking-wider text-gray-200">BINHS</span>
+                                            <span class="  md:inline-block text-[7px] md:text-[12px] text-gray-300  leading-tight mb-[2px]">Bulihan Integrated National Highschool</span>
+                                            <span class=" hidden md:inline-block text-[12px] text-gray-300  leading-tight mb-[2px]">Brgy. Old Bulihan, Silang, Philippines</span>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="flex flex-col justify-end items-end mr-4 invisible w-0 md:w-60  md:visible space-y-1  pt-2 ">
+                                        <span class="text-[12px] text-center leading-tight w-[200px] text-gray-200 flex items-center   "><i class="pi pi-phone px-1" style="font-size: 1rem"></i>Contact #: 0924-123-4567</span>
+                                        <div class="flex items-center w-[200px] space-x-1 ">
+                                            <svg class="h-5 w-5 text-gray-200 "  width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <polyline points="3 9 12 15 21 9 12 3 3 9" />  <path d="M21 9v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" />  <line x1="3" y1="19" x2="9" y2="13" />  <line x1="15" y1="13" x2="21" y2="19" /></svg>
+                                            <span class="text-[12px] text-center  text-gray-200 ">
+                                                email: bulihan@gmail.com
+                                            </span>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    
+                        <div class="w-full mt-2">
+                            <hr class="border-t-4 border-black">
+                        </div>
+                        <div class="flex justify-center">
+                            <span class="text-gray-700 text-[18px] font-semibold mt-2">Student Grades Information</span>
+                        </div>
+                        <div class="w-full mt-2">
+                            <hr class="border-t-2 border-gray-400">
+                        </div>
+                        <div v-for="student in currentPageItems"  class=" overflow-x-auto shadow-md rounded-lg ">  
+                        <div  v-if="(student.id === selectedStudentGradeId)" >
+                                <div class="p-2">
+                                    <div class="flex flex-col md:flex-row justify-between text-gray-700 text-[20px] my-2">
+                                        <span>Name: {{ student.student.lName }}, {{ student.student.fName }}</span>
+                                        <span>Section: {{ student.student.section.name }}</span>
+                                    </div>
+                                    <table v-for="quizzes in student.student.student_active_quiz" class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
+                                        <thead class="text-xs text-gray-200 uppercase bg-green-700  ">
+                                            <tr  >
+                                                <th scope="col" class="px-6 py-3 text-center">
+                                                    ID#
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-center">
+                                                    title
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-center">
+                                                    grading period
+                                                </th>
+                                                
+                                                <th scope="col" class="px-6 py-3 text-center">
+                                                    date taken
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-center">
+                                                    items
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-center">
+                                                    score
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-center">
+                                                    grade
+                                                </th>
+                                                
+                                                <th scope="col" class="px-6 py-3 text-center">
+                                                    status
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            <td  scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                                {{ quizzes.id }}
+                                            </td>
+                                            <td  scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                                {{ quizzes.quiz.title }}
+                                            </td>
+                                            <td  scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                                {{ quizzes.grading_period }}
+                                            </td>
+                                            
+                                            <td  scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                                {{ dateFormat(quizzes.updated_at)  }}
+                                            </td>
+                                            <td  scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                                {{ quizzes.quiz.question.length }}
+                                            </td>
+                                            <td  scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                                {{ quizzes.quiz_score  }}
+                                            </td>
+                                            <td  scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                                {{ quizzes.quiz_grade  }}
+                                            </td>
+                                            <td  scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                                {{ quizzes.status  }}
+                                            </td>
+
+                                        </tbody>
+                                    </table>
+                                </div> <!--here-->
+                        </div>
+                        </div>
+                    </div> 
                     <template #footer>
-                        <Button label="Close" icon="pi pi-times" @click="visible = false" text />
-                        <Button label="Print" icon="pi pi-check" @click="printPage" autofocus />
+                        <Button label="Close" icon="pi pi-times" @click="showGradeInfo = false" text />
+                        <Button label="Print" icon="pi pi-check" @click="printDiv" />
                     </template>
                 </Dialog>
-            </div> -->
+            </div>
             <!--Grade info modal-->
         </div>
 
@@ -175,7 +251,8 @@
 
 <script setup>
 import DashboardLayout from '../../../Layout/DashboardLayout.vue';
-import { usePage } from '@inertiajs/vue3';
+
+import { usePage, useForm } from '@inertiajs/vue3';
 import {ref,onMounted,computed,watch} from 'vue'
 
 
@@ -261,6 +338,94 @@ const changePageClick = (index)=>
 {
     currentPage.value = index;
 }
+
+// grade info logic
+const showGradeInfo = ref(false);
+const selectedStudentGradeId = ref(null)
+
+const handleGradeInfoModal = (studentGradeId) =>{
+    showGradeInfo.value = !showGradeInfo.value
+    selectedStudentGradeId.value = studentGradeId
+    
+}
+
+const flashClear = useForm({
+  clear: null,
+})
+
+const printable = ref(null);
+
+function printDiv() {
+    const printContents = printable.value.innerHTML;
+    const originalContents = document.body.innerHTML;
+
+    // Create a new windows
+    const printWindow = window.open('', '_blank');
+
+    // Write the printable content to the new window
+    printWindow.document.write('<html><head><title>Print</title>');
+    
+    // Manually include some Tailwind CSS styles
+    printWindow.document.write('<style>');
+    printWindow.document.write('body { font-family: "Arial", sans-serif; background-color:blue; }');
+    printWindow.document.write('.text-red-500 { color: #ef4444; }'); // Example Tailwind class
+    // Include other styles as needed
+    printWindow.document.write('</style>');
+
+    // Complete the head section and start the body
+    printWindow.document.write('</head><body>');
+    
+    // Add the printable content
+    printWindow.document.write(printContents);
+
+    // Complete the body and HTML
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+
+    // Listen for the afterprint event
+    printWindow.onafterprint = () => {
+        printWindow.close();
+        showGradeInfo.value = false; // Close the modal after printing
+    };
+
+    // Open the print dialog in the new window
+    printWindow.print();
+}
+
+function dateFormat(inputDate) {
+    const date = new Date(inputDate);
+
+    // Check if date is valid
+    if (isNaN(date.getTime())) {
+        console.error('Invalid date');
+        return null;
+    }
+
+    const months = [
+        'Jan', 'Feb', 'March', 'April',
+        'May', 'June', 'July', 'Aug',
+        'Sept', 'Oct', 'Nov', 'Dec'
+    ];
+
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? ' pm' : ' am';
+
+    // Convert hours to 12-hour format
+    hours = hours % 12;
+    hours = hours === 0 ? 12 : hours;
+
+    const formattedDate = `${month} ${day}, ${year} ${hours}:${minutes < 10 ? '0' : ''}${minutes}${ampm}`;
+
+    return formattedDate;
+}
+
+
+
 
 
 </script>

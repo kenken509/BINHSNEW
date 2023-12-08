@@ -19,7 +19,8 @@ class QuizSeeder extends Seeder
             'subject_id'        => 3,
             'grading_period'    => 'First Grading',
             'duration'          => 20,
-            'school_year'       => '2023-2024'
+            'school_year'       => '2023-2024',
+            'created_by'        => 5
         ]);
 
         DB::table('quizzes')->insert([
@@ -27,7 +28,8 @@ class QuizSeeder extends Seeder
             'subject_id'        => 3,
             'grading_period'    => 'First Grading',
             'duration'          => 20,
-            'school_year'       => '2023-2024'
+            'school_year'       => '2023-2024',
+            'created_by'        => 5
         ]);
 
         DB::table('quizzes')->insert([
@@ -35,7 +37,8 @@ class QuizSeeder extends Seeder
             'subject_id'        => 3,
             'grading_period'    => 'First Grading',
             'duration'          => 20,
-            'school_year'       => '2023-2024'
+            'school_year'       => '2023-2024',
+            'created_by'        => 4
         ]);
     }
 }

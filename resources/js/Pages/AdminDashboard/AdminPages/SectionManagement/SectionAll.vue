@@ -10,7 +10,7 @@
                 </span>
             </div>
         </div>
-        {{ handledSections }}  
+       
         <div v-if="$page.props.flash.success" >{{ successMessage($page.props.flash.success) }} </div>
         <div class=" overflow-x-auto shadow-md rounded-lg ">
             <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -20,14 +20,14 @@
                             ID#
                         </th>
                         <th scope="col" class="px-6 py-3 text-center">
+                            Instructor
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center">
                             Name
                         </th>
                         <th scope="col" class="px-6 py-3 text-center">
                             Subject
-                        </th>
-                        <th v-if="sections.sections" scope="col" class="px-6 py-3 text-center">
-                            Instructor
-                        </th>
+                        </th> 
                         <th v-if="sections.sections" scope="col" class="px-6 py-3 text-center">
                             Students
                         </th>
@@ -46,7 +46,7 @@
                         <th v-if="sections.sections" scope="col" class="px-6 py-3 ">
                             Instructor
                         </th>
-                        <th v-if="sections.sections" scope="col" class="px-6 py-3 ">
+                        <th v-if="sections.sections" scope="col" class=" text-center px-6 py-3 ">
                             Students
                         </th>
                         <th v-if="sections.sections" scope="col" class="px-6 py-3 ">
@@ -54,6 +54,8 @@
                         </th>
                     </tr>
                 </thead>
+                
+
                 <tbody v-if="user.role === 'admin'" v-for="section in currentPageItems" :key="section.id" >
                     <tr class="bg-white border-b ">
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900  ">
@@ -66,44 +68,53 @@
                             {{ section.subject.name}}
                         </td>
                         
-                        <td v-if="section.instructor" scope="row" class="px-6 py-4 font-medium text-gray-900  ">
-                            {{ section.instructor.fName+', '+ section.instructor.lName }}
+                        <td v-for="instructor in section.instructors" scope="row" class="px-6 py-4 font-medium text-gray-900  ">
+                            {{ instructor.lName }}, {{  instructor.fName }}
                         </td>
-                        <td class=" px-6 ">
+                        <td class="text-center px-6 ">
                             <span class="pi pi-eye text-green-600 scale-150 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'View students'" @click="showStudentsModal(section.id)"></span>
                         </td>
                         <td>
                             <div  class=" space-x-4 px-2">
-                                <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 mx-2 cursor-pointer" @click="deleteConfirmation(section.id)"></span>
-                                <!-- <Link :href="route('section.delete', {section:section.id})" class="cursor-pointer" v-tooltip.left="'Delete Section'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 mx-2"></span></Link> -->
-                                <Link :href="route('section.edit', {id:section.id})" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit Section'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
+                                <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 mx-2 cursor-pointer" @click="deleteConfirmation(section.id)"></span> 
+                                 <!-- <Link :href="route('section.delete', {section:section.id})" class="cursor-pointer" v-tooltip.left="'Delete Section'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 mx-2"></span></Link> -->
+                                 <Link :href="route('section.edit', {id:section.id})" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit Section'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link>
                             </div>    
                         </td>
                     </tr>
-                    
                 </tbody>
                 
+
+
+
                 <tbody v-if="user.role === 'instructor'" v-for="section in currentPageItems" :key="section.id" class="" >
-                    <tr  class="bg-white border-b ">
-                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                    <div >
+                        <div ></div>
+                    </div>
+                    
+                    <tr v-for="instructorSection in section.instructors"  class="bg-white border-b ">
+                        <td v-if="instructorSection.id === user.id" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
                             {{ section.id }}
                         </td>
-                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
-                        {{ section.name }}
+                        <td v-if="instructorSection.id === user.id" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                            {{ instructorSection.lName }}, {{ instructorSection.fName }}
                         </td>
-                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                        <td  v-if="instructorSection.id === user.id" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                            {{ section.name }}
+                        </td>
+                        <td  v-if="instructorSection.id === user.id"  scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
                             {{ section.subject.name}}
                         </td>
-                        <td v-if="section.instructor" scope="row" class="px-6 py-4 font-medium text-gray-900  text-center">
-                            {{ section.instructor.fName+', '+ section.instructor.lName }}
-                        </td>
+                        
+
+                        <!-- comment this part-->
                         <!-- <div v-for="students in sections.studentUser" >
                             <td v-if="(students.section_id === section.id) && students.role === 'student' " scope="row" class="px-6 py-4 font-medium text-gray-900  ">
                                 {{ students.fName }} 
                             </td>
                         </div> -->
-                        
-                        <td class=" text-center ">
+                        <!-- comment this part-->
+                        <td  v-if="instructorSection.id === user.id" class=" text-center ">
                             <span class="pi pi-eye text-green-600 scale-150 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'View students'" @click="showStudentsModal(section.id)"></span>
                         </td>
                     </tr>
@@ -115,11 +126,14 @@
             <div class="card flex justify-content-center userInfo">
                 <Dialog v-model:visible="visible" modal    :style="{ width: '90vw' } ">
                     <div class=" overflow-x-auto shadow-md rounded-lg ">   <!-- v-for="students in sections.studentUser" -->
-                        <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
+                        <table   class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
                             <thead class="text-xs text-gray-200 uppercase bg-green-700  ">
                                 <tr  >
                                     <th scope="col" class="px-6 py-3 text-center">
                                         ID# 
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-center">
+                                        Section
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-center">
                                         Name
@@ -127,29 +141,36 @@
                                     <th scope="col" class="px-6 py-3 text-center">
                                         Email
                                     </th>
+                                    
                                     <th v-if="sections.sections" scope="col" class="px-6 py-3 text-center">
                                         Gender
                                     </th>
                                     
                                 </tr>
                             </thead>
-
-                            <tbody v-for="students in sections.studentUser">
-                                <tr v-if="(students.section_id === selectedSection) && students.role === 'student' " class="bg-white border-b ">
-                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
-                                        {{ students.id }}
-                                    </td>
-                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
-                                        {{ students.fName }}, {{ students.lName }}
-                                    </td>
-                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
-                                        {{ students.email }} 
-                                    </td>
-                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
-                                        {{ students.gender }} 
-                                    </td>
-                                </tr>
-                            </tbody>
+                            
+                                <tbody v-for="section in sections.sections"  >
+                                    <tr  v-for="student in section.student"  class="bg-white border-b ">
+                                        <td v-if="student.section.id === selectedSection" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                            {{ student.id }}
+                                        </td>
+                                        <td v-if="student.section.id === selectedSection" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                            {{ student.section.name }} 
+                                        </td>
+                                        <td v-if="student.section.id === selectedSection" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                            {{ student.lName }}, {{ student.fName }}
+                                        </td>
+                                        <td v-if="student.section.id === selectedSection" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                            {{ student.email }} 
+                                        </td>
+                                        
+                                        <td v-if="student.section.id === selectedSection" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                            {{ student.gender }} 
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            
+                            
                         </table>
                     </div>
                     
@@ -185,32 +206,18 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import DashboardLayout from '../../Layout/DashboardLayout.vue';
 import { usePage, Link, router } from '@inertiajs/vue3';
-import { DialogDescription, MenuItems } from '@headlessui/vue';
 import Swal from 'sweetalert2';
 
 
 const user = usePage().props.user;
 
-const instructorSections = ref([]);
-const handledSections = computed(()=>{
-    
-    sections.sections.forEach((section) =>{
-        if(section.instructor_id === user.id)
-        {
-            instructorSections.value.push(section);
-        }
-    })
-    
-})
 
 
 
 const sections = defineProps({
     sections:Array,
     studentUser:Array,
-    
 });
-
 
 
 onMounted(()=>{
@@ -303,7 +310,10 @@ function handleSearchFieldInput(){
         filteredData.value = sections.sections.filter(section =>
             Object.values(section).some(value => typeof value === 'string' && value.toLowerCase().includes(searchField.value.toLowerCase())) ||
             Object.values(section.subject).some(value => typeof value === 'string' && value.toLowerCase().includes(searchField.value.toLowerCase())) ||
-            Object.values(section.instructor).some(value => typeof value === 'string' && value.toLowerCase().includes(searchField.value.toLowerCase())) 
+            section.instructors.some(instructor => 
+                Object.values(instructor).some(value => typeof value === 'string' && value.toLowerCase().includes(searchField.value.toLowerCase())
+            )
+    )
         );        
     } 
 }
@@ -315,6 +325,8 @@ const currentPage = ref(1);
 
 
 const totalPages = computed(() => Math.ceil(filteredData.value.length / itemsPerPage.value));
+
+
 const pageNumbers = ref([]);
 watch(currentPage,(val)=>{
     console.log(val);
@@ -345,5 +357,10 @@ const changePageClick = (index)=>
     currentPage.value = index;
 }
 
+const createFinalGrade = (id) => {
+    return computed(()=>{
+        console.log(id)
+    })
+}
 
 </script>

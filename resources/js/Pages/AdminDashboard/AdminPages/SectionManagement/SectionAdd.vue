@@ -84,6 +84,7 @@ watch(selectedSubject,(val)=>{
 })
 watch(selectedInstructor,(val)=>{
     form.instructor_id = val.id;
+    console.log(selectedInstructor.value);
 })
 
 const submit = () => form.post(route('section.store',{
