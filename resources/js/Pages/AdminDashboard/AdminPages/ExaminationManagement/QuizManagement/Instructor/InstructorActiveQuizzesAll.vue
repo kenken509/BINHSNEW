@@ -33,7 +33,9 @@
                        <th scope="col" class=" text-center px-6 py-3">
                            End Date
                        </th>
-                       
+                       <th scope="col" class=" text-center px-6 py-3">
+                           Info
+                       </th>
                    </tr>
                </thead>
                
@@ -56,6 +58,9 @@
                        <td  v-if="instructorSection.id === quiz.section_id" scope="row" class="px-6 py-4 font-medium text-gray-900 ">
                            {{ formatDate(quiz.end_date) }}
                        </td>
+                       <td class=" text-center ">
+                            <span class="pi pi-eye text-green-600 scale-150 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'Grade Info'" @click="handleshowQuizInfo()"></span>
+                        </td>
                        
                        <!-- <td  v-if="instructorSection.id === quiz.section_id">
                            <div class="flex px-6  space-x-6 ">
@@ -64,8 +69,62 @@
                            <!-- </div>    
                        </td> -->
                    </tr>
-                   
+                   <Dialog v-model:visible="showQuizInfo" modal :test="selectedStudentGradeId"   :style="{ width: '90vw' } ">
+                        
+                        <div>
+                            <span class=" font-extrabold text-[24px] text-gray-500">Quiz Information</span>
+                            <div class="w-full">
+                                <hr class="border-t-2 border-gray-500">
+                            </div>
+                        </div>
+                        <div class="pl-2">
+                            
+                            <div class="flex items-center w-full mt-4">
+                                <span class="text-[23px]">Title: <span class="underline underline-offset-[4px]">{{ quiz.quiz.title }}</span></span>
+                            </div>
+                            <div class="w-full ">
+                                <span class="text-[23px]">Section: <span class="underline underline-offset-[4px]">{{ quiz.section.name }}</span></span>
+                            </div>
+                            <div class="w-full ">
+                                <span class="text-[23px]">Grading Period: <span class="underline underline-offset-[4px]">{{ quiz.quiz.grading_period }}</span></span>
+                                <hr class="border-t-2 border-gray-300 mt-2">
+                            </div>
+                            <div class="border border-2 rounded-md shadow-md mt-2 p-2">
+                                <div class="w-full ">
+                                    <span class="text-[23px]">Questions:</span>
+                                </div>
+                                <div v-for="(questions, index) in quiz.quiz.question" :key="quiz.id" class="w-full  ">
+                                    <div>
+                                        <div>
+                                            <span class="text-[23px]">{{ index+1 }}. {{questions.question}}</span>
+                                        
+                                        </div>
+                                        <div class="ml-11 mt-2"> 
+                                            <span class="text-green-500 underline underline-offset-[4px]">
+                                                Correct Answer: 
+                                                <span >{{ questions.correct_answer }} <i class="pi pi-check" style="font-size: 1rem"></i></span>
+                                            </span>
+                                        </div>
+                                        <div class="mt-2">
+                                            <div class=" ml-11">A. {{ questions.choices.option_a }}</div>
+                                            <div class="ml-11">B. {{ questions.choices.option_b }}</div>
+                                            <div class="ml-11">C. {{ questions.choices.option_c }}</div>
+                                            <div class="ml-11">D. {{ questions.choices.option_d }}</div>
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <template #footer>
+                            <Button label="Close" icon="pi pi-times" style="background-color: #4F46E5; color: whitesmoke;" @click="handleshowQuizInfo" text />
+                            
+                        </template>
+                   </Dialog>
                </tbody>
+               
            </table>
            
             <!--ACTIVATE QUIZ MODAL-->
@@ -124,6 +183,8 @@
 
         
    </DashboardLayout>
+
+   
 </template>
 
 <script setup>
@@ -262,5 +323,13 @@ const prevPage = () => {
 const changePageClick = (index)=>
 {
     currentPage.value = index;
+}
+
+// quiz info modal logic
+
+const showQuizInfo = ref(false);
+
+const handleshowQuizInfo = () =>{
+    showQuizInfo.value = !showQuizInfo.value
 }
 </script>

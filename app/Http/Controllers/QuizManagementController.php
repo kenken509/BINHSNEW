@@ -407,7 +407,7 @@ class QuizManagementController extends Controller
 
         $quizzes = SentQuiz::with(['quiz' => function ($query) {
             $query->with(['question' => function ($query) {
-                $query->inRandomOrder();
+                $query->with('choices')->inRandomOrder();
             }]);
         }, 'section'])->whereDate('end_date', '>=', $currentDate)->latest()->get();
         
