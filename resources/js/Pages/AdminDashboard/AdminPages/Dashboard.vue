@@ -10,6 +10,7 @@
                 >School year: {{ currentSchoolYear }}</span
             >
         </div>
+        <div class="text-red-500">TO DO: ADD USER'S PERCENTAGE COMPARISON FROM PREVIOUS SCOOLYEAR!!</div>
         <section class="grid grid-cols-12 mt-4">
             <div class="col-span-12 md:col-span-3">
                 <DashboardCard
@@ -99,7 +100,7 @@
             </div>
         </div>
 
-        <div>
+        <div v-if="user.role === 'instructor'">
             <TopTenCard :TopTenFirstGrading="data.TopTenFirstGrading" />
         </div>
         <!-- <div class="flex justify-center items-center border-bot-only border-gray-600 shadow-md mb-[30px] mt-[50px] ">

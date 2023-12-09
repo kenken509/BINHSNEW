@@ -6,7 +6,7 @@
         <div
             class="flex justify-center items-center font-bold border-t-2 pt-2 border-gray-300"
         >
-            {{ TopTenFirstGrading[0].student.subject.name }} - FIRST GRADING
+            {{ getInstructorSubject(user.subject_id) }} - FIRST GRADING 
         </div>
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -56,7 +56,38 @@
 </template>
 
 <script setup>
+import { computed,ref } from "vue";
+import { usePage } from "@inertiajs/vue3";
+
+const user = computed(() => usePage().props.user);
 defineProps({
     TopTenFirstGrading: Array,
 });
+
+ const instructorSubject = ref(null); 
+ 
+
+function getInstructorSubject(subjectId){
+
+    
+    switch(subjectId){
+        case 1:
+            instructorSubject.value = 'Agri-Fishery Arts';
+            break; 
+        
+        case 2:
+            instructorSubject.value = 'HOME ECONOMICS';
+            break;
+
+        case 3:
+            instructorSubject.value = 'ICT';
+            break;
+
+        case 4:
+            instructorSubject.value = 'INDUSTRIAL ARTS';
+            break;
+    }
+
+    return instructorSubject.value
+}
 </script>

@@ -96,14 +96,19 @@ class AdminDashboardController extends Controller
 
         
         $instructorSubject = Auth::user()->subject_id;
-
+            
+        //$instructorSubject= 3;
+       
         
-        $instructorTopTenFirstGrading = StudentGrade::with(['student' => function ($query) use ($instructorSubject) {
-            $query->with(['subject' => function ($query) use ($instructorSubject) {
-                $query->where('id', $instructorSubject);
-            }]); 
-        }])->orderBy('first_grading', 'desc')->get();
+        $instructorTopTenFirstGrading = StudentGrade::whereHas('student', function ($query) use ($instructorSubject) {
+            $query->where('subject_id', $instructorSubject);
+        })
+        ->with('student.subject') // Eager load the "student" and its "subject" relationship
+        ->orderBy('first_grading', 'desc')
+        ->take(10) // Limit the results to 10
+        ->get();
 
+        // dd($instructorTopTenFirstGrading);
         
         
         
