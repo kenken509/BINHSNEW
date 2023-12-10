@@ -10,7 +10,7 @@
                 >School year: {{ currentSchoolYear }}</span
             >
         </div>
-        <div class="text-red-500">TO DO: ADD USER'S PERCENTAGE COMPARISON FROM PREVIOUS SCOOLYEAR!!</div>
+        <div class="text-red-500">TO DO: ADD USER'S PERCENTAGE COMPARISON FROM PREVIOUS SCOOLYEAR!! ADD FILTERS PER GRADING</div>
         <section class="grid grid-cols-12 mt-4">
             <div class="col-span-12 md:col-span-3">
                 <DashboardCard

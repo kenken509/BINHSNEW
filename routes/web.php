@@ -139,7 +139,7 @@ Route::controller(UserAccountController::class)->group(function(){
 });
 
 Route::controller(AdminDashboardController::class)->middleware('isAdmin')->group(function(){
-    Route::get('/admin/panel', 'showAdminPanel')->name('admin.showAdminPanel');
+    Route::match(['get','post'],'/admin/panel', 'showAdminPanel')->name('admin.showAdminPanel');
 });
 
 Route::controller(StrandsController::class)->middleware(['isLoggedUser', 'verified'])->group(function(){

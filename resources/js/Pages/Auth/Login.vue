@@ -19,7 +19,10 @@ const form = useForm({
     password:null
 })
 
-const login = ()=> form.post(route('login.store'))
+const login = ()=>{
+    console.log(';alsdkf');
+    form.post(route('login.store'))
+}
 
 // alert codes
 
@@ -102,7 +105,7 @@ function errorMessage(message)
                             </div>
                             
                         </div >
-                        <button class="btn-primary w-full mt-4 text-center" type="submit">Sign-in</button>
+                        <button class="btn-primary w-full mt-4 text-center" type="submit"  :disabled="form.processing">Sign-in</button>
                         <div class="flex justify-between mt-2">
                             <span>Don't have and account? <Link :href="route('register.guest')" class="text-blue-500"> register</Link></span>
                             <Link :href="route('forgot.password.show')" class="text-blue-500"> Forgot password?</Link>

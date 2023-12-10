@@ -24,7 +24,7 @@ class UserData {
 
 class AdminDashboardController extends Controller
 {
-    function showAdminPanel(){
+    function showAdminPanel(Request $request){
 
         $currentSchoolYear = SchoolYear::first();
         
@@ -97,7 +97,7 @@ class AdminDashboardController extends Controller
         
         $instructorSubject = Auth::user()->subject_id;
             
-        //$instructorSubject= 3;
+      
        
         
         $instructorTopTenFirstGrading = StudentGrade::whereHas('student', function ($query) use ($instructorSubject) {
@@ -108,7 +108,7 @@ class AdminDashboardController extends Controller
         ->take(10) // Limit the results to 10
         ->get();
 
-        // dd($instructorTopTenFirstGrading);
+       
         
         
         
