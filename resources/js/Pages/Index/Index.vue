@@ -37,12 +37,12 @@
 
     <!--NEW CAROUSEL-->
     <div class="flex justify-center overflow-hidden">
-      <div class="w-[90%] lg:w-[86%] mt-4  max-h-[200px] md:max-h-[400px] lg:max-h-[1020px]  flex justify-center ">
+      <div class="w-[90%] lg:w-[86%] mt-10  max-h-[200px] md:max-h-[400px] lg:max-h-[1020px]  flex justify-center ">
         <Carousel :value="data.carouselImages" :numVisible="1" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
           <template #item="slotProps">
-              <div class="border-1 surface-border border-round  w-full ">
-                  <div class="mb-3  ">
-                      <img :src="'/storage/'+slotProps.data.filename" :alt="slotProps.data.name" class="w-full h-[30%] shadow-md max-h-[500px] max-w-[1280px] " />
+              <div class="border-1 surface-border border-round  w-[100%] flex justify-center items-center object-cover ">
+                  <div class="mb-3  w-[90%] ">
+                      <img :src="'/storage/'+slotProps.data.filename" :alt="slotProps.data.name" class="w-full h-full shadow-md max-h-[500px]  " />
                   </div>
               </div>
           </template>

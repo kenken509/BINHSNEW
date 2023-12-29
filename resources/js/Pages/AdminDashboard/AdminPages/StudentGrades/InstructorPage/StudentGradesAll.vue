@@ -404,7 +404,7 @@ function printDiv() {
     // Complete the body and HTML
     printWindow.document.write('</body></html>');
     printWindow.document.close();
-
+        
     // Use setTimeout to ensure that the styles are applied before printing
     setTimeout(() => {
         printWindow.print();

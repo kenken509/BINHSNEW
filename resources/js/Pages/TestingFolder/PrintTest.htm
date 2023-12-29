@@ -13,6 +13,7 @@
         justify-content: space-between;
         align-items: center;
         background-color: #034515 ;
+        position: relative;
     }
     .left-header-container{
         display: flex;
@@ -20,6 +21,12 @@
         padding: 2px;
         color: whitesmoke;
         
+    }
+    .progress-bar{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
     .logo{
         width: 100px;
@@ -45,6 +52,8 @@
     button[type="button"] {
         display: none;
     }
+
+
 }
 
     /* Styles for printing */
@@ -52,29 +61,36 @@
 
 </style>
 <body>
-    <div class="header-container printable">
-        <div class="left-header-container">
-            <div ><img class="logo" src="../../../../public/images/webPage/logo1.png" /> </div>
-            <div class="school-info-container">
-                <span class="school-acro">
-                    BINHS
-                </span>
-                <span class="school-name">
-                    Bulihan Integrated National Highschool
-                </span>
-                <span class="school-name">
-                    Brgy. Old Bulihan, Silang, Philippines
-                </span>
+    <div class="relative">
+        <div class=" header-container printable ">
+            <div class="left-header-container">
+                <div ><img class="logo" src="../../../../public/images/webPage/logo1.png" /> </div>
+                <div class="school-info-container">
+                    <span class="school-acro">
+                        BINHS
+                    </span>
+                    <span class="school-name">
+                        Bulihan Integrated National Highschool
+                    </span>
+                    <span class="school-name">
+                        Brgy. Old Bulihan, Silang, Philippines
+                    </span>
+                </div>
             </div>
+            <div>
+                <span>;alksdjflaksdf</span>
+                
+            </div>
+            
         </div>
-        <div>
-            <span>;alksdjflaksdf</span>
-        </div>
+        <progress class="progress-bar "></progress>
     </div>
+    
     
     <button class="print-btn" type="button" onclick="printThis()">
         print window
     </button>
+   
 </body>
 </html>
 
