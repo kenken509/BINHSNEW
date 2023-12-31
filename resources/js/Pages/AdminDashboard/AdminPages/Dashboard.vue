@@ -10,17 +10,19 @@
                 >School year: {{ currentSchoolYear }}</span
             >
         </div>
-        <div class="text-red-500">TO DO: ADD USER'S PERCENTAGE COMPARISON FROM PREVIOUS SCOOLYEAR!! ADD FILTERS PER GRADING</div>
+        <div class="text-red-500">TO DO: COMPLETE CHANGES STUDENTS INSTRUCTORS GUEST</div>
+        <div class="text-red-500">TO DO: COMPLETE TOP 10, 2ND 3RD 4TH GRADING</div>
         <section class="grid grid-cols-12 mt-4">
             <div class="col-span-12 md:col-span-3">
                 <DashboardCard
                     :title="'ADMINS'"
-                    :value="data.adminCount"
-                    :percentage="10"
+                    :currentCount="data.adminCount"
+                    :previousCount="data.adminPrevYearCount"
                     :arrow="'pi pi-angle-down text-red-500'"
                     :textColor="'text-red-500'"
                     :evaluation="'decreased'"
                 ></DashboardCard>
+                
             </div>
             <!-- <div class="col-span-12 md:col-span-6 lg:col-span-3">
             <DashboardCard :title="'INSTRUCTORS'" :value="10" :percentage="10" :arrow="'pi pi-angle-down text-red-500'" :textColor="'text-red-500'" :evaluation="'decreased'"></DashboardCard>
@@ -30,8 +32,8 @@
                 <DashboardCard
                     :title="'STUDENTS '"
                     :currentSchoolYear="currentSchoolYear"
-                    :value="data.studentCount"
-                    :percentage="23"
+                    :currentCount="data.studentCount"
+                    :previousCount="12"
                     :arrow="'pi pi-angle-up text-[#2a9e66]'"
                     :textColor="'text-green-500'"
                     :evaluation="'increased'"
@@ -41,8 +43,8 @@
             <div class="col-span-12 md:col-span-3">
                 <DashboardCard
                     :title="'INSTRUCTORS'"
-                    :value="data.instructorCount"
-                    :percentage="30"
+                    :currentCount="data.instructorCount"
+                    :previousCount="1"
                     :arrow="'pi pi-angle-up text-red-500'"
                     :textColor="'text-red-500'"
                     :evaluation="'increased'"
@@ -51,8 +53,8 @@
             <div class="col-span-12 md:col-span-3">
                 <DashboardCard
                     :title="'GUESTS'"
-                    :value="data.guestCount"
-                    :percentage="30"
+                    :currentCount="data.guestCount"
+                    :previousCount="10"
                     :arrow="'pi pi-angle-up text-red-500'"
                     :textColor="'text-red-500'"
                     :evaluation="'increased'"
@@ -339,6 +341,7 @@ const user = usePage().props.user;
 const date = new Date();
 const year = date.getFullYear();
 const data = defineProps({
+    adminPrevYearCount:Number,
     adminCount: Number,
     instructorCount: Number,
     studentCount: Number,
@@ -417,10 +420,19 @@ const currentSchoolYear = ref(null);
 
 const analysis = ref(null);
 const userPie = ref(null);
+
+
 onMounted(() => {
     currentSchoolYear.value = data.currentSchoolYear;
 
+    
+
+
+    
+
+    
     const ctx = analysis.value.getContext("2d");
+
 
     new Chart(ctx, {
         type: "bar",

@@ -28,10 +28,10 @@ class AdminDashboardController extends Controller
 
         $currentSchoolYear = SchoolYear::first();
         
-        $adminCount = User::where('role', '=', 'admin')->count();
-        $instructorCount = User::where('role', '=', 'instructor')->count();
-        $studentCount = User::where('role', '=', 'student')->count();
-        $guestCount = User::where('role', '=', 'guest')->count();
+        $adminCount = User::where('role', '=', 'admin')->where('isActive','1')->count();
+        $instructorCount = User::where('role', '=', 'instructor')->where('isActive','1')->count();
+        $studentCount = User::where('role', '=', 'student')->where('isActive','1')->count();
+        $guestCount = User::where('role', '=', 'guest')->where('isActive','1')->count();
         /************************************************ */
         
         $currentYear = Carbon::now()->year;
@@ -108,13 +108,28 @@ class AdminDashboardController extends Controller
         ->take(10) // Limit the results to 10
         ->get();
 
-       
+        
+        // Extract start and end years from the predefined school year
+        [$startYear, $endYear] = explode('-', $currentSchoolYear->year);
+
+        // current school year
+        $predefinedYearStart = Carbon::createFromDate($startYear, 8, 1);
+        $predefinedYearEnd = Carbon::createFromDate($endYear, 7, 31);
+        
+        // previous school year
+        $previousYearStart = $predefinedYearStart->copy()->subYear();
+        $previousYearEnd = $predefinedYearEnd->copy()->subYear();
         
         
+
+        $adminPrevYearCount = User::whereBetween('created_at', [$previousYearStart, $previousYearEnd])->where('role','admin')->count();
+        
+    
         
         // download attempt count..*********************************************
         //****************************************** */
         return inertia('AdminDashboard/AdminPages/Dashboard',[
+            'adminPrevYearCount'        => $adminPrevYearCount,
             'adminCount'                => $adminCount,
             'instructorCount'           => $instructorCount,
             'studentCount'              =>  $studentCount,
