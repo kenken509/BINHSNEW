@@ -10,8 +10,9 @@
                 >School year: {{ currentSchoolYear }}</span
             >
         </div>
-        <div class="text-red-500">TO DO: COMPLETE CHANGES STUDENTS INSTRUCTORS GUEST</div>
-        <div class="text-red-500">TO DO: COMPLETE TOP 10, 2ND 3RD 4TH GRADING</div>
+        
+        <p class="text-red-500">TO DO: CREATE A CRON JOB THAT WILL SET STUDENTS TO INACTIVE OR SET ROLE AS "FORMER STUDENT" IN THE END OF SCHOOL YEAR</p>
+        <p class="text-red-500">TO DO: MAKE SURE THAT THE STUDENTS SUBJECT FOR APPROVAL ARE THOSE STUDENTS TRYING TO REGISTER DURING CURRENT SCHOOL YEAR</p>
         <section class="grid grid-cols-12 mt-4">
             <div class="col-span-12 md:col-span-3">
                 <DashboardCard
@@ -33,7 +34,7 @@
                     :title="'STUDENTS '"
                     :currentSchoolYear="currentSchoolYear"
                     :currentCount="data.studentCount"
-                    :previousCount="12"
+                    :previousCount="data.studentPrevYearCount"
                     :arrow="'pi pi-angle-up text-[#2a9e66]'"
                     :textColor="'text-green-500'"
                     :evaluation="'increased'"
@@ -44,7 +45,7 @@
                 <DashboardCard
                     :title="'INSTRUCTORS'"
                     :currentCount="data.instructorCount"
-                    :previousCount="1"
+                    :previousCount="data.instructorPrevYearCount"
                     :arrow="'pi pi-angle-up text-red-500'"
                     :textColor="'text-red-500'"
                     :evaluation="'increased'"
@@ -54,7 +55,7 @@
                 <DashboardCard
                     :title="'GUESTS'"
                     :currentCount="data.guestCount"
-                    :previousCount="10"
+                    :previousCount="data.guestPrevYearCount"
                     :arrow="'pi pi-angle-up text-red-500'"
                     :textColor="'text-red-500'"
                     :evaluation="'increased'"
@@ -72,7 +73,7 @@
         <div class="flex justify-center items-center py-4">
             <div>
                 <span class="text-[20px] text-gray-500"
-                    >Data as of {{ year }}</span
+                    >Data as of School Year : {{ currentSchoolYear }}</span
                 >
             </div>
         </div>
@@ -101,9 +102,9 @@
                 <canvas ref="analysis" class=""></canvas>
             </div>
         </div>
-
-        <div v-if="user.role === 'instructor'">
-            <TopTenCard :TopTenFirstGrading="data.TopTenFirstGrading" />
+         
+        <div v-if="user.role === 'instructor' && data.instructorTopTen.length > 1">
+            <TopTenCard :instructorTopTen="data.instructorTopTen" />
         </div>
         <!-- <div class="flex justify-center items-center border-bot-only border-gray-600 shadow-md mb-[30px] mt-[50px] ">
          <span class="text-[24px] font-bold text-gray-500">TOP 10 STUDENTS</span>  
@@ -342,6 +343,9 @@ const date = new Date();
 const year = date.getFullYear();
 const data = defineProps({
     adminPrevYearCount:Number,
+    studentPrevYearCount:Number,
+    instructorPrevYearCount:Number,
+    guestPrevYearCount:Number,
     adminCount: Number,
     instructorCount: Number,
     studentCount: Number,
@@ -351,7 +355,7 @@ const data = defineProps({
     usersData: Array,
     windowsMonthlyDownloads: Array, // [{"year":2023,"month":1,"count":5}]
     androidMonthlyDownloads: Array, // [{"year":2023,"month":1,"count":5}]
-    TopTenFirstGrading: Array,
+    instructorTopTen: Array,
 });
 
 // const testData = [
@@ -425,12 +429,7 @@ const userPie = ref(null);
 onMounted(() => {
     currentSchoolYear.value = data.currentSchoolYear;
 
-    
-
-
-    
-
-    
+  
     const ctx = analysis.value.getContext("2d");
 
 

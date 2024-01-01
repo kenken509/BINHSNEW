@@ -6,7 +6,7 @@
         <div
             class="flex justify-center items-center font-bold border-t-2 pt-2 border-gray-300"
         >
-            {{ getInstructorSubject(user.subject_id) }} - FIRST GRADING 
+            {{ getInstructorSubject(user.subject_id) }} - HONORED STUDENTS
         </div>
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -27,7 +27,7 @@
                             </tr>
                         </thead>
                         <tbody
-                            v-for="(top, index) in TopTenFirstGrading"
+                            v-for="(top, index) in instructorTopTen"
                             :key="top.id"
                             class="border border-gray-300"
                         >
@@ -44,7 +44,7 @@
                                     {{ top.student.lName }}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4">
-                                    {{ top.first_grading }} %
+                                    {{ top.final_grade }} %
                                 </td>
                             </tr>
                         </tbody>
@@ -61,7 +61,7 @@ import { usePage } from "@inertiajs/vue3";
 
 const user = computed(() => usePage().props.user);
 defineProps({
-    TopTenFirstGrading: Array,
+    instructorTopTen: Array,
 });
 
  const instructorSubject = ref(null); 

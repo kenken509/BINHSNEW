@@ -33,9 +33,21 @@ class AdminDashboardController extends Controller
         $studentCount = User::where('role', '=', 'student')->where('isActive','1')->count();
         $guestCount = User::where('role', '=', 'guest')->where('isActive','1')->count();
         /************************************************ */
+
         
         $currentYear = Carbon::now()->year;
+        // Extract start and end years from the predefined school year
+        [$startYear, $endYear] = explode('-', $currentSchoolYear->year);
 
+        // current school year
+        $predefinedYearStart = Carbon::createFromDate($startYear, 8, 1);
+        $predefinedYearEnd = Carbon::createFromDate($endYear, 7, 31);
+        
+        
+        // previous school year
+        $previousYearStart = $predefinedYearStart->copy()->subYear();
+        $previousYearEnd = $predefinedYearEnd->copy()->subYear();
+        
         // monthly web visits *****************************************
         $monthly = WebAnalysis::select(
             DB::raw('YEAR(created_at) as year'),
@@ -43,7 +55,7 @@ class AdminDashboardController extends Controller
             DB::raw('COUNT(*) as total_visits')
         )
             ->where('type', '=', 'visit')
-            ->whereYear('created_at', '=', $currentYear)
+            ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'), [$predefinedYearStart, $predefinedYearEnd])
             ->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
             ->get();
 
@@ -58,6 +70,7 @@ class AdminDashboardController extends Controller
             $item->month_name = $monthNames[$item->month];
             return $item;
         });
+        
         
         // monthly web visits *****************************************
         
@@ -79,7 +92,7 @@ class AdminDashboardController extends Controller
         )
             ->where('type', '=', 'download_attempt')
             ->where('installerType','=', 'windows')
-            ->whereYear('created_at', '=', $currentYear)
+            ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'), [$predefinedYearStart, $predefinedYearEnd])
             ->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
             ->get();
 
@@ -90,7 +103,7 @@ class AdminDashboardController extends Controller
         )
             ->where('type', '=', 'download_attempt')
             ->where('installerType','=', 'android')
-            ->whereYear('created_at', '=', $currentYear)
+            ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'), [$predefinedYearStart, $predefinedYearEnd])
             ->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
             ->get();
 
@@ -98,48 +111,42 @@ class AdminDashboardController extends Controller
         $instructorSubject = Auth::user()->subject_id;
             
       
-       
-        
-        $instructorTopTenFirstGrading = StudentGrade::whereHas('student', function ($query) use ($instructorSubject) {
+        $instructorTopTen = StudentGrade::whereHas('student', function ($query) use ($instructorSubject) {
             $query->where('subject_id', $instructorSubject);
         })
         ->with('student.subject') // Eager load the "student" and its "subject" relationship
-        ->orderBy('first_grading', 'desc')
+        ->orderBy('final_grade', 'desc')
         ->take(10) // Limit the results to 10
         ->get();
 
         
-        // Extract start and end years from the predefined school year
-        [$startYear, $endYear] = explode('-', $currentSchoolYear->year);
-
-        // current school year
-        $predefinedYearStart = Carbon::createFromDate($startYear, 8, 1);
-        $predefinedYearEnd = Carbon::createFromDate($endYear, 7, 31);
         
-        // previous school year
-        $previousYearStart = $predefinedYearStart->copy()->subYear();
-        $previousYearEnd = $predefinedYearEnd->copy()->subYear();
         
         
 
-        $adminPrevYearCount = User::whereBetween('created_at', [$previousYearStart, $previousYearEnd])->where('role','admin')->count();
+        $adminPrevYearCount         = User::whereBetween('created_at', [$previousYearStart, $previousYearEnd])->where('role','admin')->where('isActive','1')->count();
+        $instructorPrevYearCount    = User::whereBetween('created_at', [$previousYearStart, $previousYearEnd])->where('role','instructor')->where('isActive','1')->count();
+        $studentPrevYearCount       = User::whereBetween('created_at', [$previousYearStart, $previousYearEnd])->where('role','student')->count();
+        $guestPrevYearCount         = User::whereBetween('created_at', [$previousYearStart, $previousYearEnd])->where('role','guest')->count();
         
-    
         
         // download attempt count..*********************************************
         //****************************************** */
         return inertia('AdminDashboard/AdminPages/Dashboard',[
             'adminPrevYearCount'        => $adminPrevYearCount,
-            'adminCount'                => $adminCount,
-            'instructorCount'           => $instructorCount,
-            'studentCount'              =>  $studentCount,
+            'studentPrevYearCount'      => $studentPrevYearCount,
+            'instructorPrevYearCount'   => $instructorPrevYearCount,
+            'guestPrevYearCount'        => $guestPrevYearCount,
+            'adminCount'                => $adminCount,            
+            'instructorCount'           => $instructorCount,            
+            'studentCount'              => $studentCount,
             'guestCount'                => $guestCount,
             'currentSchoolYear'         => $currentSchoolYear->year,
-            'monthlyVisit'              =>  $monthly,
+            'monthlyVisit'              => $monthly,
             'usersData'                 => $usersData,
             'windowsMonthlyDownloads'   => $windowsMonthlyDownloads,
             'androidMonthlyDownloads'   => $androidMonthlyDownloads,
-            'TopTenFirstGrading'         => $instructorTopTenFirstGrading,
+            'instructorTopTen'          => $instructorTopTen,
         ]); 
      }
  

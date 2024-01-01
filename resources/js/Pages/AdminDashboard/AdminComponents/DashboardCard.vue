@@ -28,7 +28,7 @@
             <p class="text-blue-500">{{ noChanges }}</p>
         </div>
         <div v-if="newCount">
-            <p class="text-green-500"><i class="pi pi-angle-up text-green-500"></i> {{ newCount }}</p>
+            <p class="text-green-700"> {{ newCount }}</p>
         </div>
     </div>
     
