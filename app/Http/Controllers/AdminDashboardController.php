@@ -28,6 +28,7 @@ class AdminDashboardController extends Controller
 
         $currentSchoolYear = SchoolYear::first();
         
+        
         $adminCount = User::where('role', '=', 'admin')->where('isActive','1')->count();
         $instructorCount = User::where('role', '=', 'instructor')->where('isActive','1')->count();
         $studentCount = User::where('role', '=', 'student')->where('isActive','1')->count();

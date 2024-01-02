@@ -10,7 +10,7 @@
                 </span>
             </div>
         </div>
-       
+        <span class="text-red-500">TO DO: COMPLETE THE STUDENTS PRINT DESIGN</span>
         <div v-if="$page.props.flash.success" >{{ successMessage($page.props.flash.success) }} </div>
         <div class=" overflow-x-auto shadow-md rounded-lg ">
             <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -125,59 +125,107 @@
             <!--Modal-->
             <div class="card flex justify-content-center userInfo">
                 <Dialog v-model:visible="visible" modal    :style="{ width: '90vw' } ">
-                    <div class=" overflow-x-auto shadow-md rounded-lg ">   <!-- v-for="students in sections.studentUser" -->
-                        <table   class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
-                            <thead class="text-xs text-gray-200 uppercase bg-green-700  ">
-                                <tr  >
-                                    <th scope="col" class="px-6 py-3 text-center">
-                                        ID# 
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-center">
-                                        Section
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-center">
-                                        Name
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-center">
-                                        Email
-                                    </th>
+                    <div ref="printable">
+                        <div class="flex flex-col justify-center items-center w-full bg-green-700 header-container-1 mb-2 rounded-md">
+                            <div class=" w-[100%] text-center text-2xl font-semibold header-container-2">  
+                                <div class="flex w-[100%] justify-between p-2 items-center font-sans header-container-3 ">
+                                    <div class="flex items-center w-[100%] md:w-[70%] left-header">
+                                        <div class="flex "><img :src="'/storage/Images/logo1.png'" alt="TLE Logo" class="w-[100px] logo"/></div>
+                                        <div class="flex flex-col items-start ml-2 w-[100%] md:w-[70%] school-info-container ">
+                                            <span class="text-[20px] leading-tight mb-[2px] tracking-wider text-gray-200 school-acro">BINHS</span>
+                                            <span class="  md:inline-block text-[7px] md:text-[12px] text-gray-300  leading-tight mb-[2px]">Bulihan Integrated National Highschool</span>
+                                            <span class=" hidden md:inline-block text-[12px] text-gray-300  leading-tight mb-[2px]">Brgy. Old Bulihan, Silang, Philippines</span>
+                                        </div>
+                                    </div>
                                     
-                                    <th v-if="sections.sections" scope="col" class="px-6 py-3 text-center">
-                                        Gender
-                                    </th>
-                                    
-                                </tr>
-                            </thead>
-                            
-                                <tbody v-for="section in sections.sections"  >
-                                    <tr  v-for="student in section.student"  class="bg-white border-b ">
-                                        <td v-if="student.section.id === selectedSection" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
-                                            {{ student.id }}
-                                        </td>
-                                        <td v-if="student.section.id === selectedSection" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
-                                            {{ student.section.name }} 
-                                        </td>
-                                        <td v-if="student.section.id === selectedSection" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
-                                            {{ student.lName }}, {{ student.fName }}
-                                        </td>
-                                        <td v-if="student.section.id === selectedSection" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
-                                            {{ student.email }} 
-                                        </td>
+
+                                    <div class="flex flex-col justify-end items-end mr-4 invisible w-0 md:w-60  md:visible space-y-1  pt-2 right-header-container ">
+                                        <span class="text-[12px] text-center leading-tight w-[200px] text-gray-200 flex items-center   ">
+                                            <svg class="h-5 w-5 text-gray-200"  width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
+                                            <span class="text-[12px] text-center  text-gray-200 ml-2 ">Contact #: 0924-123-4567</span>
+                                            
+                                        </span>
+                                        <div class="flex items-center w-[200px]  ">
+                                            <svg class="h-5 w-5 text-gray-200 "  width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <polyline points="3 9 12 15 21 9 12 3 3 9" />  <path d="M21 9v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" />  <line x1="3" y1="19" x2="9" y2="13" />  <line x1="15" y1="13" x2="21" y2="19" /></svg>
+                                            <span class="text-[12px] text-center  text-gray-200 ml-2 ">
+                                                email: bulihan@gmail.com
+                                            </span>
+                                        </div>
                                         
-                                        <td v-if="student.section.id === selectedSection" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
-                                            {{ student.gender }} 
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div v-for="section in sections.sections" class="flex justify-between mx-2  ">
+                            <div>
+                                <div v-if="selectedSection === section.id">
+                                  <span class="text-black font-bold">Instructor:</span>  {{ section.instructors[0].fName }}, {{ section.instructors[0].lName }}
+                                </div>
+                                
+                            </div>
+                            <div>
+                                <div v-if="selectedSection === section.id">
+                                    <span class="text-black font-bold">Section: </span> {{ section.name }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" overflow-x-auto shadow-md rounded-lg mt-2">   <!-- v-for="students in sections.studentUser" -->
+                            <table   class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
+                                <thead class="text-xs text-gray-200 uppercase bg-green-700  ">
+                                    <tr >
+                                        <td colspan="5">
+                                            <div class="flex justify-center font-bold text-lg border-bot-only py-2">
+                                                STUDENTS
+                                            </div>
                                         </td>
                                     </tr>
-                                </tbody>
-                            
-                            
-                        </table>
+                                    <tr  >
+                                        <th scope="col" class="px-6 py-3 text-center">
+                                            ID# 
+                                        </th>
+                                        
+                                        <th scope="col" class="px-6 py-3 text-center">
+                                            Name
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-center">
+                                            Email
+                                        </th>
+                                        
+                                        <th v-if="sections.sections" scope="col" class="px-6 py-3 text-center">
+                                            Gender
+                                        </th>
+                                        
+                                    </tr>
+                                </thead>
+                                
+                                    <tbody v-for="section in sections.sections"  >
+                                        <tr  v-for="student in section.student"  class="bg-white border-b ">
+                                            <td v-if="student.section.id === selectedSection" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                                {{ student.id }}
+                                            </td>
+                                           
+                                            <td v-if="student.section.id === selectedSection" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                                {{ student.lName }}, {{ student.fName }}
+                                            </td>
+                                            <td v-if="student.section.id === selectedSection" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                                {{ student.email }} 
+                                            </td>
+                                            
+                                            <td v-if="student.section.id === selectedSection" scope="row" class="px-6 py-4 font-medium text-gray-900 text-center ">
+                                                {{ student.gender }} 
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                
+                                
+                            </table>
+                        </div>
                     </div>
-                    
                     <template #footer>
                         <Button label="Close" icon="pi pi-times" @click="visible = false" text />
-                        <Button label="Print" icon="pi pi-check" @click="printPage" autofocus />
-                    </template>
+                        <Button label="Print" icon="pi pi-check" @click="printDiv" autofocus />
+                    </template> 
                 </Dialog>
             </div>
             
@@ -363,4 +411,45 @@ const createFinalGrade = (id) => {
     })
 }
 
+
+//PRINT DIV LOGIC
+const printable = ref(null);
+function printDiv() {
+    const printContents = printable.value.innerHTML;
+     // Create a new windows
+     const printWindow = window.open('', '_blank');
+
+    // Write the printable content to the new window
+    printWindow.document.write('<html><head><title>Quiz Information</title>');
+
+    //Manually include some Tailwind CSS styles
+    printWindow.document.write('<style>');
+    printWindow.document.write('body { font-family: "Arial", sans-serif; background-color:white; }');
+    printWindow.document.write('.text-red-500 { color: #ef4444; }'); // Example Tailwind class 
+
+
+    
+    //Include other styles as needed
+    printWindow.document.write('</style>');
+
+    // Complete the head section and start the body
+    printWindow.document.write('</head><body>');
+
+    // Add the printable content
+    printWindow.document.write(printContents);
+
+    // Complete the body and HTML
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+        
+    // Use setTimeout to ensure that the styles are applied before printing
+    setTimeout(() => {
+        printWindow.print();
+        printWindow.onafterprint = () => {
+            printWindow.close();
+            showGradeInfo.value = false; // Close the modal after printing
+        };
+    }, 1000); // Adjust the delay as needed
+    
+}
 </script>

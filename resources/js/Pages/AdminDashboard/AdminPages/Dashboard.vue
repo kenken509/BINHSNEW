@@ -11,8 +11,8 @@
             >
         </div>
         
-        <p class="text-red-500">TO DO: CREATE A CRON JOB THAT WILL SET STUDENTS TO INACTIVE OR SET ROLE AS "FORMER STUDENT" IN THE END OF SCHOOL YEAR</p>
-        <p class="text-red-500">TO DO: MAKE SURE THAT THE STUDENTS SUBJECT FOR APPROVAL ARE THOSE STUDENTS TRYING TO REGISTER DURING CURRENT SCHOOL YEAR</p>
+        <p class="text-red-500">TO DO: CREATE THE PRINT OPTION ON ALL SECTION "STUDENTS COLUMN"</p>
+        
         <section class="grid grid-cols-12 mt-4">
             <div class="col-span-12 md:col-span-3">
                 <DashboardCard

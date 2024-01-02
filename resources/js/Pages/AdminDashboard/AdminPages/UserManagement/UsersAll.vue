@@ -77,7 +77,7 @@
                                             <div v-if="$page.props.flash.success"><Toast position="top-left" /> </div>
                                             
                                         
-                                            <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 cursor-pointer" @click="deleteConfirmation(user.id)"></span>
+                                            <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 cursor-pointer"  @click="deleteConfirmation(user.id)"></span>
 
                                             <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'View full info'" @click="openModal(user.id)" ></span>
                                         </div>
@@ -147,10 +147,10 @@
                                             <div v-if="$page.props.flash.success"><Toast position="top-left" /> </div>
                                             
                                         
-                                            <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 cursor-pointer" @click="deleteConfirmation(user.id)"></span>
+                                            <span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'Delete User'" @click="deleteConfirmation(user.id)"></span>
                                             <!-- <Link :href="route('admin.userDelete', {user: user.id})" class="cursor-pointer" v-tooltip.left="'Delete User'" as="button" method="delete" ><span class="pi pi-trash text-red-700 scale-110 hover:dark:scale-150"></span></Link> -->
                                             <!-- <Link :href="route('admin.editUser', {id:user.id} )" class="cursor-pointer hover:dark:scale-125" v-tooltip.right="'Edit User'" ><span class="pi pi-user-edit text-green-600 scale-110 hover:dark:scale-150"></span></Link> -->
-                                            <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.right="'View full info'" @click="openModal(user.id)" ></span>
+                                            <span class="pi pi-eye text-green-600 scale-110 hover:dark:scale-150 cursor-pointer" v-tooltip.left="'View full info'" @click="openModal(user.id)" ></span>
                                         </div>
                                         
                                     </td>
@@ -170,30 +170,73 @@
                 <div class="card flex justify-content-center userInfo" >
                     
                     <Dialog v-model:visible="visible" modal   :userId="userId" :style="{ width: '50vw' } " >
-                    
-                        <div v-if="!filteredUser" v-for="user in users.data" :key="user.id" id="testingPrinting">
-                            
+                        <template #header class="w-full border-bot-only">
+                            <div class="dialog-header ">
+                                <h2 class="font-bold text-[24px]">User Info</h2>                           
+                            </div>
+                        </template>
+                        <div v-if="!filteredUser" v-for="user in users.data" :key="user.id" id="testingPrinting" >
+                            <!-- Header slot -->
+                       
                             <div v-if="user.id === userId">
-                                <img :src="user.image ? appUrl+user.image:appUrl+defaultImage" alt="error" class="w-[50px] h-[50px]"/>
-                                <h1 class="border-bot-only">User Info</h1>
-                                <p>Role:  {{ user.role }}</p>
-                                <p>First Name: {{ user.fName }}</p>
-                                <p>Middle Name: {{ user.mName }}</p>
-                                <p>Last Name: {{ user.lName }}</p>
-                                <p>Gender: {{ user.gender }}</p>
-                                <p>Civil Status: {{ user.civilStatus }}</p>
-                                <p >Email: {{ user.email }}</p>
-                                <p>Birthday: {{ user.birthDate }}</p>
-                                <p>Age: {{ user.age }}</p>
-                                <p>Contact #: {{ user.phoneNumber }}</p>
-                                <p>Subject: <div v-if="user"><div v-if="user.subject"><div v-if="user.subject.name">{{ user.subject.name }}</div></div></div></p>
-                                <p v-if="user.role === 'student'">Section: {{ user.section.name }}</p>
-                                <div v-if="user.role === 'instructor'">
-                                    Handled Sections:
-                                    <div v-for="(section, index) in user.instructor_section" :key="index" >
-                                        <p> {{ section.name }} </p>
+                                <div class="flex flex-col  space-y-2 border-bot-only mb-4 pb-2 ">
+                                    <img :src="user.image ? appUrl+user.image:appUrl+defaultImage" alt="error" class="w-[100px] h-[100px]"/>
+                                    <p><span class="font-bold ">Role:&nbsp;</span>  {{ user.role }}</p>
+                                </div>
+                               
+                                
+                                <div class=" grid grid-cols-2">
+                                    <div class="col-span-2 lg:col-span-1">
+                                        <p class="flex flex-col lg:flex-row">
+                                            <span class="font-bold ">First Name:&nbsp; </span> {{ user.fName }}
+                                        </p>
+                                    </div>
+                                    <div class="col-span-2 lg:col-span-1">
+                                        <p class="flex flex-col lg:flex-row"><span class="font-bold ">Middle Name:&nbsp; </span>{{ user.mName }}</p>
+                                    </div>
+                                    <div class="col-span-2 lg:col-span-1">
+                                        <p class="flex flex-col lg:flex-row"><span class="font-bold ">Last Name:&nbsp; </span>{{ user.lName }}</p>
+                                    </div>
+                                    <div class="col-span-2 lg:col-span-1">
+
+                                        <p class="flex flex-col lg:flex-row"><span class="font-bold ">Gender:&nbsp; </span>{{ user.gender }}</p>
+                                    </div>
+                                    <div class="col-span-2 lg:col-span-1">
+                                        <p class="flex flex-col lg:flex-row"><span class="font-bold ">Civil Status:&nbsp; </span>{{ user.civilStatus }}</p>
+                                    </div>
+                                    <div class="col-span-2 lg:col-span-1">
+                                        <p class="flex flex-col lg:flex-row" ><span class="font-bold ">Email:&nbsp; </span>{{ user.email }}</p>
+                                    </div>
+                                    <div class="col-span-2 lg:col-span-1">
+                                        <p class="flex flex-col md:flex-row"><span class="font-bold ">Birthday:&nbsp; </span> {{ user.birthDate }}</p>
+                                    </div>
+                                    <div class="col-span-2 lg:col-span-1">
+                                        <p class="flex flex-col md:flex-row"><span class="font-bold ">Age:&nbsp; </span> {{ user.age }}</p>
+                                    </div>
+                                    <div class="col-span-2 lg:col-span-1">
+                                        <p class="flex flex-col lg:flex-row"><span class="font-bold ">Contact #:&nbsp; </span> {{ user.phoneNumber }}</p>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="font-bold ">Subject:&nbsp;</span>  
+                                        <div v-if="user">
+                                            <div v-if="user.subject">
+                                                <div v-if="user.subject.name">{{ user.subject.name }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-if="user.role === 'student'" class="col-span-2 lg:col-span-1">
+                                        <p ><span class="font-bold ">Section: </span> {{ user.section.name }}</p>
+                                    </div>
+                                    
+                                    <div v-if="user.role === 'instructor'" class="col-span-2 lg:col-span-1">
+                                        <span class="font-bold ">Handled Sections: </span>
+                                        
+                                        <div v-for="(section, index) in user.instructor_sections" :key="index" >
+                                            <p> {{ section.name }} </p>
+                                        </div>
                                     </div>
                                 </div>
+                                
                                 
                                 
 
@@ -227,8 +270,10 @@
                         </div>
                         <!-- filtered user-->
                         <template #footer>
-                            <Button label="Close" icon="pi pi-times" @click="visible = false" text />
-                            <Button label="Print" icon="pi pi-check" @click="printPage('testingPrinting')" autofocus />
+                            <div class=" border-t-2 pt-2">
+                                <Button label="Close" icon="pi pi-times" @click="visible = false" raised  />
+                            </div>   
+                            <!-- <Button label="Print" icon="pi pi-check" @click="printPage('testingPrinting')" autofocus /> -->
                         </template>
                     </Dialog>
                 </div>

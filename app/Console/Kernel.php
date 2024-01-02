@@ -15,9 +15,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-    
         $schedule->command('app:update-quiz-status')->everyMinute();
         $schedule->command('app:school-year-update')->everyMinute();
+        $schedule->command('app:update-x-student')->everyMinute();
     }
 
     /**

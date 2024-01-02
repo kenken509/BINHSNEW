@@ -33,7 +33,7 @@ return new class extends Migration
             $table->String('province')->nullable();
             $table->String('city')->nullable();
             $table->String('barangay')->nullable();
-            $table->enum('role', ['admin','instructor','student','guest'])->nullable();
+            $table->enum('role', ['admin','instructor','student','guest','xStudent'])->nullable();
             $table->String('school_year')->nullable();
             $table->string('student_number')->nullable();
             $table->enum('isActive',[1,0])->nullable();

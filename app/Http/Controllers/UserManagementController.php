@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Section;
 use App\Models\Subject;
 use App\Models\TestModel;
+use App\Models\SchoolYear;
 use App\Models\TestSubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -23,15 +24,19 @@ class UserManagementController extends Controller
         $filters = $request->role;
         
         $userRole = Auth::user()->role;
+        
         $userSubjectId = Auth::user()->subject_id;
-        $allUsers = User::where('isActive','1')->with(['subject','section','instructorSection'])->get();//User::orderBy('id','desc')->get();
+       
+        $allUsers = User::where('isActive','1')->with(['subject','section','instructorSections'])->get();//User::orderBy('id','desc')->get(); 'instructorSection'
         
         
-        $query = User::with(['subject','section','instructorSection'])->latest();
-    
+        $query = User::with(['subject','section','instructorSections'])->latest(); //'instructorSection'
+        
+        //dd($allUsers);
         if($userRole == 'admin'){
+           
             return inertia('AdminDashboard/AdminPages/UserManagement/UsersAll',[
-                'users'     =>$query->filteredData($filters)->where('isActive','1')->paginate(10),
+                'users'     => $query->filteredData($filters)->where('isActive','1')->paginate(10),
                 'allUsers'  => $allUsers,
             ]);
         }
@@ -65,8 +70,15 @@ class UserManagementController extends Controller
 
     public function showApproveUser()
     {
+        $currentSchoolYear = SchoolYear::first();
+
+        
         return inertia('AdminDashboard/AdminPages/UserManagement/UserApprove', [
-            'students' => User::with(['subject','section'])->where('isActive', '0')->get(),
+            'students' => User::with(['subject','section'])
+                            ->where('role','student')
+                            ->where('school_year',$currentSchoolYear->year)
+                            ->where('isActive', '0')
+                            ->get(),
         ]);
     }
 

@@ -29,7 +29,7 @@ class Section extends Model
     public function instructors(){
         return $this->belongsToMany(User::class, 'instructor_sections', 'section_id', 'instructor_id'); 
     }
-
+    
     public function student()
     {
         return $this->hasMany(User::class, 'section_id', 'id');
