@@ -382,12 +382,13 @@ function printDiv() {
     printWindow.document.write('.left-header{ display:flex; align-items:center }')
     printWindow.document.write('.right-header-container{ display:flex; flex-direction: column;   justify-content:center; align-items:center;  margin-right:10px;}')
     printWindow.document.write('.school-info-container{ display:flex; flex-direction: column; margin-left:2px}')
-
-    printWindow.document.write('.table-title-container{ display:flex; justify-content:center }')
+        
+    //printWindow.document.write('.table-title-container{ display:flex; justify-content:center }')
     
     //<div class="flex flex-col md:flex-row justify-between text-gray-700 text-[20px] my-2 student-info-container">
     printWindow.document.write('.student-info-container{ display:flex; justify-content:space-between; align-items:center; padding:4px; }')
     printWindow.document.write('table{ width:100% }')
+    printWindow.document.write('.table-title{ grid-column: span 4;  }')
     printWindow.document.write('th{ color:whitesmoke; padding:10px; text-transform: uppercase; }')
     printWindow.document.write('th{ color:whitesmoke; padding:10px; text-transform: uppercase; }')
     printWindow.document.write('td{ text-align:center; padding:2px; }')

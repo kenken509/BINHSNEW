@@ -11,7 +11,7 @@
             >
         </div>
         
-        <p class="text-red-500">TO DO: CREATE THE PRINT OPTION ON ALL SECTION "STUDENTS COLUMN"</p>
+        <p class="text-red-500">TO DO: CREATE PRINT OPTION FOR QUIZ</p>
         
         <section class="grid grid-cols-12 mt-4">
             <div class="col-span-12 md:col-span-3">

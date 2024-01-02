@@ -157,25 +157,28 @@
                             </div>
                             
                         </div>
-                        <div v-for="section in sections.sections" class="flex justify-between mx-2  ">
-                            <div>
-                                <div v-if="selectedSection === section.id">
-                                  <span class="text-black font-bold">Instructor:</span>  {{ section.instructors[0].fName }}, {{ section.instructors[0].lName }}
+                        <div class="section-info-container">
+                            <div v-for="section in sections.sections" class="flex justify-between mx-2 section-info-data ">
+                                <div>
+                                    <div v-if="selectedSection === section.id">
+                                    <span class="text-black font-bold">Instructor:</span>  {{ section.instructors[0].fName }}, {{ section.instructors[0].lName }}
+                                    </div>
+                                    
                                 </div>
-                                
-                            </div>
-                            <div>
-                                <div v-if="selectedSection === section.id">
-                                    <span class="text-black font-bold">Section: </span> {{ section.name }}
+                                <div>
+                                    <div v-if="selectedSection === section.id">
+                                        <span class="text-black font-bold">Section: </span> {{ section.name }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        
                         <div class=" overflow-x-auto shadow-md rounded-lg mt-2">   <!-- v-for="students in sections.studentUser" -->
                             <table   class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
-                                <thead class="text-xs text-gray-200 uppercase bg-green-700  ">
+                                <thead class="text-xs text-gray-200 uppercase bg-green-700 table-header ">
                                     <tr >
                                         <td colspan="5">
-                                            <div class="flex justify-center font-bold text-lg border-bot-only py-2">
+                                            <div class="flex justify-center font-bold text-lg border-bot-only py-2 student-table-title">
                                                 STUDENTS
                                             </div>
                                         </td>
@@ -420,16 +423,31 @@ function printDiv() {
      const printWindow = window.open('', '_blank');
 
     // Write the printable content to the new window
-    printWindow.document.write('<html><head><title>Quiz Information</title>');
+    printWindow.document.write('<html><head><title>Section Info</title>');
 
     //Manually include some Tailwind CSS styles
     printWindow.document.write('<style>');
     printWindow.document.write('body { font-family: "Arial", sans-serif; background-color:white; }');
     printWindow.document.write('.text-red-500 { color: #ef4444; }'); // Example Tailwind class 
 
+    printWindow.document.write('.logo{ width: 100px; height: 100px}')
+    printWindow.document.write('.header-container-1{background-color: #046C4E; padding:4px}')
+    printWindow.document.write('.header-container-3{ display:flex; justify-content: space-between; color:whitesmoke   }')
+    printWindow.document.write('.left-header{ display:flex; align-items:center }')
+    printWindow.document.write('.right-header-container{ display:flex; flex-direction: column;   justify-content:center; align-items:center;  margin-right:10px;}')
+    printWindow.document.write('.school-info-container{ display:flex; flex-direction: column; margin-left:2px}')
 
+    printWindow.document.write('.section-info-container{ margin-bottom:2px; margin-top:10px; }')
+    printWindow.document.write('.section-info-data{ display:flex; justify-content:space-between; align-items:center;  padding:0px 4px 0px 4px }')
+    printWindow.document.write('th{ color:whitesmoke; padding:10px; text-transform: uppercase; }') //
+    printWindow.document.write('td{ text-align:center; padding:2px; border:1px solid black; }')
+    printWindow.document.write('.student-table-title{ color:whitesmoke; padding:4px; font-size:20px; font-weight: bold;}')
+
+
+    //table style
+    printWindow.document.write('table{ width:100% }')
+    printWindow.document.write('.table-header{ background-color: #046C4E }')
     
-    //Include other styles as needed
     printWindow.document.write('</style>');
 
     // Complete the head section and start the body
