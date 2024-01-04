@@ -12,6 +12,7 @@
         </div>
         
         <p class="text-red-500">TO DO: CREATE PRINT OPTION FOR QUIZ</p>
+        <p class="text-red-500">TO DO: PERFORM CRUD OPERATION ON CAROUSEL</p>
         
         <section class="grid grid-cols-12 mt-4">
             <div class="col-span-12 md:col-span-3">

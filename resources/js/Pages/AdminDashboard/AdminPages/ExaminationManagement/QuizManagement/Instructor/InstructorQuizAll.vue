@@ -84,33 +84,83 @@
                 </tbody>
             </table>
             <!--MODAL-->
-            <Dialog v-model:visible="visible" modal header="Question Info"  :style="{ width: '50vw' }" :breakpoints="{ '960px': '75vw', '641px': '100vw' }">
-                
-                <div v-for="quiz in quizzes.quizzes" :key="quiz.id">
-                   
-                    <div v-if="quiz.id === quizId"> 
-                    <div><span class="text-xl">Title : {{ quiz.title }}</span></div> 
-                    <div><span class="text-xl">Subject : {{ quiz.subject.name }}</span></div> 
-                    <div><span class="text-xl">Grading Period : {{ quiz.grading_period }}</span></div> 
-                    <div><span class="text-xl">Duration : {{ quiz.duration }} mins</span></div> 
-                    <div><span class="text-xl">Items : {{ quiz.question_count }} </span></div> 
-                    <hr>
-                    <div v-for="(question,index) in quiz.question" :key="question.id" class="my-2">
-                        <div>Question # {{ index+1 }} : <span >{{ question.question }}</span> </div>
-                        <div>Correct Answer : <span class="text-green-500">{{ question.correct_answer }}  asdfasdf</span> </div> 
-                        <div class="ml-10">
-                            <div>Option a : {{ question.choices.option_a }}</div> 
-                            <div>Option b : {{ question.choices.option_b }}</div> 
-                            <div>Option c : {{ question.choices.option_c }}</div> 
-                            <div>Option d : {{ question.choices.option_d }}</div>
+            <Dialog v-model:visible="visible" modal header="Question Info"  :style="{ width: '80vw' }" :breakpoints="{ '960px': '75vw', '641px': '100vw' }">
+                <div ref="printable">
+                    <div class="flex flex-col justify-center items-center w-full bg-green-700 header-container-1 mb-2 rounded-md">
+                        <div class=" w-[100%] text-center text-2xl font-semibold header-container-2">  
+                            <div class="flex w-[100%] justify-between p-2 items-center font-sans header-container-3 ">
+                                <div class="flex items-center w-[100%] md:w-[70%] left-header">
+                                    <div class="flex "><img :src="'/storage/Images/logo1.png'" alt="TLE Logo" class="w-[100px] logo"/></div>
+                                    <div class="flex flex-col items-start ml-2 w-[100%] md:w-[70%] school-info-container ">
+                                        <span class="text-[20px] leading-tight mb-[2px] tracking-wider text-gray-200 school-acro">BINHS</span>
+                                        <span class="  md:inline-block text-[7px] md:text-[12px] text-gray-300  leading-tight mb-[2px]">Bulihan Integrated National Highschool</span>
+                                        <span class=" hidden md:inline-block text-[12px] text-gray-300  leading-tight mb-[2px]">Brgy. Old Bulihan, Silang, Philippines</span>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="flex flex-col justify-end items-end mr-4 invisible w-0 md:w-60  md:visible space-y-1  pt-2 right-header-container ">
+                                    <span class="text-[12px] text-center leading-tight w-[200px] text-gray-200 flex items-center   ">
+                                        <svg class="h-5 w-5 text-gray-200"  width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
+                                        <span class="text-[12px] text-center  text-gray-200 ml-2 ">Contact #: 0924-123-4567</span>
+                                        
+                                    </span>
+                                    <div class="flex items-center w-[200px]  ">
+                                        <svg class="h-5 w-5 text-gray-200 "  width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <polyline points="3 9 12 15 21 9 12 3 3 9" />  <path d="M21 9v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" />  <line x1="3" y1="19" x2="9" y2="13" />  <line x1="15" y1="13" x2="21" y2="19" /></svg>
+                                        <span class="text-[12px] text-center  text-gray-200 ml-2 ">
+                                            email: bulihan@gmail.com
+                                        </span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
                         </div>
-                        <hr>
                     </div>
+                    <div v-for="quiz in quizzes.quizzes" :key="quiz.id">                   
+                        <div v-if="quiz.id === quizId"> 
+                            <div class="flex justify-between my-4 px-2">
+                                <div>
+                                    <div>
+                                        <span class="text-xl">Title : {{ quiz.title }}</span>
+                                    </div> 
+                                    <div>
+                                        <span class="text-xl">Subject : {{ quiz.subject.name }}</span>
+                                    </div> 
+                                    <div>
+                                        <span class="text-xl">Grading Period : {{ quiz.grading_period }}</span>
+                                    </div> 
+                                </div>
+
+                                <div>
+                                    
+                                    <div>
+                                        <span class="text-xl">Duration : {{ quiz.duration }} mins</span>
+                                    </div> 
+                                    <div>
+                                        <span class="text-xl">Items : {{ quiz.question_count }} </span>
+                                    </div> 
+                                </div>
+                            </div>
+                            
+                            <hr>
+                            <div v-for="(question,index) in quiz.question" :key="question.id" class="my-2">
+                                <div>Question # {{ index+1 }} : <span >{{ question.question }}</span> </div>
+                                <div>Correct Answer : <span class="text-green-500">{{ question.correct_answer }}  asdfasdf</span> </div> 
+                                <div class="ml-10">
+                                    <div>A. {{ question.choices.option_a }}</div> 
+                                    <div>B. {{ question.choices.option_b }}</div> 
+                                    <div>C. {{ question.choices.option_c }}</div> 
+                                    <div>D. {{ question.choices.option_d }}</div>
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                
-                
+                <template #footer>
+                    <Button label="Close" icon="pi pi-times" @click="visible = false" text />
+                    <Button label="Print" icon="pi pi-check" @click="printDiv" autofocus />
+                </template> 
             </Dialog>
             <!--MODAL---->
 
@@ -143,6 +193,8 @@
                         <Button label="Submit" class="w-full" type="submit" :disabled="form.processing"/>
                     </div>
                 </form>
+
+                
             </Dialog>
             <!--ACTIVATE QUIZ MODAL-->
         </div>
