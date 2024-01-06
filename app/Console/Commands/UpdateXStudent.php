@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
 use App\Models\SchoolYear;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class UpdateXStudent extends Command
 {
