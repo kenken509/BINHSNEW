@@ -310,3 +310,9 @@ Route::controller(UtilityController::class)->group(function(){
 Route::controller(WebAnalyticsController::class)->group(function(){
     Route::post('/web-analytics/store', 'store')->name('analytics.store');
 });
+
+Route::controller(DatabaseBackUpController::class)->group(function(){
+    Route::get('admin/database/backup/all', 'show')->name('database.backup.show');
+    Route::delete('admin/database/backup/delete/{filename}', 'delete')->name('database.backup.delete');
+    Route::post('admin/database/restore', 'restore')->name('database.restore');
+});

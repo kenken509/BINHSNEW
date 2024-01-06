@@ -27,14 +27,14 @@ class DbBackup extends Command
      */
     public function handle(): void
     {
-        $filename = 'backup_' . now()->format('Y-m-d_His') . '.sql';
+        $filename = now()->format('F-j-Y_g-i-sA') . '.sql';
 
-        $command = 'C:\xampp\mysql\bin\mysqldump --user=' . config('database.connections.mysql.username') .
+        $command = 'C:\xampp\mysql\bin\mysqldump --user=' . config('database.connections.mysql.username') . // on deployment find the path for mysqldump
            ' --password=' . config('database.connections.mysql.password') .
            ' --host=' . config('database.connections.mysql.host') .
            ' --port=' . config('database.connections.mysql.port') .
            ' ' . config('database.connections.mysql.database') .
-           ' > ' . storage_path('app/backup/') . $filename;
+           ' > ' . storage_path('app/public/backup/') . $filename;
 
         // Execute the command and capture output and return code
         exec($command, $output, $returnVar);
