@@ -28,20 +28,19 @@
               <div class="border-1 surface-border border-round  w-[100%] flex justify-center items-center object-cover relative ">
                   <div class="mb-3  w-[90%] ">
                       <img :src="'/storage/'+slotProps.data.filename" :alt="slotProps.data.name" class="w-full h-full shadow-md max-h-[500px]  " />
-                    
                   </div>
-                  <div v-if="user && user.role === 'admin'" class=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white bg-opacity-[75%] p-4 rounded-xl shadow-xl ">
-                    <div class="flex  space-x-6 ">
+                  <div v-if="user && user.role === 'admin'" class=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white bg-opacity-[75%] pt-2 pb-1 px-1 rounded-md md:p-4 md:rounded-xl shadow-xl  ">
+                    <div class="flex space-x-3 md:space-x-6 ">
                       <div @click="hadleDeleteClick(slotProps.data.id)">
-                        <i class="pi  pi-trash text-red-600  hover:cursor-pointer" v-tooltip.left="'Delete Image'" style="font-size: 2rem"></i>
+                        <i class="pi  pi-trash text-red-600  hover:cursor-pointer " v-tooltip.left="'Delete Image'" style="font-size: calc(1vw + 1rem);"></i>
                       </div>
                         
                       <div  @click="handleReplaceImageClick(slotProps.data.id)">
-                        <i class="pi  pi-pencil text-green-600 hover:cursor-pointer" v-tooltip.left="'Replace Image'" style="font-size: 2rem" ></i>
+                        <i class="pi  pi-pencil text-green-600 hover:cursor-pointer" v-tooltip.left="'Replace Image'" style="font-size: calc(1vw + 1rem);"></i>
                          <input ref="fileInput" type="file" class="hidden" @change="handleFileChange"  /> 
                       </div>
                       <div @click="handleAddImageClick">
-                        <i class="pi  pi-plus text-green-600 hover:cursor-pointer" v-tooltip.left="'Add Image'" style="font-size: 2rem"></i>
+                        <i class="pi  pi-plus text-green-600 hover:cursor-pointer" v-tooltip.left="'Add Image'" style="font-size: calc(1vw + 1rem);"></i>
                         <input ref="addFileInput" type="file" class="hidden" @change="handleAddFileChange"  /> 
                       </div>
                     </div>
@@ -104,12 +103,12 @@ const responsiveOptions = ref([
     },
     {
         breakpoint: '1199px',
-        numVisible: 3,
+        numVisible: 1,
         numScroll: 1
     },
     {
         breakpoint: '767px',
-        numVisible: 2,
+        numVisible: 1,
         numScroll: 1
     },
     {
@@ -309,3 +308,23 @@ function hadleDeleteClick(imageId)
 
 }
 </script>
+
+<!-- <style>
+  @media (max-width: 600px) {
+    .pi-trash {
+      font-size: 1vw;
+    }
+  }
+
+  @media (min-width: 601px) and (max-width: 1024px) {
+    .pi-trash {
+      font-size: 1.25rem;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .pi-trash {
+      font-size: 1.5rem;
+    }
+  }
+</style> -->
