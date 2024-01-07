@@ -94,7 +94,9 @@ Route::controller(IndexController::class)->group(function(){
     Route::get('/news', 'showNews')->name('index.news');
 
     Route::get('full-post/view/{page}/{id}', 'showFullPost')->name('fullPost.show');
+    Route::post('carousel/add-image', 'carouselAddImage')->name('carousel.add.image');
     Route::post('carousel/replace-image', 'carouselReplaceImageStore')->name('carousel.replace.image');
+    Route::delete('carousel/delete-image/{id}', 'carouselDeleteImage')->name('carousel.delete.image');
 });
 
 

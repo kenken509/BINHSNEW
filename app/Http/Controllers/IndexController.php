@@ -26,7 +26,7 @@ class IndexController extends Controller
         // $newVisitor->save();
         
         return inertia('Index/Index',[
-            'carouselImages' => CarouselImageModel::all(),
+            'carouselImages' => CarouselImageModel::latest()->get(),
             'newsPost' => $posts,
         ]);
     }
@@ -148,5 +148,42 @@ class IndexController extends Controller
         
         return redirect()->back()->with('success', 'Image replaced successfully!' );
 
+    }
+
+    public function carouselDeleteImage($id)
+    {
+        $imageToDelete = CarouselImageModel::findOrFail($id);
+
+        
+        Storage::delete($imageToDelete->filename);
+
+        $imageToDelete->delete();
+
+        return redirect()->back()->with('success', 'Deleted successfully!' ); 
+
+    }
+
+    public function carouselAddImage(Request $request)
+    {
+        if($request->file('filename')){
+            $imageFile = $request->file('filename');
+            $originalName = $imageFile->getClientOriginalName();
+            $randomString = Str::random(10);
+            $newName = $randomString.'_'.$originalName;
+            $path = $imageFile->storeAs('Images', $newName, 'public');
+
+            $newImage = new CarouselImageModel();
+            $newImage->filename = $path;
+            $newImage->save();
+
+            return redirect()->back()->with('success', 'Successfully Added New Image!' );
+
+        }
+        else
+        {
+            return redirect()->back()->with('error', 'Failed to Add Image' ); 
+        }
+        
+        
     }
 }

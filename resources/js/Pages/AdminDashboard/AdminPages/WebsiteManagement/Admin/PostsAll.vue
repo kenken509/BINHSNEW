@@ -252,6 +252,8 @@
             </table>
         </div>
         <!--Download page-->
+
+        
     </DashboardLayout>
 
 </template>
@@ -305,6 +307,7 @@ const selected = computed(()=>{
         {
             return 'Downloads'
         }
+        
     }
     
 })
