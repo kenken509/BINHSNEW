@@ -1,7 +1,7 @@
 <template>
     <DashboardLayout :user="user" >
         <div class="flex justify-between items-center border-bot-only border-gray-600 shadow-md mb-4 pb-4">
-            <span class="text-[20px] font-bold text-gray-500">All Questions</span>  
+            <span class="text-[20px] font-bold text-gray-500"> QUIZZES</span>  
             <div class="">
                 <span class="p-input-icon-left">
                     <i class="pi pi-search" />
@@ -224,4 +224,7 @@ const changePageClick = (index)=>
 {
     currentPage.value = index;
 }
+
+// print logic
+
  </script>

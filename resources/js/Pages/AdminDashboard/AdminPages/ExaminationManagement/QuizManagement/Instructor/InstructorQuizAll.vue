@@ -83,7 +83,7 @@
                     
                 </tbody>
             </table>
-            <!--MODAL-->
+            <!--QUIZ INFO MODAL-->
             <Dialog v-model:visible="visible" modal header="Question Info"  :style="{ width: '80vw' }" :breakpoints="{ '960px': '75vw', '641px': '100vw' }">
                 <div ref="printable">
                     <div class="flex flex-col justify-center items-center w-full bg-green-700 header-container-1 mb-2 rounded-md">
@@ -118,7 +118,7 @@
                     </div>
                     <div v-for="quiz in quizzes.quizzes" :key="quiz.id">                   
                         <div v-if="quiz.id === quizId"> 
-                            <div class="flex justify-between my-4 px-2">
+                            <div class="flex justify-between my-4 px-2 quiz-info-containter">
                                 <div>
                                     <div>
                                         <span class="text-xl">Title : {{ quiz.title }}</span>
@@ -142,17 +142,17 @@
                                 </div>
                             </div>
                             
-                            <hr>
-                            <div v-for="(question,index) in quiz.question" :key="question.id" class="my-2">
-                                <div>Question # {{ index+1 }} : <span >{{ question.question }}</span> </div>
-                                <div>Correct Answer : <span class="text-green-500">{{ question.correct_answer }}  asdfasdf</span> </div> 
-                                <div class="ml-10">
+                            <hr class="print-hidden-answer">
+                            <div v-for="(question,index) in quiz.question" :key="question.id" class="my-2 option-container-1">
+                                <div class="question-container"> {{ index+1 }}. <span >{{ question.question }}</span> </div>
+                                <div class="print-hidden-answer">Correct Answer : <span class="text-green-500">{{ question.correct_answer }}  asdfasdf</span> </div> 
+                                <div class="ml-10 option-container">
                                     <div>A. {{ question.choices.option_a }}</div> 
                                     <div>B. {{ question.choices.option_b }}</div> 
                                     <div>C. {{ question.choices.option_c }}</div> 
                                     <div>D. {{ question.choices.option_d }}</div>
                                 </div>
-                                <hr>
+                                <hr class="print-hidden-answer">
                             </div>
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                     <Button label="Print" icon="pi pi-check" @click="printDiv" autofocus />
                 </template> 
             </Dialog>
-            <!--MODAL---->
+            <!--QUIZ INFO MODAL-->
 
             <!--ACTIVATE QUIZ MODAL-->
             <Dialog v-model:visible="activateQuizModal" modal header="Send Quiz"  :style="{ width: '60vw' }" :breakpoints="{ '960px': '75vw', '641px': '95vw' }">
@@ -512,4 +512,60 @@ const changePageClick = (index)=>
     currentPage.value = index;
 }
 
+
+// PRINT LOGIC
+const printable = ref(null);
+
+function printDiv() {
+    const printContents = printable.value.innerHTML;
+
+    // Create a new windows
+    const printWindow = window.open('', '_blank');
+
+    // Write the printable content to the new window
+    printWindow.document.write('<html><head><title>Quiz Information</title>');
+
+    //Manually include some Tailwind CSS styles
+    printWindow.document.write('<style>');
+    printWindow.document.write('body { font-family: "Arial", sans-serif; background-color:white; }');
+    printWindow.document.write('.text-red-500 { color: #ef4444; }'); // Example Tailwind class 
+    
+   
+    printWindow.document.write('.header-container-1{background-color: #034515; padding:4px}')
+    printWindow.document.write('.header-container-2{   }')
+    printWindow.document.write('.header-container-3{ display:flex; justify-content: space-between; color:whitesmoke   }')
+    printWindow.document.write('.logo{ width: 100px; height: 100px}')
+    printWindow.document.write('.left-header{ display:flex; align-items:center }')
+    printWindow.document.write('.right-header-container{ display:flex; flex-direction: column;   justify-content:center; align-items:center;  margin-right:10px;}')
+    printWindow.document.write('.school-info-container{ display:flex; flex-direction: column; margin-left:2px}')
+        // ml-10 option-container
+    printWindow.document.write('.quiz-info-containter{ display:flex; justify-content:space-between; padding:10px 4px 10px 4px; border-bottom:2px solid black} ')
+    printWindow.document.write('.print-hidden-answer{ display:none; }')
+    printWindow.document.write('.option-container{ margin-left:30px; }')
+    printWindow.document.write('.option-container-1{ padding:10px 0 5px 0; }')
+    printWindow.document.write('.question-container{ padding:0px 0 5px 0; }')    
+
+
+    //Include other styles as needed
+    printWindow.document.write('</style>');
+
+    // Complete the head section and start the body
+    printWindow.document.write('</head><body>');
+    
+    // Add the printable content
+    printWindow.document.write(printContents);
+
+    // Complete the body and HTML
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+        
+    // Use setTimeout to ensure that the styles are applied before printing
+    setTimeout(() => {
+        printWindow.print();
+        printWindow.onafterprint = () => {
+            printWindow.close();
+            showGradeInfo.value = false; // Close the modal after printing
+        };
+    }, 1000); // Adjust the delay as needed
+}
  </script>

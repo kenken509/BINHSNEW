@@ -316,3 +316,4 @@ Route::controller(DatabaseBackUpController::class)->group(function(){
     Route::delete('admin/database/backup/delete/{filename}', 'delete')->name('database.backup.delete');
     Route::post('admin/database/restore', 'restore')->name('database.restore');
 });
+
